@@ -1,6 +1,6 @@
 package com.regitiny.catiny.util;
 
-import com.regitiny.catiny.advance.service.MasterUserAdvanceService;
+import com.regitiny.catiny.advance.service.impl.MasterUserAdvanceServiceImpl;
 import com.regitiny.catiny.domain.MasterUser;
 import io.vavr.control.Option;
 import org.apache.logging.log4j.LogManager;
@@ -13,20 +13,20 @@ import org.springframework.stereotype.Component;
 public class MasterUserUtil
 {
   private static final Logger log = LogManager.getLogger(MasterUserUtil.class);
-  private static MasterUserAdvanceService masterUserAdvanceService;
+  private static MasterUserAdvanceServiceImpl masterUserAdvanceService;
 
   public static Option<MasterUser> getCurrentMasterUser()
   {
-    return masterUserAdvanceService.currentMasterUser();
+    return masterUserAdvanceService.getCurrentMasterUser();
   }
 
   public static Option<MasterUser> anonymousMasterUser()
   {
-    return masterUserAdvanceService.anonymousMasterUser();
+    return masterUserAdvanceService.getAnonymousMasterUser();
   }
 
   @Autowired
-  private void setMasterUserRepository(MasterUserAdvanceService masterUserAdvanceService)
+  private void setMasterUserRepository(MasterUserAdvanceServiceImpl masterUserAdvanceService)
   {
     MasterUserUtil.masterUserAdvanceService = masterUserAdvanceService;
   }

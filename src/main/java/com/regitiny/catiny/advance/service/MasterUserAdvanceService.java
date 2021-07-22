@@ -12,11 +12,11 @@ import io.vavr.control.Option;
  */
 public interface MasterUserAdvanceService extends LocalService<MasterUserService, MasterUserQueryService>
 {
-  Option<MasterUser> currentMasterUser();
-
-
-  Option<MasterUser> anonymousMasterUser();
-
-
-  Option<MasterUser> createMasterUser(String login, String nickName);
+  /**
+   * use to create MasterUser when register
+   *
+   * @param login = User.login
+   * @return MasterUser registered.
+   */
+  Option<MasterUser> createMasterUser(String login);
 }

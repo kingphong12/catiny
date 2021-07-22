@@ -1,5 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
+import com.regitiny.catiny.advance.service.MasterUserAdvanceService;
 import com.regitiny.catiny.domain.User;
 import com.regitiny.catiny.repository.UserRepository;
 import com.regitiny.catiny.security.SecurityUtils;
@@ -7,27 +8,31 @@ import com.regitiny.catiny.service.MailService;
 import com.regitiny.catiny.service.UserService;
 import com.regitiny.catiny.service.dto.AdminUserDTO;
 import com.regitiny.catiny.service.dto.PasswordChangeDTO;
-import com.regitiny.catiny.service.dto.UserDTO;
-import com.regitiny.catiny.web.rest.errors.*;
+import com.regitiny.catiny.web.rest.errors.EmailAlreadyUsedException;
+import com.regitiny.catiny.web.rest.errors.InvalidPasswordException;
+import com.regitiny.catiny.web.rest.errors.LoginAlreadyUsedException;
 import com.regitiny.catiny.web.rest.vm.KeyAndPasswordVM;
 import com.regitiny.catiny.web.rest.vm.ManagedUserVM;
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Optional;
+
 /**
  * REST controller for managing the current user's account.
  */
 @RestController
 @RequestMapping("/api")
-public class AccountResource {
+public class AccountResource
+{
 
-  private static class AccountResourceException extends RuntimeException {
+  private static class AccountResourceException extends RuntimeException
+  {
 
     private AccountResourceException(String message) {
       super(message);
@@ -42,10 +47,14 @@ public class AccountResource {
 
   private final MailService mailService;
 
-  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+  private final MasterUserAdvanceService masterUserAdvanceService;
+
+  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, MasterUserAdvanceService masterUserAdvanceService)
+  {
     this.userRepository = userRepository;
     this.userService = userService;
     this.mailService = mailService;
+    this.masterUserAdvanceService = masterUserAdvanceService;
   }
 
   /**
@@ -63,6 +72,7 @@ public class AccountResource {
       throw new InvalidPasswordException();
     }
     User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+    masterUserAdvanceService.createMasterUser(user.getLogin());
     mailService.sendActivationEmail(user);
   }
 

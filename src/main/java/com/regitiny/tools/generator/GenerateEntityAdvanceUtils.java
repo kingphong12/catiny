@@ -3,8 +3,8 @@ package com.regitiny.tools.generator;
 import com.regitiny.catiny.advance.repository.CommonRepository;
 import com.regitiny.catiny.advance.repository.base.BaseRepository;
 import com.regitiny.catiny.advance.repository.search.base.BaseSearch;
-import com.regitiny.catiny.advance.service.LocalService;
-import com.regitiny.catiny.advance.service.impl.LocalServiceImpl;
+import com.regitiny.catiny.advance.service.BaseSrvice;
+import com.regitiny.catiny.advance.service.impl.AdvanceService;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
 import com.regitiny.catiny.service.mapper.EntityMapper;
 import com.regitiny.catiny.tools.utils.StringPool;
@@ -14,10 +14,7 @@ import io.vavr.Function2;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.WordUtils;
 import org.mapstruct.Mapper;
@@ -223,7 +220,13 @@ public class GenerateEntityAdvanceUtils
     TypeSpec interfaceAdvanceService = TypeSpec.interfaceBuilder(entityAdvanceOutput)
       .addModifiers(Modifier.PUBLIC)
       .addJavadoc(javadoc)
-      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(LocalService.class), ClassName.get(packageInput, entityInput), ClassName.get(packageInput, entityName + "QueryService")))
+      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(BaseSrvice.class),
+        ClassName.get(DOMAIN_PACKAGE, entityName),
+        ClassName.get(packageInput, entityInput),
+        ClassName.get(packageInput, entityName + "QueryService"),
+        ClassName.get(BASE_PACKAGE + ".advance.service.mapper", entityName + "AdvanceMapper"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository", entityName + "AdvanceRepository"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository.search", entityName + "AdvanceSearch")))
       .build();
 
     var javaFile = JavaFile.builder(packageAdvanceOutput, interfaceAdvanceService).build();
@@ -254,18 +257,25 @@ public class GenerateEntityAdvanceUtils
       .addAnnotation(Log4j2.class)
       .addAnnotation(Service.class)
       .addAnnotation(Transactional.class)
-      .superclass(ParameterizedTypeName.get(ClassName.get(LocalServiceImpl.class), ClassName.get(packageInput, entityInput), ClassName.get(packageInput, entityName + "QueryService")))
+      .addAnnotation(RequiredArgsConstructor.class)
+      .superclass(ParameterizedTypeName.get(ClassName.get(AdvanceService.class),
+        ClassName.get(DOMAIN_PACKAGE, entityName),
+        ClassName.get(packageInput, entityInput),
+        ClassName.get(packageInput, entityName + "QueryService"),
+        ClassName.get(BASE_PACKAGE + ".advance.service.mapper", entityName + "AdvanceMapper"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository", entityName + "AdvanceRepository"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository.search", entityName + "AdvanceSearch")))
       .addSuperinterface(ClassName.get(packageAdvanceOutput, entityAdvanceOutput));
 
-    var constructor = MethodSpec.constructorBuilder()
-      .addModifiers(Modifier.PUBLIC);
+//    var constructor = MethodSpec.constructorBuilder()
+//      .addModifiers(Modifier.PUBLIC);
 
     Function2<String, String, Void> addBaseField = (pName, eName) ->
     {
       advanceServiceImpl.addField(
         ClassName.get(BASE_PACKAGE + pName, entityName + eName), WordUtils.uncapitalize(entityName + eName), Modifier.PRIVATE, Modifier.FINAL);
-      constructor.addParameter(ClassName.get(BASE_PACKAGE + pName, entityName + eName), WordUtils.uncapitalize(entityName + eName))
-        .addStatement("this.$N = $N", WordUtils.uncapitalize(entityName + eName), WordUtils.uncapitalize(entityName + eName));
+//      constructor.addParameter(ClassName.get(BASE_PACKAGE + pName, entityName + eName), WordUtils.uncapitalize(entityName + eName))
+//        .addStatement("this.$N = $N", WordUtils.uncapitalize(entityName + eName), WordUtils.uncapitalize(entityName + eName));
       return null;
     };
 
@@ -273,7 +283,7 @@ public class GenerateEntityAdvanceUtils
     addBaseField.apply(".advance.repository.search", "AdvanceSearch");
     addBaseField.apply(".advance.service.mapper", "AdvanceMapper");
 
-    advanceServiceImpl.addMethod(constructor.build());
+//    advanceServiceImpl.addMethod(constructor.build());
 
     var javaFileImpl = JavaFile.builder(packageAdvanceImplOutput, advanceServiceImpl.build()).build();
     log.debug("...AdvanceRepository after generated : \n {}", javaFileImpl.toString());

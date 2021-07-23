@@ -26,7 +26,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BaseInfoAdvanceServiceImpl extends LocalServiceImpl<BaseInfoService, BaseInfoQueryService> implements BaseInfoAdvanceService
+public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInfoService, BaseInfoQueryService, BaseInfoAdvanceMapper, BaseInfoAdvanceRepository, BaseInfoAdvanceSearch> implements BaseInfoAdvanceService
 {
   private final BaseInfoAdvanceRepository baseInfoAdvanceRepository;
   private final BaseInfoAdvanceSearch baseInfoAdvanceSearch;

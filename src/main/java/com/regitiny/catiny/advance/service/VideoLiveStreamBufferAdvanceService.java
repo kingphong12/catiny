@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.VideoLiveStreamBufferAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.VideoLiveStreamBufferAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.VideoLiveStreamBufferAdvanceMapper;
+import com.regitiny.catiny.domain.VideoLiveStreamBuffer;
 import com.regitiny.catiny.service.VideoLiveStreamBufferQueryService;
 import com.regitiny.catiny.service.VideoLiveStreamBufferService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.VideoLiveStreamBuffer} entityDomain.
+ * AdvanceService layer for {@link VideoLiveStreamBuffer}.
  *
- * @see VideoLiveStreamBufferService is base repository generate by jhipster
+ * @see VideoLiveStreamBufferService is base service generate by jhipster
  */
-public interface VideoLiveStreamBufferAdvanceService extends LocalService<VideoLiveStreamBufferService, VideoLiveStreamBufferQueryService>
+public interface VideoLiveStreamBufferAdvanceService extends BaseSrvice<VideoLiveStreamBuffer, VideoLiveStreamBufferService, VideoLiveStreamBufferQueryService, VideoLiveStreamBufferAdvanceMapper, VideoLiveStreamBufferAdvanceRepository, VideoLiveStreamBufferAdvanceSearch>
 {
 }

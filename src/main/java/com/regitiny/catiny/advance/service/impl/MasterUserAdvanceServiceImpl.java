@@ -18,7 +18,7 @@ import com.regitiny.catiny.service.MasterUserService;
 import com.regitiny.catiny.service.UserService;
 import com.regitiny.catiny.tools.utils.StringPool;
 import io.vavr.control.Option;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +28,8 @@ import java.time.Instant;
 @Log4j2
 @Service
 @Transactional
-@AllArgsConstructor
-public class MasterUserAdvanceServiceImpl extends LocalServiceImpl<MasterUserService, MasterUserQueryService> implements MasterUserAdvanceService
+@RequiredArgsConstructor
+public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, MasterUserService, MasterUserQueryService, MasterUserAdvanceMapper, MasterUserAdvanceRepository, MasterUserAdvanceSearch> implements MasterUserAdvanceService
 {
   private final MasterUserAdvanceRepository masterUserAdvanceRepository;
   private final MasterUserAdvanceSearch masterUserAdvanceSearch;

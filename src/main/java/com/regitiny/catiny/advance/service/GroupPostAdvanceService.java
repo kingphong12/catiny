@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.GroupPostAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.GroupPostAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.GroupPostAdvanceMapper;
+import com.regitiny.catiny.domain.GroupPost;
 import com.regitiny.catiny.service.GroupPostQueryService;
 import com.regitiny.catiny.service.GroupPostService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.GroupPost} entityDomain.
+ * AdvanceService layer for {@link GroupPost}.
  *
- * @see GroupPostService is base repository generate by jhipster
+ * @see GroupPostService is base service generate by jhipster
  */
-public interface GroupPostAdvanceService extends LocalService<GroupPostService, GroupPostQueryService>
+public interface GroupPostAdvanceService extends BaseSrvice<GroupPost, GroupPostService, GroupPostQueryService, GroupPostAdvanceMapper, GroupPostAdvanceRepository, GroupPostAdvanceSearch>
 {
 }

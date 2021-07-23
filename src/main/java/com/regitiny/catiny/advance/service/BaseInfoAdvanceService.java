@@ -8,9 +8,9 @@ import com.regitiny.catiny.service.BaseInfoQueryService;
 import com.regitiny.catiny.service.BaseInfoService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.BaseInfo} entityDomain.
+ * AdvanceService layer for {@link BaseInfo}.
  *
- * @see BaseInfoService is base repository generate by jhipster
+ * @see BaseInfoService is base service generate by jhipster
  */
 public interface BaseInfoAdvanceService extends BaseSrvice<BaseInfo, BaseInfoService, BaseInfoQueryService, BaseInfoAdvanceMapper, BaseInfoAdvanceRepository, BaseInfoAdvanceSearch>
 {

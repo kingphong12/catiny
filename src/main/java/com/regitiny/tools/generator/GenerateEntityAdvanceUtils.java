@@ -212,10 +212,10 @@ public class GenerateEntityAdvanceUtils
     final String packageAdvanceOutput = BASE_PACKAGE + ".advance.service";
     final String entityAdvanceOutput = entityName + "AdvanceService";
 
-    String javadoc = " Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link ${entityName}} entityDomain.\n" +
-      "@see ${searchRepository} is base repository generate by jhipster";
+    String javadoc = " AdvanceService layer for {@link ${entityName}}.\n" +
+      "@see ${advanceService} is base service generate by jhipster";
     javadoc = javadoc.replace(ENTITY_NAME, entityName(entityName))
-      .replace("${searchRepository}", packageInput + StringPool.PERIOD + entityInput);
+      .replace("${advanceService}", packageInput + StringPool.PERIOD + entityInput);
 
     TypeSpec interfaceAdvanceService = TypeSpec.interfaceBuilder(entityAdvanceOutput)
       .addModifiers(Modifier.PUBLIC)

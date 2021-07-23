@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.HistoryUpdateAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.HistoryUpdateAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.HistoryUpdateAdvanceMapper;
+import com.regitiny.catiny.domain.HistoryUpdate;
 import com.regitiny.catiny.service.HistoryUpdateQueryService;
 import com.regitiny.catiny.service.HistoryUpdateService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.HistoryUpdate} entityDomain.
+ * AdvanceService layer for {@link HistoryUpdate}.
  *
- * @see com.regitiny.catiny.service.HistoryUpdateService is base repository generate by jhipster
+ * @see HistoryUpdateService is base service generate by jhipster
  */
-public interface HistoryUpdateAdvanceService extends LocalService<HistoryUpdateService, HistoryUpdateQueryService>
+public interface HistoryUpdateAdvanceService extends BaseSrvice<HistoryUpdate, HistoryUpdateService, HistoryUpdateQueryService, HistoryUpdateAdvanceMapper, HistoryUpdateAdvanceRepository, HistoryUpdateAdvanceSearch>
 {
 }

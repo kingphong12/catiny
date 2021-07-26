@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.PermissionAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.PermissionAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.PermissionAdvanceMapper;
+import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.service.PermissionQueryService;
 import com.regitiny.catiny.service.PermissionService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.Permission} entityDomain.
+ * AdvanceService layer for {@link Permission}.
  *
- * @see PermissionService is base repository generate by jhipster
+ * @see PermissionService is base service generate by jhipster
  */
-public interface PermissionAdvanceService extends LocalService<PermissionService, PermissionQueryService>
+public interface PermissionAdvanceService extends BaseSrvice<Permission, PermissionService, PermissionQueryService, PermissionAdvanceMapper, PermissionAdvanceRepository, PermissionAdvanceSearch>
 {
 }

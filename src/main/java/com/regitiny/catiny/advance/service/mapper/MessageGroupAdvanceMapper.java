@@ -3,7 +3,8 @@ package com.regitiny.catiny.advance.service.mapper;
 import com.regitiny.catiny.advance.controller.model.MessageGroupModel;
 import com.regitiny.catiny.domain.MessageGroup;
 import com.regitiny.catiny.service.dto.MessageGroupDTO;
-import com.regitiny.catiny.service.mapper.EntityMapper;
+import com.regitiny.catiny.service.mapper.MessageGroupMapper;
+import com.regitiny.catiny.service.mapper.MessageGroupMapperImpl;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -12,16 +13,63 @@ import java.util.List;
   componentModel = "spring",
   uses = {}
 )
-public interface MessageGroupAdvanceMapper extends EntityAdvanceMapper<MessageGroupModel, MessageGroupDTO>, EntityMapper<MessageGroupDTO, MessageGroup>
+public interface MessageGroupAdvanceMapper extends EntityAdvanceMapper<MessageGroupModel, MessageGroupDTO, MessageGroup>
 {
-  MessageGroupDTO requestToDto(MessageGroupModel.Request request);
+  MessageGroupMapper baseMapper = new MessageGroupMapperImpl();
+
+  MessageGroupAdvanceMapper thisMapper = new MessageGroupAdvanceMapperImpl();
 
 
-  List<MessageGroupDTO> requestToDto(List<MessageGroupModel.Request> request);
+  MessageGroupDTO request2d(MessageGroupModel.Request request);
 
 
-  MessageGroupModel.Response dtoToResponse(MessageGroupDTO dto);
+  List<MessageGroupDTO> request2d(List<MessageGroupModel.Request> request);
 
 
-  List<MessageGroupModel.Response> dtoToResponse(List<MessageGroupDTO> dto);
+  MessageGroupModel.Response d2Response(MessageGroupDTO dto);
+
+
+  List<MessageGroupModel.Response> d2Response(List<MessageGroupDTO> dto);
+
+
+  @Override
+  default MessageGroupModel e2m(MessageGroup entity)
+  {
+    return thisMapper.d2m(baseMapper.toDto(entity));
+  }
+
+
+  @Override
+  default List<MessageGroupModel> e2m(List<MessageGroup> entityList)
+  {
+    return thisMapper.d2m(baseMapper.toDto(entityList));
+  }
+
+
+  @Override
+  default MessageGroup d2e(MessageGroupDTO dto)
+  {
+    return baseMapper.toEntity(dto);
+  }
+
+
+  @Override
+  default List<MessageGroup> d2e(List<MessageGroupDTO> dtoList)
+  {
+    return baseMapper.toEntity(dtoList);
+  }
+
+
+  @Override
+  default MessageGroupDTO e2d(MessageGroup entity)
+  {
+    return baseMapper.toDto(entity);
+  }
+
+
+  @Override
+  default List<MessageGroupDTO> e2d(List<MessageGroup> entityList)
+  {
+    return baseMapper.toDto(entityList);
+  }
 }

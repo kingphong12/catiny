@@ -5,12 +5,15 @@ import com.regitiny.catiny.advance.repository.search.BaseInfoAdvanceSearch;
 import com.regitiny.catiny.advance.service.BaseInfoAdvanceService;
 import com.regitiny.catiny.advance.service.mapper.BaseInfoAdvanceMapper;
 import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.enumeration.ProcessStatus;
 import com.regitiny.catiny.service.BaseInfoQueryService;
 import com.regitiny.catiny.service.BaseInfoService;
 import com.regitiny.catiny.util.MasterUserUtil;
 import io.vavr.control.Option;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,22 +25,16 @@ import java.util.UUID;
 @Log4j2
 @Service
 @Transactional
-public class BaseInfoAdvanceServiceImpl extends LocalServiceImpl<BaseInfoService, BaseInfoQueryService> implements BaseInfoAdvanceService
+@RequiredArgsConstructor
+public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInfoService, BaseInfoQueryService, BaseInfoAdvanceMapper, BaseInfoAdvanceRepository, BaseInfoAdvanceSearch> implements BaseInfoAdvanceService
 {
   private final BaseInfoAdvanceRepository baseInfoAdvanceRepository;
   private final BaseInfoAdvanceSearch baseInfoAdvanceSearch;
   private final BaseInfoAdvanceMapper baseInfoAdvanceMapper;
   private final PermissionAdvanceServiceImpl permissionAdvanceService;
-  private final HistoryUpdateAdvanceServiceImpl historyUpdateAdvanceService;
-
-  public BaseInfoAdvanceServiceImpl(BaseInfoAdvanceRepository baseInfoAdvanceRepository, BaseInfoAdvanceSearch baseInfoAdvanceSearch, BaseInfoAdvanceMapper baseInfoAdvanceMapper, PermissionAdvanceServiceImpl permissionAdvanceService, @Lazy HistoryUpdateAdvanceServiceImpl historyUpdateAdvanceService)
-  {
-    this.baseInfoAdvanceRepository = baseInfoAdvanceRepository;
-    this.baseInfoAdvanceSearch = baseInfoAdvanceSearch;
-    this.baseInfoAdvanceMapper = baseInfoAdvanceMapper;
-    this.permissionAdvanceService = permissionAdvanceService;
-    this.historyUpdateAdvanceService = historyUpdateAdvanceService;
-  }
+  @Lazy
+  @Autowired
+  private HistoryUpdateAdvanceServiceImpl historyUpdateAdvanceService;
 
 
   public Option<BaseInfo> findByUuid(UUID uuid)
@@ -91,6 +88,26 @@ public class BaseInfoAdvanceServiceImpl extends LocalServiceImpl<BaseInfoService
       .addPermission(anonymousPermission)
       .createdBy(currentMasterUser)
       .modifiedBy(currentMasterUser)
+      .priorityIndex(0L)
+      .countUse(0L)
+      .addHistoryUpdate(historyUpdate);
+    return baseInfoAdvanceRepository.save(baseInfo);
+  }
+
+  public BaseInfo createWhenCreateMasterUser(MasterUser masterUser)
+  {
+    var now = Instant.now();
+    var ownerPermission = permissionAdvanceService.createForOwner().masterUser(masterUser);
+    var historyUpdate = historyUpdateAdvanceService.createFirstVersion();
+    var baseInfo = new BaseInfo()
+      .processStatus(ProcessStatus.NOT_PROCESSED)
+//      .modifiedClass(null)
+      .createdDate(now)
+      .modifiedDate(now)
+      .owner(masterUser)
+      .addPermission(ownerPermission)
+      .createdBy(masterUser)
+      .modifiedBy(masterUser)
       .priorityIndex(0L)
       .countUse(0L)
       .addHistoryUpdate(historyUpdate);

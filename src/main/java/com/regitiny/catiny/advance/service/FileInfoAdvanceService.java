@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.FileInfoAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.FileInfoAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.FileInfoAdvanceMapper;
+import com.regitiny.catiny.domain.FileInfo;
 import com.regitiny.catiny.service.FileInfoQueryService;
 import com.regitiny.catiny.service.FileInfoService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.FileInfo} entityDomain.
+ * AdvanceService layer for {@link FileInfo}.
  *
- * @see FileInfoService is base repository generate by jhipster
+ * @see FileInfoService is base service generate by jhipster
  */
-public interface FileInfoAdvanceService extends LocalService<FileInfoService, FileInfoQueryService>
+public interface FileInfoAdvanceService extends BaseSrvice<FileInfo, FileInfoService, FileInfoQueryService, FileInfoAdvanceMapper, FileInfoAdvanceRepository, FileInfoAdvanceSearch>
 {
 }

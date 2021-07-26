@@ -1,25 +1,36 @@
 package com.regitiny.catiny.advance.service.mapper;
 
-import java.util.List;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import java.util.List;
 
 /**
  * Contract for a generic dto to entity mapper.
  *
  * @param <M> - Model type parameter.
  * @param <D> - DTO type parameter.
+ * @param <E> - Entity type parameter.
  */
 
-public interface EntityAdvanceMapper<M, D>
+public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
 {
-  D modelToDto(M dto);
+  // dto <-> entity
+  D e2d(E entity);
 
 
-  M dtoToModel(D entity);
+  E d2e(D dto);
 
 
-  List<D> modelToDto(List<M> dtoList);
+  List<D> e2d(List<E> entityList);
 
 
-  List<M> dtoToModel(List<D> entityList);
+  List<E> d2e(List<D> dtoList);
+
+
+  @Named("partialUpdate")
+  @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+  void partialUpdate(@MappingTarget E entity, D dto);
 }

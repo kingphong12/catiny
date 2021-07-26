@@ -9,6 +9,7 @@ import com.regitiny.catiny.domain.HistoryUpdate;
 import com.regitiny.catiny.service.HistoryUpdateQueryService;
 import com.regitiny.catiny.service.HistoryUpdateService;
 import io.vavr.control.Option;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ import java.util.UUID;
 @Log4j2
 @Service
 @Transactional
-public class HistoryUpdateAdvanceServiceImpl extends LocalServiceImpl<HistoryUpdateService, HistoryUpdateQueryService> implements HistoryUpdateAdvanceService
+@RequiredArgsConstructor
+public class HistoryUpdateAdvanceServiceImpl extends AdvanceService<HistoryUpdate, HistoryUpdateService, HistoryUpdateQueryService, HistoryUpdateAdvanceMapper, HistoryUpdateAdvanceRepository, HistoryUpdateAdvanceSearch> implements HistoryUpdateAdvanceService
 {
   private final HistoryUpdateAdvanceRepository historyUpdateAdvanceRepository;
 
@@ -30,16 +32,6 @@ public class HistoryUpdateAdvanceServiceImpl extends LocalServiceImpl<HistoryUpd
 
   private final BaseInfoAdvanceServiceImpl baseInfoAdvanceServiceImpl;
 
-  public HistoryUpdateAdvanceServiceImpl(
-    HistoryUpdateAdvanceRepository historyUpdateAdvanceRepository,
-    HistoryUpdateAdvanceSearch historyUpdateAdvanceSearch,
-    HistoryUpdateAdvanceMapper historyUpdateAdvanceMapper, BaseInfoAdvanceServiceImpl baseInfoAdvanceServiceImpl)
-  {
-    this.historyUpdateAdvanceRepository = historyUpdateAdvanceRepository;
-    this.historyUpdateAdvanceSearch = historyUpdateAdvanceSearch;
-    this.historyUpdateAdvanceMapper = historyUpdateAdvanceMapper;
-    this.baseInfoAdvanceServiceImpl = baseInfoAdvanceServiceImpl;
-  }
 
   public HistoryUpdate createFirstVersion()
   {

@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.NotificationAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.NotificationAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.NotificationAdvanceMapper;
+import com.regitiny.catiny.domain.Notification;
 import com.regitiny.catiny.service.NotificationQueryService;
 import com.regitiny.catiny.service.NotificationService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.Notification} entityDomain.
+ * AdvanceService layer for {@link Notification}.
  *
- * @see NotificationService is base repository generate by jhipster
+ * @see NotificationService is base service generate by jhipster
  */
-public interface NotificationAdvanceService extends LocalService<NotificationService, NotificationQueryService>
+public interface NotificationAdvanceService extends BaseSrvice<Notification, NotificationService, NotificationQueryService, NotificationAdvanceMapper, NotificationAdvanceRepository, NotificationAdvanceSearch>
 {
 }

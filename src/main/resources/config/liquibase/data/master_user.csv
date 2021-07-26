@@ -1,0 +1,4 @@
+id,uuid,full_name,nickname,avatar,quick_info,my_rank_id,base_info_id
+0,00000000-0000-0000-0000-000000000000,anonymous,anonymous,,,,
+1,00000000-0000-0000-0000-000000000001,admin,admin,,,,
+2,00000000-0000-0000-0000-000000000002,user,user,,,,

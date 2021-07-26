@@ -8,13 +8,13 @@ import io.vavr.collection.List;
 import io.vavr.control.Option;
 
 /**
- * Spring Data SQL repository for the {@link com.regitiny.catiny.domain.HistoryUpdate} entity.
+ * Spring Data SQL repository for the {@link HistoryUpdate} entity.
  * <p>
  * here contains simple query JPA syntax.
  * if you want to write complex query pure (SQL or HQL) then you should write to :
  * {@link com.regitiny.catiny.advance.repository.HistoryUpdateAdvanceRepository}
  */
-public interface HistoryUpdateBaseRepository extends BaseRepository, CommonRepository, HistoryUpdateRepository
+public interface HistoryUpdateBaseRepository extends BaseRepository<HistoryUpdate>, CommonRepository<HistoryUpdate>, HistoryUpdateRepository
 {
   List<HistoryUpdate> findAllByBaseInfo(BaseInfo baseInfo);
 

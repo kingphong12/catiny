@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.RankUserAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.RankUserAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.RankUserAdvanceMapper;
+import com.regitiny.catiny.domain.RankUser;
 import com.regitiny.catiny.service.RankUserQueryService;
 import com.regitiny.catiny.service.RankUserService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.RankUser} entityDomain.
+ * AdvanceService layer for {@link RankUser}.
  *
- * @see RankUserService is base repository generate by jhipster
+ * @see RankUserService is base service generate by jhipster
  */
-public interface RankUserAdvanceService extends LocalService<RankUserService, RankUserQueryService>
+public interface RankUserAdvanceService extends BaseSrvice<RankUser, RankUserService, RankUserQueryService, RankUserAdvanceMapper, RankUserAdvanceRepository, RankUserAdvanceSearch>
 {
 }

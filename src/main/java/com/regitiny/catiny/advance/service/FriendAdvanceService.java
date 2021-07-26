@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.FriendAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.FriendAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.FriendAdvanceMapper;
+import com.regitiny.catiny.domain.Friend;
 import com.regitiny.catiny.service.FriendQueryService;
 import com.regitiny.catiny.service.FriendService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.Friend} entityDomain.
+ * AdvanceService layer for {@link Friend}.
  *
- * @see FriendService is base repository generate by jhipster
+ * @see FriendService is base service generate by jhipster
  */
-public interface FriendAdvanceService extends LocalService<FriendService, FriendQueryService>
+public interface FriendAdvanceService extends BaseSrvice<Friend, FriendService, FriendQueryService, FriendAdvanceMapper, FriendAdvanceRepository, FriendAdvanceSearch>
 {
 }

@@ -3,7 +3,8 @@ package com.regitiny.catiny.advance.service.mapper;
 import com.regitiny.catiny.advance.controller.model.PostLikeModel;
 import com.regitiny.catiny.domain.PostLike;
 import com.regitiny.catiny.service.dto.PostLikeDTO;
-import com.regitiny.catiny.service.mapper.EntityMapper;
+import com.regitiny.catiny.service.mapper.PostLikeMapper;
+import com.regitiny.catiny.service.mapper.PostLikeMapperImpl;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -12,16 +13,63 @@ import java.util.List;
   componentModel = "spring",
   uses = {}
 )
-public interface PostLikeAdvanceMapper extends EntityAdvanceMapper<PostLikeModel, PostLikeDTO>, EntityMapper<PostLikeDTO, PostLike>
+public interface PostLikeAdvanceMapper extends EntityAdvanceMapper<PostLikeModel, PostLikeDTO, PostLike>
 {
-  PostLikeDTO requestToDto(PostLikeModel.Request request);
+  PostLikeMapper baseMapper = new PostLikeMapperImpl();
+
+  PostLikeAdvanceMapper thisMapper = new PostLikeAdvanceMapperImpl();
 
 
-  List<PostLikeDTO> requestToDto(List<PostLikeModel.Request> request);
+  PostLikeDTO request2d(PostLikeModel.Request request);
 
 
-  PostLikeModel.Response dtoToResponse(PostLikeDTO dto);
+  List<PostLikeDTO> request2d(List<PostLikeModel.Request> request);
 
 
-  List<PostLikeModel.Response> dtoToResponse(List<PostLikeDTO> dto);
+  PostLikeModel.Response d2Response(PostLikeDTO dto);
+
+
+  List<PostLikeModel.Response> d2Response(List<PostLikeDTO> dto);
+
+
+  @Override
+  default PostLikeModel e2m(PostLike entity)
+  {
+    return thisMapper.d2m(baseMapper.toDto(entity));
+  }
+
+
+  @Override
+  default List<PostLikeModel> e2m(List<PostLike> entityList)
+  {
+    return thisMapper.d2m(baseMapper.toDto(entityList));
+  }
+
+
+  @Override
+  default PostLike d2e(PostLikeDTO dto)
+  {
+    return baseMapper.toEntity(dto);
+  }
+
+
+  @Override
+  default List<PostLike> d2e(List<PostLikeDTO> dtoList)
+  {
+    return baseMapper.toEntity(dtoList);
+  }
+
+
+  @Override
+  default PostLikeDTO e2d(PostLike entity)
+  {
+    return baseMapper.toDto(entity);
+  }
+
+
+  @Override
+  default List<PostLikeDTO> e2d(List<PostLike> entityList)
+  {
+    return baseMapper.toDto(entityList);
+  }
 }

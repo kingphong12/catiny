@@ -1,5 +1,7 @@
 package com.regitiny.catiny.config;
 
+import com.regitiny.catiny.aop.AdvanceRepositoryAspectService;
+import com.regitiny.catiny.aop.AdvanceSearchAspectService;
 import com.regitiny.catiny.aop.AspectService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -18,5 +20,19 @@ public class AspectServiceConfiguration
   public AspectService aspectService(Environment env, ApplicationContext applicationContext)
   {
     return new AspectService(env, applicationContext);
+  }
+
+  @Bean
+  @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
+  public AdvanceRepositoryAspectService advanceRepositoryAspectService(Environment env, ApplicationContext applicationContext)
+  {
+    return new AdvanceRepositoryAspectService(env, applicationContext);
+  }
+
+  @Bean
+  @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
+  public AdvanceSearchAspectService advanceSearchAspectService(Environment env, ApplicationContext applicationContext)
+  {
+    return new AdvanceSearchAspectService(env, applicationContext);
   }
 }

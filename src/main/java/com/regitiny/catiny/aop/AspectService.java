@@ -34,7 +34,8 @@ public class AspectService
    * Pointcut that matches all repositories, services and Web REST endpoints.
    */
   @Pointcut(
-    " execution(* com.regitiny.catiny.repository.search.*.save(..))))"
+    " execution(* com.regitiny.catiny.repository.search.*.save(..)) " +
+      " && !execution(* com.regitiny.catiny.repository.search.UserSearchRepository.save(..))"
   )
   public void crudRepositorySavePointcut()
   {

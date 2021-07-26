@@ -1,9 +1,11 @@
 package com.regitiny.tools.generator;
 
-import com.regitiny.catiny.advance.service.LocalService;
-import com.regitiny.catiny.advance.service.impl.LocalServiceImpl;
+import com.regitiny.catiny.advance.repository.CommonRepository;
+import com.regitiny.catiny.advance.repository.base.BaseRepository;
+import com.regitiny.catiny.advance.repository.search.base.BaseSearch;
+import com.regitiny.catiny.advance.service.BaseSrvice;
+import com.regitiny.catiny.advance.service.impl.AdvanceService;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
-import com.regitiny.catiny.service.mapper.EntityMapper;
 import com.regitiny.catiny.tools.utils.StringPool;
 import com.squareup.javapoet.*;
 import io.vavr.Function1;
@@ -11,13 +13,11 @@ import io.vavr.Function2;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.WordUtils;
 import org.mapstruct.Mapper;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 public class GenerateEntityAdvanceUtils
 {
   private static final String BASE_PACKAGE = "com.regitiny.catiny";
+  private static final String DOMAIN_PACKAGE = BASE_PACKAGE + ".domain";
   private static final String ENTITY_NAME = "${entityName}";
 
   private static String entityName(String entityName)
@@ -109,6 +110,8 @@ public class GenerateEntityAdvanceUtils
     var interfaceBaseRepository = TypeSpec.interfaceBuilder(entityName + "BaseRepository")
       .addModifiers(Modifier.PUBLIC)
       .addJavadoc(javadoc)
+      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(BaseRepository.class), ClassName.get(DOMAIN_PACKAGE, entityName)))
+      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(CommonRepository.class), ClassName.get(DOMAIN_PACKAGE, entityName)))
       .addSuperinterface(ClassName.get(packageRepository, entityRepository))
       .build();
 
@@ -162,7 +165,11 @@ public class GenerateEntityAdvanceUtils
     var interfaceBaseSearch = TypeSpec.interfaceBuilder(entityBaseSearch)
       .addModifiers(Modifier.PUBLIC)
       .addJavadoc(javadoc)
-      .addSuperinterface(ClassName.get(packageSearch, entitySearch))
+      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(BaseSearch.class), ClassName.get(DOMAIN_PACKAGE, entityName)))
+      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(CommonRepository.class), ClassName.get(DOMAIN_PACKAGE, entityName)))
+      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(ElasticsearchRepository.class),
+        ClassName.get(BASE_PACKAGE + ".domain", entityName),
+        ClassName.get(Long.class)))
       .build();
     var javaFileBaseSearch = JavaFile.builder(packageAdvanceSearch + ".base", interfaceBaseSearch).build();
     log.debug("...BaseSearch after generated : {}", javaFileBaseSearch.toString());
@@ -204,15 +211,21 @@ public class GenerateEntityAdvanceUtils
     final String packageAdvanceOutput = BASE_PACKAGE + ".advance.service";
     final String entityAdvanceOutput = entityName + "AdvanceService";
 
-    String javadoc = " Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link ${entityName}} entityDomain.\n" +
-      "@see ${searchRepository} is base repository generate by jhipster";
+    String javadoc = " AdvanceService layer for {@link ${entityName}}.\n" +
+      "@see ${advanceService} is base service generate by jhipster";
     javadoc = javadoc.replace(ENTITY_NAME, entityName(entityName))
-      .replace("${searchRepository}", packageInput + StringPool.PERIOD + entityInput);
+      .replace("${advanceService}", packageInput + StringPool.PERIOD + entityInput);
 
     TypeSpec interfaceAdvanceService = TypeSpec.interfaceBuilder(entityAdvanceOutput)
       .addModifiers(Modifier.PUBLIC)
       .addJavadoc(javadoc)
-      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(LocalService.class), ClassName.get(packageInput, entityInput), ClassName.get(packageInput, entityName + "QueryService")))
+      .addSuperinterface(ParameterizedTypeName.get(ClassName.get(BaseSrvice.class),
+        ClassName.get(DOMAIN_PACKAGE, entityName),
+        ClassName.get(packageInput, entityInput),
+        ClassName.get(packageInput, entityName + "QueryService"),
+        ClassName.get(BASE_PACKAGE + ".advance.service.mapper", entityName + "AdvanceMapper"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository", entityName + "AdvanceRepository"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository.search", entityName + "AdvanceSearch")))
       .build();
 
     var javaFile = JavaFile.builder(packageAdvanceOutput, interfaceAdvanceService).build();
@@ -243,18 +256,25 @@ public class GenerateEntityAdvanceUtils
       .addAnnotation(Log4j2.class)
       .addAnnotation(Service.class)
       .addAnnotation(Transactional.class)
-      .superclass(ParameterizedTypeName.get(ClassName.get(LocalServiceImpl.class), ClassName.get(packageInput, entityInput), ClassName.get(packageInput, entityName + "QueryService")))
+      .addAnnotation(RequiredArgsConstructor.class)
+      .superclass(ParameterizedTypeName.get(ClassName.get(AdvanceService.class),
+        ClassName.get(DOMAIN_PACKAGE, entityName),
+        ClassName.get(packageInput, entityInput),
+        ClassName.get(packageInput, entityName + "QueryService"),
+        ClassName.get(BASE_PACKAGE + ".advance.service.mapper", entityName + "AdvanceMapper"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository", entityName + "AdvanceRepository"),
+        ClassName.get(BASE_PACKAGE + ".advance.repository.search", entityName + "AdvanceSearch")))
       .addSuperinterface(ClassName.get(packageAdvanceOutput, entityAdvanceOutput));
 
-    var constructor = MethodSpec.constructorBuilder()
-      .addModifiers(Modifier.PUBLIC);
+//    var constructor = MethodSpec.constructorBuilder()
+//      .addModifiers(Modifier.PUBLIC);
 
     Function2<String, String, Void> addBaseField = (pName, eName) ->
     {
       advanceServiceImpl.addField(
         ClassName.get(BASE_PACKAGE + pName, entityName + eName), WordUtils.uncapitalize(entityName + eName), Modifier.PRIVATE, Modifier.FINAL);
-      constructor.addParameter(ClassName.get(BASE_PACKAGE + pName, entityName + eName), WordUtils.uncapitalize(entityName + eName))
-        .addStatement("this.$N = $N", WordUtils.uncapitalize(entityName + eName), WordUtils.uncapitalize(entityName + eName));
+//      constructor.addParameter(ClassName.get(BASE_PACKAGE + pName, entityName + eName), WordUtils.uncapitalize(entityName + eName))
+//        .addStatement("this.$N = $N", WordUtils.uncapitalize(entityName + eName), WordUtils.uncapitalize(entityName + eName));
       return null;
     };
 
@@ -262,7 +282,7 @@ public class GenerateEntityAdvanceUtils
     addBaseField.apply(".advance.repository.search", "AdvanceSearch");
     addBaseField.apply(".advance.service.mapper", "AdvanceMapper");
 
-    advanceServiceImpl.addMethod(constructor.build());
+//    advanceServiceImpl.addMethod(constructor.build());
 
     var javaFileImpl = JavaFile.builder(packageAdvanceImplOutput, advanceServiceImpl.build()).build();
     log.debug("...AdvanceRepository after generated : \n {}", javaFileImpl.toString());
@@ -275,6 +295,7 @@ public class GenerateEntityAdvanceUtils
     final String entityInput = entityName + "ServiceMapper";
     final String packageAdvanceOutput = BASE_PACKAGE + ".advance.service.mapper";
     final String entityAdvanceOutput = entityName + "AdvanceMapper";
+    final String packageModel = BASE_PACKAGE + ".advance.controller.model";
 
     var javadoc = "";
 
@@ -287,31 +308,86 @@ public class GenerateEntityAdvanceUtils
       .addSuperinterface(
         ParameterizedTypeName.get(
           ClassName.get(EntityAdvanceMapper.class),
-          ClassName.get(BASE_PACKAGE + ".advance.controller.model", entityName + "Model"),
-          ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")))
-      .addSuperinterface(
-        ParameterizedTypeName.get(
-          ClassName.get(EntityMapper.class),
+          ClassName.get(packageModel, entityName + "Model"),
           ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"),
           ClassName.get(BASE_PACKAGE + ".domain", entityName)))
+//    EntityMapper baseMapper=new EntityMapperImpl()
+      .addField(FieldSpec.builder(ClassName.get(packageInput, entityName + "Mapper"), "baseMapper", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+        .initializer("new $T()", ClassName.get(packageInput, entityName + "MapperImpl")).build())
+//    EntityAdvanceMapper thisMapper=new EntityAdvanceMapperImpl()
+      .addField(FieldSpec.builder(ClassName.get(packageAdvanceOutput, entityName + "AdvanceMapper"), "thisMapper", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+        .initializer("new $T()", ClassName.get(packageAdvanceOutput, entityName + "AdvanceMapperImpl")).build())
 //    EntityDTO requestToDto(EntityModel.Request request)
-      .addMethod(MethodSpec.methodBuilder("requestToDto").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .addParameter(ParameterSpec.builder(ClassName.get(BASE_PACKAGE + ".advance.controller.model", entityName + "Model").nestedClass("Request"), "request").build())
+      .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+        .addParameter(ParameterSpec.builder(ClassName.get(packageModel, entityName + "Model").nestedClass("Request"), "request").build())
         .returns(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")).build())
 //    List<EntityDTO> requestToDto(List<EntityModel.Request> request)
-      .addMethod(MethodSpec.methodBuilder("requestToDto").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+      .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
         .addParameter(ParameterSpec.builder(
-          ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".advance.controller.model", entityName + "Model").nestedClass("Request")), "request").build())
+          ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Request")), "request").build())
         .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"))).build())
 //    EntityModel.Response requestToDto(EntityDTO dto)
-      .addMethod(MethodSpec.methodBuilder("dtoToResponse").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+      .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
         .addParameter(ParameterSpec.builder(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"), "dto").build())
-        .returns(ClassName.get(BASE_PACKAGE + ".advance.controller.model", entityName + "Model").nestedClass("Response")).build())
+        .returns(ClassName.get(packageModel, entityName + "Model").nestedClass("Response")).build())
 //    List<EntityModel.Response> requestToDto(List<EntityDTO> dto)
-      .addMethod(MethodSpec.methodBuilder("dtoToResponse").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+      .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
         .addParameter(ParameterSpec.builder(
           ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")), "dto").build())
-        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".advance.controller.model", entityName + "Model").nestedClass("Response"))).build());
+        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Response"))).build())
+//    @Override
+//    default AlbumModel e2m(Album entity)
+//    {
+//      return thisMapper.d2m(baseMapper.toDto(entity));
+//    }
+// tương tự bên dưới cũng thế
+      .addMethod(MethodSpec.methodBuilder("e2m").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
+        .addAnnotation(Override.class)
+        .addParameter(ParameterSpec.builder(ClassName.get(DOMAIN_PACKAGE, entityName), "entity").build())
+        .returns(ClassName.get(packageModel, entityName + "Model"))
+        .addStatement("return thisMapper.d2m(baseMapper.toDto(entity))")
+        .build())
+//    default List<AlbumModel> e2m(List<Album> entityList)
+      .addMethod(MethodSpec.methodBuilder("e2m").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
+        .addAnnotation(Override.class)
+        .addParameter(ParameterSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class),
+          ClassName.get(DOMAIN_PACKAGE, entityName)), "entityList").build())
+        .returns(ParameterizedTypeName.get(
+          ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model")))
+        .addStatement("return thisMapper.d2m(baseMapper.toDto(entityList))")
+        .build())
+//    default Album d2e(AlbumDTO entityList)
+      .addMethod(MethodSpec.methodBuilder("d2e").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
+        .addAnnotation(Override.class)
+        .addParameter(ParameterSpec.builder(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"), "dto").build())
+        .returns(ClassName.get(DOMAIN_PACKAGE, entityName))
+        .addStatement("return baseMapper.toEntity(dto)")
+        .build())
+//    default List<Album> d2e(List<AlbumDTO> entityList)
+      .addMethod(MethodSpec.methodBuilder("d2e").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
+        .addAnnotation(Override.class)
+        .addParameter(ParameterSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class),
+          ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")), "dtoList").build())
+        .returns(ParameterizedTypeName.get(ClassName.get(List.class),
+          ClassName.get(DOMAIN_PACKAGE, entityName)))
+        .addStatement("return baseMapper.toEntity(dtoList)")
+        .build())
+//    default Album e2d(AlbumDTO entityList)
+      .addMethod(MethodSpec.methodBuilder("e2d").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
+        .addAnnotation(Override.class)
+        .addParameter(ParameterSpec.builder(ClassName.get(DOMAIN_PACKAGE, entityName), "entity").build())
+        .returns(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"))
+        .addStatement("return baseMapper.toDto(entity)")
+        .build())
+//    default List<AlbumDTO> e2d(List<Album> entityList)
+      .addMethod(MethodSpec.methodBuilder("e2d").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
+        .addAnnotation(Override.class)
+        .addParameter(ParameterSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class),
+          ClassName.get(DOMAIN_PACKAGE, entityName)), "entityList").build())
+        .returns(ParameterizedTypeName.get(ClassName.get(List.class),
+          ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")))
+        .addStatement("return baseMapper.toDto(entityList)")
+        .build());
 
     var javaFile = JavaFile.builder(packageAdvanceOutput, advanceMapper.build()).build();
     log.debug("...Mapper after generated : \n {}", javaFile.toString());

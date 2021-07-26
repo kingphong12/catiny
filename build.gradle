@@ -219,7 +219,7 @@ configurations {
     resolutionStrategy {
       // Inherited version from Spring Boot can't be used because of regressions:
       // To be removed as soon as spring-boot use the same version
-      force 'org.liquibase:liquibase-core:4.3.5'
+      force "org.liquibase:liquibase-core:${liquibaseHibernate5Version}"
     }
   }
 }
@@ -336,7 +336,7 @@ dependencies {
   implementation "org.jsoup:jsoup:${jsoupVersion}"
   implementation "io.vavr:vavr:${vavrVersion}"
   implementation "com.jcraft:jsch:${jschVersion}"
-  runtimeClasspath "org.webjars:bootstrap:${bootstrapVersion}"
+  runtimeClasspath "org.webjars:bootstrap:${bootstrapVersion}" // chỉ add vào để cho intelliJ gợi ý class khi code thôi
   implementation "com.squareup:javapoet:${javapoestVersion}"
 }
 
@@ -364,14 +364,19 @@ wrapper {
 
 if (project.hasProperty("nodeInstall")) {
   // Workaround node grade plugin not working on apple silicon https://github.com/node-gradle/gradle-node-plugin/issues/154
-  OperatingSystem os = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem();
-  Architecture arch = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentArchitecture();
+  OperatingSystem os = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem()
+  Architecture arch = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentArchitecture()
   Boolean downloadNode = !os.isMacOsX() || arch.isAmd64()
   node {
     version = "14.17.1"
     npmVersion = "7.18.1"
     download = downloadNode
   }
+}
+compileJava{
+  options.compilerArgs += [
+    '-Amapstruct.unmappedTargetPolicy=IGNORE'
+  ]
 }
 compileJava.dependsOn processResources
 processResources.dependsOn bootBuildInfo

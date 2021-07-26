@@ -1,13 +1,17 @@
 package com.regitiny.catiny.advance.service;
 
+import com.regitiny.catiny.advance.repository.TopicInterestAdvanceRepository;
+import com.regitiny.catiny.advance.repository.search.TopicInterestAdvanceSearch;
+import com.regitiny.catiny.advance.service.mapper.TopicInterestAdvanceMapper;
+import com.regitiny.catiny.domain.TopicInterest;
 import com.regitiny.catiny.service.TopicInterestQueryService;
 import com.regitiny.catiny.service.TopicInterestService;
 
 /**
- * Spring Data Elasticsearch advance-repository extends jhipster-search-repository for the {@link com.regitiny.catiny.domain.TopicInterest} entityDomain.
+ * AdvanceService layer for {@link TopicInterest}.
  *
- * @see TopicInterestService is base repository generate by jhipster
+ * @see TopicInterestService is base service generate by jhipster
  */
-public interface TopicInterestAdvanceService extends LocalService<TopicInterestService, TopicInterestQueryService>
+public interface TopicInterestAdvanceService extends BaseSrvice<TopicInterest, TopicInterestService, TopicInterestQueryService, TopicInterestAdvanceMapper, TopicInterestAdvanceRepository, TopicInterestAdvanceSearch>
 {
 }

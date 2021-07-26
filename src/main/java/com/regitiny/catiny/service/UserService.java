@@ -10,10 +10,7 @@ import com.regitiny.catiny.security.AuthoritiesConstants;
 import com.regitiny.catiny.security.SecurityUtils;
 import com.regitiny.catiny.service.dto.AdminUserDTO;
 import com.regitiny.catiny.service.dto.UserDTO;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import io.vavr.control.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -25,12 +22,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * Service class for managing users.
  */
 @Service
 @Transactional
-public class UserService {
+public class UserService
+{
 
   private final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -344,14 +347,23 @@ public class UserService {
    * @return a list of all the authorities.
    */
   @Transactional(readOnly = true)
-  public List<String> getAuthorities() {
+  public List<String> getAuthorities()
+  {
     return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
   }
 
-  private void clearUserCaches(User user) {
+  private void clearUserCaches(User user)
+  {
     Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-    if (user.getEmail() != null) {
+    if (user.getEmail() != null)
+    {
       Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
     }
+  }
+
+  @Transactional(readOnly = true)
+  public Option<User> getOneByLogin(final String login)
+  {
+    return Option.ofOptional(userRepository.findOneByLogin(login));
   }
 }

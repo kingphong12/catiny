@@ -3,7 +3,8 @@ package com.regitiny.catiny.advance.service.mapper;
 import com.regitiny.catiny.advance.controller.model.VideoModel;
 import com.regitiny.catiny.domain.Video;
 import com.regitiny.catiny.service.dto.VideoDTO;
-import com.regitiny.catiny.service.mapper.EntityMapper;
+import com.regitiny.catiny.service.mapper.VideoMapper;
+import com.regitiny.catiny.service.mapper.VideoMapperImpl;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -12,16 +13,63 @@ import java.util.List;
   componentModel = "spring",
   uses = {}
 )
-public interface VideoAdvanceMapper extends EntityAdvanceMapper<VideoModel, VideoDTO>, EntityMapper<VideoDTO, Video>
+public interface VideoAdvanceMapper extends EntityAdvanceMapper<VideoModel, VideoDTO, Video>
 {
-  VideoDTO requestToDto(VideoModel.Request request);
+  VideoMapper baseMapper = new VideoMapperImpl();
+
+  VideoAdvanceMapper thisMapper = new VideoAdvanceMapperImpl();
 
 
-  List<VideoDTO> requestToDto(List<VideoModel.Request> request);
+  VideoDTO request2d(VideoModel.Request request);
 
 
-  VideoModel.Response dtoToResponse(VideoDTO dto);
+  List<VideoDTO> request2d(List<VideoModel.Request> request);
 
 
-  List<VideoModel.Response> dtoToResponse(List<VideoDTO> dto);
+  VideoModel.Response d2Response(VideoDTO dto);
+
+
+  List<VideoModel.Response> d2Response(List<VideoDTO> dto);
+
+
+  @Override
+  default VideoModel e2m(Video entity)
+  {
+    return thisMapper.d2m(baseMapper.toDto(entity));
+  }
+
+
+  @Override
+  default List<VideoModel> e2m(List<Video> entityList)
+  {
+    return thisMapper.d2m(baseMapper.toDto(entityList));
+  }
+
+
+  @Override
+  default Video d2e(VideoDTO dto)
+  {
+    return baseMapper.toEntity(dto);
+  }
+
+
+  @Override
+  default List<Video> d2e(List<VideoDTO> dtoList)
+  {
+    return baseMapper.toEntity(dtoList);
+  }
+
+
+  @Override
+  default VideoDTO e2d(Video entity)
+  {
+    return baseMapper.toDto(entity);
+  }
+
+
+  @Override
+  default List<VideoDTO> e2d(List<Video> entityList)
+  {
+    return baseMapper.toDto(entityList);
+  }
 }

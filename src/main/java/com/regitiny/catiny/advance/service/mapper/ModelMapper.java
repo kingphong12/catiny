@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface ModelMapper<M, D, E>
 {
+  // model <-> dto
   D m2d(M model);
 
 
@@ -25,18 +26,7 @@ public interface ModelMapper<M, D, E>
   List<M> d2m(List<D> dtoList);
 
 
-  D e2d(E entity);
-
-
-  E d2e(D dto);
-
-
-  List<D> e2d(List<E> entityList);
-
-
-  List<E> d2e(List<D> dtoList);
-
-
+  // model <-> entity
   E m2e(M model);
 
 

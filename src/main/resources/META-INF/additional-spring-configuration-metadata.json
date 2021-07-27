@@ -44,5 +44,10 @@
       "name": "catiny.server.ffmpeg.data.image.folder-processed",
       "type": "java.lang.String",
       "description": "thư mục chứa video đã qua xử lý."
+    },
+    {
+      "name": "catiny.permission.need-check",
+      "type": "java.lang.Boolean",
+      "description": "có kiểm tra phân quyền."
     }
   ] }

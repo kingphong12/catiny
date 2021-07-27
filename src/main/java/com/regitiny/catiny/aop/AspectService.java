@@ -1,5 +1,6 @@
 package com.regitiny.catiny.aop;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -19,16 +21,12 @@ import java.util.Arrays;
  * By default, it only runs with the "dev" profile.
  */
 @Aspect
+@Component
+@RequiredArgsConstructor
 public class AspectService
 {
   private final Environment env;
   private final ApplicationContext applicationContext;
-
-  public AspectService(Environment env, ApplicationContext applicationContext)
-  {
-    this.env = env;
-    this.applicationContext = applicationContext;
-  }
 
   /**
    * Pointcut that matches all repositories, services and Web REST endpoints.

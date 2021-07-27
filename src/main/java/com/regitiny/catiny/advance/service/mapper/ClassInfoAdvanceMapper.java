@@ -3,23 +3,21 @@ package com.regitiny.catiny.advance.service.mapper;
 import com.regitiny.catiny.advance.controller.model.ClassInfoModel;
 import com.regitiny.catiny.domain.ClassInfo;
 import com.regitiny.catiny.service.dto.ClassInfoDTO;
-import com.regitiny.catiny.service.mapper.ClassInfoMapper;
-import com.regitiny.catiny.service.mapper.ClassInfoMapperImpl;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
+/**
+ * this is a custom mapper for each entity .
+ * this mapper extend from Jhipster mapper
+ * ( d=dto, e=entity , m=model and To=2 ) --> ( dtoToEntity = d2e , modelToDto = m2d ).
+ */
 @Mapper(
   componentModel = "spring",
   uses = {}
 )
 public interface ClassInfoAdvanceMapper extends EntityAdvanceMapper<ClassInfoModel, ClassInfoDTO, ClassInfo>
 {
-  ClassInfoMapper baseMapper = new ClassInfoMapperImpl();
-
-  ClassInfoAdvanceMapper thisMapper = new ClassInfoAdvanceMapperImpl();
-
-
   ClassInfoDTO request2d(ClassInfoModel.Request request);
 
 
@@ -30,46 +28,4 @@ public interface ClassInfoAdvanceMapper extends EntityAdvanceMapper<ClassInfoMod
 
 
   List<ClassInfoModel.Response> d2Response(List<ClassInfoDTO> dto);
-
-
-  @Override
-  default ClassInfoModel e2m(ClassInfo entity)
-  {
-    return thisMapper.d2m(baseMapper.toDto(entity));
-  }
-
-
-  @Override
-  default List<ClassInfoModel> e2m(List<ClassInfo> entityList)
-  {
-    return thisMapper.d2m(baseMapper.toDto(entityList));
-  }
-
-
-  @Override
-  default ClassInfo d2e(ClassInfoDTO dto)
-  {
-    return baseMapper.toEntity(dto);
-  }
-
-
-  @Override
-  default List<ClassInfo> d2e(List<ClassInfoDTO> dtoList)
-  {
-    return baseMapper.toEntity(dtoList);
-  }
-
-
-  @Override
-  default ClassInfoDTO e2d(ClassInfo entity)
-  {
-    return baseMapper.toDto(entity);
-  }
-
-
-  @Override
-  default List<ClassInfoDTO> e2d(List<ClassInfo> entityList)
-  {
-    return baseMapper.toDto(entityList);
-  }
 }

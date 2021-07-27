@@ -72,10 +72,10 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
   public BaseInfo createForOwner()
   {
     var now = Instant.now();
-    var currentMasterUser = MasterUserUtil.getCurrentMasterUser().get();
-    var ownerPermission = permissionAdvanceService.createForOwner().masterUser(currentMasterUser);
-    var anonymousMasterUser = MasterUserUtil.anonymousMasterUser().get();
+    var anonymousMasterUser = MasterUserUtil.anonymousMasterUser().getOrNull();
     var anonymousPermission = permissionAdvanceService.createForAnonymous().masterUser(anonymousMasterUser);
+    var currentMasterUser = MasterUserUtil.getCurrentMasterUser().getOrElse(anonymousMasterUser);
+    var ownerPermission = permissionAdvanceService.createForOwner().masterUser(currentMasterUser);
 
     var historyUpdate = historyUpdateAdvanceService.createFirstVersion();
     var baseInfo = new BaseInfo().uuid(UUID.randomUUID())

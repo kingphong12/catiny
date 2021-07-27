@@ -1,0 +1,4 @@
+id;uuid;process_status;modified_class;created_date;modified_date;notes;deleted;priority_index;count_use;owner_id;class_info_id
+1;00000000-0000-0000-0000-000000000001;DONE;;;;this is a admin;false;0;0;1;
+2;00000000-0000-0000-0000-000000000002;DONE;;;;this is a user;false;0;0;1;
+100;00000000-0000-0000-0000-000000000100;DONE;;;;this is a anonymous user;false;0;0;1;

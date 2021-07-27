@@ -1,5 +1,7 @@
 package com.regitiny.catiny.aop;
 
+
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,7 +11,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -17,16 +22,14 @@ import java.util.Arrays;
  * Aspect for AdvanceSearch.
  */
 @Aspect
+@Component
+@Order(2)
+@RequiredArgsConstructor
+@Transactional
 public class AdvanceSearchAspectService
 {
   private final Environment env;
   private final ApplicationContext applicationContext;
-
-  public AdvanceSearchAspectService(Environment env, ApplicationContext applicationContext)
-  {
-    this.env = env;
-    this.applicationContext = applicationContext;
-  }
 
   /**
    * Pointcut that matches all method save in advance.repository and advance.repository.base.
@@ -34,7 +37,7 @@ public class AdvanceSearchAspectService
   @Pointcut(
     " (execution(* com.regitiny.catiny.advance.repository.*.save(..)) || " +
 //      " execution(* com.regitiny.catiny.repository.*.save(..))) ||" +
-      " execution(* com.regitiny.catiny.advance.repository.base*.save(..))) " +
+      " execution(* com.regitiny.catiny.advance.repository.base.*.save(..))) " +
       " && !execution(* com.regitiny.catiny.repository.UserRepository.save(..))"
   )
   public void repositorySavePointcut()
@@ -48,7 +51,7 @@ public class AdvanceSearchAspectService
   @Pointcut(
     " (execution(* com.regitiny.catiny.advance.repository.*.delete(..)) || " +
 //      " execution(* com.regitiny.catiny.repository.*.delete(..))) ||" +
-      " execution(* com.regitiny.catiny.advance.repository.base*.delete(..))) " +
+      " execution(* com.regitiny.catiny.advance.repository.base.*.delete(..))) " +
       " && !execution(* com.regitiny.catiny.repository.UserRepository.delete(..))"
   )
   public void repositoryDeletePointcut()
@@ -139,5 +142,9 @@ public class AdvanceSearchAspectService
     return LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringTypeName());
   }
 
+  private Logger thisLog()
+  {
+    return LoggerFactory.getLogger(AdvanceSearchAspectService.class);
+  }
 
 }

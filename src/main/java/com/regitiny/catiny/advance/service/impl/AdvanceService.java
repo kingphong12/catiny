@@ -1,12 +1,10 @@
 package com.regitiny.catiny.advance.service.impl;
 
 import com.regitiny.catiny.tools.utils.StringPool;
+import com.regitiny.catiny.util.ApplicationContextUtil;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -19,28 +17,34 @@ import java.util.regex.Pattern;
  * @param <AS> EntityAdvanceSearch
  */
 @Log4j2
-@Component
-public class AdvanceService<E, S, Q, AM, AR, AS>
+public abstract class AdvanceService<E, S, Q, AM, AR, AS>
 {
-  @Autowired
-  private ApplicationContext applicationContext;
-
   private S localService;
   private Q localQueryService;
   private AM localAdvanceMapper;
-  private AR localAdvanceRepository;
-  private AS localAdvanceSearch;
+  private AR localRepository;
+  private AS localSearch;
 
   private Local local = null;
-//  private LocalProtected localProtected =null;
-//  private LocalPublic localPublic = null;
+  private ProtectedLocal protectedLocal = null;
+  private PublicLocal publicLocal = null;
 
+  /**
+   * entityNameFirstUpper
+   *
+   * @return String
+   */
   private String entityNameFU()
   {
     return Option.of(getClass().getSimpleName()).filter(s -> s.contains("AdvanceServiceImpl"))
       .map(s -> s.replace("AdvanceServiceImpl", StringPool.BLANK)).getOrElseThrow(() -> new RuntimeException(""));
   }
 
+  /**
+   * entityNameFirstLower
+   *
+   * @return String
+   */
   private String entityNameFL()
   {
     var entityNameFU = entityNameFU();
@@ -50,16 +54,31 @@ public class AdvanceService<E, S, Q, AM, AR, AS>
     return entityNameFU.replaceFirst("^[A-Z]+", firstUpper.toLowerCase());
   }
 
-  public Local local()
+  Local local()
   {
     if (Objects.isNull(local))
       setup();
     return local;
   }
 
+  protected ProtectedLocal protectedLocal()
+  {
+    if (Objects.isNull(protectedLocal))
+      setup();
+    return protectedLocal;
+  }
+
+  public PublicLocal publicLocal()
+  {
+    if (Objects.isNull(publicLocal))
+      setup();
+    return publicLocal;
+  }
+
   @SuppressWarnings("unchecked")
   private void setup()
   {
+    final var applicationContext = ApplicationContextUtil.getApplicationContext();
     var entityNameFL = entityNameFL();
     localService = (S) Option.when(Objects.isNull(localService), entityNameFL + "ServiceImpl")
       .map(applicationContext::getBean).getOrElse(() ->
@@ -80,22 +99,22 @@ public class AdvanceService<E, S, Q, AM, AR, AS>
         return null;
       });
 
-    localAdvanceRepository = (AR) Option.when(Objects.isNull(localAdvanceRepository), entityNameFL + "AdvanceRepository")
+    localRepository = (AR) Option.when(Objects.isNull(localRepository), entityNameFL + "AdvanceRepository")
       .map(applicationContext::getBean).getOrElse(() ->
       {
         log.debug("not found LocalAdvanceRepository");
         return null;
       });
 
-    localAdvanceSearch = (AS) Option.when(Objects.isNull(localAdvanceSearch), entityNameFL + "AdvanceSearch")
+    localSearch = (AS) Option.when(Objects.isNull(localSearch), entityNameFL + "AdvanceSearch")
       .map(applicationContext::getBean).getOrElse(() ->
       {
         log.debug("not found LocalAdvanceSearch");
         return null;
       });
     local = new Local();
-//    localPublic=new LocalPublic();
-//    localProtected = new LocalProtected();
+    publicLocal = new PublicLocal();
+    protectedLocal = new ProtectedLocal();
   }
 
   public E create()
@@ -108,8 +127,8 @@ public class AdvanceService<E, S, Q, AM, AR, AS>
     public final S service = localService;
     public final Q queryService = localQueryService;
     public final AM advanceMapper = localAdvanceMapper;
-    public final AR advanceRepository = localAdvanceRepository;
-    public final AS advanceSearch = localAdvanceSearch;
+    public final AR advanceRepository = localRepository;
+    public final AS advanceSearch = localSearch;
   }
 
 //  public LocalPublic localPublic()
@@ -119,22 +138,21 @@ public class AdvanceService<E, S, Q, AM, AR, AS>
 //    return localPublic;
 //  }
 
-  protected class LocalProtected
+  protected class ProtectedLocal
   {
-
     public final S service = localService;
     public final Q queryService = localQueryService;
     public final AM advanceMapper = localAdvanceMapper;
-    public final AR advanceRepository = localAdvanceRepository;
-    public final AS advanceSearch = localAdvanceSearch;
+    public final AR advanceRepository = localRepository;
+    public final AS advanceSearch = localSearch;
   }
 
-  public class LocalPublic
+  public class PublicLocal
   {
     public final S service = localService;
     public final Q queryService = localQueryService;
     public final AM advanceMapper = localAdvanceMapper;
-    public final AR advanceRepository = localAdvanceRepository;
-    public final AS advanceSearch = localAdvanceSearch;
+    public final AR advanceRepository = localRepository;
+    public final AS advanceSearch = localSearch;
   }
 }

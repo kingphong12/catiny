@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+  <changeSet id="20210718095352-1-data" author="jhipster" context="faker">
+    <loadUpdateData
+      file="config/liquibase/data/permission.csv"
+      separator=";"
+      tableName="permission"
+      primaryKey="id">
+      <column name="id" type="numeric"/>
+      <column name="uuid" type="string"/>
+      <column name="jhi_read" type="boolean"/>
+      <column name="jhi_write" type="boolean"/>
+      <column name="share" type="boolean"/>
+      <column name="jhi_delete" type="boolean"/>
+      <column name="jhi_add" type="boolean"/>
+      <column name="level" type="numeric"/>
+      <column name="base_info_id" type="numeric"/>
+      <column name="master_user_id" type="numeric"/>
+      <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+    </loadUpdateData>
+  </changeSet>
+</databaseChangeLog>

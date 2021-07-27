@@ -13,13 +13,15 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 catiny:
+  permission:
+    need-check: true
   value:
     number-of-cities: 0 # mặc định là không import và tối đa 63 thành phố
   server:
     main:
       host: dev.catiny.com
-#      # sử dụng docker up db , es , redis ... ở máy local
-#      host: localhost
+      #      # sử dụng docker up db , es , redis ... ở máy local
+      #      host: localhost
       # là "" hoặc từ 1-5
       prefix-port: 1
       connect-default: ${catiny.server.main.host}:${catiny.server.main.prefix-port}

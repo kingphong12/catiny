@@ -297,7 +297,9 @@ public class GenerateEntityAdvanceUtils
     final String entityAdvanceOutput = entityName + "AdvanceMapper";
     final String packageModel = BASE_PACKAGE + ".advance.controller.model";
 
-    var javadoc = "";
+    var javadoc = "this is a custom mapper for each entity .\n" +
+      "this mapper extend from Jhipster mapper  \n" +
+      "( d=dto, e=entity , m=model and To=2 ) --> ( dtoToEntity = d2e , modelToDto = m2d ).";
 
     var advanceMapper = TypeSpec.interfaceBuilder(entityAdvanceOutput)
       .addModifiers(Modifier.PUBLIC)
@@ -311,83 +313,24 @@ public class GenerateEntityAdvanceUtils
           ClassName.get(packageModel, entityName + "Model"),
           ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"),
           ClassName.get(BASE_PACKAGE + ".domain", entityName)))
-//    EntityMapper baseMapper=new EntityMapperImpl()
-      .addField(FieldSpec.builder(ClassName.get(packageInput, entityName + "Mapper"), "baseMapper", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-        .initializer("new $T()", ClassName.get(packageInput, entityName + "MapperImpl")).build())
-//    EntityAdvanceMapper thisMapper=new EntityAdvanceMapperImpl()
-      .addField(FieldSpec.builder(ClassName.get(packageAdvanceOutput, entityName + "AdvanceMapper"), "thisMapper", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-        .initializer("new $T()", ClassName.get(packageAdvanceOutput, entityName + "AdvanceMapperImpl")).build())
-//    EntityDTO requestToDto(EntityModel.Request request)
+//    EntityDTO request2d(EntityModel.Request request)
       .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
         .addParameter(ParameterSpec.builder(ClassName.get(packageModel, entityName + "Model").nestedClass("Request"), "request").build())
         .returns(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")).build())
-//    List<EntityDTO> requestToDto(List<EntityModel.Request> request)
+//    List<EntityDTO> request2d(List<EntityModel.Request> request)
       .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
         .addParameter(ParameterSpec.builder(
           ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Request")), "request").build())
         .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"))).build())
-//    EntityModel.Response requestToDto(EntityDTO dto)
+//    EntityModel.Response d2Response(EntityDTO dto)
       .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
         .addParameter(ParameterSpec.builder(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"), "dto").build())
         .returns(ClassName.get(packageModel, entityName + "Model").nestedClass("Response")).build())
-//    List<EntityModel.Response> requestToDto(List<EntityDTO> dto)
+//    List<EntityModel.Response> d2Response(List<EntityDTO> dto)
       .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
         .addParameter(ParameterSpec.builder(
           ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")), "dto").build())
-        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Response"))).build())
-//    @Override
-//    default AlbumModel e2m(Album entity)
-//    {
-//      return thisMapper.d2m(baseMapper.toDto(entity));
-//    }
-// tương tự bên dưới cũng thế
-      .addMethod(MethodSpec.methodBuilder("e2m").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
-        .addAnnotation(Override.class)
-        .addParameter(ParameterSpec.builder(ClassName.get(DOMAIN_PACKAGE, entityName), "entity").build())
-        .returns(ClassName.get(packageModel, entityName + "Model"))
-        .addStatement("return thisMapper.d2m(baseMapper.toDto(entity))")
-        .build())
-//    default List<AlbumModel> e2m(List<Album> entityList)
-      .addMethod(MethodSpec.methodBuilder("e2m").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
-        .addAnnotation(Override.class)
-        .addParameter(ParameterSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class),
-          ClassName.get(DOMAIN_PACKAGE, entityName)), "entityList").build())
-        .returns(ParameterizedTypeName.get(
-          ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model")))
-        .addStatement("return thisMapper.d2m(baseMapper.toDto(entityList))")
-        .build())
-//    default Album d2e(AlbumDTO entityList)
-      .addMethod(MethodSpec.methodBuilder("d2e").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
-        .addAnnotation(Override.class)
-        .addParameter(ParameterSpec.builder(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"), "dto").build())
-        .returns(ClassName.get(DOMAIN_PACKAGE, entityName))
-        .addStatement("return baseMapper.toEntity(dto)")
-        .build())
-//    default List<Album> d2e(List<AlbumDTO> entityList)
-      .addMethod(MethodSpec.methodBuilder("d2e").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
-        .addAnnotation(Override.class)
-        .addParameter(ParameterSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class),
-          ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")), "dtoList").build())
-        .returns(ParameterizedTypeName.get(ClassName.get(List.class),
-          ClassName.get(DOMAIN_PACKAGE, entityName)))
-        .addStatement("return baseMapper.toEntity(dtoList)")
-        .build())
-//    default Album e2d(AlbumDTO entityList)
-      .addMethod(MethodSpec.methodBuilder("e2d").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
-        .addAnnotation(Override.class)
-        .addParameter(ParameterSpec.builder(ClassName.get(DOMAIN_PACKAGE, entityName), "entity").build())
-        .returns(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"))
-        .addStatement("return baseMapper.toDto(entity)")
-        .build())
-//    default List<AlbumDTO> e2d(List<Album> entityList)
-      .addMethod(MethodSpec.methodBuilder("e2d").addModifiers(Modifier.PUBLIC, Modifier.DEFAULT)
-        .addAnnotation(Override.class)
-        .addParameter(ParameterSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class),
-          ClassName.get(DOMAIN_PACKAGE, entityName)), "entityList").build())
-        .returns(ParameterizedTypeName.get(ClassName.get(List.class),
-          ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")))
-        .addStatement("return baseMapper.toDto(entityList)")
-        .build());
+        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Response"))).build());
 
     var javaFile = JavaFile.builder(packageAdvanceOutput, advanceMapper.build()).build();
     log.debug("...Mapper after generated : \n {}", javaFile.toString());

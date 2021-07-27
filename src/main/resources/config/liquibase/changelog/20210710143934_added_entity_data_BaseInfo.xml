@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+  <changeSet id="20210710143934-2-data" author="yuvytung">
+    <loadUpdateData
+      file="config/liquibase/data/base_info.csv"
+      separator=";"
+      tableName="base_info"
+      primaryKey="id">
+      <column name="id" type="numeric"/>
+      <column name="uuid" type="string"/>
+      <column name="process_status" type="string"/>
+      <column name="modified_class" type="string"/>
+      <column name="created_date" type="${datetimeType}"/>
+      <column name="modified_date" type="${datetimeType}"/>
+      <column name="notes" type="clob"/>
+      <column name="deleted" type="boolean"/>
+      <column name="priority_index" type="numeric"/>
+      <column name="count_use" type="numeric"/>
+      <column name="owner_id" type="numeric"/>
+      <column name="class_info_id" type="numeric"/>
+      <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+    </loadUpdateData>
+  </changeSet>
+</databaseChangeLog>

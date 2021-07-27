@@ -54,7 +54,7 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
 
   public Option<MasterUser> getAnonymousMasterUser()
   {
-    return masterUserAdvanceRepository.findById(0L)
+    return masterUserAdvanceRepository.findById(100L)
       .map(Option::of)
       .orElseGet(() ->
       {
@@ -90,25 +90,29 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
               .version(0)
               .content(null));
 
+          var baseInfo = baseInfoAdvanceRepository
+            .save(new BaseInfo()
+              .processStatus(ProcessStatus.NOT_PROCESSED)
+              .createdDate(now)
+              .modifiedDate(now)
+              .addPermission(permission)
+              .priorityIndex(0L)
+              .countUse(0L)
+              .addHistoryUpdate(historyUpdate));
+
           var masterUser = masterUserAdvanceRepository
             .save(new MasterUser()
               .fullName(user.getLastName() + StringPool.SPACE + user.getFirstName())
               .user(user)
               .addPermission(permission));
 
-          var baseInfo = baseInfoAdvanceRepository
-            .save(new BaseInfo()
-              .processStatus(ProcessStatus.NOT_PROCESSED)
-              .createdDate(now)
-              .modifiedDate(now)
-              .owner(masterUser)
-              .addPermission(permission)
-              .createdBy(masterUser)
-              .modifiedBy(masterUser)
-              .priorityIndex(0L)
-              .countUse(0L)
-              .addHistoryUpdate(historyUpdate));
-          return Option.of(masterUserAdvanceRepository.save(masterUser.baseInfo(baseInfo)));
+          baseInfoAdvanceRepository.save(baseInfo
+            .owner(masterUser)
+            .createdBy(masterUser)
+            .modifiedBy(masterUser));
+
+
+          return Option.of(masterUser);
         }))
       .getOrElse(() ->
       {

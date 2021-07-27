@@ -1,8 +1,11 @@
 package com.regitiny.catiny.advance.repository.base;
 
 import com.regitiny.catiny.advance.repository.CommonRepository;
+import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.repository.PermissionRepository;
+import io.vavr.control.Option;
 
 /**
  * Spring Data SQL repository for the {@link Permission} entity.
@@ -13,4 +16,5 @@ import com.regitiny.catiny.repository.PermissionRepository;
  */
 public interface PermissionBaseRepository extends BaseRepository<Permission>, CommonRepository<Permission>, PermissionRepository
 {
+  Option<Permission> findOneByBaseInfoAndMasterUser(BaseInfo baseInfo, MasterUser masterUser);
 }

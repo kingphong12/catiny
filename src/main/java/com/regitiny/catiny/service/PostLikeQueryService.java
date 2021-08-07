@@ -99,20 +99,18 @@ public class PostLikeQueryService extends QueryService<PostLike> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), PostLike_.uuid));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(PostLike_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(PostLike_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
       if (criteria.getPostId() != null) {
         specification =
           specification.and(buildSpecification(criteria.getPostId(), root -> root.join(PostLike_.post, JoinType.LEFT).get(Post_.id)));
       }
-      if (criteria.getPostCommentId() != null) {
+      if (criteria.getCommentId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getPostCommentId(), root -> root.join(PostLike_.postComment, JoinType.LEFT).get(PostComment_.id))
+            buildSpecification(criteria.getCommentId(), root -> root.join(PostLike_.comment, JoinType.LEFT).get(PostComment_.id))
           );
       }
     }

@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, VideoStreamMapper.class })
 @GeneratedByJHipster
 public interface VideoLiveStreamBufferMapper extends EntityMapper<VideoLiveStreamBufferDTO, VideoLiveStreamBuffer> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   @Mapping(target = "videoStream", source = "videoStream", qualifiedByName = "id")
   VideoLiveStreamBufferDTO toDto(VideoLiveStreamBuffer s);
 }

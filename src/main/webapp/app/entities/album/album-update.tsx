@@ -50,7 +50,7 @@ export const AlbumUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ...albumEntity,
       ...values,
       images: mapIdList(values.images),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -65,7 +65,7 @@ export const AlbumUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...albumEntity,
-          baseInfoId: albumEntity?.baseInfo?.id,
+          infoId: albumEntity?.info?.id,
           images: albumEntity?.images?.map(e => e.id.toString()),
         };
 
@@ -134,13 +134,7 @@ export const AlbumUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <UncontrolledTooltip target="avatarLabel">
                 <Translate contentKey="catinyApp.album.help.avatar" />
               </UncontrolledTooltip>
-              <ValidatedField
-                id="album-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.album.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="album-info" name="infoId" data-cy="info" label={translate('catinyApp.album.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

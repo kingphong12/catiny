@@ -24,8 +24,9 @@
       "avatar": "Avatar",
       "quickInfo": "Quick Info",
       "profile": "Profile",
-      "baseInfo": "Base Info",
-      "myPostInPage": "My Post In Page",
+      "info": "Info",
+      "post": "Post",
+      "followed": "Followed",
       "topicInterest": "Topic Interest",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)",

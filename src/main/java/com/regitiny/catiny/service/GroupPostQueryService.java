@@ -108,16 +108,18 @@ public class GroupPostQueryService extends QueryService<GroupPost> {
             buildSpecification(criteria.getProfileId(), root -> root.join(GroupPost_.profile, JoinType.LEFT).get(GroupProfile_.id))
           );
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(GroupPost_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(GroupPost_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
-      if (criteria.getMyPostInGroupId() != null) {
+      if (criteria.getPostId() != null) {
+        specification =
+          specification.and(buildSpecification(criteria.getPostId(), root -> root.join(GroupPost_.posts, JoinType.LEFT).get(Post_.id)));
+      }
+      if (criteria.getFollowedId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getMyPostInGroupId(), root -> root.join(GroupPost_.myPostInGroups, JoinType.LEFT).get(Post_.id))
+            buildSpecification(criteria.getFollowedId(), root -> root.join(GroupPost_.followeds, JoinType.LEFT).get(FollowGroup_.id))
           );
       }
       if (criteria.getTopicInterestId() != null) {

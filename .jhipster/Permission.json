@@ -5,10 +5,7 @@
       "fieldName": "uuid",
       "fieldType": "UUID",
       "javadoc": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)",
-      "fieldValidateRules": [
-        "required",
-        "unique"
-      ]
+      "fieldValidateRules": ["required", "unique"]
     },
     {
       "fieldName": "read",
@@ -52,7 +49,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "masterUser",
       "otherEntityRelationshipName": "permission",
-      "relationshipName": "masterUser"
+      "relationshipName": "owner"
     }
   ],
   "entityTableName": "permission",

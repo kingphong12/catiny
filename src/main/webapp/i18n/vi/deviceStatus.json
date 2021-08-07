@@ -25,7 +25,7 @@
       "deviceStatus": "Device Status",
       "lastVisited": "Last Visited",
       "statusComment": "Status Comment",
-      "baseInfo": "Base Info",
+      "info": "Info",
       "accountStatus": "Account Status",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)",

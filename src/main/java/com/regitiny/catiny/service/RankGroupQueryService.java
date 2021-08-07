@@ -99,11 +99,9 @@ public class RankGroupQueryService extends QueryService<RankGroup> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), RankGroup_.uuid));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(RankGroup_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(RankGroup_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
       if (criteria.getRankUserId() != null) {
         specification =

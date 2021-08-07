@@ -415,21 +415,21 @@ class PostResourceIT {
 
   @Test
   @Transactional
-  void getAllPostsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllPostsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    post.setBaseInfo(baseInfo);
+    post.setInfo(info);
     postRepository.saveAndFlush(post);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the postList where baseInfo equals to baseInfoId
-    defaultPostShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the postList where info equals to infoId
+    defaultPostShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the postList where baseInfo equals to (baseInfoId + 1)
-    defaultPostShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the postList where info equals to (infoId + 1)
+    defaultPostShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
@@ -472,78 +472,78 @@ class PostResourceIT {
 
   @Test
   @Transactional
-  void getAllPostsByPostShareChildrenIsEqualToSomething() throws Exception {
+  void getAllPostsByChildrenIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    Post postShareChildren = PostResourceIT.createEntity(em);
-    em.persist(postShareChildren);
+    Post children = PostResourceIT.createEntity(em);
+    em.persist(children);
     em.flush();
-    post.addPostShareChildren(postShareChildren);
+    post.addChildren(children);
     postRepository.saveAndFlush(post);
-    Long postShareChildrenId = postShareChildren.getId();
+    Long childrenId = children.getId();
 
-    // Get all the postList where postShareChildren equals to postShareChildrenId
-    defaultPostShouldBeFound("postShareChildrenId.equals=" + postShareChildrenId);
+    // Get all the postList where children equals to childrenId
+    defaultPostShouldBeFound("childrenId.equals=" + childrenId);
 
-    // Get all the postList where postShareChildren equals to (postShareChildrenId + 1)
-    defaultPostShouldNotBeFound("postShareChildrenId.equals=" + (postShareChildrenId + 1));
+    // Get all the postList where children equals to (childrenId + 1)
+    defaultPostShouldNotBeFound("childrenId.equals=" + (childrenId + 1));
   }
 
   @Test
   @Transactional
-  void getAllPostsByGroupPostIsEqualToSomething() throws Exception {
+  void getAllPostsByGroupIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    GroupPost groupPost = GroupPostResourceIT.createEntity(em);
-    em.persist(groupPost);
+    GroupPost group = GroupPostResourceIT.createEntity(em);
+    em.persist(group);
     em.flush();
-    post.setGroupPost(groupPost);
+    post.setGroup(group);
     postRepository.saveAndFlush(post);
-    Long groupPostId = groupPost.getId();
+    Long groupId = group.getId();
 
-    // Get all the postList where groupPost equals to groupPostId
-    defaultPostShouldBeFound("groupPostId.equals=" + groupPostId);
+    // Get all the postList where group equals to groupId
+    defaultPostShouldBeFound("groupId.equals=" + groupId);
 
-    // Get all the postList where groupPost equals to (groupPostId + 1)
-    defaultPostShouldNotBeFound("groupPostId.equals=" + (groupPostId + 1));
+    // Get all the postList where group equals to (groupId + 1)
+    defaultPostShouldNotBeFound("groupId.equals=" + (groupId + 1));
   }
 
   @Test
   @Transactional
-  void getAllPostsByPagePostIsEqualToSomething() throws Exception {
+  void getAllPostsByPageIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    PagePost pagePost = PagePostResourceIT.createEntity(em);
-    em.persist(pagePost);
+    PagePost page = PagePostResourceIT.createEntity(em);
+    em.persist(page);
     em.flush();
-    post.setPagePost(pagePost);
+    post.setPage(page);
     postRepository.saveAndFlush(post);
-    Long pagePostId = pagePost.getId();
+    Long pageId = page.getId();
 
-    // Get all the postList where pagePost equals to pagePostId
-    defaultPostShouldBeFound("pagePostId.equals=" + pagePostId);
+    // Get all the postList where page equals to pageId
+    defaultPostShouldBeFound("pageId.equals=" + pageId);
 
-    // Get all the postList where pagePost equals to (pagePostId + 1)
-    defaultPostShouldNotBeFound("pagePostId.equals=" + (pagePostId + 1));
+    // Get all the postList where page equals to (pageId + 1)
+    defaultPostShouldNotBeFound("pageId.equals=" + (pageId + 1));
   }
 
   @Test
   @Transactional
-  void getAllPostsByPostShareParentIsEqualToSomething() throws Exception {
+  void getAllPostsByParentIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    Post postShareParent = PostResourceIT.createEntity(em);
-    em.persist(postShareParent);
+    Post parent = PostResourceIT.createEntity(em);
+    em.persist(parent);
     em.flush();
-    post.setPostShareParent(postShareParent);
+    post.setParent(parent);
     postRepository.saveAndFlush(post);
-    Long postShareParentId = postShareParent.getId();
+    Long parentId = parent.getId();
 
-    // Get all the postList where postShareParent equals to postShareParentId
-    defaultPostShouldBeFound("postShareParentId.equals=" + postShareParentId);
+    // Get all the postList where parent equals to parentId
+    defaultPostShouldBeFound("parentId.equals=" + parentId);
 
-    // Get all the postList where postShareParent equals to (postShareParentId + 1)
-    defaultPostShouldNotBeFound("postShareParentId.equals=" + (postShareParentId + 1));
+    // Get all the postList where parent equals to (parentId + 1)
+    defaultPostShouldNotBeFound("parentId.equals=" + (parentId + 1));
   }
 
   @Test

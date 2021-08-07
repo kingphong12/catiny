@@ -268,21 +268,21 @@ class RankGroupResourceIT {
 
   @Test
   @Transactional
-  void getAllRankGroupsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllRankGroupsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     rankGroupRepository.saveAndFlush(rankGroup);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    rankGroup.setBaseInfo(baseInfo);
+    rankGroup.setInfo(info);
     rankGroupRepository.saveAndFlush(rankGroup);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the rankGroupList where baseInfo equals to baseInfoId
-    defaultRankGroupShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the rankGroupList where info equals to infoId
+    defaultRankGroupShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the rankGroupList where baseInfo equals to (baseInfoId + 1)
-    defaultRankGroupShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the rankGroupList where info equals to (infoId + 1)
+    defaultRankGroupShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

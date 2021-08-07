@@ -58,20 +58,20 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "image",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "image",
-      "otherEntityRelationshipName": "imageOriginal",
-      "relationshipName": "imageProcessed"
+      "otherEntityRelationshipName": "original",
+      "relationshipName": "processed"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "image",
-      "otherEntityRelationshipName": "imageProcessed",
-      "relationshipName": "imageOriginal"
+      "otherEntityRelationshipName": "processed",
+      "relationshipName": "original"
     },
     {
       "relationshipType": "many-to-many",

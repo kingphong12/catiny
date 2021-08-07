@@ -45,13 +45,13 @@ export const FriendDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{friendEntity.friendType}</dd>
           <dt>
-            <Translate contentKey="catinyApp.friend.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.friend.info">Info</Translate>
           </dt>
-          <dd>{friendEntity.baseInfo ? friendEntity.baseInfo.id : ''}</dd>
+          <dd>{friendEntity.info ? friendEntity.info.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.friend.friendDetails">Friend Details</Translate>
+            <Translate contentKey="catinyApp.friend.friend">Friend</Translate>
           </dt>
-          <dd>{friendEntity.friendDetails ? friendEntity.friendDetails.id : ''}</dd>
+          <dd>{friendEntity.friend ? friendEntity.friend.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/friend" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -1,16 +1,31 @@
 package com.regitiny.catiny.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
 import com.regitiny.catiny.domain.ClassInfo;
 import com.regitiny.catiny.repository.ClassInfoRepository;
 import com.regitiny.catiny.repository.search.ClassInfoSearchRepository;
+import com.regitiny.catiny.service.criteria.ClassInfoCriteria;
 import com.regitiny.catiny.service.dto.ClassInfoDTO;
 import com.regitiny.catiny.service.mapper.ClassInfoMapper;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,20 +36,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Integration tests for the {@link ClassInfoResource} REST controller.
  */
@@ -43,8 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 @GeneratedByJHipster
-class ClassInfoResourceIT
-{
+class ClassInfoResourceIT {
 
   private static final UUID DEFAULT_UUID = UUID.randomUUID();
   private static final UUID UPDATED_UUID = UUID.randomUUID();
@@ -62,8 +62,8 @@ class ClassInfoResourceIT
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/class-infos";
 
-  private static final Random random = new Random();
-  private static final AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+  private static Random random = new Random();
+  private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
   @Autowired
   private ClassInfoRepository classInfoRepository;
@@ -311,8 +311,7 @@ class ClassInfoResourceIT
 
   @Test
   @Transactional
-  void getAllClassInfosByNamePackageIsEqualToSomething() throws Exception
-  {
+  void getAllClassInfosByNamePackageIsEqualToSomething() throws Exception {
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
 
@@ -325,8 +324,7 @@ class ClassInfoResourceIT
 
   @Test
   @Transactional
-  void getAllClassInfosByNamePackageIsNotEqualToSomething() throws Exception
-  {
+  void getAllClassInfosByNamePackageIsNotEqualToSomething() throws Exception {
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
 
@@ -339,8 +337,7 @@ class ClassInfoResourceIT
 
   @Test
   @Transactional
-  void getAllClassInfosByNamePackageIsInShouldWork() throws Exception
-  {
+  void getAllClassInfosByNamePackageIsInShouldWork() throws Exception {
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
 
@@ -353,8 +350,7 @@ class ClassInfoResourceIT
 
   @Test
   @Transactional
-  void getAllClassInfosByNamePackageIsNullOrNotNull() throws Exception
-  {
+  void getAllClassInfosByNamePackageIsNullOrNotNull() throws Exception {
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
 
@@ -367,8 +363,7 @@ class ClassInfoResourceIT
 
   @Test
   @Transactional
-  void getAllClassInfosByNamePackageContainsSomething() throws Exception
-  {
+  void getAllClassInfosByNamePackageContainsSomething() throws Exception {
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
 
@@ -381,8 +376,7 @@ class ClassInfoResourceIT
 
   @Test
   @Transactional
-  void getAllClassInfosByNamePackageNotContainsSomething() throws Exception
-  {
+  void getAllClassInfosByNamePackageNotContainsSomething() throws Exception {
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
 

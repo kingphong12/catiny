@@ -379,21 +379,21 @@ class NewsFeedResourceIT {
 
   @Test
   @Transactional
-  void getAllNewsFeedsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllNewsFeedsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     newsFeedRepository.saveAndFlush(newsFeed);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    newsFeed.setBaseInfo(baseInfo);
+    newsFeed.setInfo(info);
     newsFeedRepository.saveAndFlush(newsFeed);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the newsFeedList where baseInfo equals to baseInfoId
-    defaultNewsFeedShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the newsFeedList where info equals to infoId
+    defaultNewsFeedShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the newsFeedList where baseInfo equals to (baseInfoId + 1)
-    defaultNewsFeedShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the newsFeedList where info equals to (infoId + 1)
+    defaultNewsFeedShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

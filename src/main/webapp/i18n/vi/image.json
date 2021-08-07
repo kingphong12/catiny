@@ -28,9 +28,9 @@
       "priorityIndex": "Priority Index",
       "dataSize": "Data Size",
       "fileInfo": "File Info",
-      "baseInfo": "Base Info",
-      "imageProcessed": "Image Processed",
-      "imageOriginal": "Image Original",
+      "info": "Info",
+      "processed": "Processed",
+      "original": "Original",
       "album": "Album",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)",

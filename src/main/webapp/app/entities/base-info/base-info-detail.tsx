@@ -1,19 +1,17 @@
-import React, {useEffect} from 'react';
-import {Link, RouteComponentProps} from 'react-router-dom';
-import {Button, Col, Row, UncontrolledTooltip} from 'reactstrap';
-import {TextFormat, Translate} from 'react-jhipster';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import React, { useEffect } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Button, UncontrolledTooltip, Row, Col } from 'reactstrap';
+import { Translate, byteSize, TextFormat } from 'react-jhipster';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import {getEntity} from './base-info.reducer';
-import {APP_DATE_FORMAT} from 'app/config/constants';
-import {useAppDispatch, useAppSelector} from 'app/config/store';
+import { getEntity } from './base-info.reducer';
+import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const BaseInfoDetail = (props: RouteComponentProps<{ id: string }>) =>
-{
+export const BaseInfoDetail = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     dispatch(getEntity(props.match.params.id));
   }, []);
 
@@ -21,31 +19,31 @@ export const BaseInfoDetail = (props: RouteComponentProps<{ id: string }>) =>
   return (
     <Row>
       <Col md="8">
-        <h2 data-cy='baseInfoDetailsHeading'>
-          <Translate contentKey='catinyApp.baseInfo.detail.title'>BaseInfo</Translate>
+        <h2 data-cy="baseInfoDetailsHeading">
+          <Translate contentKey="catinyApp.baseInfo.detail.title">BaseInfo</Translate>
         </h2>
-        <dl className='jh-entity-details'>
+        <dl className="jh-entity-details">
           <dt>
-            <span id='id'>
-              <Translate contentKey='global.field.id'>ID</Translate>
+            <span id="id">
+              <Translate contentKey="global.field.id">ID</Translate>
             </span>
           </dt>
           <dd>{baseInfoEntity.id}</dd>
           <dt>
-            <span id='uuid'>
-              <Translate contentKey='catinyApp.baseInfo.uuid'>Uuid</Translate>
+            <span id="uuid">
+              <Translate contentKey="catinyApp.baseInfo.uuid">Uuid</Translate>
             </span>
-            <UncontrolledTooltip target='uuid'>
-              <Translate contentKey='catinyApp.baseInfo.help.uuid' />
+            <UncontrolledTooltip target="uuid">
+              <Translate contentKey="catinyApp.baseInfo.help.uuid" />
             </UncontrolledTooltip>
           </dt>
           <dd>{baseInfoEntity.uuid}</dd>
           <dt>
-            <span id='processStatus'>
-              <Translate contentKey='catinyApp.baseInfo.processStatus'>Process Status</Translate>
+            <span id="processStatus">
+              <Translate contentKey="catinyApp.baseInfo.processStatus">Process Status</Translate>
             </span>
-            <UncontrolledTooltip target='processStatus'>
-              <Translate contentKey='catinyApp.baseInfo.help.processStatus' />
+            <UncontrolledTooltip target="processStatus">
+              <Translate contentKey="catinyApp.baseInfo.help.processStatus" />
             </UncontrolledTooltip>
           </dt>
           <dd>{baseInfoEntity.processStatus}</dd>
@@ -117,10 +115,6 @@ export const BaseInfoDetail = (props: RouteComponentProps<{ id: string }>) =>
           </dt>
           <dd>{baseInfoEntity.countUse}</dd>
           <dt>
-            <Translate contentKey="catinyApp.baseInfo.classInfo">Class Info</Translate>
-          </dt>
-          <dd>{baseInfoEntity.classInfo ? baseInfoEntity.classInfo.id : ''}</dd>
-          <dt>
             <Translate contentKey="catinyApp.baseInfo.createdBy">Created By</Translate>
           </dt>
           <dd>{baseInfoEntity.createdBy ? baseInfoEntity.createdBy.id : ''}</dd>
@@ -132,6 +126,10 @@ export const BaseInfoDetail = (props: RouteComponentProps<{ id: string }>) =>
             <Translate contentKey="catinyApp.baseInfo.owner">Owner</Translate>
           </dt>
           <dd>{baseInfoEntity.owner ? baseInfoEntity.owner.id : ''}</dd>
+          <dt>
+            <Translate contentKey="catinyApp.baseInfo.classInfo">Class Info</Translate>
+          </dt>
+          <dd>{baseInfoEntity.classInfo ? baseInfoEntity.classInfo.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/base-info" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

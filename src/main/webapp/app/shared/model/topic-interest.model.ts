@@ -9,7 +9,7 @@ export interface ITopicInterest {
   uuid?: string;
   title?: string | null;
   content?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   posts?: IPost[] | null;
   pagePosts?: IPagePost[] | null;
   groupPosts?: IGroupPost[] | null;

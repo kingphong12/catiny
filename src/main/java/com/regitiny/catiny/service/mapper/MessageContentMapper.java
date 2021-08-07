@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, MessageGroupMapper.class })
 @GeneratedByJHipster
 public interface MessageContentMapper extends EntityMapper<MessageContentDTO, MessageContent> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "messageGroup", source = "messageGroup", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
+  @Mapping(target = "group", source = "group", qualifiedByName = "id")
   MessageContentDTO toDto(MessageContent s);
 }

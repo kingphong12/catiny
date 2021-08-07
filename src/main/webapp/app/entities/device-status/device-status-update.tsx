@@ -51,7 +51,7 @@ export const DeviceStatusUpdate = (props: RouteComponentProps<{ id: string }>) =
     const entity = {
       ...deviceStatusEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
       accountStatus: accountStatuses.find(it => it.id.toString() === values.accountStatusId.toString()),
     };
 
@@ -72,7 +72,7 @@ export const DeviceStatusUpdate = (props: RouteComponentProps<{ id: string }>) =
           deviceType: 'MOBILE',
           deviceStatus: 'ONLINE',
           lastVisited: convertDateTimeFromServer(deviceStatusEntity.lastVisited),
-          baseInfoId: deviceStatusEntity?.baseInfo?.id,
+          infoId: deviceStatusEntity?.info?.id,
           accountStatusId: deviceStatusEntity?.accountStatus?.id,
         };
 
@@ -177,10 +177,10 @@ export const DeviceStatusUpdate = (props: RouteComponentProps<{ id: string }>) =
                 <Translate contentKey="catinyApp.deviceStatus.help.statusComment" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="device-status-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.deviceStatus.baseInfo')}
+                id="device-status-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.deviceStatus.info')}
                 type="select"
               >
                 <option value="" key="0" />

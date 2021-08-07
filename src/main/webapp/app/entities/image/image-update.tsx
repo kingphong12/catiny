@@ -57,8 +57,8 @@ export const ImageUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ...imageEntity,
       ...values,
       fileInfo: fileInfos.find(it => it.id.toString() === values.fileInfoId.toString()),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      imageOriginal: images.find(it => it.id.toString() === values.imageOriginalId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      original: images.find(it => it.id.toString() === values.originalId.toString()),
     };
 
     if (isNew) {
@@ -74,8 +74,8 @@ export const ImageUpdate = (props: RouteComponentProps<{ id: string }>) => {
       : {
           ...imageEntity,
           fileInfoId: imageEntity?.fileInfo?.id,
-          baseInfoId: imageEntity?.baseInfo?.id,
-          imageOriginalId: imageEntity?.imageOriginal?.id,
+          infoId: imageEntity?.info?.id,
+          originalId: imageEntity?.original?.id,
         };
 
   return (
@@ -189,13 +189,7 @@ export const ImageUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                id="image-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.image.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="image-info" name="infoId" data-cy="info" label={translate('catinyApp.image.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (
@@ -206,10 +200,10 @@ export const ImageUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="image-imageOriginal"
-                name="imageOriginalId"
-                data-cy="imageOriginal"
-                label={translate('catinyApp.image.imageOriginal')}
+                id="image-original"
+                name="originalId"
+                data-cy="original"
+                label={translate('catinyApp.image.original')}
                 type="select"
               >
                 <option value="" key="0" />

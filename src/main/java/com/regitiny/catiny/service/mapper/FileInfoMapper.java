@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class })
 @GeneratedByJHipster
 public interface FileInfoMapper extends EntityMapper<FileInfoDTO, FileInfo> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   FileInfoDTO toDto(FileInfo s);
 
   @Named("id")

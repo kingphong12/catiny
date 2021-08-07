@@ -102,16 +102,20 @@ public class RankUserQueryService extends QueryService<RankUser> {
       if (criteria.getRatingPoints() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getRatingPoints(), RankUser_.ratingPoints));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(RankUser_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(RankUser_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
       if (criteria.getRankGroupId() != null) {
         specification =
           specification.and(
             buildSpecification(criteria.getRankGroupId(), root -> root.join(RankUser_.rankGroup, JoinType.LEFT).get(RankGroup_.id))
+          );
+      }
+      if (criteria.getOwnerId() != null) {
+        specification =
+          specification.and(
+            buildSpecification(criteria.getOwnerId(), root -> root.join(RankUser_.owner, JoinType.LEFT).get(MasterUser_.id))
           );
       }
     }

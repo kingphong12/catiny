@@ -1,14 +1,17 @@
 package com.regitiny.catiny.service.criteria;
 
 import com.regitiny.catiny.GeneratedByJHipster;
-import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.Filter;
-import tech.jhipster.service.filter.IntegerFilter;
-import tech.jhipster.service.filter.LongFilter;
-import tech.jhipster.service.filter.UUIDFilter;
-
 import java.io.Serializable;
 import java.util.Objects;
+import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
+import tech.jhipster.service.filter.DoubleFilter;
+import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.IntegerFilter;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.UUIDFilter;
 
 /**
  * Criteria class for the {@link com.regitiny.catiny.domain.HistoryUpdate} entity. This class is used
@@ -20,8 +23,7 @@ import java.util.Objects;
  * fix type specific filters.
  */
 @GeneratedByJHipster
-public class HistoryUpdateCriteria implements Serializable, Criteria
-{
+public class HistoryUpdateCriteria implements Serializable, Criteria {
 
   private static final long serialVersionUID = 1L;
 
@@ -33,12 +35,9 @@ public class HistoryUpdateCriteria implements Serializable, Criteria
 
   private LongFilter baseInfoId;
 
-  public HistoryUpdateCriteria()
-  {
-  }
+  public HistoryUpdateCriteria() {}
 
-  public HistoryUpdateCriteria(HistoryUpdateCriteria other)
-  {
+  public HistoryUpdateCriteria(HistoryUpdateCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.version = other.version == null ? null : other.version.copy();
@@ -46,122 +45,100 @@ public class HistoryUpdateCriteria implements Serializable, Criteria
   }
 
   @Override
-  public HistoryUpdateCriteria copy()
-  {
+  public HistoryUpdateCriteria copy() {
     return new HistoryUpdateCriteria(this);
   }
 
-  public LongFilter getId()
-  {
+  public LongFilter getId() {
     return id;
   }
 
-  public void setId(LongFilter id)
-  {
-    this.id = id;
-  }
-
-  public LongFilter id()
-  {
-    if (id == null)
-    {
+  public LongFilter id() {
+    if (id == null) {
       id = new LongFilter();
     }
     return id;
   }
 
-  public UUIDFilter getUuid()
-  {
+  public void setId(LongFilter id) {
+    this.id = id;
+  }
+
+  public UUIDFilter getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUIDFilter uuid)
-  {
-    this.uuid = uuid;
-  }
-
-  public UUIDFilter uuid()
-  {
-    if (uuid == null)
-    {
+  public UUIDFilter uuid() {
+    if (uuid == null) {
       uuid = new UUIDFilter();
     }
     return uuid;
   }
 
-  public IntegerFilter getVersion()
-  {
+  public void setUuid(UUIDFilter uuid) {
+    this.uuid = uuid;
+  }
+
+  public IntegerFilter getVersion() {
     return version;
   }
 
-  public void setVersion(IntegerFilter version)
-  {
-    this.version = version;
-  }
-
-  public IntegerFilter version()
-  {
-    if (version == null)
-    {
+  public IntegerFilter version() {
+    if (version == null) {
       version = new IntegerFilter();
     }
     return version;
   }
 
-  public LongFilter getBaseInfoId()
-  {
+  public void setVersion(IntegerFilter version) {
+    this.version = version;
+  }
+
+  public LongFilter getBaseInfoId() {
     return baseInfoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId)
-  {
-    this.baseInfoId = baseInfoId;
-  }
-
-  public LongFilter baseInfoId()
-  {
-    if (baseInfoId == null)
-    {
+  public LongFilter baseInfoId() {
+    if (baseInfoId == null) {
       baseInfoId = new LongFilter();
     }
     return baseInfoId;
   }
 
+  public void setBaseInfoId(LongFilter baseInfoId) {
+    this.baseInfoId = baseInfoId;
+  }
+
   @Override
-  public boolean equals(Object o)
-  {
-    if (this == o)
-    {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass())
-    {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
     final HistoryUpdateCriteria that = (HistoryUpdateCriteria) o;
     return (
       Objects.equals(id, that.id) &&
-        Objects.equals(uuid, that.uuid) &&
-        Objects.equals(version, that.version) &&
-        Objects.equals(baseInfoId, that.baseInfoId)
+      Objects.equals(uuid, that.uuid) &&
+      Objects.equals(version, that.version) &&
+      Objects.equals(baseInfoId, that.baseInfoId)
     );
   }
 
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return Objects.hash(id, uuid, version, baseInfoId);
   }
 
   // prettier-ignore
-  @Override
-  public String toString()
-  {
-    return "HistoryUpdateCriteria{" +
-      (id != null ? "id=" + id + ", " : "") +
-      (uuid != null ? "uuid=" + uuid + ", " : "") +
-      (version != null ? "version=" + version + ", " : "") +
-      (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-      "}";
-  }
+    @Override
+    public String toString() {
+        return "HistoryUpdateCriteria{" +
+            (id != null ? "id=" + id + ", " : "") +
+            (uuid != null ? "uuid=" + uuid + ", " : "") +
+            (version != null ? "version=" + version + ", " : "") +
+            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            "}";
+    }
 }

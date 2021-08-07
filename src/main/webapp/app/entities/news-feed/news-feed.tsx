@@ -198,7 +198,7 @@ export const NewsFeed = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.newsFeed.priorityIndex">Priority Index</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.newsFeed.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.newsFeed.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
                     <Translate contentKey="catinyApp.newsFeed.post">Post</Translate> <FontAwesomeIcon icon="sort" />
@@ -216,7 +216,7 @@ export const NewsFeed = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{newsFeed.uuid}</td>
                     <td>{newsFeed.priorityIndex}</td>
-                    <td>{newsFeed.baseInfo ? <Link to={`base-info/${newsFeed.baseInfo.id}`}>{newsFeed.baseInfo.id}</Link> : ''}</td>
+                    <td>{newsFeed.info ? <Link to={`base-info/${newsFeed.info.id}`}>{newsFeed.info.id}</Link> : ''}</td>
                     <td>{newsFeed.post ? <Link to={`post/${newsFeed.post.id}`}>{newsFeed.post.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">

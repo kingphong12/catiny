@@ -99,19 +99,14 @@ public class FollowUserQueryService extends QueryService<FollowUser> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), FollowUser_.uuid));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(FollowUser_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(FollowUser_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
-      if (criteria.getFollowUserDetailsId() != null) {
+      if (criteria.getFollowId() != null) {
         specification =
           specification.and(
-            buildSpecification(
-              criteria.getFollowUserDetailsId(),
-              root -> root.join(FollowUser_.followUserDetails, JoinType.LEFT).get(MasterUser_.id)
-            )
+            buildSpecification(criteria.getFollowId(), root -> root.join(FollowUser_.follow, JoinType.LEFT).get(MasterUser_.id))
           );
       }
     }

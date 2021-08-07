@@ -366,21 +366,21 @@ class UserProfileResourceIT {
 
   @Test
   @Transactional
-  void getAllUserProfilesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllUserProfilesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     userProfileRepository.saveAndFlush(userProfile);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    userProfile.setBaseInfo(baseInfo);
+    userProfile.setInfo(info);
     userProfileRepository.saveAndFlush(userProfile);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the userProfileList where baseInfo equals to baseInfoId
-    defaultUserProfileShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the userProfileList where info equals to infoId
+    defaultUserProfileShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the userProfileList where baseInfo equals to (baseInfoId + 1)
-    defaultUserProfileShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the userProfileList where info equals to (infoId + 1)
+    defaultUserProfileShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   /**

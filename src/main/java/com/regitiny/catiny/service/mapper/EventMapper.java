@@ -11,6 +11,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class })
 @GeneratedByJHipster
 public interface EventMapper extends EntityMapper<EventDTO, Event> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   EventDTO toDto(Event s);
 }

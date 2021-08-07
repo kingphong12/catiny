@@ -17,13 +17,13 @@
             <column name="uuid" type="${uuidType}" remarks="uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_post_like__uuid" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_post_like__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_post_like__info_id" />
             </column>
             <column name="post_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="post_comment_id" type="bigint">
+            <column name="comment_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

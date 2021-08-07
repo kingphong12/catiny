@@ -31,7 +31,7 @@ public class VideoStreamDTO implements Serializable {
 
   private VideoDTO video;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -57,12 +57,12 @@ public class VideoStreamDTO implements Serializable {
     this.video = video;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -93,7 +93,7 @@ public class VideoStreamDTO implements Serializable {
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
             ", video=" + getVideo() +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

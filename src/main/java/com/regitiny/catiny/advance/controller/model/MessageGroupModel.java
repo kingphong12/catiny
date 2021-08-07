@@ -37,7 +37,7 @@ public class MessageGroupModel implements Serializable
   @ApiModelProperty("addBy")
   private String addBy;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -64,7 +64,7 @@ public class MessageGroupModel implements Serializable
     @ApiModelProperty("addBy")
     private String addBy;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -92,6 +92,6 @@ public class MessageGroupModel implements Serializable
     @ApiModelProperty("addBy")
     private String addBy;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

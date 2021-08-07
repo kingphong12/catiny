@@ -277,21 +277,21 @@ class PostCommentResourceIT {
 
   @Test
   @Transactional
-  void getAllPostCommentsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllPostCommentsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    postComment.setBaseInfo(baseInfo);
+    postComment.setInfo(info);
     postCommentRepository.saveAndFlush(postComment);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the postCommentList where baseInfo equals to baseInfoId
-    defaultPostCommentShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the postCommentList where info equals to infoId
+    defaultPostCommentShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the postCommentList where baseInfo equals to (baseInfoId + 1)
-    defaultPostCommentShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the postCommentList where info equals to (infoId + 1)
+    defaultPostCommentShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
@@ -315,21 +315,21 @@ class PostCommentResourceIT {
 
   @Test
   @Transactional
-  void getAllPostCommentsByCommentReplyIsEqualToSomething() throws Exception {
+  void getAllPostCommentsByReplyIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    PostComment commentReply = PostCommentResourceIT.createEntity(em);
-    em.persist(commentReply);
+    PostComment reply = PostCommentResourceIT.createEntity(em);
+    em.persist(reply);
     em.flush();
-    postComment.addCommentReply(commentReply);
+    postComment.addReply(reply);
     postCommentRepository.saveAndFlush(postComment);
-    Long commentReplyId = commentReply.getId();
+    Long replyId = reply.getId();
 
-    // Get all the postCommentList where commentReply equals to commentReplyId
-    defaultPostCommentShouldBeFound("commentReplyId.equals=" + commentReplyId);
+    // Get all the postCommentList where reply equals to replyId
+    defaultPostCommentShouldBeFound("replyId.equals=" + replyId);
 
-    // Get all the postCommentList where commentReply equals to (commentReplyId + 1)
-    defaultPostCommentShouldNotBeFound("commentReplyId.equals=" + (commentReplyId + 1));
+    // Get all the postCommentList where reply equals to (replyId + 1)
+    defaultPostCommentShouldNotBeFound("replyId.equals=" + (replyId + 1));
   }
 
   @Test
@@ -353,21 +353,21 @@ class PostCommentResourceIT {
 
   @Test
   @Transactional
-  void getAllPostCommentsByCommentParentIsEqualToSomething() throws Exception {
+  void getAllPostCommentsByParentIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    PostComment commentParent = PostCommentResourceIT.createEntity(em);
-    em.persist(commentParent);
+    PostComment parent = PostCommentResourceIT.createEntity(em);
+    em.persist(parent);
     em.flush();
-    postComment.setCommentParent(commentParent);
+    postComment.setParent(parent);
     postCommentRepository.saveAndFlush(postComment);
-    Long commentParentId = commentParent.getId();
+    Long parentId = parent.getId();
 
-    // Get all the postCommentList where commentParent equals to commentParentId
-    defaultPostCommentShouldBeFound("commentParentId.equals=" + commentParentId);
+    // Get all the postCommentList where parent equals to parentId
+    defaultPostCommentShouldBeFound("parentId.equals=" + parentId);
 
-    // Get all the postCommentList where commentParent equals to (commentParentId + 1)
-    defaultPostCommentShouldNotBeFound("commentParentId.equals=" + (commentParentId + 1));
+    // Get all the postCommentList where parent equals to (parentId + 1)
+    defaultPostCommentShouldNotBeFound("parentId.equals=" + (parentId + 1));
   }
 
   /**

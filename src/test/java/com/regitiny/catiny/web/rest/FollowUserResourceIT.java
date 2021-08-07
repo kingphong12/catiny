@@ -268,40 +268,40 @@ class FollowUserResourceIT {
 
   @Test
   @Transactional
-  void getAllFollowUsersByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllFollowUsersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     followUserRepository.saveAndFlush(followUser);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    followUser.setBaseInfo(baseInfo);
+    followUser.setInfo(info);
     followUserRepository.saveAndFlush(followUser);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the followUserList where baseInfo equals to baseInfoId
-    defaultFollowUserShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the followUserList where info equals to infoId
+    defaultFollowUserShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the followUserList where baseInfo equals to (baseInfoId + 1)
-    defaultFollowUserShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the followUserList where info equals to (infoId + 1)
+    defaultFollowUserShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllFollowUsersByFollowUserDetailsIsEqualToSomething() throws Exception {
+  void getAllFollowUsersByFollowIsEqualToSomething() throws Exception {
     // Initialize the database
     followUserRepository.saveAndFlush(followUser);
-    MasterUser followUserDetails = MasterUserResourceIT.createEntity(em);
-    em.persist(followUserDetails);
+    MasterUser follow = MasterUserResourceIT.createEntity(em);
+    em.persist(follow);
     em.flush();
-    followUser.setFollowUserDetails(followUserDetails);
+    followUser.setFollow(follow);
     followUserRepository.saveAndFlush(followUser);
-    Long followUserDetailsId = followUserDetails.getId();
+    Long followId = follow.getId();
 
-    // Get all the followUserList where followUserDetails equals to followUserDetailsId
-    defaultFollowUserShouldBeFound("followUserDetailsId.equals=" + followUserDetailsId);
+    // Get all the followUserList where follow equals to followId
+    defaultFollowUserShouldBeFound("followId.equals=" + followId);
 
-    // Get all the followUserList where followUserDetails equals to (followUserDetailsId + 1)
-    defaultFollowUserShouldNotBeFound("followUserDetailsId.equals=" + (followUserDetailsId + 1));
+    // Get all the followUserList where follow equals to (followId + 1)
+    defaultFollowUserShouldNotBeFound("followId.equals=" + (followId + 1));
   }
 
   /**

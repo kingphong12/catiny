@@ -253,35 +253,35 @@
 	VideoStream  "video 0..1 " -- "videoStream 0..1 "  Video
 	Image  "fileInfo 0..1 " -- "0..1 "  FileInfo
 	Video  "fileInfo 0..1 " -- "0..1 "  FileInfo
-	FollowGroup  "followGroupDetails 0..* " o-- "0..1 "  GroupPost
-	FollowPage  "followPageDetails 0..* " o-- "0..1 "  PagePost
+	FollowGroup  "groupDetails 0..* " o-- "followed 0..1 "  GroupPost
+	FollowPage  "pageDetails 0..* " o-- "followed 0..1 "  PagePost
 	NewsFeed  "0..* " o-- "0..1 "  Post
 	RankUser  "0..* " o-- "0..1 "  RankGroup
 	AccountStatus  "0..1 " --o "0..* "  DeviceStatus
-	GroupPost  "myPostInGroup 0..1 " --o "0..* "  Post
-	PagePost  "myPostInPage 0..1 " --o "0..* "  Post
-	MessageGroup  "0..1 " --o "0..* "  MessageContent
-	Image  "imageProcessed 0..1 " --o "imageOriginal 0..* "  Image
-	Video  "videoProcessed 0..1 " --o "videoOriginal 0..* "  Video
-	Post  "comment 0..1 " --o "0..* "  PostComment
-	Post  "like 0..1 " --o "0..* "  PostLike
-	PostComment  "like 0..1 " --o "0..* "  PostLike
-	Post  "postShareChildren 0..1 " --o "postShareParent 0..* "  Post
-	PostComment  "commentReply 0..1 " --o "commentParent 0..* "  PostComment
+	GroupPost  "post 0..1 " --o "group 0..* "  Post
+	PagePost  "post 0..1 " --o "page 0..* "  Post
+	MessageGroup  "content 0..1 " --o "group 0..* "  MessageContent
+	Image  "processed 0..1 " --o "original 0..* "  Image
+	Video  "processed 0..1 " --o "original 0..* "  Video
+	Post  "comment 0..1 " --o "post 0..* "  PostComment
+	Post  "like 0..1 " --o "post 0..* "  PostLike
+	PostComment  "like 0..1 " --o "comment 0..* "  PostLike
+	Post  "children 0..1 " --o "parent 0..* "  Post
+	PostComment  "reply 0..1 " --o "parent 0..* "  PostComment
 	VideoStream  "0..1 " --o "0..* "  VideoLiveStreamBuffer
 	Album  "0..* " o--o "0..* "  Image
 	TopicInterest  "0..* " o--o "0..* "  Post
 	TopicInterest  "0..* " o--o "0..* "  PagePost
 	TopicInterest  "0..* " o--o "0..* "  GroupPost
-	MasterUser  "0..1 " -- "0..1 "  User
-	MasterUser  "myRank 0..1 " -- "0..1 "  RankUser
-	MasterUser  "myBaseInfoCreated 0..1 " --o "createdBy 0..* "  BaseInfo
-	MasterUser  "myBaseInfoModified 0..1 " --o "modifiedBy 0..* "  BaseInfo
-	MasterUser  "OwnerOf 0..1 " --o "owner 0..* "  BaseInfo
-	MasterUser  "0..1 " --o "0..* "  Permission
-	Friend  "friendDetails 0..* " o-- "0..1 "  MasterUser
-	FollowUser  "followUserDetails 0..* " o-- "0..1 "  MasterUser
 	MasterUser  "0..* " o--o "0..* "  TopicInterest
+	MasterUser  "0..1 " -- "0..1 "  User
+	MasterUser  "myRank 0..1 " -- "owner 0..1 "  RankUser
+	MasterUser  "permission 0..1 " --o "owner 0..* "  Permission
+	BaseInfo  "createdBy 0..* " o-- "0..1 "  MasterUser
+	BaseInfo  "modifiedBy 0..* " o-- "0..1 "  MasterUser
+	BaseInfo  "owner 0..* " o-- "owned 0..1 "  MasterUser
+	Friend  "friend 0..* " o-- "0..1 "  MasterUser
+	FollowUser  "follow 0..* " o-- "0..1 "  MasterUser
 	class BaseInfo <<Option {Paginate,Search,Filter,Dto,Service}>> {
 		UUID uuid
 		ProcessStatus processStatus
@@ -314,39 +314,39 @@
 		Integer version
 		TextBlob content
 	}
-	MasterUser  "baseInfo 0..1 " -- "0..1 "  BaseInfo
-	UserProfile  "0..1 " -- "0..1 "  BaseInfo
-	AccountStatus  "0..1 " -- "0..1 "  BaseInfo
-	DeviceStatus  "0..1 " -- "0..1 "  BaseInfo
-	Friend  "0..1 " -- "0..1 "  BaseInfo
-	FollowUser  "0..1 " -- "0..1 "  BaseInfo
-	FollowGroup  "0..1 " -- "0..1 "  BaseInfo
-	FollowPage  "0..1 " -- "0..1 "  BaseInfo
-	FileInfo  "0..1 " -- "0..1 "  BaseInfo
-	PagePost  "0..1 " -- "0..1 "  BaseInfo
-	PageProfile  "0..1 " -- "0..1 "  BaseInfo
-	GroupPost  "0..1 " -- "0..1 "  BaseInfo
-	Post  "0..1 " -- "0..1 "  BaseInfo
-	PostComment  "0..1 " -- "0..1 "  BaseInfo
-	PostLike  "0..1 " -- "0..1 "  BaseInfo
-	GroupProfile  "0..1 " -- "0..1 "  BaseInfo
-	NewsFeed  "0..1 " -- "0..1 "  BaseInfo
-	MessageGroup  "0..1 " -- "0..1 "  BaseInfo
-	MessageContent  "0..1 " -- "0..1 "  BaseInfo
-	RankUser  "0..1 " -- "0..1 "  BaseInfo
-	RankGroup  "0..1 " -- "0..1 "  BaseInfo
-	Notification  "0..1 " -- "0..1 "  BaseInfo
-	Album  "0..1 " -- "0..1 "  BaseInfo
-	Video  "0..1 " -- "0..1 "  BaseInfo
-	Image  "0..1 " -- "0..1 "  BaseInfo
-	VideoStream  "0..1 " -- "0..1 "  BaseInfo
-	VideoLiveStreamBuffer  "0..1 " -- "0..1 "  BaseInfo
-	TopicInterest  "0..1 " -- "0..1 "  BaseInfo
-	TodoList  "0..1 " -- "0..1 "  BaseInfo
-	Event  "0..1 " -- "0..1 "  BaseInfo
+	MasterUser  "info 0..1 " -- "0..1 "  BaseInfo
+	UserProfile  "info 0..1 " -- "0..1 "  BaseInfo
+	AccountStatus  "info 0..1 " -- "0..1 "  BaseInfo
+	DeviceStatus  "info 0..1 " -- "0..1 "  BaseInfo
+	Friend  "info 0..1 " -- "0..1 "  BaseInfo
+	FollowUser  "info 0..1 " -- "0..1 "  BaseInfo
+	FollowGroup  "info 0..1 " -- "0..1 "  BaseInfo
+	FollowPage  "info 0..1 " -- "0..1 "  BaseInfo
+	FileInfo  "info 0..1 " -- "0..1 "  BaseInfo
+	PagePost  "info 0..1 " -- "0..1 "  BaseInfo
+	PageProfile  "info 0..1 " -- "0..1 "  BaseInfo
+	GroupPost  "info 0..1 " -- "0..1 "  BaseInfo
+	Post  "info 0..1 " -- "0..1 "  BaseInfo
+	PostComment  "info 0..1 " -- "0..1 "  BaseInfo
+	PostLike  "info 0..1 " -- "0..1 "  BaseInfo
+	GroupProfile  "info 0..1 " -- "0..1 "  BaseInfo
+	NewsFeed  "info 0..1 " -- "0..1 "  BaseInfo
+	MessageGroup  "info 0..1 " -- "0..1 "  BaseInfo
+	MessageContent  "info 0..1 " -- "0..1 "  BaseInfo
+	RankUser  "info 0..1 " -- "0..1 "  BaseInfo
+	RankGroup  "info 0..1 " -- "0..1 "  BaseInfo
+	Notification  "info 0..1 " -- "0..1 "  BaseInfo
+	Album  "info 0..1 " -- "0..1 "  BaseInfo
+	Video  "info 0..1 " -- "0..1 "  BaseInfo
+	Image  "info 0..1 " -- "0..1 "  BaseInfo
+	VideoStream  "info 0..1 " -- "0..1 "  BaseInfo
+	VideoLiveStreamBuffer  "info 0..1 " -- "0..1 "  BaseInfo
+	TopicInterest  "info 0..1 " -- "0..1 "  BaseInfo
+	TodoList  "info 0..1 " -- "0..1 "  BaseInfo
+	Event  "info 0..1 " -- "0..1 "  BaseInfo
 	Permission  "0..* " o-- "0..1 "  BaseInfo
 	BaseInfo  "0..* " o-- "0..1 "  ClassInfo
-	BaseInfo  "0..1 " --o "0..* "  HistoryUpdate
+	BaseInfo  "history 0..1 " --o "baseInfo 0..* "  HistoryUpdate
 	class User <<Option {Paginate,Search,Filter,Dto,Service}>> {
 		String firstName
 		String lastName

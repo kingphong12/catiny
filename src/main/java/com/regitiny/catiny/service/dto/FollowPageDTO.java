@@ -29,9 +29,9 @@ public class FollowPageDTO implements Serializable {
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private PagePostDTO followPageDetails;
+  private PagePostDTO pageDetails;
 
   public Long getId() {
     return id;
@@ -49,20 +49,20 @@ public class FollowPageDTO implements Serializable {
     this.uuid = uuid;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public PagePostDTO getFollowPageDetails() {
-    return followPageDetails;
+  public PagePostDTO getPageDetails() {
+    return pageDetails;
   }
 
-  public void setFollowPageDetails(PagePostDTO followPageDetails) {
-    this.followPageDetails = followPageDetails;
+  public void setPageDetails(PagePostDTO pageDetails) {
+    this.pageDetails = pageDetails;
   }
 
   @Override
@@ -92,8 +92,8 @@ public class FollowPageDTO implements Serializable {
         return "FollowPageDTO{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
-            ", baseInfo=" + getBaseInfo() +
-            ", followPageDetails=" + getFollowPageDetails() +
+            ", info=" + getInfo() +
+            ", pageDetails=" + getPageDetails() +
             "}";
     }
 }

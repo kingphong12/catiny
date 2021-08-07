@@ -11,7 +11,7 @@ export default class NotificationUpdatePage {
   notifyTypeSelect: ElementFinder = element(by.css('select#notification-notifyType'));
   titleInput: ElementFinder = element(by.css('input#notification-title'));
   contentInput: ElementFinder = element(by.css('textarea#notification-content'));
-  baseInfoSelect: ElementFinder = element(by.css('select#notification-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#notification-info'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -52,20 +52,20 @@ export default class NotificationUpdatePage {
     return this.contentInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -89,7 +89,7 @@ export default class NotificationUpdatePage {
     await this.setTitleInput('title');
     await waitUntilDisplayed(this.saveButton);
     await this.setContentInput('content');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, PostMapper.class })
 @GeneratedByJHipster
 public interface NewsFeedMapper extends EntityMapper<NewsFeedDTO, NewsFeed> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   @Mapping(target = "post", source = "post", qualifiedByName = "id")
   NewsFeedDTO toDto(NewsFeed s);
 }

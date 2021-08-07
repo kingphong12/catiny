@@ -29,7 +29,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "accountStatus",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {

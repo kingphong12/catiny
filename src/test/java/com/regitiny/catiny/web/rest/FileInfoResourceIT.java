@@ -640,21 +640,21 @@ class FileInfoResourceIT {
 
   @Test
   @Transactional
-  void getAllFileInfosByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllFileInfosByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     fileInfoRepository.saveAndFlush(fileInfo);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    fileInfo.setBaseInfo(baseInfo);
+    fileInfo.setInfo(info);
     fileInfoRepository.saveAndFlush(fileInfo);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the fileInfoList where baseInfo equals to baseInfoId
-    defaultFileInfoShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the fileInfoList where info equals to infoId
+    defaultFileInfoShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the fileInfoList where baseInfo equals to (baseInfoId + 1)
-    defaultFileInfoShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the fileInfoList where info equals to (infoId + 1)
+    defaultFileInfoShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   /**

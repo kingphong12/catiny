@@ -33,7 +33,7 @@ public class TopicInterestCriteria implements Serializable, Criteria {
 
   private StringFilter title;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   private LongFilter postId;
 
@@ -49,7 +49,7 @@ public class TopicInterestCriteria implements Serializable, Criteria {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.title = other.title == null ? null : other.title.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.postId = other.postId == null ? null : other.postId.copy();
     this.pagePostId = other.pagePostId == null ? null : other.pagePostId.copy();
     this.groupPostId = other.groupPostId == null ? null : other.groupPostId.copy();
@@ -106,19 +106,19 @@ public class TopicInterestCriteria implements Serializable, Criteria {
     this.title = title;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getPostId() {
@@ -194,7 +194,7 @@ public class TopicInterestCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(title, that.title) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(infoId, that.infoId) &&
       Objects.equals(postId, that.postId) &&
       Objects.equals(pagePostId, that.pagePostId) &&
       Objects.equals(groupPostId, that.groupPostId) &&
@@ -204,7 +204,7 @@ public class TopicInterestCriteria implements Serializable, Criteria {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, title, baseInfoId, postId, pagePostId, groupPostId, masterUserId);
+    return Objects.hash(id, uuid, title, infoId, postId, pagePostId, groupPostId, masterUserId);
   }
 
   // prettier-ignore
@@ -214,7 +214,7 @@ public class TopicInterestCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (title != null ? "title=" + title + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (postId != null ? "postId=" + postId + ", " : "") +
             (pagePostId != null ? "pagePostId=" + pagePostId + ", " : "") +
             (groupPostId != null ? "groupPostId=" + groupPostId + ", " : "") +

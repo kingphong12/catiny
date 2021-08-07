@@ -52,9 +52,9 @@ public class FriendCriteria implements Serializable, Criteria {
 
   private FriendTypeFilter friendType;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
-  private LongFilter friendDetailsId;
+  private LongFilter friendId;
 
   public FriendCriteria() {}
 
@@ -62,8 +62,8 @@ public class FriendCriteria implements Serializable, Criteria {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.friendType = other.friendType == null ? null : other.friendType.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.friendDetailsId = other.friendDetailsId == null ? null : other.friendDetailsId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.friendId = other.friendId == null ? null : other.friendId.copy();
   }
 
   @Override
@@ -116,34 +116,34 @@ public class FriendCriteria implements Serializable, Criteria {
     this.friendType = friendType;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
-  public LongFilter getFriendDetailsId() {
-    return friendDetailsId;
+  public LongFilter getFriendId() {
+    return friendId;
   }
 
-  public LongFilter friendDetailsId() {
-    if (friendDetailsId == null) {
-      friendDetailsId = new LongFilter();
+  public LongFilter friendId() {
+    if (friendId == null) {
+      friendId = new LongFilter();
     }
-    return friendDetailsId;
+    return friendId;
   }
 
-  public void setFriendDetailsId(LongFilter friendDetailsId) {
-    this.friendDetailsId = friendDetailsId;
+  public void setFriendId(LongFilter friendId) {
+    this.friendId = friendId;
   }
 
   @Override
@@ -159,14 +159,14 @@ public class FriendCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(friendType, that.friendType) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(friendDetailsId, that.friendDetailsId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(friendId, that.friendId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, friendType, baseInfoId, friendDetailsId);
+    return Objects.hash(id, uuid, friendType, infoId, friendId);
   }
 
   // prettier-ignore
@@ -176,8 +176,8 @@ public class FriendCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (friendType != null ? "friendType=" + friendType + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (friendDetailsId != null ? "friendDetailsId=" + friendDetailsId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (friendId != null ? "friendId=" + friendId + ", " : "") +
             "}";
     }
 }

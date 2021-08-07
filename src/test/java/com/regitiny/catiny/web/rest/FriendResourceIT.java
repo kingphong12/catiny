@@ -327,40 +327,40 @@ class FriendResourceIT {
 
   @Test
   @Transactional
-  void getAllFriendsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllFriendsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     friendRepository.saveAndFlush(friend);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    friend.setBaseInfo(baseInfo);
+    friend.setInfo(info);
     friendRepository.saveAndFlush(friend);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the friendList where baseInfo equals to baseInfoId
-    defaultFriendShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the friendList where info equals to infoId
+    defaultFriendShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the friendList where baseInfo equals to (baseInfoId + 1)
-    defaultFriendShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the friendList where info equals to (infoId + 1)
+    defaultFriendShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllFriendsByFriendDetailsIsEqualToSomething() throws Exception {
+  void getAllFriendsByFriendIsEqualToSomething() throws Exception {
     // Initialize the database
     friendRepository.saveAndFlush(friend);
-    MasterUser friendDetails = MasterUserResourceIT.createEntity(em);
-    em.persist(friendDetails);
+    MasterUser friend = MasterUserResourceIT.createEntity(em);
+    em.persist(friend);
     em.flush();
-    friend.setFriendDetails(friendDetails);
+    friend.setFriend(friend);
     friendRepository.saveAndFlush(friend);
-    Long friendDetailsId = friendDetails.getId();
+    Long friendId = friend.getId();
 
-    // Get all the friendList where friendDetails equals to friendDetailsId
-    defaultFriendShouldBeFound("friendDetailsId.equals=" + friendDetailsId);
+    // Get all the friendList where friend equals to friendId
+    defaultFriendShouldBeFound("friendId.equals=" + friendId);
 
-    // Get all the friendList where friendDetails equals to (friendDetailsId + 1)
-    defaultFriendShouldNotBeFound("friendDetailsId.equals=" + (friendDetailsId + 1));
+    // Get all the friendList where friend equals to (friendId + 1)
+    defaultFriendShouldNotBeFound("friendId.equals=" + (friendId + 1));
   }
 
   /**

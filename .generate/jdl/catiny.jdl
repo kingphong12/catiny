@@ -739,8 +739,8 @@ relationship OneToOne
 
 relationship ManyToOne
 {
-    FollowGroup{followGroupDetails} to GroupPost
-    FollowPage{followPageDetails} to PagePost
+    FollowGroup{groupDetails} to GroupPost{followed}
+    FollowPage{pageDetails} to PagePost{followed}
     NewsFeed to Post
     RankUser to RankGroup
 }
@@ -748,16 +748,16 @@ relationship OneToMany
 {
     AccountStatus to DeviceStatus
 //    MyChallengesMap to ChallengesMapDetails
-    GroupPost{myPostInGroup} to Post
-    PagePost{myPostInPage} to Post
-    MessageGroup to MessageContent
-    Image{imageProcessed} to Image{imageOriginal}
-    Video{videoProcessed} to Video{videoOriginal}
-    Post{comment} to PostComment
-    Post{like} to PostLike
-    PostComment{like} to PostLike
-    Post{postShareChildren} to Post{postShareParent}
-    PostComment{commentReply} to PostComment{commentParent}
+    GroupPost{post} to Post{group}
+    PagePost{post} to Post{page}
+    MessageGroup{content} to MessageContent{group}
+    Image{processed} to Image{original}
+    Video{processed} to Video{original}
+    Post{comment} to PostComment{post}
+    Post{like} to PostLike{post}
+    PostComment{like} to PostLike{comment}
+    Post{children} to Post{parent}
+    PostComment{reply} to PostComment{parent}
     VideoStream to VideoLiveStreamBuffer
 }
 
@@ -767,6 +767,8 @@ relationship ManyToMany
     TopicInterest to Post
     TopicInterest to PagePost
     TopicInterest to GroupPost
+
+    MasterUser to TopicInterest
 }
 /** relationship with MasterUser */
 relationship OneToOne
@@ -774,7 +776,7 @@ relationship OneToOne
     MasterUser to User with jpaDerivedIdentifier
 //    MasterUser{myProfile} to UserProfile
 //    MasterUser{myAccountStatus} to AccountStatus
-    MasterUser{myRank} to RankUser
+    MasterUser{myRank} to RankUser{owner}
 }
 relationship OneToMany
 {
@@ -789,25 +791,28 @@ relationship OneToMany
 //    MasterUser{myTodoList} to TodoList
 //    MasterUser{myPost} to Post{poster}
 //  with  BaseInfo
-    MasterUser{myBaseInfoCreated} to BaseInfo{createdBy}
-    MasterUser{myBaseInfoModified} to BaseInfo{modifiedBy}
-    MasterUser{OwnerOf} to BaseInfo{owner}
-    MasterUser to Permission
+
+
+    MasterUser{permission} to Permission{owner}
 }
 relationship ManyToOne
 {
-    Friend{friendDetails} to MasterUser
-    FollowUser{followUserDetails} to MasterUser
+    BaseInfo{createdBy} to MasterUser
+    BaseInfo{modifiedBy} to MasterUser
+    BaseInfo{owner} to MasterUser{owned}
+
+    Friend{friend} to MasterUser
+    FollowUser{follow} to MasterUser
 //    MessageContent{sender} to MasterUser
 //    PostLike{userLike} to MasterUser{myLike}
 //    PostComment{userComment} to MasterUser{myComment}
 }
-relationship ManyToMany
-{
-//    MasterUser{myGroupPost} to GroupPost{userInGroup}
-//    MasterUser to MessageGroup
-    MasterUser to TopicInterest
-}
+//relationship ManyToMany
+//{
+////    MasterUser{myGroupPost} to GroupPost{userInGroup}
+////    MasterUser to MessageGroup
+//
+//}
 
 /** BaseInfo */
 entity BaseInfo
@@ -870,40 +875,40 @@ entity HistoryUpdate
 }
 relationship OneToOne
 {
-    MasterUser{baseInfo} to BaseInfo
-    UserProfile to BaseInfo
-    AccountStatus to BaseInfo
-    DeviceStatus to BaseInfo
-    Friend to BaseInfo
-    FollowUser to BaseInfo
-    FollowGroup to BaseInfo
-    FollowPage to BaseInfo
-    FileInfo to BaseInfo
-    PagePost to BaseInfo
-    PageProfile to BaseInfo
-    GroupPost to BaseInfo
-    Post to BaseInfo
-    PostComment to BaseInfo
-    PostLike to BaseInfo
-    GroupProfile to BaseInfo
-    NewsFeed to BaseInfo
-    MessageGroup to BaseInfo
-    MessageContent to BaseInfo
-    RankUser to BaseInfo
-    RankGroup to BaseInfo
-    Notification to BaseInfo
-    Album to BaseInfo
-    Video to BaseInfo
-    Image to BaseInfo
-    VideoStream to BaseInfo
-    VideoLiveStreamBuffer to BaseInfo
-    TopicInterest to BaseInfo
-    TodoList to BaseInfo
-    Event to BaseInfo
-    //Badge to BaseInfo
-    //Story to BaseInfo
-    //ChallengesMapDetails to BaseInfo
-    //MyChallengesMap to BaseInfo
+    MasterUser{info} to BaseInfo
+    UserProfile{info} to BaseInfo
+    AccountStatus{info} to BaseInfo
+    DeviceStatus{info} to BaseInfo
+    Friend{info} to BaseInfo
+    FollowUser{info} to BaseInfo
+    FollowGroup{info} to BaseInfo
+    FollowPage{info} to BaseInfo
+    FileInfo{info} to BaseInfo
+    PagePost{info} to BaseInfo
+    PageProfile{info} to BaseInfo
+    GroupPost{info} to BaseInfo
+    Post{info} to BaseInfo
+    PostComment{info} to BaseInfo
+    PostLike{info} to BaseInfo
+    GroupProfile{info} to BaseInfo
+    NewsFeed{info} to BaseInfo
+    MessageGroup{info} to BaseInfo
+    MessageContent{info} to BaseInfo
+    RankUser{info} to BaseInfo
+    RankGroup{info} to BaseInfo
+    Notification{info} to BaseInfo
+    Album{info} to BaseInfo
+    Video{info} to BaseInfo
+    Image{info} to BaseInfo
+    VideoStream{info} to BaseInfo
+    VideoLiveStreamBuffer{info} to BaseInfo
+    TopicInterest{info} to BaseInfo
+    TodoList{info} to BaseInfo
+    Event{info} to BaseInfo
+    //Badge{info} to BaseInfo
+    //Story{info} to BaseInfo
+    //ChallengesMapDetails{info} to BaseInfo
+    //MyChallengesMap{info} to BaseInfo
 }
 relationship ManyToOne
 {
@@ -912,5 +917,5 @@ relationship ManyToOne
 }
 relationship OneToMany
 {
-    BaseInfo to HistoryUpdate
+    BaseInfo{history} to HistoryUpdate{baseInfo}
 }

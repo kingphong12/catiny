@@ -36,7 +36,7 @@ public class NotificationModel implements Serializable
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -61,7 +61,7 @@ public class NotificationModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -87,6 +87,6 @@ public class NotificationModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

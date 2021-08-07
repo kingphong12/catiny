@@ -487,21 +487,21 @@ class AlbumResourceIT {
 
   @Test
   @Transactional
-  void getAllAlbumsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllAlbumsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     albumRepository.saveAndFlush(album);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    album.setBaseInfo(baseInfo);
+    album.setInfo(info);
     albumRepository.saveAndFlush(album);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the albumList where baseInfo equals to baseInfoId
-    defaultAlbumShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the albumList where info equals to infoId
+    defaultAlbumShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the albumList where baseInfo equals to (baseInfoId + 1)
-    defaultAlbumShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the albumList where info equals to (infoId + 1)
+    defaultAlbumShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

@@ -39,9 +39,9 @@ export const GroupProfileDetail = (props: RouteComponentProps<{ id: string }>) =
           </dt>
           <dd>{groupProfileEntity.uuid}</dd>
           <dt>
-            <Translate contentKey="catinyApp.groupProfile.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.groupProfile.info">Info</Translate>
           </dt>
-          <dd>{groupProfileEntity.baseInfo ? groupProfileEntity.baseInfo.id : ''}</dd>
+          <dd>{groupProfileEntity.info ? groupProfileEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/group-profile" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

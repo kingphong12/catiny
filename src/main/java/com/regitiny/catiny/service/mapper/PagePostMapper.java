@@ -13,7 +13,7 @@ import org.mapstruct.*;
 @GeneratedByJHipster
 public interface PagePostMapper extends EntityMapper<PagePostDTO, PagePost> {
   @Mapping(target = "profile", source = "profile", qualifiedByName = "id")
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   PagePostDTO toDto(PagePost s);
 
   @Named("id")

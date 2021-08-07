@@ -4,7 +4,7 @@ import { IRankUser } from 'app/shared/model/rank-user.model';
 export interface IRankGroup {
   id?: number;
   uuid?: string;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   rankUsers?: IRankUser[] | null;
 }
 

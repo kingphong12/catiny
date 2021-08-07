@@ -5,7 +5,7 @@ export interface INewsFeed {
   id?: number;
   uuid?: string;
   priorityIndex?: number | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   post?: IPost | null;
 }
 

@@ -13,7 +13,7 @@ import org.mapstruct.*;
 @GeneratedByJHipster
 public interface GroupPostMapper extends EntityMapper<GroupPostDTO, GroupPost> {
   @Mapping(target = "profile", source = "profile", qualifiedByName = "id")
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   GroupPostDTO toDto(GroupPost s);
 
   @Named("id")

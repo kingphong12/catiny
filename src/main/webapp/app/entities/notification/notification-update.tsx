@@ -45,7 +45,7 @@ export const NotificationUpdate = (props: RouteComponentProps<{ id: string }>) =
     const entity = {
       ...notificationEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -61,7 +61,7 @@ export const NotificationUpdate = (props: RouteComponentProps<{ id: string }>) =
       : {
           ...notificationEntity,
           notifyType: 'SYSTEM',
-          baseInfoId: notificationEntity?.baseInfo?.id,
+          infoId: notificationEntity?.info?.id,
         };
 
   return (
@@ -133,10 +133,10 @@ export const NotificationUpdate = (props: RouteComponentProps<{ id: string }>) =
                 type="textarea"
               />
               <ValidatedField
-                id="notification-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.notification.baseInfo')}
+                id="notification-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.notification.info')}
                 type="select"
               >
                 <option value="" key="0" />

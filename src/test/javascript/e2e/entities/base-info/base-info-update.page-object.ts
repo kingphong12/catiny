@@ -1,10 +1,9 @@
-import {by, element, ElementFinder, protractor} from 'protractor';
-import {waitUntilDisplayed, waitUntilHidden} from '../../util/utils';
+import { element, by, ElementFinder, protractor } from 'protractor';
+import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils';
 
 const expect = chai.expect;
 
-export default class BaseInfoUpdatePage
-{
+export default class BaseInfoUpdatePage {
   pageTitle: ElementFinder = element(by.id('catinyApp.baseInfo.home.createOrEditLabel'));
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
@@ -17,38 +16,32 @@ export default class BaseInfoUpdatePage
   deletedInput: ElementFinder = element(by.css('input#base-info-deleted'));
   priorityIndexInput: ElementFinder = element(by.css('input#base-info-priorityIndex'));
   countUseInput: ElementFinder = element(by.css('input#base-info-countUse'));
-  classInfoSelect: ElementFinder = element(by.css('select#base-info-classInfo'));
   createdBySelect: ElementFinder = element(by.css('select#base-info-createdBy'));
   modifiedBySelect: ElementFinder = element(by.css('select#base-info-modifiedBy'));
   ownerSelect: ElementFinder = element(by.css('select#base-info-owner'));
+  classInfoSelect: ElementFinder = element(by.css('select#base-info-classInfo'));
 
-  getPageTitle()
-  {
+  getPageTitle() {
     return this.pageTitle;
   }
 
-  async setUuidInput(uuid)
-  {
+  async setUuidInput(uuid) {
     await this.uuidInput.sendKeys(uuid);
   }
 
-  async getUuidInput()
-  {
+  async getUuidInput() {
     return this.uuidInput.getAttribute('value');
   }
 
-  async setProcessStatusSelect(processStatus)
-  {
+  async setProcessStatusSelect(processStatus) {
     await this.processStatusSelect.sendKeys(processStatus);
   }
 
-  async getProcessStatusSelect()
-  {
+  async getProcessStatusSelect() {
     return this.processStatusSelect.element(by.css('option:checked')).getText();
   }
 
-  async processStatusSelectLastOption()
-  {
+  async processStatusSelectLastOption() {
     await this.processStatusSelect.all(by.tagName('option')).last().click();
   }
   async setModifiedClassInput(modifiedClass) {
@@ -102,22 +95,6 @@ export default class BaseInfoUpdatePage
     return this.countUseInput.getAttribute('value');
   }
 
-  async classInfoSelectLastOption() {
-    await this.classInfoSelect.all(by.tagName('option')).last().click();
-  }
-
-  async classInfoSelectOption(option) {
-    await this.classInfoSelect.sendKeys(option);
-  }
-
-  getClassInfoSelect() {
-    return this.classInfoSelect;
-  }
-
-  async getClassInfoSelectedOption() {
-    return this.classInfoSelect.element(by.css('option:checked')).getText();
-  }
-
   async createdBySelectLastOption() {
     await this.createdBySelect.all(by.tagName('option')).last().click();
   }
@@ -166,6 +143,22 @@ export default class BaseInfoUpdatePage
     return this.ownerSelect.element(by.css('option:checked')).getText();
   }
 
+  async classInfoSelectLastOption() {
+    await this.classInfoSelect.all(by.tagName('option')).last().click();
+  }
+
+  async classInfoSelectOption(option) {
+    await this.classInfoSelect.sendKeys(option);
+  }
+
+  getClassInfoSelect() {
+    return this.classInfoSelect;
+  }
+
+  async getClassInfoSelectedOption() {
+    return this.classInfoSelect.element(by.css('option:checked')).getText();
+  }
+
   async save() {
     await this.saveButton.click();
   }
@@ -178,8 +171,7 @@ export default class BaseInfoUpdatePage
     return this.saveButton;
   }
 
-  async enterData()
-  {
+  async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await waitUntilDisplayed(this.saveButton);
@@ -203,10 +195,10 @@ export default class BaseInfoUpdatePage
     await this.setPriorityIndexInput('5');
     await waitUntilDisplayed(this.saveButton);
     await this.setCountUseInput('5');
-    await this.classInfoSelectLastOption();
     await this.createdBySelectLastOption();
     await this.modifiedBySelectLastOption();
     await this.ownerSelectLastOption();
+    await this.classInfoSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

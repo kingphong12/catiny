@@ -2,6 +2,7 @@ package com.regitiny.catiny.service;
 
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.service.dto.RankUserDTO;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,12 @@ public interface RankUserService {
    * @return the list of entities.
    */
   Page<RankUserDTO> findAll(Pageable pageable);
+  /**
+   * Get all the RankUserDTO where Owner is {@code null}.
+   *
+   * @return the {@link List} of entities.
+   */
+  List<RankUserDTO> findAllWhereOwnerIsNull();
 
   /**
    * Get the "id" rankUser.

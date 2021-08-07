@@ -37,7 +37,7 @@ public class TopicInterestDTO implements Serializable {
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private Set<PostDTO> posts = new HashSet<>();
 
@@ -77,12 +77,12 @@ public class TopicInterestDTO implements Serializable {
     this.content = content;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public Set<PostDTO> getPosts() {
@@ -138,7 +138,7 @@ public class TopicInterestDTO implements Serializable {
             ", uuid='" + getUuid() + "'" +
             ", title='" + getTitle() + "'" +
             ", content='" + getContent() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", posts=" + getPosts() +
             ", pagePosts=" + getPagePosts() +
             ", groupPosts=" + getGroupPosts() +

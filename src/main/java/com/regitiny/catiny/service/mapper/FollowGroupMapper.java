@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, GroupPostMapper.class })
 @GeneratedByJHipster
 public interface FollowGroupMapper extends EntityMapper<FollowGroupDTO, FollowGroup> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "followGroupDetails", source = "followGroupDetails", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
+  @Mapping(target = "groupDetails", source = "groupDetails", qualifiedByName = "id")
   FollowGroupDTO toDto(FollowGroup s);
 }

@@ -2,16 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The MessageGroup entity.\n@why?             ->\n@use-to           -> Chứa thông tin các nhóm mà hiện tại người dùng đang ở trong đó (phần nhắn tin)\n@commonly-used-in -> Hiển thị các tin nhắn\n\n@describe         -> một nhóm tạo ra sẽ là một uuid . nếu nhắn tin cặp thì sẽ sắp xếp login sau đó hash md5 rồi chuyển thành định dạng uuid
@@ -57,54 +57,15 @@ public class MessageGroup implements Serializable {
   @Column(name = "add_by")
   private String addBy;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
-  @OneToMany(mappedBy = "messageGroup")
+  @OneToMany(mappedBy = "group")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "messageGroup" }, allowSetters = true)
-  private Set<MessageContent> messageContents = new HashSet<>();
+  @JsonIgnoreProperties(value = { "info", "group" }, allowSetters = true)
+  private Set<MessageContent> contents = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
   public Long getId() {
@@ -172,48 +133,48 @@ public class MessageGroup implements Serializable {
     this.addBy = addBy;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public MessageGroup baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public MessageGroup info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
-  public Set<MessageContent> getMessageContents() {
-    return this.messageContents;
+  public Set<MessageContent> getContents() {
+    return this.contents;
   }
 
-  public MessageGroup messageContents(Set<MessageContent> messageContents) {
-    this.setMessageContents(messageContents);
+  public MessageGroup contents(Set<MessageContent> messageContents) {
+    this.setContents(messageContents);
     return this;
   }
 
-  public MessageGroup addMessageContent(MessageContent messageContent) {
-    this.messageContents.add(messageContent);
-    messageContent.setMessageGroup(this);
+  public MessageGroup addContent(MessageContent messageContent) {
+    this.contents.add(messageContent);
+    messageContent.setGroup(this);
     return this;
   }
 
-  public MessageGroup removeMessageContent(MessageContent messageContent) {
-    this.messageContents.remove(messageContent);
-    messageContent.setMessageGroup(null);
+  public MessageGroup removeContent(MessageContent messageContent) {
+    this.contents.remove(messageContent);
+    messageContent.setGroup(null);
     return this;
   }
 
-  public void setMessageContents(Set<MessageContent> messageContents) {
-    if (this.messageContents != null) {
-      this.messageContents.forEach(i -> i.setMessageGroup(null));
+  public void setContents(Set<MessageContent> messageContents) {
+    if (this.contents != null) {
+      this.contents.forEach(i -> i.setGroup(null));
     }
     if (messageContents != null) {
-      messageContents.forEach(i -> i.setMessageGroup(this));
+      messageContents.forEach(i -> i.setGroup(this));
     }
-    this.messageContents = messageContents;
+    this.contents = messageContents;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

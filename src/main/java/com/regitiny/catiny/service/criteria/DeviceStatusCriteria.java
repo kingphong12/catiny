@@ -80,7 +80,7 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
 
   private StringFilter statusComment;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   private LongFilter accountStatusId;
 
@@ -94,7 +94,7 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
     this.deviceStatus = other.deviceStatus == null ? null : other.deviceStatus.copy();
     this.lastVisited = other.lastVisited == null ? null : other.lastVisited.copy();
     this.statusComment = other.statusComment == null ? null : other.statusComment.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.accountStatusId = other.accountStatusId == null ? null : other.accountStatusId.copy();
   }
 
@@ -208,19 +208,19 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
     this.statusComment = statusComment;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getAccountStatusId() {
@@ -255,14 +255,14 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
       Objects.equals(deviceStatus, that.deviceStatus) &&
       Objects.equals(lastVisited, that.lastVisited) &&
       Objects.equals(statusComment, that.statusComment) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(infoId, that.infoId) &&
       Objects.equals(accountStatusId, that.accountStatusId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, deviceName, deviceType, deviceStatus, lastVisited, statusComment, baseInfoId, accountStatusId);
+    return Objects.hash(id, uuid, deviceName, deviceType, deviceStatus, lastVisited, statusComment, infoId, accountStatusId);
   }
 
   // prettier-ignore
@@ -276,7 +276,7 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
             (deviceStatus != null ? "deviceStatus=" + deviceStatus + ", " : "") +
             (lastVisited != null ? "lastVisited=" + lastVisited + ", " : "") +
             (statusComment != null ? "statusComment=" + statusComment + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (accountStatusId != null ? "accountStatusId=" + accountStatusId + ", " : "") +
             "}";
     }

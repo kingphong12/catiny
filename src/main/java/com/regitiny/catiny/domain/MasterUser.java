@@ -2,16 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The MasterUser entity.\n@why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)\n@use-to:          -> Lưu thông tin cơ bản của một người dùng\n@commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server\n\n@describe      	  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây
@@ -68,190 +68,19 @@ public class MasterUser implements Serializable {
   @JoinColumn(name = "id")
   private User user;
 
-  @JsonIgnoreProperties(value = { "baseInfo", "rankGroup" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "rankGroup", "owner" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
   private RankUser myRank;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
-
-  @OneToMany(mappedBy = "createdBy")
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
-  private Set<BaseInfo> myBaseInfoCreateds = new HashSet<>();
-
-  @OneToMany(mappedBy = "modifiedBy")
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
-  private Set<BaseInfo> myBaseInfoModifieds = new HashSet<>();
+  private BaseInfo info;
 
   @OneToMany(mappedBy = "owner")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
-  private Set<BaseInfo> ownerOfs = new HashSet<>();
-
-  @OneToMany(mappedBy = "masterUser")
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "masterUser" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "baseInfo", "owner" }, allowSetters = true)
   private Set<Permission> permissions = new HashSet<>();
 
   @ManyToMany
@@ -261,8 +90,13 @@ public class MasterUser implements Serializable {
     joinColumns = @JoinColumn(name = "master_user_id"),
     inverseJoinColumns = @JoinColumn(name = "topic_interest_id")
   )
-  @JsonIgnoreProperties(value = { "baseInfo", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
   private Set<TopicInterest> topicInterests = new HashSet<>();
+
+  @OneToMany(mappedBy = "owner")
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
+  private Set<BaseInfo> owneds = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
   public Long getId() {
@@ -369,110 +203,17 @@ public class MasterUser implements Serializable {
     this.myRank = rankUser;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public MasterUser baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public MasterUser info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
-  }
-
-  public Set<BaseInfo> getMyBaseInfoCreateds() {
-    return this.myBaseInfoCreateds;
-  }
-
-  public MasterUser myBaseInfoCreateds(Set<BaseInfo> baseInfos) {
-    this.setMyBaseInfoCreateds(baseInfos);
-    return this;
-  }
-
-  public MasterUser addMyBaseInfoCreated(BaseInfo baseInfo) {
-    this.myBaseInfoCreateds.add(baseInfo);
-    baseInfo.setCreatedBy(this);
-    return this;
-  }
-
-  public MasterUser removeMyBaseInfoCreated(BaseInfo baseInfo) {
-    this.myBaseInfoCreateds.remove(baseInfo);
-    baseInfo.setCreatedBy(null);
-    return this;
-  }
-
-  public void setMyBaseInfoCreateds(Set<BaseInfo> baseInfos) {
-    if (this.myBaseInfoCreateds != null) {
-      this.myBaseInfoCreateds.forEach(i -> i.setCreatedBy(null));
-    }
-    if (baseInfos != null) {
-      baseInfos.forEach(i -> i.setCreatedBy(this));
-    }
-    this.myBaseInfoCreateds = baseInfos;
-  }
-
-  public Set<BaseInfo> getMyBaseInfoModifieds() {
-    return this.myBaseInfoModifieds;
-  }
-
-  public MasterUser myBaseInfoModifieds(Set<BaseInfo> baseInfos) {
-    this.setMyBaseInfoModifieds(baseInfos);
-    return this;
-  }
-
-  public MasterUser addMyBaseInfoModified(BaseInfo baseInfo) {
-    this.myBaseInfoModifieds.add(baseInfo);
-    baseInfo.setModifiedBy(this);
-    return this;
-  }
-
-  public MasterUser removeMyBaseInfoModified(BaseInfo baseInfo) {
-    this.myBaseInfoModifieds.remove(baseInfo);
-    baseInfo.setModifiedBy(null);
-    return this;
-  }
-
-  public void setMyBaseInfoModifieds(Set<BaseInfo> baseInfos) {
-    if (this.myBaseInfoModifieds != null) {
-      this.myBaseInfoModifieds.forEach(i -> i.setModifiedBy(null));
-    }
-    if (baseInfos != null) {
-      baseInfos.forEach(i -> i.setModifiedBy(this));
-    }
-    this.myBaseInfoModifieds = baseInfos;
-  }
-
-  public Set<BaseInfo> getOwnerOfs() {
-    return this.ownerOfs;
-  }
-
-  public MasterUser ownerOfs(Set<BaseInfo> baseInfos) {
-    this.setOwnerOfs(baseInfos);
-    return this;
-  }
-
-  public MasterUser addOwnerOf(BaseInfo baseInfo) {
-    this.ownerOfs.add(baseInfo);
-    baseInfo.setOwner(this);
-    return this;
-  }
-
-  public MasterUser removeOwnerOf(BaseInfo baseInfo) {
-    this.ownerOfs.remove(baseInfo);
-    baseInfo.setOwner(null);
-    return this;
-  }
-
-  public void setOwnerOfs(Set<BaseInfo> baseInfos) {
-    if (this.ownerOfs != null) {
-      this.ownerOfs.forEach(i -> i.setOwner(null));
-    }
-    if (baseInfos != null) {
-      baseInfos.forEach(i -> i.setOwner(this));
-    }
-    this.ownerOfs = baseInfos;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public Set<Permission> getPermissions() {
@@ -486,22 +227,22 @@ public class MasterUser implements Serializable {
 
   public MasterUser addPermission(Permission permission) {
     this.permissions.add(permission);
-    permission.setMasterUser(this);
+    permission.setOwner(this);
     return this;
   }
 
   public MasterUser removePermission(Permission permission) {
     this.permissions.remove(permission);
-    permission.setMasterUser(null);
+    permission.setOwner(null);
     return this;
   }
 
   public void setPermissions(Set<Permission> permissions) {
     if (this.permissions != null) {
-      this.permissions.forEach(i -> i.setMasterUser(null));
+      this.permissions.forEach(i -> i.setOwner(null));
     }
     if (permissions != null) {
-      permissions.forEach(i -> i.setMasterUser(this));
+      permissions.forEach(i -> i.setOwner(this));
     }
     this.permissions = permissions;
   }
@@ -529,6 +270,37 @@ public class MasterUser implements Serializable {
 
   public void setTopicInterests(Set<TopicInterest> topicInterests) {
     this.topicInterests = topicInterests;
+  }
+
+  public Set<BaseInfo> getOwneds() {
+    return this.owneds;
+  }
+
+  public MasterUser owneds(Set<BaseInfo> baseInfos) {
+    this.setOwneds(baseInfos);
+    return this;
+  }
+
+  public MasterUser addOwned(BaseInfo baseInfo) {
+    this.owneds.add(baseInfo);
+    baseInfo.setOwner(this);
+    return this;
+  }
+
+  public MasterUser removeOwned(BaseInfo baseInfo) {
+    this.owneds.remove(baseInfo);
+    baseInfo.setOwner(null);
+    return this;
+  }
+
+  public void setOwneds(Set<BaseInfo> baseInfos) {
+    if (this.owneds != null) {
+      this.owneds.forEach(i -> i.setOwner(null));
+    }
+    if (baseInfos != null) {
+      baseInfos.forEach(i -> i.setOwner(this));
+    }
+    this.owneds = baseInfos;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

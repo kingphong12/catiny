@@ -20,8 +20,8 @@
             <column name="rating_points" type="${floatType}">
                 <constraints nullable="true" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_rank_user__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_rank_user__info_id" />
             </column>
             <column name="rank_group_id" type="bigint">
                 <constraints nullable="true" />

@@ -2,18 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Video entity.\n@why?             ->\n@use-to           -> Lưu thông tin video mà người dùng upload lên\n@commonly-used-in ->\n\n@describe         ->
@@ -97,67 +95,28 @@ public class Video implements Serializable {
   @Column(name = "data_size")
   private Long dataSize;
 
-  @JsonIgnoreProperties(value = { "baseInfo" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
   private FileInfo fileInfo;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
-  @OneToMany(mappedBy = "videoOriginal")
+  @OneToMany(mappedBy = "original")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "fileInfo", "baseInfo", "videoProcesseds", "videoStream", "videoOriginal" }, allowSetters = true)
-  private Set<Video> videoProcesseds = new HashSet<>();
+  @JsonIgnoreProperties(value = { "fileInfo", "info", "processeds", "videoStream", "original" }, allowSetters = true)
+  private Set<Video> processeds = new HashSet<>();
 
-  @JsonIgnoreProperties(value = { "video", "baseInfo", "videoLiveStreamBuffers" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "video", "info", "videoLiveStreamBuffers" }, allowSetters = true)
   @OneToOne(mappedBy = "video")
   private VideoStream videoStream;
 
   @ManyToOne
-  @JsonIgnoreProperties(value = { "fileInfo", "baseInfo", "videoProcesseds", "videoStream", "videoOriginal" }, allowSetters = true)
-  private Video videoOriginal;
+  @JsonIgnoreProperties(value = { "fileInfo", "info", "processeds", "videoStream", "original" }, allowSetters = true)
+  private Video original;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
   public Long getId() {
@@ -316,48 +275,48 @@ public class Video implements Serializable {
     this.fileInfo = fileInfo;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public Video baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public Video info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
-  public Set<Video> getVideoProcesseds() {
-    return this.videoProcesseds;
+  public Set<Video> getProcesseds() {
+    return this.processeds;
   }
 
-  public Video videoProcesseds(Set<Video> videos) {
-    this.setVideoProcesseds(videos);
+  public Video processeds(Set<Video> videos) {
+    this.setProcesseds(videos);
     return this;
   }
 
-  public Video addVideoProcessed(Video video) {
-    this.videoProcesseds.add(video);
-    video.setVideoOriginal(this);
+  public Video addProcessed(Video video) {
+    this.processeds.add(video);
+    video.setOriginal(this);
     return this;
   }
 
-  public Video removeVideoProcessed(Video video) {
-    this.videoProcesseds.remove(video);
-    video.setVideoOriginal(null);
+  public Video removeProcessed(Video video) {
+    this.processeds.remove(video);
+    video.setOriginal(null);
     return this;
   }
 
-  public void setVideoProcesseds(Set<Video> videos) {
-    if (this.videoProcesseds != null) {
-      this.videoProcesseds.forEach(i -> i.setVideoOriginal(null));
+  public void setProcesseds(Set<Video> videos) {
+    if (this.processeds != null) {
+      this.processeds.forEach(i -> i.setOriginal(null));
     }
     if (videos != null) {
-      videos.forEach(i -> i.setVideoOriginal(this));
+      videos.forEach(i -> i.setOriginal(this));
     }
-    this.videoProcesseds = videos;
+    this.processeds = videos;
   }
 
   public VideoStream getVideoStream() {
@@ -379,17 +338,17 @@ public class Video implements Serializable {
     this.videoStream = videoStream;
   }
 
-  public Video getVideoOriginal() {
-    return this.videoOriginal;
+  public Video getOriginal() {
+    return this.original;
   }
 
-  public Video videoOriginal(Video video) {
-    this.setVideoOriginal(video);
+  public Video original(Video video) {
+    this.setOriginal(video);
     return this;
   }
 
-  public void setVideoOriginal(Video video) {
-    this.videoOriginal = video;
+  public void setOriginal(Video video) {
+    this.original = video;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

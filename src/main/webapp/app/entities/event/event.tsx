@@ -225,7 +225,7 @@ export const Event = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.event.videoCollection">Video Collection</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.event.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.event.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -251,7 +251,7 @@ export const Event = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{event.tagLine}</td>
                     <td>{event.imageCollection}</td>
                     <td>{event.videoCollection}</td>
-                    <td>{event.baseInfo ? <Link to={`base-info/${event.baseInfo.id}`}>{event.baseInfo.id}</Link> : ''}</td>
+                    <td>{event.info ? <Link to={`base-info/${event.info.id}`}>{event.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${event.id}`} color="info" size="sm" data-cy="entityDetailsButton">

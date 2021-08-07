@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, AccountStatusMapper.class })
 @GeneratedByJHipster
 public interface DeviceStatusMapper extends EntityMapper<DeviceStatusDTO, DeviceStatus> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   @Mapping(target = "accountStatus", source = "accountStatus", qualifiedByName = "id")
   DeviceStatusDTO toDto(DeviceStatus s);
 }

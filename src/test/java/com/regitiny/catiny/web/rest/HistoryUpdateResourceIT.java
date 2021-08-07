@@ -1,16 +1,31 @@
 package com.regitiny.catiny.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
 import com.regitiny.catiny.domain.HistoryUpdate;
 import com.regitiny.catiny.repository.HistoryUpdateRepository;
 import com.regitiny.catiny.repository.search.HistoryUpdateSearchRepository;
+import com.regitiny.catiny.service.criteria.HistoryUpdateCriteria;
 import com.regitiny.catiny.service.dto.HistoryUpdateDTO;
 import com.regitiny.catiny.service.mapper.HistoryUpdateMapper;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,20 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link HistoryUpdateResource} REST controller.
@@ -43,8 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 @GeneratedByJHipster
-class HistoryUpdateResourceIT
-{
+class HistoryUpdateResourceIT {
 
   private static final UUID DEFAULT_UUID = UUID.randomUUID();
   private static final UUID UPDATED_UUID = UUID.randomUUID();
@@ -60,8 +61,8 @@ class HistoryUpdateResourceIT
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/history-updates";
 
-  private static final Random random = new Random();
-  private static final AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+  private static Random random = new Random();
+  private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
   @Autowired
   private HistoryUpdateRepository historyUpdateRepository;
@@ -87,38 +88,34 @@ class HistoryUpdateResourceIT
 
   /**
    * Create an entity for this test.
-   * <p>
+   *
    * This is a static method, as tests for other entities might also need it,
    * if they test an entity which requires the current entity.
    */
-  public static HistoryUpdate createEntity(EntityManager em)
-  {
+  public static HistoryUpdate createEntity(EntityManager em) {
     HistoryUpdate historyUpdate = new HistoryUpdate().uuid(DEFAULT_UUID).version(DEFAULT_VERSION).content(DEFAULT_CONTENT);
     return historyUpdate;
   }
 
   /**
    * Create an updated entity for this test.
-   * <p>
+   *
    * This is a static method, as tests for other entities might also need it,
    * if they test an entity which requires the current entity.
    */
-  public static HistoryUpdate createUpdatedEntity(EntityManager em)
-  {
+  public static HistoryUpdate createUpdatedEntity(EntityManager em) {
     HistoryUpdate historyUpdate = new HistoryUpdate().uuid(UPDATED_UUID).version(UPDATED_VERSION).content(UPDATED_CONTENT);
     return historyUpdate;
   }
 
   @BeforeEach
-  public void initTest()
-  {
+  public void initTest() {
     historyUpdate = createEntity(em);
   }
 
   @Test
   @Transactional
-  void createHistoryUpdate() throws Exception
-  {
+  void createHistoryUpdate() throws Exception {
     int databaseSizeBeforeCreate = historyUpdateRepository.findAll().size();
     // Create the HistoryUpdate
     HistoryUpdateDTO historyUpdateDTO = historyUpdateMapper.toDto(historyUpdate);
@@ -140,8 +137,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void createHistoryUpdateWithExistingId() throws Exception
-  {
+  void createHistoryUpdateWithExistingId() throws Exception {
     // Create the HistoryUpdate with an existing ID
     historyUpdate.setId(1L);
     HistoryUpdateDTO historyUpdateDTO = historyUpdateMapper.toDto(historyUpdate);
@@ -163,8 +159,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void checkUuidIsRequired() throws Exception
-  {
+  void checkUuidIsRequired() throws Exception {
     int databaseSizeBeforeTest = historyUpdateRepository.findAll().size();
     // set the field null
     historyUpdate.setUuid(null);
@@ -182,8 +177,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdates() throws Exception
-  {
+  void getAllHistoryUpdates() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -195,13 +189,12 @@ class HistoryUpdateResourceIT
       .andExpect(jsonPath("$.[*].id").value(hasItem(historyUpdate.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
-      .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)));
+      .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
   }
 
   @Test
   @Transactional
-  void getHistoryUpdate() throws Exception
-  {
+  void getHistoryUpdate() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -213,13 +206,12 @@ class HistoryUpdateResourceIT
       .andExpect(jsonPath("$.id").value(historyUpdate.getId().intValue()))
       .andExpect(jsonPath("$.uuid").value(DEFAULT_UUID.toString()))
       .andExpect(jsonPath("$.version").value(DEFAULT_VERSION))
-      .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT));
+      .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
   }
 
   @Test
   @Transactional
-  void getHistoryUpdatesByIdFiltering() throws Exception
-  {
+  void getHistoryUpdatesByIdFiltering() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -237,8 +229,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByUuidIsEqualToSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByUuidIsEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -251,8 +242,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByUuidIsNotEqualToSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByUuidIsNotEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -265,8 +255,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByUuidIsInShouldWork() throws Exception
-  {
+  void getAllHistoryUpdatesByUuidIsInShouldWork() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -279,8 +268,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByUuidIsNullOrNotNull() throws Exception
-  {
+  void getAllHistoryUpdatesByUuidIsNullOrNotNull() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -293,8 +281,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsEqualToSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -307,8 +294,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsNotEqualToSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsNotEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -321,8 +307,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsInShouldWork() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsInShouldWork() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -335,8 +320,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsNullOrNotNull() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsNullOrNotNull() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -349,8 +333,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsGreaterThanOrEqualToSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsGreaterThanOrEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -363,8 +346,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsLessThanOrEqualToSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsLessThanOrEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -377,8 +359,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsLessThanSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsLessThanSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -391,8 +372,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByVersionIsGreaterThanSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByVersionIsGreaterThanSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -405,8 +385,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getAllHistoryUpdatesByBaseInfoIsEqualToSomething() throws Exception
-  {
+  void getAllHistoryUpdatesByBaseInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
     BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
@@ -426,8 +405,7 @@ class HistoryUpdateResourceIT
   /**
    * Executes the search, and checks that the default entity is returned.
    */
-  private void defaultHistoryUpdateShouldBeFound(String filter) throws Exception
-  {
+  private void defaultHistoryUpdateShouldBeFound(String filter) throws Exception {
     restHistoryUpdateMockMvc
       .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
       .andExpect(status().isOk())
@@ -435,7 +413,7 @@ class HistoryUpdateResourceIT
       .andExpect(jsonPath("$.[*].id").value(hasItem(historyUpdate.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
-      .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)));
+      .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
 
     // Check, that the count call also returns 1
     restHistoryUpdateMockMvc
@@ -448,8 +426,7 @@ class HistoryUpdateResourceIT
   /**
    * Executes the search, and checks that the default entity is not returned.
    */
-  private void defaultHistoryUpdateShouldNotBeFound(String filter) throws Exception
-  {
+  private void defaultHistoryUpdateShouldNotBeFound(String filter) throws Exception {
     restHistoryUpdateMockMvc
       .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
       .andExpect(status().isOk())
@@ -467,16 +444,14 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void getNonExistingHistoryUpdate() throws Exception
-  {
+  void getNonExistingHistoryUpdate() throws Exception {
     // Get the historyUpdate
     restHistoryUpdateMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
   }
 
   @Test
   @Transactional
-  void putNewHistoryUpdate() throws Exception
-  {
+  void putNewHistoryUpdate() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -511,8 +486,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void putNonExistingHistoryUpdate() throws Exception
-  {
+  void putNonExistingHistoryUpdate() throws Exception {
     int databaseSizeBeforeUpdate = historyUpdateRepository.findAll().size();
     historyUpdate.setId(count.incrementAndGet());
 
@@ -538,8 +512,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void putWithIdMismatchHistoryUpdate() throws Exception
-  {
+  void putWithIdMismatchHistoryUpdate() throws Exception {
     int databaseSizeBeforeUpdate = historyUpdateRepository.findAll().size();
     historyUpdate.setId(count.incrementAndGet());
 
@@ -565,8 +538,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void putWithMissingIdPathParamHistoryUpdate() throws Exception
-  {
+  void putWithMissingIdPathParamHistoryUpdate() throws Exception {
     int databaseSizeBeforeUpdate = historyUpdateRepository.findAll().size();
     historyUpdate.setId(count.incrementAndGet());
 
@@ -588,8 +560,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void partialUpdateHistoryUpdateWithPatch() throws Exception
-  {
+  void partialUpdateHistoryUpdateWithPatch() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -620,8 +591,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void fullUpdateHistoryUpdateWithPatch() throws Exception
-  {
+  void fullUpdateHistoryUpdateWithPatch() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -652,8 +622,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void patchNonExistingHistoryUpdate() throws Exception
-  {
+  void patchNonExistingHistoryUpdate() throws Exception {
     int databaseSizeBeforeUpdate = historyUpdateRepository.findAll().size();
     historyUpdate.setId(count.incrementAndGet());
 
@@ -679,8 +648,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void patchWithIdMismatchHistoryUpdate() throws Exception
-  {
+  void patchWithIdMismatchHistoryUpdate() throws Exception {
     int databaseSizeBeforeUpdate = historyUpdateRepository.findAll().size();
     historyUpdate.setId(count.incrementAndGet());
 
@@ -706,8 +674,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void patchWithMissingIdPathParamHistoryUpdate() throws Exception
-  {
+  void patchWithMissingIdPathParamHistoryUpdate() throws Exception {
     int databaseSizeBeforeUpdate = historyUpdateRepository.findAll().size();
     historyUpdate.setId(count.incrementAndGet());
 
@@ -731,8 +698,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void deleteHistoryUpdate() throws Exception
-  {
+  void deleteHistoryUpdate() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
 
@@ -753,8 +719,7 @@ class HistoryUpdateResourceIT
 
   @Test
   @Transactional
-  void searchHistoryUpdate() throws Exception
-  {
+  void searchHistoryUpdate() throws Exception {
     // Configure the mock search repository
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
@@ -769,6 +734,6 @@ class HistoryUpdateResourceIT
       .andExpect(jsonPath("$.[*].id").value(hasItem(historyUpdate.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
-      .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)));
+      .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
   }
 }

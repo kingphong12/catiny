@@ -1,4 +1,4 @@
-id;uuid;full_name;nickname;avatar;quick_info;my_rank_id;base_info_id
+id;uuid;full_name;nickname;avatar;quick_info;my_rank_id;info_id
 1;00000000-0000-0000-0000-000000000001;Admin;Admin;{};{};;1
 2;00000000-0000-0000-0000-000000000002;User;User;{};{};;2
 100;00000000-0000-0000-0000-000000000100;Anonymous;Anonymous;{};{};;100

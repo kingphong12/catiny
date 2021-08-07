@@ -55,9 +55,9 @@ public class ImageModel implements Serializable
 
   private FileInfoDTO fileInfo;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private ImageDTO imageOriginal;
+  private ImageDTO original;
 
   @Data
   @Builder
@@ -99,9 +99,9 @@ public class ImageModel implements Serializable
 
     private FileInfoDTO fileInfo;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private ImageDTO imageOriginal;
+    private ImageDTO original;
   }
 
   @Data
@@ -144,8 +144,8 @@ public class ImageModel implements Serializable
 
     private FileInfoDTO fileInfo;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private ImageDTO imageOriginal;
+    private ImageDTO original;
   }
 }

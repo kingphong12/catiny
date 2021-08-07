@@ -45,9 +45,9 @@ export const RankUserDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{rankUserEntity.ratingPoints}</dd>
           <dt>
-            <Translate contentKey="catinyApp.rankUser.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.rankUser.info">Info</Translate>
           </dt>
-          <dd>{rankUserEntity.baseInfo ? rankUserEntity.baseInfo.id : ''}</dd>
+          <dd>{rankUserEntity.info ? rankUserEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.rankUser.rankGroup">Rank Group</Translate>
           </dt>

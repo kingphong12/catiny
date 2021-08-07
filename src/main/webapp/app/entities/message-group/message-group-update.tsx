@@ -45,7 +45,7 @@ export const MessageGroupUpdate = (props: RouteComponentProps<{ id: string }>) =
     const entity = {
       ...messageGroupEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -60,7 +60,7 @@ export const MessageGroupUpdate = (props: RouteComponentProps<{ id: string }>) =
       ? {}
       : {
           ...messageGroupEntity,
-          baseInfoId: messageGroupEntity?.baseInfo?.id,
+          infoId: messageGroupEntity?.info?.id,
         };
 
   return (
@@ -132,10 +132,10 @@ export const MessageGroupUpdate = (props: RouteComponentProps<{ id: string }>) =
                 <Translate contentKey="catinyApp.messageGroup.help.addBy" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="message-group-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.messageGroup.baseInfo')}
+                id="message-group-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.messageGroup.info')}
                 type="select"
               >
                 <option value="" key="0" />

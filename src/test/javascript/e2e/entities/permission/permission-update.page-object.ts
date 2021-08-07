@@ -1,10 +1,9 @@
-import {by, element, ElementFinder} from 'protractor';
-import {waitUntilDisplayed, waitUntilHidden} from '../../util/utils';
+import { element, by, ElementFinder } from 'protractor';
+import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils';
 
 const expect = chai.expect;
 
-export default class PermissionUpdatePage
-{
+export default class PermissionUpdatePage {
   pageTitle: ElementFinder = element(by.id('catinyApp.permission.home.createOrEditLabel'));
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
@@ -16,35 +15,27 @@ export default class PermissionUpdatePage
   addInput: ElementFinder = element(by.css('input#permission-add'));
   levelInput: ElementFinder = element(by.css('input#permission-level'));
   baseInfoSelect: ElementFinder = element(by.css('select#permission-baseInfo'));
-  masterUserSelect: ElementFinder = element(by.css('select#permission-masterUser'));
+  ownerSelect: ElementFinder = element(by.css('select#permission-owner'));
 
-  getPageTitle()
-  {
+  getPageTitle() {
     return this.pageTitle;
   }
 
-  async setUuidInput(uuid)
-  {
+  async setUuidInput(uuid) {
     await this.uuidInput.sendKeys(uuid);
   }
 
-  async getUuidInput()
-  {
+  async getUuidInput() {
     return this.uuidInput.getAttribute('value');
   }
 
-  getReadInput()
-  {
+  getReadInput() {
     return this.readInput;
   }
-
-  getWriteInput()
-  {
+  getWriteInput() {
     return this.writeInput;
   }
-
-  getShareInput()
-  {
+  getShareInput() {
     return this.shareInput;
   }
   getDeleteInput() {
@@ -77,20 +68,20 @@ export default class PermissionUpdatePage
     return this.baseInfoSelect.element(by.css('option:checked')).getText();
   }
 
-  async masterUserSelectLastOption() {
-    await this.masterUserSelect.all(by.tagName('option')).last().click();
+  async ownerSelectLastOption() {
+    await this.ownerSelect.all(by.tagName('option')).last().click();
   }
 
-  async masterUserSelectOption(option) {
-    await this.masterUserSelect.sendKeys(option);
+  async ownerSelectOption(option) {
+    await this.ownerSelect.sendKeys(option);
   }
 
-  getMasterUserSelect() {
-    return this.masterUserSelect;
+  getOwnerSelect() {
+    return this.ownerSelect;
   }
 
-  async getMasterUserSelectedOption() {
-    return this.masterUserSelect.element(by.css('option:checked')).getText();
+  async getOwnerSelectedOption() {
+    return this.ownerSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -105,24 +96,19 @@ export default class PermissionUpdatePage
     return this.saveButton;
   }
 
-  async enterData()
-  {
+  async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await waitUntilDisplayed(this.saveButton);
     const selectedRead = await this.getReadInput().isSelected();
-    if (selectedRead)
-    {
+    if (selectedRead) {
       await this.getReadInput().click();
-    }
-    else
-    {
+    } else {
       await this.getReadInput().click();
     }
     await waitUntilDisplayed(this.saveButton);
     const selectedWrite = await this.getWriteInput().isSelected();
-    if (selectedWrite)
-    {
+    if (selectedWrite) {
       await this.getWriteInput().click();
     } else {
       await this.getWriteInput().click();
@@ -151,7 +137,7 @@ export default class PermissionUpdatePage
     await waitUntilDisplayed(this.saveButton);
     await this.setLevelInput('5');
     await this.baseInfoSelectLastOption();
-    await this.masterUserSelectLastOption();
+    await this.ownerSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

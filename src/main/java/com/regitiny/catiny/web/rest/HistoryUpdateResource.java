@@ -1,5 +1,7 @@
 package com.regitiny.catiny.web.rest;
 
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.repository.HistoryUpdateRepository;
 import com.regitiny.catiny.service.HistoryUpdateQueryService;
@@ -7,12 +9,21 @@ import com.regitiny.catiny.service.HistoryUpdateService;
 import com.regitiny.catiny.service.criteria.HistoryUpdateCriteria;
 import com.regitiny.catiny.service.dto.HistoryUpdateDTO;
 import com.regitiny.catiny.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,37 +31,32 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 /**
  * REST controller for managing {@link com.regitiny.catiny.domain.HistoryUpdate}.
  */
 @RestController
 @RequestMapping("/api")
 @GeneratedByJHipster
-public class HistoryUpdateResource
-{
+public class HistoryUpdateResource {
+
+  private final Logger log = LoggerFactory.getLogger(HistoryUpdateResource.class);
 
   private static final String ENTITY_NAME = "historyUpdate";
-  private final Logger log = LoggerFactory.getLogger(HistoryUpdateResource.class);
-  private final HistoryUpdateService historyUpdateService;
-  private final HistoryUpdateRepository historyUpdateRepository;
-  private final HistoryUpdateQueryService historyUpdateQueryService;
+
   @Value("${jhipster.clientApp.name}")
   private String applicationName;
+
+  private final HistoryUpdateService historyUpdateService;
+
+  private final HistoryUpdateRepository historyUpdateRepository;
+
+  private final HistoryUpdateQueryService historyUpdateQueryService;
 
   public HistoryUpdateResource(
     HistoryUpdateService historyUpdateService,
     HistoryUpdateRepository historyUpdateRepository,
     HistoryUpdateQueryService historyUpdateQueryService
-  )
-  {
+  ) {
     this.historyUpdateService = historyUpdateService;
     this.historyUpdateRepository = historyUpdateRepository;
     this.historyUpdateQueryService = historyUpdateQueryService;
@@ -65,11 +71,9 @@ public class HistoryUpdateResource
    */
   @PostMapping("/history-updates")
   public ResponseEntity<HistoryUpdateDTO> createHistoryUpdate(@Valid @RequestBody HistoryUpdateDTO historyUpdateDTO)
-    throws URISyntaxException
-  {
+    throws URISyntaxException {
     log.debug("REST request to save HistoryUpdate : {}", historyUpdateDTO);
-    if (historyUpdateDTO.getId() != null)
-    {
+    if (historyUpdateDTO.getId() != null) {
       throw new BadRequestAlertException("A new historyUpdate cannot already have an ID", ENTITY_NAME, "idexists");
     }
     HistoryUpdateDTO result = historyUpdateService.save(historyUpdateDTO);
@@ -82,7 +86,7 @@ public class HistoryUpdateResource
   /**
    * {@code PUT  /history-updates/:id} : Updates an existing historyUpdate.
    *
-   * @param id               the id of the historyUpdateDTO to save.
+   * @param id the id of the historyUpdateDTO to save.
    * @param historyUpdateDTO the historyUpdateDTO to update.
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated historyUpdateDTO,
    * or with status {@code 400 (Bad Request)} if the historyUpdateDTO is not valid,
@@ -93,20 +97,16 @@ public class HistoryUpdateResource
   public ResponseEntity<HistoryUpdateDTO> updateHistoryUpdate(
     @PathVariable(value = "id", required = false) final Long id,
     @Valid @RequestBody HistoryUpdateDTO historyUpdateDTO
-  ) throws URISyntaxException
-  {
+  ) throws URISyntaxException {
     log.debug("REST request to update HistoryUpdate : {}, {}", id, historyUpdateDTO);
-    if (historyUpdateDTO.getId() == null)
-    {
+    if (historyUpdateDTO.getId() == null) {
       throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
     }
-    if (!Objects.equals(id, historyUpdateDTO.getId()))
-    {
+    if (!Objects.equals(id, historyUpdateDTO.getId())) {
       throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
     }
 
-    if (!historyUpdateRepository.existsById(id))
-    {
+    if (!historyUpdateRepository.existsById(id)) {
       throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
     }
 
@@ -120,7 +120,7 @@ public class HistoryUpdateResource
   /**
    * {@code PATCH  /history-updates/:id} : Partial updates given fields of an existing historyUpdate, field will ignore if it is null
    *
-   * @param id               the id of the historyUpdateDTO to save.
+   * @param id the id of the historyUpdateDTO to save.
    * @param historyUpdateDTO the historyUpdateDTO to update.
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated historyUpdateDTO,
    * or with status {@code 400 (Bad Request)} if the historyUpdateDTO is not valid,
@@ -132,20 +132,16 @@ public class HistoryUpdateResource
   public ResponseEntity<HistoryUpdateDTO> partialUpdateHistoryUpdate(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody HistoryUpdateDTO historyUpdateDTO
-  ) throws URISyntaxException
-  {
+  ) throws URISyntaxException {
     log.debug("REST request to partial update HistoryUpdate partially : {}, {}", id, historyUpdateDTO);
-    if (historyUpdateDTO.getId() == null)
-    {
+    if (historyUpdateDTO.getId() == null) {
       throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
     }
-    if (!Objects.equals(id, historyUpdateDTO.getId()))
-    {
+    if (!Objects.equals(id, historyUpdateDTO.getId())) {
       throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
     }
 
-    if (!historyUpdateRepository.existsById(id))
-    {
+    if (!historyUpdateRepository.existsById(id)) {
       throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
     }
 
@@ -165,8 +161,7 @@ public class HistoryUpdateResource
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of historyUpdates in body.
    */
   @GetMapping("/history-updates")
-  public ResponseEntity<List<HistoryUpdateDTO>> getAllHistoryUpdates(HistoryUpdateCriteria criteria, Pageable pageable)
-  {
+  public ResponseEntity<List<HistoryUpdateDTO>> getAllHistoryUpdates(HistoryUpdateCriteria criteria, Pageable pageable) {
     log.debug("REST request to get HistoryUpdates by criteria: {}", criteria);
     Page<HistoryUpdateDTO> page = historyUpdateQueryService.findByCriteria(criteria, pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -180,8 +175,7 @@ public class HistoryUpdateResource
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
    */
   @GetMapping("/history-updates/count")
-  public ResponseEntity<Long> countHistoryUpdates(HistoryUpdateCriteria criteria)
-  {
+  public ResponseEntity<Long> countHistoryUpdates(HistoryUpdateCriteria criteria) {
     log.debug("REST request to count HistoryUpdates by criteria: {}", criteria);
     return ResponseEntity.ok().body(historyUpdateQueryService.countByCriteria(criteria));
   }
@@ -193,8 +187,7 @@ public class HistoryUpdateResource
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the historyUpdateDTO, or with status {@code 404 (Not Found)}.
    */
   @GetMapping("/history-updates/{id}")
-  public ResponseEntity<HistoryUpdateDTO> getHistoryUpdate(@PathVariable Long id)
-  {
+  public ResponseEntity<HistoryUpdateDTO> getHistoryUpdate(@PathVariable Long id) {
     log.debug("REST request to get HistoryUpdate : {}", id);
     Optional<HistoryUpdateDTO> historyUpdateDTO = historyUpdateService.findOne(id);
     return ResponseUtil.wrapOrNotFound(historyUpdateDTO);
@@ -207,8 +200,7 @@ public class HistoryUpdateResource
    * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
    */
   @DeleteMapping("/history-updates/{id}")
-  public ResponseEntity<Void> deleteHistoryUpdate(@PathVariable Long id)
-  {
+  public ResponseEntity<Void> deleteHistoryUpdate(@PathVariable Long id) {
     log.debug("REST request to delete HistoryUpdate : {}", id);
     historyUpdateService.delete(id);
     return ResponseEntity
@@ -221,13 +213,12 @@ public class HistoryUpdateResource
    * {@code SEARCH  /_search/history-updates?query=:query} : search for the historyUpdate corresponding
    * to the query.
    *
-   * @param query    the query of the historyUpdate search.
+   * @param query the query of the historyUpdate search.
    * @param pageable the pagination information.
    * @return the result of the search.
    */
   @GetMapping("/_search/history-updates")
-  public ResponseEntity<List<HistoryUpdateDTO>> searchHistoryUpdates(@RequestParam String query, Pageable pageable)
-  {
+  public ResponseEntity<List<HistoryUpdateDTO>> searchHistoryUpdates(@RequestParam String query, Pageable pageable) {
     log.debug("REST request to search for a page of HistoryUpdates for query {}", query);
     Page<HistoryUpdateDTO> page = historyUpdateService.search(query, pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

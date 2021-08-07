@@ -198,13 +198,13 @@ export const PostComment = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.postComment.content">Content</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.postComment.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.postComment.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
                     <Translate contentKey="catinyApp.postComment.post">Post</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.postComment.commentParent">Comment Parent</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.postComment.parent">Parent</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -219,17 +219,9 @@ export const PostComment = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{postComment.uuid}</td>
                     <td>{postComment.content}</td>
-                    <td>
-                      {postComment.baseInfo ? <Link to={`base-info/${postComment.baseInfo.id}`}>{postComment.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{postComment.info ? <Link to={`base-info/${postComment.info.id}`}>{postComment.info.id}</Link> : ''}</td>
                     <td>{postComment.post ? <Link to={`post/${postComment.post.id}`}>{postComment.post.id}</Link> : ''}</td>
-                    <td>
-                      {postComment.commentParent ? (
-                        <Link to={`post-comment/${postComment.commentParent.id}`}>{postComment.commentParent.id}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
+                    <td>{postComment.parent ? <Link to={`post-comment/${postComment.parent.id}`}>{postComment.parent.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${postComment.id}`} color="info" size="sm" data-cy="entityDetailsButton">

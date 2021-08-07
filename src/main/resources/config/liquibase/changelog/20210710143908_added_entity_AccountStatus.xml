@@ -26,8 +26,8 @@
             <column name="status_comment" type="varchar(255)" remarks="statusComment  : người dùng comment lại trạng thái để hiển thị ra nếu muốn">
                 <constraints nullable="true" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_account_status__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_account_status__info_id" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

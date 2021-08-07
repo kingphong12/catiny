@@ -21,11 +21,11 @@
       "id": "ID",
       "uuid": "Uuid",
       "content": "Content",
-      "baseInfo": "Base Info",
+      "info": "Info",
       "like": "Like",
-      "commentReply": "Comment Reply",
+      "reply": "Reply",
       "post": "Post",
-      "commentParent": "Comment Parent",
+      "parent": "Parent",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)"
       }

@@ -32,10 +32,10 @@
             <column name="search_field" type="${clobType}" remarks="searchField    : lưu content tin nhắn lọc dấu ... để sau này search">
                 <constraints nullable="true" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_message_content__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_message_content__info_id" />
             </column>
-            <column name="message_group_id" type="bigint">
+            <column name="group_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

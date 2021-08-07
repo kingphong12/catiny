@@ -207,7 +207,7 @@ export const PagePost = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.pagePost.profile">Profile</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.pagePost.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.pagePost.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -225,7 +225,7 @@ export const PagePost = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{pagePost.avatar}</td>
                     <td>{pagePost.quickInfo}</td>
                     <td>{pagePost.profile ? <Link to={`page-profile/${pagePost.profile.id}`}>{pagePost.profile.id}</Link> : ''}</td>
-                    <td>{pagePost.baseInfo ? <Link to={`base-info/${pagePost.baseInfo.id}`}>{pagePost.baseInfo.id}</Link> : ''}</td>
+                    <td>{pagePost.info ? <Link to={`base-info/${pagePost.info.id}`}>{pagePost.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${pagePost.id}`} color="info" size="sm" data-cy="entityDetailsButton">

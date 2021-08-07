@@ -54,7 +54,7 @@ public class FileInfoDTO implements Serializable {
   @ApiModelProperty(value = "dataSize       : kích thước file theo byte")
   private Long dataSize;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -104,12 +104,12 @@ public class FileInfoDTO implements Serializable {
     this.dataSize = dataSize;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -143,7 +143,7 @@ public class FileInfoDTO implements Serializable {
             ", typeFile='" + getTypeFile() + "'" +
             ", path='" + getPath() + "'" +
             ", dataSize=" + getDataSize() +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

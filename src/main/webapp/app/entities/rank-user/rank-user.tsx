@@ -198,7 +198,7 @@ export const RankUser = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.rankUser.ratingPoints">Rating Points</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.rankUser.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.rankUser.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
                     <Translate contentKey="catinyApp.rankUser.rankGroup">Rank Group</Translate> <FontAwesomeIcon icon="sort" />
@@ -216,7 +216,7 @@ export const RankUser = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{rankUser.uuid}</td>
                     <td>{rankUser.ratingPoints}</td>
-                    <td>{rankUser.baseInfo ? <Link to={`base-info/${rankUser.baseInfo.id}`}>{rankUser.baseInfo.id}</Link> : ''}</td>
+                    <td>{rankUser.info ? <Link to={`base-info/${rankUser.info.id}`}>{rankUser.info.id}</Link> : ''}</td>
                     <td>{rankUser.rankGroup ? <Link to={`rank-group/${rankUser.rankGroup.id}`}>{rankUser.rankGroup.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">

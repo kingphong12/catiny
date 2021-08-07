@@ -64,9 +64,9 @@ public class VideoModel implements Serializable
 
   private FileInfoDTO fileInfo;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private VideoDTO videoOriginal;
+  private VideoDTO original;
 
   @Data
   @Builder
@@ -117,9 +117,9 @@ public class VideoModel implements Serializable
 
     private FileInfoDTO fileInfo;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private VideoDTO videoOriginal;
+    private VideoDTO original;
   }
 
   @Data
@@ -171,8 +171,8 @@ public class VideoModel implements Serializable
 
     private FileInfoDTO fileInfo;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private VideoDTO videoOriginal;
+    private VideoDTO original;
   }
 }

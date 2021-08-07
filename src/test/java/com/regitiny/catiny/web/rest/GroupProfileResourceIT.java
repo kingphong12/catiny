@@ -268,21 +268,21 @@ class GroupProfileResourceIT {
 
   @Test
   @Transactional
-  void getAllGroupProfilesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllGroupProfilesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     groupProfileRepository.saveAndFlush(groupProfile);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    groupProfile.setBaseInfo(baseInfo);
+    groupProfile.setInfo(info);
     groupProfileRepository.saveAndFlush(groupProfile);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the groupProfileList where baseInfo equals to baseInfoId
-    defaultGroupProfileShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the groupProfileList where info equals to infoId
+    defaultGroupProfileShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the groupProfileList where baseInfo equals to (baseInfoId + 1)
-    defaultGroupProfileShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the groupProfileList where info equals to (infoId + 1)
+    defaultGroupProfileShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

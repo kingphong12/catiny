@@ -288,21 +288,21 @@ class VideoStreamResourceIT {
 
   @Test
   @Transactional
-  void getAllVideoStreamsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllVideoStreamsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    videoStream.setBaseInfo(baseInfo);
+    videoStream.setInfo(info);
     videoStreamRepository.saveAndFlush(videoStream);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the videoStreamList where baseInfo equals to baseInfoId
-    defaultVideoStreamShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the videoStreamList where info equals to infoId
+    defaultVideoStreamShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the videoStreamList where baseInfo equals to (baseInfoId + 1)
-    defaultVideoStreamShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the videoStreamList where info equals to (infoId + 1)
+    defaultVideoStreamShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

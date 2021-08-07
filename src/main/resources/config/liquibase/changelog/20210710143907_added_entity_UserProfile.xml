@@ -53,8 +53,8 @@
             <column name="featured" type="${clobType}" remarks="featured : điểm nổi bật của bản thân\n@data-type : Json\n@describe : cá tính thế nào , đã làm nhứng gì rất đặc sắc ....">
                 <constraints nullable="true" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_user_profile__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_user_profile__info_id" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

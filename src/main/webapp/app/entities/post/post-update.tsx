@@ -60,10 +60,10 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...postEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      postShareParent: posts.find(it => it.id.toString() === values.postShareParentId.toString()),
-      groupPost: groupPosts.find(it => it.id.toString() === values.groupPostId.toString()),
-      pagePost: pagePosts.find(it => it.id.toString() === values.pagePostId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      parent: posts.find(it => it.id.toString() === values.parentId.toString()),
+      group: groupPosts.find(it => it.id.toString() === values.groupId.toString()),
+      page: pagePosts.find(it => it.id.toString() === values.pageId.toString()),
     };
 
     if (isNew) {
@@ -80,10 +80,10 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
           ...postEntity,
           postInType: 'GROUP',
           postType: 'SIMPLE',
-          baseInfoId: postEntity?.baseInfo?.id,
-          groupPostId: postEntity?.groupPost?.id,
-          pagePostId: postEntity?.pagePost?.id,
-          postShareParentId: postEntity?.postShareParent?.id,
+          infoId: postEntity?.info?.id,
+          groupId: postEntity?.group?.id,
+          pageId: postEntity?.page?.id,
+          parentId: postEntity?.parent?.id,
         };
 
   return (
@@ -169,13 +169,7 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 data-cy="searchField"
                 type="textarea"
               />
-              <ValidatedField
-                id="post-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.post.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="post-info" name="infoId" data-cy="info" label={translate('catinyApp.post.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (
@@ -185,13 +179,7 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                id="post-groupPost"
-                name="groupPostId"
-                data-cy="groupPost"
-                label={translate('catinyApp.post.groupPost')}
-                type="select"
-              >
+              <ValidatedField id="post-group" name="groupId" data-cy="group" label={translate('catinyApp.post.group')} type="select">
                 <option value="" key="0" />
                 {groupPosts
                   ? groupPosts.map(otherEntity => (
@@ -201,13 +189,7 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                id="post-pagePost"
-                name="pagePostId"
-                data-cy="pagePost"
-                label={translate('catinyApp.post.pagePost')}
-                type="select"
-              >
+              <ValidatedField id="post-page" name="pageId" data-cy="page" label={translate('catinyApp.post.page')} type="select">
                 <option value="" key="0" />
                 {pagePosts
                   ? pagePosts.map(otherEntity => (
@@ -217,13 +199,7 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                id="post-postShareParent"
-                name="postShareParentId"
-                data-cy="postShareParent"
-                label={translate('catinyApp.post.postShareParent')}
-                type="select"
-              >
+              <ValidatedField id="post-parent" name="parentId" data-cy="parent" label={translate('catinyApp.post.parent')} type="select">
                 <option value="" key="0" />
                 {posts
                   ? posts.map(otherEntity => (

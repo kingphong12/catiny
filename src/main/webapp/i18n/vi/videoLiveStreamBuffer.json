@@ -21,7 +21,7 @@
       "id": "ID",
       "uuid": "Uuid",
       "bufferData": "Buffer Data",
-      "baseInfo": "Base Info",
+      "info": "Info",
       "videoStream": "Video Stream",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)"

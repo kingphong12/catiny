@@ -39,17 +39,17 @@ export const PostLikeDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{postLikeEntity.uuid}</dd>
           <dt>
-            <Translate contentKey="catinyApp.postLike.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.postLike.info">Info</Translate>
           </dt>
-          <dd>{postLikeEntity.baseInfo ? postLikeEntity.baseInfo.id : ''}</dd>
+          <dd>{postLikeEntity.info ? postLikeEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.postLike.post">Post</Translate>
           </dt>
           <dd>{postLikeEntity.post ? postLikeEntity.post.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.postLike.postComment">Post Comment</Translate>
+            <Translate contentKey="catinyApp.postLike.comment">Comment</Translate>
           </dt>
-          <dd>{postLikeEntity.postComment ? postLikeEntity.postComment.id : ''}</dd>
+          <dd>{postLikeEntity.comment ? postLikeEntity.comment.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/post-like" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

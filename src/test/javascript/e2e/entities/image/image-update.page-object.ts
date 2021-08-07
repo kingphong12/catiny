@@ -16,8 +16,8 @@ export default class ImageUpdatePage {
   priorityIndexInput: ElementFinder = element(by.css('input#image-priorityIndex'));
   dataSizeInput: ElementFinder = element(by.css('input#image-dataSize'));
   fileInfoSelect: ElementFinder = element(by.css('select#image-fileInfo'));
-  baseInfoSelect: ElementFinder = element(by.css('select#image-baseInfo'));
-  imageOriginalSelect: ElementFinder = element(by.css('select#image-imageOriginal'));
+  infoSelect: ElementFinder = element(by.css('select#image-info'));
+  originalSelect: ElementFinder = element(by.css('select#image-original'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -103,36 +103,36 @@ export default class ImageUpdatePage {
     return this.fileInfoSelect.element(by.css('option:checked')).getText();
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
-  async imageOriginalSelectLastOption() {
-    await this.imageOriginalSelect.all(by.tagName('option')).last().click();
+  async originalSelectLastOption() {
+    await this.originalSelect.all(by.tagName('option')).last().click();
   }
 
-  async imageOriginalSelectOption(option) {
-    await this.imageOriginalSelect.sendKeys(option);
+  async originalSelectOption(option) {
+    await this.originalSelect.sendKeys(option);
   }
 
-  getImageOriginalSelect() {
-    return this.imageOriginalSelect;
+  getOriginalSelect() {
+    return this.originalSelect;
   }
 
-  async getImageOriginalSelectedOption() {
-    return this.imageOriginalSelect.element(by.css('option:checked')).getText();
+  async getOriginalSelectedOption() {
+    return this.originalSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -165,8 +165,8 @@ export default class ImageUpdatePage {
     await waitUntilDisplayed(this.saveButton);
     await this.setDataSizeInput('5');
     await this.fileInfoSelectLastOption();
-    await this.baseInfoSelectLastOption();
-    await this.imageOriginalSelectLastOption();
+    await this.infoSelectLastOption();
+    await this.originalSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

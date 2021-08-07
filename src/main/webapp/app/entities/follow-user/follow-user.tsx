@@ -195,11 +195,10 @@ export const FollowUser = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.followUser.uuid">Uuid</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.followUser.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.followUser.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.followUser.followUserDetails">Follow User Details</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.followUser.follow">Follow</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -213,14 +212,8 @@ export const FollowUser = (props: RouteComponentProps<{ url: string }>) => {
                       </Button>
                     </td>
                     <td>{followUser.uuid}</td>
-                    <td>{followUser.baseInfo ? <Link to={`base-info/${followUser.baseInfo.id}`}>{followUser.baseInfo.id}</Link> : ''}</td>
-                    <td>
-                      {followUser.followUserDetails ? (
-                        <Link to={`master-user/${followUser.followUserDetails.id}`}>{followUser.followUserDetails.id}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
+                    <td>{followUser.info ? <Link to={`base-info/${followUser.info.id}`}>{followUser.info.id}</Link> : ''}</td>
+                    <td>{followUser.follow ? <Link to={`master-user/${followUser.follow.id}`}>{followUser.follow.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${followUser.id}`} color="info" size="sm" data-cy="entityDetailsButton">

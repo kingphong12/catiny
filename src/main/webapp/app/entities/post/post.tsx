@@ -207,16 +207,16 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.post.searchField">Search Field</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.post.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.post.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.post.groupPost">Group Post</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.post.group">Group</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.post.pagePost">Page Post</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.post.page">Page</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.post.postShareParent">Post Share Parent</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.post.parent">Parent</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -238,10 +238,10 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{post.content}</td>
                     <td>{post.searchField}</td>
-                    <td>{post.baseInfo ? <Link to={`base-info/${post.baseInfo.id}`}>{post.baseInfo.id}</Link> : ''}</td>
-                    <td>{post.groupPost ? <Link to={`group-post/${post.groupPost.id}`}>{post.groupPost.id}</Link> : ''}</td>
-                    <td>{post.pagePost ? <Link to={`page-post/${post.pagePost.id}`}>{post.pagePost.id}</Link> : ''}</td>
-                    <td>{post.postShareParent ? <Link to={`post/${post.postShareParent.id}`}>{post.postShareParent.id}</Link> : ''}</td>
+                    <td>{post.info ? <Link to={`base-info/${post.info.id}`}>{post.info.id}</Link> : ''}</td>
+                    <td>{post.group ? <Link to={`group-post/${post.group.id}`}>{post.group.id}</Link> : ''}</td>
+                    <td>{post.page ? <Link to={`page-post/${post.page.id}`}>{post.page.id}</Link> : ''}</td>
+                    <td>{post.parent ? <Link to={`post/${post.parent.id}`}>{post.parent.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${post.id}`} color="info" size="sm" data-cy="entityDetailsButton">

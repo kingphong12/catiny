@@ -49,7 +49,7 @@ export const VideoLiveStreamBufferUpdate = (props: RouteComponentProps<{ id: str
     const entity = {
       ...videoLiveStreamBufferEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
       videoStream: videoStreams.find(it => it.id.toString() === values.videoStreamId.toString()),
     };
 
@@ -65,7 +65,7 @@ export const VideoLiveStreamBufferUpdate = (props: RouteComponentProps<{ id: str
       ? {}
       : {
           ...videoLiveStreamBufferEntity,
-          baseInfoId: videoLiveStreamBufferEntity?.baseInfo?.id,
+          infoId: videoLiveStreamBufferEntity?.info?.id,
           videoStreamId: videoLiveStreamBufferEntity?.videoStream?.id,
         };
 
@@ -117,10 +117,10 @@ export const VideoLiveStreamBufferUpdate = (props: RouteComponentProps<{ id: str
                 openActionLabel={translate('entity.action.open')}
               />
               <ValidatedField
-                id="video-live-stream-buffer-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.videoLiveStreamBuffer.baseInfo')}
+                id="video-live-stream-buffer-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.videoLiveStreamBuffer.info')}
                 type="select"
               >
                 <option value="" key="0" />

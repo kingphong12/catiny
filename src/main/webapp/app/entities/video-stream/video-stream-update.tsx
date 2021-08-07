@@ -50,7 +50,7 @@ export const VideoStreamUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ...videoStreamEntity,
       ...values,
       video: videos.find(it => it.id.toString() === values.videoId.toString()),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -66,7 +66,7 @@ export const VideoStreamUpdate = (props: RouteComponentProps<{ id: string }>) =>
       : {
           ...videoStreamEntity,
           videoId: videoStreamEntity?.video?.id,
-          baseInfoId: videoStreamEntity?.baseInfo?.id,
+          infoId: videoStreamEntity?.info?.id,
         };
 
   return (
@@ -124,10 +124,10 @@ export const VideoStreamUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="video-stream-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.videoStream.baseInfo')}
+                id="video-stream-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.videoStream.info')}
                 type="select"
               >
                 <option value="" key="0" />

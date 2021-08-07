@@ -104,7 +104,7 @@ describe('NewsFeed e2e test', () => {
 
     cy.get(`[data-cy="priorityIndex"]`).type('88100').should('have.value', '88100');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('post');
 

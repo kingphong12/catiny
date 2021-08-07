@@ -48,9 +48,9 @@ export const NewsFeedDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{newsFeedEntity.priorityIndex}</dd>
           <dt>
-            <Translate contentKey="catinyApp.newsFeed.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.newsFeed.info">Info</Translate>
           </dt>
-          <dd>{newsFeedEntity.baseInfo ? newsFeedEntity.baseInfo.id : ''}</dd>
+          <dd>{newsFeedEntity.info ? newsFeedEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.newsFeed.post">Post</Translate>
           </dt>

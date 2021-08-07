@@ -12,8 +12,8 @@ import org.mapstruct.*;
 @GeneratedByJHipster
 public interface VideoMapper extends EntityMapper<VideoDTO, Video> {
   @Mapping(target = "fileInfo", source = "fileInfo", qualifiedByName = "id")
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "videoOriginal", source = "videoOriginal", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
+  @Mapping(target = "original", source = "original", qualifiedByName = "id")
   VideoDTO toDto(Video s);
 
   @Named("id")

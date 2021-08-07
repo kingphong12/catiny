@@ -207,7 +207,7 @@ export const GroupPost = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.groupPost.profile">Profile</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.groupPost.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.groupPost.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -225,7 +225,7 @@ export const GroupPost = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{groupPost.avatar}</td>
                     <td>{groupPost.quickInfo}</td>
                     <td>{groupPost.profile ? <Link to={`group-profile/${groupPost.profile.id}`}>{groupPost.profile.id}</Link> : ''}</td>
-                    <td>{groupPost.baseInfo ? <Link to={`base-info/${groupPost.baseInfo.id}`}>{groupPost.baseInfo.id}</Link> : ''}</td>
+                    <td>{groupPost.info ? <Link to={`base-info/${groupPost.info.id}`}>{groupPost.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${groupPost.id}`} color="info" size="sm" data-cy="entityDetailsButton">

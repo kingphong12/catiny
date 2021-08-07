@@ -69,7 +69,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "event",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     }
   ],

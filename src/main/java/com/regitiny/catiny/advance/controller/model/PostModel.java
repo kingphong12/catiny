@@ -45,13 +45,13 @@ public class PostModel implements Serializable
   @Lob
   private String searchField;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private GroupPostDTO groupPost;
+  private GroupPostDTO group;
 
-  private PagePostDTO pagePost;
+  private PagePostDTO page;
 
-  private PostDTO postShareParent;
+  private PostDTO parent;
 
   @Data
   @Builder
@@ -81,13 +81,13 @@ public class PostModel implements Serializable
     @Lob
     private String searchField;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private GroupPostDTO groupPost;
+    private GroupPostDTO group;
 
-    private PagePostDTO pagePost;
+    private PagePostDTO page;
 
-    private PostDTO postShareParent;
+    private PostDTO parent;
   }
 
   @Data
@@ -118,12 +118,12 @@ public class PostModel implements Serializable
     @Lob
     private String searchField;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private GroupPostDTO groupPost;
+    private GroupPostDTO group;
 
-    private PagePostDTO pagePost;
+    private PagePostDTO page;
 
-    private PostDTO postShareParent;
+    private PostDTO parent;
   }
 }

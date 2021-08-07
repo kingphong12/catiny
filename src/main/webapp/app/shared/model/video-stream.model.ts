@@ -6,7 +6,7 @@ export interface IVideoStream {
   id?: number;
   uuid?: string;
   video?: IVideo | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   videoLiveStreamBuffers?: IVideoLiveStreamBuffer[] | null;
 }
 

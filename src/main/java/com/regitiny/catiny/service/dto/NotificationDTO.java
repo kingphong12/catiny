@@ -42,7 +42,7 @@ public class NotificationDTO implements Serializable {
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -84,12 +84,12 @@ public class NotificationDTO implements Serializable {
     this.content = content;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -122,7 +122,7 @@ public class NotificationDTO implements Serializable {
             ", notifyType='" + getNotifyType() + "'" +
             ", title='" + getTitle() + "'" +
             ", content='" + getContent() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

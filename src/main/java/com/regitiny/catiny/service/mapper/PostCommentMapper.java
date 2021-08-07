@@ -11,9 +11,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, PostMapper.class })
 @GeneratedByJHipster
 public interface PostCommentMapper extends EntityMapper<PostCommentDTO, PostComment> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   @Mapping(target = "post", source = "post", qualifiedByName = "id")
-  @Mapping(target = "commentParent", source = "commentParent", qualifiedByName = "id")
+  @Mapping(target = "parent", source = "parent", qualifiedByName = "id")
   PostCommentDTO toDto(PostComment s);
 
   @Named("id")

@@ -101,11 +101,9 @@ public class PostQueryService extends QueryService<Post> {
       if (criteria.getPostType() != null) {
         specification = specification.and(buildSpecification(criteria.getPostType(), Post_.postType));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(Post_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(Post_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
       if (criteria.getCommentId() != null) {
         specification =
@@ -117,29 +115,21 @@ public class PostQueryService extends QueryService<Post> {
         specification =
           specification.and(buildSpecification(criteria.getLikeId(), root -> root.join(Post_.likes, JoinType.LEFT).get(PostLike_.id)));
       }
-      if (criteria.getPostShareChildrenId() != null) {
+      if (criteria.getChildrenId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getPostShareChildrenId(), root -> root.join(Post_.postShareChildren, JoinType.LEFT).get(Post_.id))
-          );
+          specification.and(buildSpecification(criteria.getChildrenId(), root -> root.join(Post_.children, JoinType.LEFT).get(Post_.id)));
       }
-      if (criteria.getGroupPostId() != null) {
+      if (criteria.getGroupId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getGroupPostId(), root -> root.join(Post_.groupPost, JoinType.LEFT).get(GroupPost_.id))
-          );
+          specification.and(buildSpecification(criteria.getGroupId(), root -> root.join(Post_.group, JoinType.LEFT).get(GroupPost_.id)));
       }
-      if (criteria.getPagePostId() != null) {
+      if (criteria.getPageId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getPagePostId(), root -> root.join(Post_.pagePost, JoinType.LEFT).get(PagePost_.id))
-          );
+          specification.and(buildSpecification(criteria.getPageId(), root -> root.join(Post_.page, JoinType.LEFT).get(PagePost_.id)));
       }
-      if (criteria.getPostShareParentId() != null) {
+      if (criteria.getParentId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getPostShareParentId(), root -> root.join(Post_.postShareParent, JoinType.LEFT).get(Post_.id))
-          );
+          specification.and(buildSpecification(criteria.getParentId(), root -> root.join(Post_.parent, JoinType.LEFT).get(Post_.id)));
       }
       if (criteria.getNewsFeedId() != null) {
         specification =

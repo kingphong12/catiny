@@ -2,14 +2,14 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
+import java.io.Serializable;
+import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.UUID;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A Permission.
@@ -19,8 +19,7 @@ import java.util.UUID;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "permission")
 @GeneratedByJHipster
-public class Permission implements Serializable
-{
+public class Permission implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -74,94 +73,45 @@ public class Permission implements Serializable
   private Integer level;
 
   @ManyToOne
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   private BaseInfo baseInfo;
 
   @ManyToOne
-  @JsonIgnoreProperties(
-    value = { "user", "myRank", "baseInfo", "myBaseInfoCreateds", "myBaseInfoModifieds", "ownerOfs", "permissions", "topicInterests" },
-    allowSetters = true
-  )
-  private MasterUser masterUser;
+  @JsonIgnoreProperties(value = { "user", "myRank", "info", "permissions", "topicInterests", "owneds" }, allowSetters = true)
+  private MasterUser owner;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id)
-  {
+  public void setId(Long id) {
     this.id = id;
   }
 
-  public Permission id(Long id)
-  {
+  public Permission id(Long id) {
     this.id = id;
     return this;
   }
 
-  public UUID getUuid()
-  {
+  public UUID getUuid() {
     return this.uuid;
   }
 
-  public void setUuid(UUID uuid)
-  {
-    this.uuid = uuid;
-  }
-
-  public Permission uuid(UUID uuid)
-  {
+  public Permission uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
 
-  public Boolean getRead()
-  {
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
+  }
+
+  public Boolean getRead() {
     return this.read;
   }
 
-  public Permission read(Boolean read)
-  {
+  public Permission read(Boolean read) {
     this.read = read;
     return this;
   }
@@ -248,17 +198,17 @@ public class Permission implements Serializable
     this.baseInfo = baseInfo;
   }
 
-  public MasterUser getMasterUser() {
-    return this.masterUser;
+  public MasterUser getOwner() {
+    return this.owner;
   }
 
-  public Permission masterUser(MasterUser masterUser) {
-    this.setMasterUser(masterUser);
+  public Permission owner(MasterUser masterUser) {
+    this.setOwner(masterUser);
     return this;
   }
 
-  public void setMasterUser(MasterUser masterUser) {
-    this.masterUser = masterUser;
+  public void setOwner(MasterUser masterUser) {
+    this.owner = masterUser;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -284,14 +234,14 @@ public class Permission implements Serializable
     @Override
     public String toString() {
         return "Permission{" +
-          "id=" + getId() +
-          ", uuid='" + getUuid() + "'" +
-          ", read='" + getRead() + "'" +
-          ", write='" + getWrite() + "'" +
-          ", share='" + getShare() + "'" +
-          ", delete='" + getDelete() + "'" +
-          ", add='" + getAdd() + "'" +
-          ", level=" + getLevel() +
-          "}";
+            "id=" + getId() +
+            ", uuid='" + getUuid() + "'" +
+            ", read='" + getRead() + "'" +
+            ", write='" + getWrite() + "'" +
+            ", share='" + getShare() + "'" +
+            ", delete='" + getDelete() + "'" +
+            ", add='" + getAdd() + "'" +
+            ", level=" + getLevel() +
+            "}";
     }
 }

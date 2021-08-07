@@ -2,16 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A ClassInfo.
@@ -59,46 +59,7 @@ public class ClassInfo implements Serializable {
 
   @OneToMany(mappedBy = "classInfo")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   private Set<BaseInfo> baseInfos = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -119,40 +80,33 @@ public class ClassInfo implements Serializable {
     return this.uuid;
   }
 
-  public ClassInfo uuid(UUID uuid)
-  {
+  public ClassInfo uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
 
-  public void setUuid(UUID uuid)
-  {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public String getNamePackage()
-  {
+  public String getNamePackage() {
     return this.namePackage;
   }
 
-  public void setNamePackage(String namePackage)
-  {
-    this.namePackage = namePackage;
-  }
-
-  public ClassInfo namePackage(String namePackage)
-  {
+  public ClassInfo namePackage(String namePackage) {
     this.namePackage = namePackage;
     return this;
   }
 
-  public String getFullName()
-  {
+  public void setNamePackage(String namePackage) {
+    this.namePackage = namePackage;
+  }
+
+  public String getFullName() {
     return this.fullName;
   }
 
-  public ClassInfo fullName(String fullName)
-  {
+  public ClassInfo fullName(String fullName) {
     this.fullName = fullName;
     return this;
   }
@@ -228,11 +182,11 @@ public class ClassInfo implements Serializable {
     @Override
     public String toString() {
         return "ClassInfo{" +
-          "id=" + getId() +
-          ", uuid='" + getUuid() + "'" +
-          ", namePackage='" + getNamePackage() + "'" +
-          ", fullName='" + getFullName() + "'" +
-          ", className='" + getClassName() + "'" +
-          "}";
+            "id=" + getId() +
+            ", uuid='" + getUuid() + "'" +
+            ", namePackage='" + getNamePackage() + "'" +
+            ", fullName='" + getFullName() + "'" +
+            ", className='" + getClassName() + "'" +
+            "}";
     }
 }

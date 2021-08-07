@@ -32,11 +32,11 @@ public class PostCommentModel implements Serializable
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private PostDTO post;
 
-  private PostCommentDTO commentParent;
+  private PostCommentDTO parent;
 
   @Data
   @Builder
@@ -56,11 +56,11 @@ public class PostCommentModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private PostDTO post;
 
-    private PostCommentDTO commentParent;
+    private PostCommentDTO parent;
   }
 
   @Data
@@ -81,10 +81,10 @@ public class PostCommentModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private PostDTO post;
 
-    private PostCommentDTO commentParent;
+    private PostCommentDTO parent;
   }
 }

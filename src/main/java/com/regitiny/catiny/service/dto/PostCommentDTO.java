@@ -33,11 +33,11 @@ public class PostCommentDTO implements Serializable {
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private PostDTO post;
 
-  private PostCommentDTO commentParent;
+  private PostCommentDTO parent;
 
   public Long getId() {
     return id;
@@ -63,12 +63,12 @@ public class PostCommentDTO implements Serializable {
     this.content = content;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public PostDTO getPost() {
@@ -79,12 +79,12 @@ public class PostCommentDTO implements Serializable {
     this.post = post;
   }
 
-  public PostCommentDTO getCommentParent() {
-    return commentParent;
+  public PostCommentDTO getParent() {
+    return parent;
   }
 
-  public void setCommentParent(PostCommentDTO commentParent) {
-    this.commentParent = commentParent;
+  public void setParent(PostCommentDTO parent) {
+    this.parent = parent;
   }
 
   @Override
@@ -115,9 +115,9 @@ public class PostCommentDTO implements Serializable {
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
             ", content='" + getContent() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", post=" + getPost() +
-            ", commentParent=" + getCommentParent() +
+            ", parent=" + getParent() +
             "}";
     }
 }

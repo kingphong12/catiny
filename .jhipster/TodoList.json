@@ -22,7 +22,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "todoList",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     }
   ],

@@ -115,35 +115,9 @@ public class MasterUserQueryService extends QueryService<MasterUser> {
             buildSpecification(criteria.getMyRankId(), root -> root.join(MasterUser_.myRank, JoinType.LEFT).get(RankUser_.id))
           );
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(MasterUser_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
-      }
-      if (criteria.getMyBaseInfoCreatedId() != null) {
-        specification =
-          specification.and(
-            buildSpecification(
-              criteria.getMyBaseInfoCreatedId(),
-              root -> root.join(MasterUser_.myBaseInfoCreateds, JoinType.LEFT).get(BaseInfo_.id)
-            )
-          );
-      }
-      if (criteria.getMyBaseInfoModifiedId() != null) {
-        specification =
-          specification.and(
-            buildSpecification(
-              criteria.getMyBaseInfoModifiedId(),
-              root -> root.join(MasterUser_.myBaseInfoModifieds, JoinType.LEFT).get(BaseInfo_.id)
-            )
-          );
-      }
-      if (criteria.getOwnerOfId() != null) {
-        specification =
-          specification.and(
-            buildSpecification(criteria.getOwnerOfId(), root -> root.join(MasterUser_.ownerOfs, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(MasterUser_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
       if (criteria.getPermissionId() != null) {
         specification =
@@ -158,6 +132,12 @@ public class MasterUserQueryService extends QueryService<MasterUser> {
               criteria.getTopicInterestId(),
               root -> root.join(MasterUser_.topicInterests, JoinType.LEFT).get(TopicInterest_.id)
             )
+          );
+      }
+      if (criteria.getOwnedId() != null) {
+        specification =
+          specification.and(
+            buildSpecification(criteria.getOwnedId(), root -> root.join(MasterUser_.owneds, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
     }

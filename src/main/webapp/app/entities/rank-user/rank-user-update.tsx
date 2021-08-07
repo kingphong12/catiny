@@ -8,6 +8,8 @@ import { IBaseInfo } from 'app/shared/model/base-info.model';
 import { getEntities as getBaseInfos } from 'app/entities/base-info/base-info.reducer';
 import { IRankGroup } from 'app/shared/model/rank-group.model';
 import { getEntities as getRankGroups } from 'app/entities/rank-group/rank-group.reducer';
+import { IMasterUser } from 'app/shared/model/master-user.model';
+import { getEntities as getMasterUsers } from 'app/entities/master-user/master-user.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './rank-user.reducer';
 import { IRankUser } from 'app/shared/model/rank-user.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -21,6 +23,7 @@ export const RankUserUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const baseInfos = useAppSelector(state => state.baseInfo.entities);
   const rankGroups = useAppSelector(state => state.rankGroup.entities);
+  const masterUsers = useAppSelector(state => state.masterUser.entities);
   const rankUserEntity = useAppSelector(state => state.rankUser.entity);
   const loading = useAppSelector(state => state.rankUser.loading);
   const updating = useAppSelector(state => state.rankUser.updating);
@@ -37,6 +40,7 @@ export const RankUserUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
     dispatch(getBaseInfos({}));
     dispatch(getRankGroups({}));
+    dispatch(getMasterUsers({}));
   }, []);
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export const RankUserUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...rankUserEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
       rankGroup: rankGroups.find(it => it.id.toString() === values.rankGroupId.toString()),
     };
 
@@ -65,7 +69,7 @@ export const RankUserUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...rankUserEntity,
-          baseInfoId: rankUserEntity?.baseInfo?.id,
+          infoId: rankUserEntity?.info?.id,
           rankGroupId: rankUserEntity?.rankGroup?.id,
         };
 
@@ -114,13 +118,7 @@ export const RankUserUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 data-cy="ratingPoints"
                 type="text"
               />
-              <ValidatedField
-                id="rank-user-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.rankUser.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="rank-user-info" name="infoId" data-cy="info" label={translate('catinyApp.rankUser.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

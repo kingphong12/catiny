@@ -29,9 +29,9 @@ public class FollowGroupDTO implements Serializable {
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private GroupPostDTO followGroupDetails;
+  private GroupPostDTO groupDetails;
 
   public Long getId() {
     return id;
@@ -49,20 +49,20 @@ public class FollowGroupDTO implements Serializable {
     this.uuid = uuid;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public GroupPostDTO getFollowGroupDetails() {
-    return followGroupDetails;
+  public GroupPostDTO getGroupDetails() {
+    return groupDetails;
   }
 
-  public void setFollowGroupDetails(GroupPostDTO followGroupDetails) {
-    this.followGroupDetails = followGroupDetails;
+  public void setGroupDetails(GroupPostDTO groupDetails) {
+    this.groupDetails = groupDetails;
   }
 
   @Override
@@ -92,8 +92,8 @@ public class FollowGroupDTO implements Serializable {
         return "FollowGroupDTO{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
-            ", baseInfo=" + getBaseInfo() +
-            ", followGroupDetails=" + getFollowGroupDetails() +
+            ", info=" + getInfo() +
+            ", groupDetails=" + getGroupDetails() +
             "}";
     }
 }

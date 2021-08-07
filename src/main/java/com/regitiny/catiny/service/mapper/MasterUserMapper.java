@@ -14,7 +14,7 @@ import org.mapstruct.*;
 public interface MasterUserMapper extends EntityMapper<MasterUserDTO, MasterUser> {
   @Mapping(target = "user", source = "user", qualifiedByName = "id")
   @Mapping(target = "myRank", source = "myRank", qualifiedByName = "id")
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   @Mapping(target = "topicInterests", source = "topicInterests", qualifiedByName = "idSet")
   MasterUserDTO toDto(MasterUser s);
 

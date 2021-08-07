@@ -108,16 +108,18 @@ public class PagePostQueryService extends QueryService<PagePost> {
             buildSpecification(criteria.getProfileId(), root -> root.join(PagePost_.profile, JoinType.LEFT).get(PageProfile_.id))
           );
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(PagePost_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(PagePost_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
-      if (criteria.getMyPostInPageId() != null) {
+      if (criteria.getPostId() != null) {
+        specification =
+          specification.and(buildSpecification(criteria.getPostId(), root -> root.join(PagePost_.posts, JoinType.LEFT).get(Post_.id)));
+      }
+      if (criteria.getFollowedId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getMyPostInPageId(), root -> root.join(PagePost_.myPostInPages, JoinType.LEFT).get(Post_.id))
+            buildSpecification(criteria.getFollowedId(), root -> root.join(PagePost_.followeds, JoinType.LEFT).get(FollowPage_.id))
           );
       }
       if (criteria.getTopicInterestId() != null) {

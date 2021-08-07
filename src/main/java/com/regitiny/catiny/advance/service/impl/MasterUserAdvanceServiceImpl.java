@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Log4j2
 @Service
@@ -64,6 +65,7 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
   }
 
   @Override
+//  @Transactional(propagation = Propagation.NESTED)
   public Option<MasterUser> createMasterUser(String login)
   {
     return userService.getOneByLogin(login)
@@ -98,19 +100,21 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
               .addPermission(permission)
               .priorityIndex(0L)
               .countUse(0L)
-              .addHistoryUpdate(historyUpdate));
+              .addHistory(historyUpdate));
 
           var masterUser = masterUserAdvanceRepository
             .save(new MasterUser()
-              .fullName(user.getLastName() + StringPool.SPACE + user.getFirstName())
-              .user(user)
-              .addPermission(permission));
+              .fullName(Option.when(Objects.nonNull(user.getLastName()) && Objects.nonNull(user.getFirstName()),
+                user.getLastName() + StringPool.SPACE + user.getFirstName()).getOrElse("No Name"))
+              .user(user));
+//              .addMyPermission(permission));
+
+          masterUser = masterUserAdvanceRepository.save(masterUser.addPermission(permission));
 
           baseInfoAdvanceRepository.save(baseInfo
             .owner(masterUser)
             .createdBy(masterUser)
             .modifiedBy(masterUser));
-
 
           return Option.of(masterUser);
         }))

@@ -45,7 +45,7 @@ export const UserProfileUpdate = (props: RouteComponentProps<{ id: string }>) =>
     const entity = {
       ...userProfileEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -60,7 +60,7 @@ export const UserProfileUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ? {}
       : {
           ...userProfileEntity,
-          baseInfoId: userProfileEntity?.baseInfo?.id,
+          infoId: userProfileEntity?.info?.id,
         };
 
   return (
@@ -222,10 +222,10 @@ export const UserProfileUpdate = (props: RouteComponentProps<{ id: string }>) =>
                 <Translate contentKey="catinyApp.userProfile.help.featured" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="user-profile-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.userProfile.baseInfo')}
+                id="user-profile-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.userProfile.info')}
                 type="select"
               >
                 <option value="" key="0" />

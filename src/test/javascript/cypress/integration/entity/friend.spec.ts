@@ -104,9 +104,9 @@ describe('Friend e2e test', () => {
 
     cy.get(`[data-cy="friendType"]`).select('FAMILY');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
-    cy.setFieldSelectToLastOfEntity('friendDetails');
+    cy.setFieldSelectToLastOfEntity('friend');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

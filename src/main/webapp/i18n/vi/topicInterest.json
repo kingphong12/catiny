@@ -22,7 +22,7 @@
       "uuid": "Uuid",
       "title": "Title",
       "content": "Content",
-      "baseInfo": "Base Info",
+      "info": "Info",
       "post": "Post",
       "pagePost": "Page Post",
       "groupPost": "Group Post",

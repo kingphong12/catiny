@@ -36,7 +36,7 @@ public class TopicInterestModel implements Serializable
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private Set<PostDTO> posts;
 
@@ -64,7 +64,7 @@ public class TopicInterestModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private Set<PostDTO> posts;
 
@@ -93,7 +93,7 @@ public class TopicInterestModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private Set<PostDTO> posts;
 

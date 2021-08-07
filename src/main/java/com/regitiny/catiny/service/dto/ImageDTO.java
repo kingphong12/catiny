@@ -77,9 +77,9 @@ public class ImageDTO implements Serializable {
 
   private FileInfoDTO fileInfo;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private ImageDTO imageOriginal;
+  private ImageDTO original;
 
   public Long getId() {
     return id;
@@ -161,20 +161,20 @@ public class ImageDTO implements Serializable {
     this.fileInfo = fileInfo;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public ImageDTO getImageOriginal() {
-    return imageOriginal;
+  public ImageDTO getOriginal() {
+    return original;
   }
 
-  public void setImageOriginal(ImageDTO imageOriginal) {
-    this.imageOriginal = imageOriginal;
+  public void setOriginal(ImageDTO original) {
+    this.original = original;
   }
 
   @Override
@@ -212,8 +212,8 @@ public class ImageDTO implements Serializable {
             ", priorityIndex=" + getPriorityIndex() +
             ", dataSize=" + getDataSize() +
             ", fileInfo=" + getFileInfo() +
-            ", baseInfo=" + getBaseInfo() +
-            ", imageOriginal=" + getImageOriginal() +
+            ", info=" + getInfo() +
+            ", original=" + getOriginal() +
             "}";
     }
 }

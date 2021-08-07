@@ -6,11 +6,11 @@ export interface IPostComment {
   id?: number;
   uuid?: string;
   content?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   likes?: IPostLike[] | null;
-  commentReplies?: IPostComment[] | null;
+  replies?: IPostComment[] | null;
   post?: IPost | null;
-  commentParent?: IPostComment | null;
+  parent?: IPostComment | null;
 }
 
 export const defaultValue: Readonly<IPostComment> = {};

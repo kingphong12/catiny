@@ -13,12 +13,10 @@ export interface IMasterUser {
   quickInfo?: string | null;
   user?: IUser | null;
   myRank?: IRankUser | null;
-  baseInfo?: IBaseInfo | null;
-  myBaseInfoCreateds?: IBaseInfo[] | null;
-  myBaseInfoModifieds?: IBaseInfo[] | null;
-  ownerOfs?: IBaseInfo[] | null;
+  info?: IBaseInfo | null;
   permissions?: IPermission[] | null;
   topicInterests?: ITopicInterest[] | null;
+  owneds?: IBaseInfo[] | null;
 }
 
 export const defaultValue: Readonly<IMasterUser> = {};

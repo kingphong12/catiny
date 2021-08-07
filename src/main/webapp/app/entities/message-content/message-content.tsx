@@ -210,10 +210,10 @@ export const MessageContent = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.messageContent.searchField">Search Field</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.messageContent.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.messageContent.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.messageContent.messageGroup">Message Group</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.messageContent.group">Group</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -232,19 +232,9 @@ export const MessageContent = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{messageContent.content}</td>
                     <td>{messageContent.status}</td>
                     <td>{messageContent.searchField}</td>
+                    <td>{messageContent.info ? <Link to={`base-info/${messageContent.info.id}`}>{messageContent.info.id}</Link> : ''}</td>
                     <td>
-                      {messageContent.baseInfo ? (
-                        <Link to={`base-info/${messageContent.baseInfo.id}`}>{messageContent.baseInfo.id}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                    <td>
-                      {messageContent.messageGroup ? (
-                        <Link to={`message-group/${messageContent.messageGroup.id}`}>{messageContent.messageGroup.id}</Link>
-                      ) : (
-                        ''
-                      )}
+                      {messageContent.group ? <Link to={`message-group/${messageContent.group.id}`}>{messageContent.group.id}</Link> : ''}
                     </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">

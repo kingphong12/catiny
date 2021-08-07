@@ -32,7 +32,7 @@ public class TodoListModel implements Serializable
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -54,7 +54,7 @@ public class TodoListModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -77,6 +77,6 @@ public class TodoListModel implements Serializable
     @Lob
     private String content;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

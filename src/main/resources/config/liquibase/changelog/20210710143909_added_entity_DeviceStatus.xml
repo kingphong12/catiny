@@ -32,8 +32,8 @@
             <column name="status_comment" type="varchar(255)" remarks="statusComment  : người dùng comment lại trạng thái nếu muốn">
                 <constraints nullable="true" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_device_status__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_device_status__info_id" />
             </column>
             <column name="account_status_id" type="bigint">
                 <constraints nullable="true" />

@@ -18,20 +18,20 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "postComment",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "postLike",
-      "otherEntityRelationshipName": "postComment",
+      "otherEntityRelationshipName": "comment",
       "relationshipName": "like"
     },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "postComment",
-      "otherEntityRelationshipName": "commentParent",
-      "relationshipName": "commentReply"
+      "otherEntityRelationshipName": "parent",
+      "relationshipName": "reply"
     },
     {
       "relationshipType": "many-to-one",
@@ -42,8 +42,8 @@
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "postComment",
-      "otherEntityRelationshipName": "commentReply",
-      "relationshipName": "commentParent"
+      "otherEntityRelationshipName": "reply",
+      "relationshipName": "parent"
     }
   ],
   "javadoc": "@what?            -> The PostComment entity.\\n@why?             ->\\n@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\\n@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\\n\\n@describe         ->",

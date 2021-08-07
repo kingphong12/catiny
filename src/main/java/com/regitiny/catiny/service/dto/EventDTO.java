@@ -97,7 +97,7 @@ public class EventDTO implements Serializable {
   @Lob
   private String videoCollection;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -195,12 +195,12 @@ public class EventDTO implements Serializable {
     this.videoCollection = videoCollection;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -240,7 +240,7 @@ public class EventDTO implements Serializable {
             ", tagLine='" + getTagLine() + "'" +
             ", imageCollection='" + getImageCollection() + "'" +
             ", videoCollection='" + getVideoCollection() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

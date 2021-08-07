@@ -31,17 +31,17 @@ public class FollowUserCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
-  private LongFilter followUserDetailsId;
+  private LongFilter followId;
 
   public FollowUserCriteria() {}
 
   public FollowUserCriteria(FollowUserCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.followUserDetailsId = other.followUserDetailsId == null ? null : other.followUserDetailsId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.followId = other.followId == null ? null : other.followId.copy();
   }
 
   @Override
@@ -79,34 +79,34 @@ public class FollowUserCriteria implements Serializable, Criteria {
     this.uuid = uuid;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
-  public LongFilter getFollowUserDetailsId() {
-    return followUserDetailsId;
+  public LongFilter getFollowId() {
+    return followId;
   }
 
-  public LongFilter followUserDetailsId() {
-    if (followUserDetailsId == null) {
-      followUserDetailsId = new LongFilter();
+  public LongFilter followId() {
+    if (followId == null) {
+      followId = new LongFilter();
     }
-    return followUserDetailsId;
+    return followId;
   }
 
-  public void setFollowUserDetailsId(LongFilter followUserDetailsId) {
-    this.followUserDetailsId = followUserDetailsId;
+  public void setFollowId(LongFilter followId) {
+    this.followId = followId;
   }
 
   @Override
@@ -121,14 +121,14 @@ public class FollowUserCriteria implements Serializable, Criteria {
     return (
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(followUserDetailsId, that.followUserDetailsId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(followId, that.followId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, baseInfoId, followUserDetailsId);
+    return Objects.hash(id, uuid, infoId, followId);
   }
 
   // prettier-ignore
@@ -137,8 +137,8 @@ public class FollowUserCriteria implements Serializable, Criteria {
         return "FollowUserCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (followUserDetailsId != null ? "followUserDetailsId=" + followUserDetailsId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (followId != null ? "followId=" + followId + ", " : "") +
             "}";
     }
 }

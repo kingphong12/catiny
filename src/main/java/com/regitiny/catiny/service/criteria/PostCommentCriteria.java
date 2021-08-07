@@ -31,26 +31,26 @@ public class PostCommentCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   private LongFilter likeId;
 
-  private LongFilter commentReplyId;
+  private LongFilter replyId;
 
   private LongFilter postId;
 
-  private LongFilter commentParentId;
+  private LongFilter parentId;
 
   public PostCommentCriteria() {}
 
   public PostCommentCriteria(PostCommentCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.likeId = other.likeId == null ? null : other.likeId.copy();
-    this.commentReplyId = other.commentReplyId == null ? null : other.commentReplyId.copy();
+    this.replyId = other.replyId == null ? null : other.replyId.copy();
     this.postId = other.postId == null ? null : other.postId.copy();
-    this.commentParentId = other.commentParentId == null ? null : other.commentParentId.copy();
+    this.parentId = other.parentId == null ? null : other.parentId.copy();
   }
 
   @Override
@@ -88,19 +88,19 @@ public class PostCommentCriteria implements Serializable, Criteria {
     this.uuid = uuid;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getLikeId() {
@@ -118,19 +118,19 @@ public class PostCommentCriteria implements Serializable, Criteria {
     this.likeId = likeId;
   }
 
-  public LongFilter getCommentReplyId() {
-    return commentReplyId;
+  public LongFilter getReplyId() {
+    return replyId;
   }
 
-  public LongFilter commentReplyId() {
-    if (commentReplyId == null) {
-      commentReplyId = new LongFilter();
+  public LongFilter replyId() {
+    if (replyId == null) {
+      replyId = new LongFilter();
     }
-    return commentReplyId;
+    return replyId;
   }
 
-  public void setCommentReplyId(LongFilter commentReplyId) {
-    this.commentReplyId = commentReplyId;
+  public void setReplyId(LongFilter replyId) {
+    this.replyId = replyId;
   }
 
   public LongFilter getPostId() {
@@ -148,19 +148,19 @@ public class PostCommentCriteria implements Serializable, Criteria {
     this.postId = postId;
   }
 
-  public LongFilter getCommentParentId() {
-    return commentParentId;
+  public LongFilter getParentId() {
+    return parentId;
   }
 
-  public LongFilter commentParentId() {
-    if (commentParentId == null) {
-      commentParentId = new LongFilter();
+  public LongFilter parentId() {
+    if (parentId == null) {
+      parentId = new LongFilter();
     }
-    return commentParentId;
+    return parentId;
   }
 
-  public void setCommentParentId(LongFilter commentParentId) {
-    this.commentParentId = commentParentId;
+  public void setParentId(LongFilter parentId) {
+    this.parentId = parentId;
   }
 
   @Override
@@ -175,17 +175,17 @@ public class PostCommentCriteria implements Serializable, Criteria {
     return (
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(infoId, that.infoId) &&
       Objects.equals(likeId, that.likeId) &&
-      Objects.equals(commentReplyId, that.commentReplyId) &&
+      Objects.equals(replyId, that.replyId) &&
       Objects.equals(postId, that.postId) &&
-      Objects.equals(commentParentId, that.commentParentId)
+      Objects.equals(parentId, that.parentId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, baseInfoId, likeId, commentReplyId, postId, commentParentId);
+    return Objects.hash(id, uuid, infoId, likeId, replyId, postId, parentId);
   }
 
   // prettier-ignore
@@ -194,11 +194,11 @@ public class PostCommentCriteria implements Serializable, Criteria {
         return "PostCommentCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (likeId != null ? "likeId=" + likeId + ", " : "") +
-            (commentReplyId != null ? "commentReplyId=" + commentReplyId + ", " : "") +
+            (replyId != null ? "replyId=" + replyId + ", " : "") +
             (postId != null ? "postId=" + postId + ", " : "") +
-            (commentParentId != null ? "commentParentId=" + commentParentId + ", " : "") +
+            (parentId != null ? "parentId=" + parentId + ", " : "") +
             "}";
     }
 }

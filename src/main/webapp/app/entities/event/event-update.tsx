@@ -48,7 +48,7 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...eventEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -69,7 +69,7 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
           type: 'DAY',
           startTime: convertDateTimeFromServer(eventEntity.startTime),
           endTime: convertDateTimeFromServer(eventEntity.endTime),
-          baseInfoId: eventEntity?.baseInfo?.id,
+          infoId: eventEntity?.info?.id,
         };
 
   return (
@@ -205,13 +205,7 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <UncontrolledTooltip target="videoCollectionLabel">
                 <Translate contentKey="catinyApp.event.help.videoCollection" />
               </UncontrolledTooltip>
-              <ValidatedField
-                id="event-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.event.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="event-info" name="infoId" data-cy="info" label={translate('catinyApp.event.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

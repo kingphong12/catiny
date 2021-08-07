@@ -36,7 +36,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "post",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
@@ -54,26 +54,26 @@
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "post",
-      "otherEntityRelationshipName": "postShareParent",
-      "relationshipName": "postShareChildren"
+      "otherEntityRelationshipName": "parent",
+      "relationshipName": "children"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "groupPost",
-      "otherEntityRelationshipName": "myPostInGroup",
-      "relationshipName": "groupPost"
+      "otherEntityRelationshipName": "post",
+      "relationshipName": "group"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "pagePost",
-      "otherEntityRelationshipName": "myPostInPage",
-      "relationshipName": "pagePost"
+      "otherEntityRelationshipName": "post",
+      "relationshipName": "page"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "post",
-      "otherEntityRelationshipName": "postShareChildren",
-      "relationshipName": "postShareParent"
+      "otherEntityRelationshipName": "children",
+      "relationshipName": "parent"
     },
     {
       "relationshipType": "one-to-many",

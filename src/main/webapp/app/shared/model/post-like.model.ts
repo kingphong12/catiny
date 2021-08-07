@@ -5,9 +5,9 @@ import { IPostComment } from 'app/shared/model/post-comment.model';
 export interface IPostLike {
   id?: number;
   uuid?: string;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   post?: IPost | null;
-  postComment?: IPostComment | null;
+  comment?: IPostComment | null;
 }
 
 export const defaultValue: Readonly<IPostLike> = {};

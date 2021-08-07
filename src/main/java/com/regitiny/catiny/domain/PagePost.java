@@ -2,16 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The PagePost entity.\n@why?             ->\n@use-to           -> Lưu các Trang người dùng tạo ra\n@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\n\n@describe         ->
@@ -59,68 +59,32 @@ public class PagePost implements Serializable {
   @Column(name = "quick_info")
   private String quickInfo;
 
-  @JsonIgnoreProperties(value = { "baseInfo", "page" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "page" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
   private PageProfile profile;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
-  @OneToMany(mappedBy = "pagePost")
+  @OneToMany(mappedBy = "page")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(
-    value = {
-      "baseInfo", "comments", "likes", "postShareChildren", "groupPost", "pagePost", "postShareParent", "newsFeeds", "topicInterests",
-    },
+    value = { "info", "comments", "likes", "children", "group", "page", "parent", "newsFeeds", "topicInterests" },
     allowSetters = true
   )
-  private Set<Post> myPostInPages = new HashSet<>();
+  private Set<Post> posts = new HashSet<>();
+
+  @OneToMany(mappedBy = "pageDetails")
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  @JsonIgnoreProperties(value = { "info", "pageDetails" }, allowSetters = true)
+  private Set<FollowPage> followeds = new HashSet<>();
 
   @ManyToMany(mappedBy = "pagePosts")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
   private Set<TopicInterest> topicInterests = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -202,48 +166,79 @@ public class PagePost implements Serializable {
     this.profile = pageProfile;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public PagePost baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public PagePost info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
-  public Set<Post> getMyPostInPages() {
-    return this.myPostInPages;
+  public Set<Post> getPosts() {
+    return this.posts;
   }
 
-  public PagePost myPostInPages(Set<Post> posts) {
-    this.setMyPostInPages(posts);
+  public PagePost posts(Set<Post> posts) {
+    this.setPosts(posts);
     return this;
   }
 
-  public PagePost addMyPostInPage(Post post) {
-    this.myPostInPages.add(post);
-    post.setPagePost(this);
+  public PagePost addPost(Post post) {
+    this.posts.add(post);
+    post.setPage(this);
     return this;
   }
 
-  public PagePost removeMyPostInPage(Post post) {
-    this.myPostInPages.remove(post);
-    post.setPagePost(null);
+  public PagePost removePost(Post post) {
+    this.posts.remove(post);
+    post.setPage(null);
     return this;
   }
 
-  public void setMyPostInPages(Set<Post> posts) {
-    if (this.myPostInPages != null) {
-      this.myPostInPages.forEach(i -> i.setPagePost(null));
+  public void setPosts(Set<Post> posts) {
+    if (this.posts != null) {
+      this.posts.forEach(i -> i.setPage(null));
     }
     if (posts != null) {
-      posts.forEach(i -> i.setPagePost(this));
+      posts.forEach(i -> i.setPage(this));
     }
-    this.myPostInPages = posts;
+    this.posts = posts;
+  }
+
+  public Set<FollowPage> getFolloweds() {
+    return this.followeds;
+  }
+
+  public PagePost followeds(Set<FollowPage> followPages) {
+    this.setFolloweds(followPages);
+    return this;
+  }
+
+  public PagePost addFollowed(FollowPage followPage) {
+    this.followeds.add(followPage);
+    followPage.setPageDetails(this);
+    return this;
+  }
+
+  public PagePost removeFollowed(FollowPage followPage) {
+    this.followeds.remove(followPage);
+    followPage.setPageDetails(null);
+    return this;
+  }
+
+  public void setFolloweds(Set<FollowPage> followPages) {
+    if (this.followeds != null) {
+      this.followeds.forEach(i -> i.setPageDetails(null));
+    }
+    if (followPages != null) {
+      followPages.forEach(i -> i.setPageDetails(this));
+    }
+    this.followeds = followPages;
   }
 
   public Set<TopicInterest> getTopicInterests() {

@@ -388,21 +388,21 @@ class TopicInterestResourceIT {
 
   @Test
   @Transactional
-  void getAllTopicInterestsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllTopicInterestsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     topicInterestRepository.saveAndFlush(topicInterest);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    topicInterest.setBaseInfo(baseInfo);
+    topicInterest.setInfo(info);
     topicInterestRepository.saveAndFlush(topicInterest);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the topicInterestList where baseInfo equals to baseInfoId
-    defaultTopicInterestShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the topicInterestList where info equals to infoId
+    defaultTopicInterestShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the topicInterestList where baseInfo equals to (baseInfoId + 1)
-    defaultTopicInterestShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the topicInterestList where info equals to (infoId + 1)
+    defaultTopicInterestShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

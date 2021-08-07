@@ -7,7 +7,7 @@ export interface IFileInfo {
   typeFile?: string | null;
   path?: string | null;
   dataSize?: number | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
 }
 
 export const defaultValue: Readonly<IFileInfo> = {};

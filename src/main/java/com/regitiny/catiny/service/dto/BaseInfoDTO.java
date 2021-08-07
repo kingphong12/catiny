@@ -4,21 +4,19 @@ import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.enumeration.ProcessStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import javax.persistence.Lob;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.Lob;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.regitiny.catiny.domain.BaseInfo} entity.
  */
 @ApiModel(description = "BaseInfo")
 @GeneratedByJHipster
-public class BaseInfoDTO implements Serializable
-{
+public class BaseInfoDTO implements Serializable {
 
   private Long id;
 
@@ -81,46 +79,39 @@ public class BaseInfoDTO implements Serializable
   @ApiModelProperty(value = "countUse *     : đếm số lần truy cập vào bản ghi này để xem sửa xóa")
   private Long countUse;
 
-  private ClassInfoDTO classInfo;
-
   private MasterUserDTO createdBy;
 
   private MasterUserDTO modifiedBy;
 
   private MasterUserDTO owner;
 
-  public Long getId()
-  {
+  private ClassInfoDTO classInfo;
+
+  public Long getId() {
     return id;
   }
 
-  public void setId(Long id)
-  {
+  public void setId(Long id) {
     this.id = id;
   }
 
-  public UUID getUuid()
-  {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid)
-  {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public ProcessStatus getProcessStatus()
-  {
+  public ProcessStatus getProcessStatus() {
     return processStatus;
   }
 
-  public void setProcessStatus(ProcessStatus processStatus)
-  {
+  public void setProcessStatus(ProcessStatus processStatus) {
     this.processStatus = processStatus;
   }
 
-  public String getModifiedClass()
-  {
+  public String getModifiedClass() {
     return modifiedClass;
   }
 
@@ -176,14 +167,6 @@ public class BaseInfoDTO implements Serializable
     this.countUse = countUse;
   }
 
-  public ClassInfoDTO getClassInfo() {
-    return classInfo;
-  }
-
-  public void setClassInfo(ClassInfoDTO classInfo) {
-    this.classInfo = classInfo;
-  }
-
   public MasterUserDTO getCreatedBy() {
     return createdBy;
   }
@@ -206,6 +189,14 @@ public class BaseInfoDTO implements Serializable
 
   public void setOwner(MasterUserDTO owner) {
     this.owner = owner;
+  }
+
+  public ClassInfoDTO getClassInfo() {
+    return classInfo;
+  }
+
+  public void setClassInfo(ClassInfoDTO classInfo) {
+    this.classInfo = classInfo;
   }
 
   @Override
@@ -233,20 +224,20 @@ public class BaseInfoDTO implements Serializable
     @Override
     public String toString() {
         return "BaseInfoDTO{" +
-          "id=" + getId() +
-          ", uuid='" + getUuid() + "'" +
-          ", processStatus='" + getProcessStatus() + "'" +
-          ", modifiedClass='" + getModifiedClass() + "'" +
-          ", createdDate='" + getCreatedDate() + "'" +
-          ", modifiedDate='" + getModifiedDate() + "'" +
-          ", notes='" + getNotes() + "'" +
-          ", deleted='" + getDeleted() + "'" +
-          ", priorityIndex=" + getPriorityIndex() +
-          ", countUse=" + getCountUse() +
-          ", classInfo=" + getClassInfo() +
-          ", createdBy=" + getCreatedBy() +
+            "id=" + getId() +
+            ", uuid='" + getUuid() + "'" +
+            ", processStatus='" + getProcessStatus() + "'" +
+            ", modifiedClass='" + getModifiedClass() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", modifiedDate='" + getModifiedDate() + "'" +
+            ", notes='" + getNotes() + "'" +
+            ", deleted='" + getDeleted() + "'" +
+            ", priorityIndex=" + getPriorityIndex() +
+            ", countUse=" + getCountUse() +
+            ", createdBy=" + getCreatedBy() +
             ", modifiedBy=" + getModifiedBy() +
             ", owner=" + getOwner() +
+            ", classInfo=" + getClassInfo() +
             "}";
     }
 }

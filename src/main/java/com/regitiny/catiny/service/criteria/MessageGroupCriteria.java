@@ -35,9 +35,9 @@ public class MessageGroupCriteria implements Serializable, Criteria {
 
   private StringFilter addBy;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
-  private LongFilter messageContentId;
+  private LongFilter contentId;
 
   public MessageGroupCriteria() {}
 
@@ -46,8 +46,8 @@ public class MessageGroupCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.groupName = other.groupName == null ? null : other.groupName.copy();
     this.addBy = other.addBy == null ? null : other.addBy.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.messageContentId = other.messageContentId == null ? null : other.messageContentId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.contentId = other.contentId == null ? null : other.contentId.copy();
   }
 
   @Override
@@ -115,34 +115,34 @@ public class MessageGroupCriteria implements Serializable, Criteria {
     this.addBy = addBy;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
-  public LongFilter getMessageContentId() {
-    return messageContentId;
+  public LongFilter getContentId() {
+    return contentId;
   }
 
-  public LongFilter messageContentId() {
-    if (messageContentId == null) {
-      messageContentId = new LongFilter();
+  public LongFilter contentId() {
+    if (contentId == null) {
+      contentId = new LongFilter();
     }
-    return messageContentId;
+    return contentId;
   }
 
-  public void setMessageContentId(LongFilter messageContentId) {
-    this.messageContentId = messageContentId;
+  public void setContentId(LongFilter contentId) {
+    this.contentId = contentId;
   }
 
   @Override
@@ -159,14 +159,14 @@ public class MessageGroupCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(groupName, that.groupName) &&
       Objects.equals(addBy, that.addBy) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(messageContentId, that.messageContentId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(contentId, that.contentId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, groupName, addBy, baseInfoId, messageContentId);
+    return Objects.hash(id, uuid, groupName, addBy, infoId, contentId);
   }
 
   // prettier-ignore
@@ -177,8 +177,8 @@ public class MessageGroupCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (groupName != null ? "groupName=" + groupName + ", " : "") +
             (addBy != null ? "addBy=" + addBy + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (messageContentId != null ? "messageContentId=" + messageContentId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (contentId != null ? "contentId=" + contentId + ", " : "") +
             "}";
     }
 }

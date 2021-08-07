@@ -99,10 +99,10 @@ public class GroupProfileQueryService extends QueryService<GroupProfile> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), GroupProfile_.uuid));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(GroupProfile_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(GroupProfile_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
       if (criteria.getGroupId() != null) {

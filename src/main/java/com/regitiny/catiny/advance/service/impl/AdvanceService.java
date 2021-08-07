@@ -2,8 +2,8 @@ package com.regitiny.catiny.advance.service.impl;
 
 import com.regitiny.catiny.tools.utils.StringPool;
 import com.regitiny.catiny.util.ApplicationContextUtil;
+import com.regitiny.catiny.util.ReflectUtil;
 import io.vavr.control.Option;
-import io.vavr.control.Try;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Objects;
@@ -117,10 +117,12 @@ public abstract class AdvanceService<E, S, Q, AM, AR, AS>
     protectedLocal = new ProtectedLocal();
   }
 
-  public E create()
+  public E create(E entity)
   {
-    return (E) Try.of(() -> Class.forName("")).get();
+    //noinspection unchecked
+    return (E) ReflectUtil.methodInvoke(local().advanceRepository, "save", entity).getOrNull();
   }
+
 
   class Local
   {

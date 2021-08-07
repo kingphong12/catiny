@@ -102,10 +102,10 @@ public class TopicInterestQueryService extends QueryService<TopicInterest> {
       if (criteria.getTitle() != null) {
         specification = specification.and(buildStringSpecification(criteria.getTitle(), TopicInterest_.title));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(TopicInterest_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(TopicInterest_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
       if (criteria.getPostId() != null) {

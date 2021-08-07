@@ -99,19 +99,16 @@ public class FollowGroupQueryService extends QueryService<FollowGroup> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), FollowGroup_.uuid));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(FollowGroup_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(FollowGroup_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
-      if (criteria.getFollowGroupDetailsId() != null) {
+      if (criteria.getGroupDetailsId() != null) {
         specification =
           specification.and(
-            buildSpecification(
-              criteria.getFollowGroupDetailsId(),
-              root -> root.join(FollowGroup_.followGroupDetails, JoinType.LEFT).get(GroupPost_.id)
-            )
+            buildSpecification(criteria.getGroupDetailsId(), root -> root.join(FollowGroup_.groupDetails, JoinType.LEFT).get(GroupPost_.id))
           );
       }
     }

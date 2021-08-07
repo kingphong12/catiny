@@ -11,7 +11,7 @@ export default class MessageGroupUpdatePage {
   groupNameInput: ElementFinder = element(by.css('input#message-group-groupName'));
   avatarInput: ElementFinder = element(by.css('textarea#message-group-avatar'));
   addByInput: ElementFinder = element(by.css('input#message-group-addBy'));
-  baseInfoSelect: ElementFinder = element(by.css('select#message-group-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#message-group-info'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -49,20 +49,20 @@ export default class MessageGroupUpdatePage {
     return this.addByInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -86,7 +86,7 @@ export default class MessageGroupUpdatePage {
     await this.setAvatarInput('avatar');
     await waitUntilDisplayed(this.saveButton);
     await this.setAddByInput('addBy');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

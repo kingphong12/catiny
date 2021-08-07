@@ -122,23 +122,19 @@ public class ImageQueryService extends QueryService<Image> {
             buildSpecification(criteria.getFileInfoId(), root -> root.join(Image_.fileInfo, JoinType.LEFT).get(FileInfo_.id))
           );
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
+        specification =
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(Image_.info, JoinType.LEFT).get(BaseInfo_.id)));
+      }
+      if (criteria.getProcessedId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(Image_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getProcessedId(), root -> root.join(Image_.processeds, JoinType.LEFT).get(Image_.id))
           );
       }
-      if (criteria.getImageProcessedId() != null) {
+      if (criteria.getOriginalId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getImageProcessedId(), root -> root.join(Image_.imageProcesseds, JoinType.LEFT).get(Image_.id))
-          );
-      }
-      if (criteria.getImageOriginalId() != null) {
-        specification =
-          specification.and(
-            buildSpecification(criteria.getImageOriginalId(), root -> root.join(Image_.imageOriginal, JoinType.LEFT).get(Image_.id))
-          );
+          specification.and(buildSpecification(criteria.getOriginalId(), root -> root.join(Image_.original, JoinType.LEFT).get(Image_.id)));
       }
       if (criteria.getAlbumId() != null) {
         specification =

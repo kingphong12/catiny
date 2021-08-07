@@ -13,8 +13,8 @@ export default class MessageContentUpdatePage {
   contentInput: ElementFinder = element(by.css('textarea#message-content-content'));
   statusInput: ElementFinder = element(by.css('textarea#message-content-status'));
   searchFieldInput: ElementFinder = element(by.css('textarea#message-content-searchField'));
-  baseInfoSelect: ElementFinder = element(by.css('select#message-content-baseInfo'));
-  messageGroupSelect: ElementFinder = element(by.css('select#message-content-messageGroup'));
+  infoSelect: ElementFinder = element(by.css('select#message-content-info'));
+  groupSelect: ElementFinder = element(by.css('select#message-content-group'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -68,36 +68,36 @@ export default class MessageContentUpdatePage {
     return this.searchFieldInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
-  async messageGroupSelectLastOption() {
-    await this.messageGroupSelect.all(by.tagName('option')).last().click();
+  async groupSelectLastOption() {
+    await this.groupSelect.all(by.tagName('option')).last().click();
   }
 
-  async messageGroupSelectOption(option) {
-    await this.messageGroupSelect.sendKeys(option);
+  async groupSelectOption(option) {
+    await this.groupSelect.sendKeys(option);
   }
 
-  getMessageGroupSelect() {
-    return this.messageGroupSelect;
+  getGroupSelect() {
+    return this.groupSelect;
   }
 
-  async getMessageGroupSelectedOption() {
-    return this.messageGroupSelect.element(by.css('option:checked')).getText();
+  async getGroupSelectedOption() {
+    return this.groupSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -125,8 +125,8 @@ export default class MessageContentUpdatePage {
     await this.setStatusInput('status');
     await waitUntilDisplayed(this.saveButton);
     await this.setSearchFieldInput('searchField');
-    await this.baseInfoSelectLastOption();
-    await this.messageGroupSelectLastOption();
+    await this.infoSelectLastOption();
+    await this.groupSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

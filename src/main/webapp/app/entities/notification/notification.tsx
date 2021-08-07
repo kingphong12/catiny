@@ -204,7 +204,7 @@ export const Notification = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.notification.content">Content</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.notification.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.notification.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -223,9 +223,7 @@ export const Notification = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{notification.title}</td>
                     <td>{notification.content}</td>
-                    <td>
-                      {notification.baseInfo ? <Link to={`base-info/${notification.baseInfo.id}`}>{notification.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{notification.info ? <Link to={`base-info/${notification.info.id}`}>{notification.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${notification.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -66,9 +66,9 @@ public class MessageContentDTO implements Serializable {
   @Lob
   private String searchField;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private MessageGroupDTO messageGroup;
+  private MessageGroupDTO group;
 
   public Long getId() {
     return id;
@@ -126,20 +126,20 @@ public class MessageContentDTO implements Serializable {
     this.searchField = searchField;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public MessageGroupDTO getMessageGroup() {
-    return messageGroup;
+  public MessageGroupDTO getGroup() {
+    return group;
   }
 
-  public void setMessageGroup(MessageGroupDTO messageGroup) {
-    this.messageGroup = messageGroup;
+  public void setGroup(MessageGroupDTO group) {
+    this.group = group;
   }
 
   @Override
@@ -174,8 +174,8 @@ public class MessageContentDTO implements Serializable {
             ", content='" + getContent() + "'" +
             ", status='" + getStatus() + "'" +
             ", searchField='" + getSearchField() + "'" +
-            ", baseInfo=" + getBaseInfo() +
-            ", messageGroup=" + getMessageGroup() +
+            ", info=" + getInfo() +
+            ", group=" + getGroup() +
             "}";
     }
 }

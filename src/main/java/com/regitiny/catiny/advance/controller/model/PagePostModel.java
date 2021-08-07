@@ -45,7 +45,7 @@ public class PagePostModel implements Serializable
 
   private PageProfileDTO profile;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -79,7 +79,7 @@ public class PagePostModel implements Serializable
 
     private PageProfileDTO profile;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -114,6 +114,6 @@ public class PagePostModel implements Serializable
 
     private PageProfileDTO profile;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

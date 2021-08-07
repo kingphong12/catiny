@@ -225,10 +225,10 @@ export const Video = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.video.fileInfo">File Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.video.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.video.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.video.videoOriginal">Video Original</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.video.original">Original</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -252,8 +252,8 @@ export const Video = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{video.priorityIndex}</td>
                     <td>{video.dataSize}</td>
                     <td>{video.fileInfo ? <Link to={`file-info/${video.fileInfo.id}`}>{video.fileInfo.id}</Link> : ''}</td>
-                    <td>{video.baseInfo ? <Link to={`base-info/${video.baseInfo.id}`}>{video.baseInfo.id}</Link> : ''}</td>
-                    <td>{video.videoOriginal ? <Link to={`video/${video.videoOriginal.id}`}>{video.videoOriginal.id}</Link> : ''}</td>
+                    <td>{video.info ? <Link to={`base-info/${video.info.id}`}>{video.info.id}</Link> : ''}</td>
+                    <td>{video.original ? <Link to={`video/${video.original.id}`}>{video.original.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${video.id}`} color="info" size="sm" data-cy="entityDetailsButton">

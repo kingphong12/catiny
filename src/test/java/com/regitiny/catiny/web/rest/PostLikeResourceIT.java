@@ -269,21 +269,21 @@ class PostLikeResourceIT {
 
   @Test
   @Transactional
-  void getAllPostLikesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllPostLikesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     postLikeRepository.saveAndFlush(postLike);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    postLike.setBaseInfo(baseInfo);
+    postLike.setInfo(info);
     postLikeRepository.saveAndFlush(postLike);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the postLikeList where baseInfo equals to baseInfoId
-    defaultPostLikeShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the postLikeList where info equals to infoId
+    defaultPostLikeShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the postLikeList where baseInfo equals to (baseInfoId + 1)
-    defaultPostLikeShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the postLikeList where info equals to (infoId + 1)
+    defaultPostLikeShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
@@ -307,21 +307,21 @@ class PostLikeResourceIT {
 
   @Test
   @Transactional
-  void getAllPostLikesByPostCommentIsEqualToSomething() throws Exception {
+  void getAllPostLikesByCommentIsEqualToSomething() throws Exception {
     // Initialize the database
     postLikeRepository.saveAndFlush(postLike);
-    PostComment postComment = PostCommentResourceIT.createEntity(em);
-    em.persist(postComment);
+    PostComment comment = PostCommentResourceIT.createEntity(em);
+    em.persist(comment);
     em.flush();
-    postLike.setPostComment(postComment);
+    postLike.setComment(comment);
     postLikeRepository.saveAndFlush(postLike);
-    Long postCommentId = postComment.getId();
+    Long commentId = comment.getId();
 
-    // Get all the postLikeList where postComment equals to postCommentId
-    defaultPostLikeShouldBeFound("postCommentId.equals=" + postCommentId);
+    // Get all the postLikeList where comment equals to commentId
+    defaultPostLikeShouldBeFound("commentId.equals=" + commentId);
 
-    // Get all the postLikeList where postComment equals to (postCommentId + 1)
-    defaultPostLikeShouldNotBeFound("postCommentId.equals=" + (postCommentId + 1));
+    // Get all the postLikeList where comment equals to (commentId + 1)
+    defaultPostLikeShouldNotBeFound("commentId.equals=" + (commentId + 1));
   }
 
   /**

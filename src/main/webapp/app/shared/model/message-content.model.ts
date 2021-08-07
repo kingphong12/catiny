@@ -9,8 +9,8 @@ export interface IMessageContent {
   content?: string | null;
   status?: string | null;
   searchField?: string | null;
-  baseInfo?: IBaseInfo | null;
-  messageGroup?: IMessageGroup | null;
+  info?: IBaseInfo | null;
+  group?: IMessageGroup | null;
 }
 
 export const defaultValue: Readonly<IMessageContent> = {};

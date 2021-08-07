@@ -47,10 +47,10 @@
             <column name="file_info_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_video__file_info_id" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_video__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_video__info_id" />
             </column>
-            <column name="video_original_id" type="bigint">
+            <column name="original_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

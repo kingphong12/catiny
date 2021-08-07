@@ -2,16 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The PostComment entity.\n@why?             ->\n@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\n@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\n\n@describe         ->
@@ -42,72 +42,31 @@ public class PostComment implements Serializable {
   @Column(name = "content")
   private String content;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
-  @OneToMany(mappedBy = "postComment")
+  @OneToMany(mappedBy = "comment")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "post", "postComment" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "post", "comment" }, allowSetters = true)
   private Set<PostLike> likes = new HashSet<>();
 
-  @OneToMany(mappedBy = "commentParent")
+  @OneToMany(mappedBy = "parent")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "likes", "commentReplies", "post", "commentParent" }, allowSetters = true)
-  private Set<PostComment> commentReplies = new HashSet<>();
+  @JsonIgnoreProperties(value = { "info", "likes", "replies", "post", "parent" }, allowSetters = true)
+  private Set<PostComment> replies = new HashSet<>();
 
   @ManyToOne
   @JsonIgnoreProperties(
-    value = {
-      "baseInfo", "comments", "likes", "postShareChildren", "groupPost", "pagePost", "postShareParent", "newsFeeds", "topicInterests",
-    },
+    value = { "info", "comments", "likes", "children", "group", "page", "parent", "newsFeeds", "topicInterests" },
     allowSetters = true
   )
   private Post post;
 
   @ManyToOne
-  @JsonIgnoreProperties(value = { "baseInfo", "likes", "commentReplies", "post", "commentParent" }, allowSetters = true)
-  private PostComment commentParent;
+  @JsonIgnoreProperties(value = { "info", "likes", "replies", "post", "parent" }, allowSetters = true)
+  private PostComment parent;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
   public Long getId() {
@@ -149,17 +108,17 @@ public class PostComment implements Serializable {
     this.content = content;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public PostComment baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public PostComment info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public Set<PostLike> getLikes() {
@@ -173,55 +132,55 @@ public class PostComment implements Serializable {
 
   public PostComment addLike(PostLike postLike) {
     this.likes.add(postLike);
-    postLike.setPostComment(this);
+    postLike.setComment(this);
     return this;
   }
 
   public PostComment removeLike(PostLike postLike) {
     this.likes.remove(postLike);
-    postLike.setPostComment(null);
+    postLike.setComment(null);
     return this;
   }
 
   public void setLikes(Set<PostLike> postLikes) {
     if (this.likes != null) {
-      this.likes.forEach(i -> i.setPostComment(null));
+      this.likes.forEach(i -> i.setComment(null));
     }
     if (postLikes != null) {
-      postLikes.forEach(i -> i.setPostComment(this));
+      postLikes.forEach(i -> i.setComment(this));
     }
     this.likes = postLikes;
   }
 
-  public Set<PostComment> getCommentReplies() {
-    return this.commentReplies;
+  public Set<PostComment> getReplies() {
+    return this.replies;
   }
 
-  public PostComment commentReplies(Set<PostComment> postComments) {
-    this.setCommentReplies(postComments);
+  public PostComment replies(Set<PostComment> postComments) {
+    this.setReplies(postComments);
     return this;
   }
 
-  public PostComment addCommentReply(PostComment postComment) {
-    this.commentReplies.add(postComment);
-    postComment.setCommentParent(this);
+  public PostComment addReply(PostComment postComment) {
+    this.replies.add(postComment);
+    postComment.setParent(this);
     return this;
   }
 
-  public PostComment removeCommentReply(PostComment postComment) {
-    this.commentReplies.remove(postComment);
-    postComment.setCommentParent(null);
+  public PostComment removeReply(PostComment postComment) {
+    this.replies.remove(postComment);
+    postComment.setParent(null);
     return this;
   }
 
-  public void setCommentReplies(Set<PostComment> postComments) {
-    if (this.commentReplies != null) {
-      this.commentReplies.forEach(i -> i.setCommentParent(null));
+  public void setReplies(Set<PostComment> postComments) {
+    if (this.replies != null) {
+      this.replies.forEach(i -> i.setParent(null));
     }
     if (postComments != null) {
-      postComments.forEach(i -> i.setCommentParent(this));
+      postComments.forEach(i -> i.setParent(this));
     }
-    this.commentReplies = postComments;
+    this.replies = postComments;
   }
 
   public Post getPost() {
@@ -237,17 +196,17 @@ public class PostComment implements Serializable {
     this.post = post;
   }
 
-  public PostComment getCommentParent() {
-    return this.commentParent;
+  public PostComment getParent() {
+    return this.parent;
   }
 
-  public PostComment commentParent(PostComment postComment) {
-    this.setCommentParent(postComment);
+  public PostComment parent(PostComment postComment) {
+    this.setParent(postComment);
     return this;
   }
 
-  public void setCommentParent(PostComment postComment) {
-    this.commentParent = postComment;
+  public void setParent(PostComment postComment) {
+    this.parent = postComment;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

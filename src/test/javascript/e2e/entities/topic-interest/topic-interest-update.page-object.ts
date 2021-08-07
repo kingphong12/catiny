@@ -10,7 +10,7 @@ export default class TopicInterestUpdatePage {
   uuidInput: ElementFinder = element(by.css('input#topic-interest-uuid'));
   titleInput: ElementFinder = element(by.css('input#topic-interest-title'));
   contentInput: ElementFinder = element(by.css('textarea#topic-interest-content'));
-  baseInfoSelect: ElementFinder = element(by.css('select#topic-interest-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#topic-interest-info'));
   postSelect: ElementFinder = element(by.css('select#topic-interest-post'));
   pagePostSelect: ElementFinder = element(by.css('select#topic-interest-pagePost'));
   groupPostSelect: ElementFinder = element(by.css('select#topic-interest-groupPost'));
@@ -43,20 +43,20 @@ export default class TopicInterestUpdatePage {
     return this.contentInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async postSelectLastOption() {
@@ -126,7 +126,7 @@ export default class TopicInterestUpdatePage {
     await this.setTitleInput('title');
     await waitUntilDisplayed(this.saveButton);
     await this.setContentInput('content');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     // this.postSelectLastOption();
     // this.pagePostSelectLastOption();
     // this.groupPostSelectLastOption();

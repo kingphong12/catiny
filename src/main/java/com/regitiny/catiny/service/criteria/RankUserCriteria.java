@@ -33,9 +33,11 @@ public class RankUserCriteria implements Serializable, Criteria {
 
   private FloatFilter ratingPoints;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   private LongFilter rankGroupId;
+
+  private LongFilter ownerId;
 
   public RankUserCriteria() {}
 
@@ -43,8 +45,9 @@ public class RankUserCriteria implements Serializable, Criteria {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.ratingPoints = other.ratingPoints == null ? null : other.ratingPoints.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.rankGroupId = other.rankGroupId == null ? null : other.rankGroupId.copy();
+    this.ownerId = other.ownerId == null ? null : other.ownerId.copy();
   }
 
   @Override
@@ -97,19 +100,19 @@ public class RankUserCriteria implements Serializable, Criteria {
     this.ratingPoints = ratingPoints;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getRankGroupId() {
@@ -127,6 +130,21 @@ public class RankUserCriteria implements Serializable, Criteria {
     this.rankGroupId = rankGroupId;
   }
 
+  public LongFilter getOwnerId() {
+    return ownerId;
+  }
+
+  public LongFilter ownerId() {
+    if (ownerId == null) {
+      ownerId = new LongFilter();
+    }
+    return ownerId;
+  }
+
+  public void setOwnerId(LongFilter ownerId) {
+    this.ownerId = ownerId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -140,14 +158,15 @@ public class RankUserCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(ratingPoints, that.ratingPoints) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(rankGroupId, that.rankGroupId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(rankGroupId, that.rankGroupId) &&
+      Objects.equals(ownerId, that.ownerId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, ratingPoints, baseInfoId, rankGroupId);
+    return Objects.hash(id, uuid, ratingPoints, infoId, rankGroupId, ownerId);
   }
 
   // prettier-ignore
@@ -157,8 +176,9 @@ public class RankUserCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (ratingPoints != null ? "ratingPoints=" + ratingPoints + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (rankGroupId != null ? "rankGroupId=" + rankGroupId + ", " : "") +
+            (ownerId != null ? "ownerId=" + ownerId + ", " : "") +
             "}";
     }
 }

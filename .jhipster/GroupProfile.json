@@ -13,7 +13,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "groupProfile",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {

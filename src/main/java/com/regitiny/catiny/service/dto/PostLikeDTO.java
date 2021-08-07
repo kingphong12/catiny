@@ -29,11 +29,11 @@ public class PostLikeDTO implements Serializable {
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private PostDTO post;
 
-  private PostCommentDTO postComment;
+  private PostCommentDTO comment;
 
   public Long getId() {
     return id;
@@ -51,12 +51,12 @@ public class PostLikeDTO implements Serializable {
     this.uuid = uuid;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public PostDTO getPost() {
@@ -67,12 +67,12 @@ public class PostLikeDTO implements Serializable {
     this.post = post;
   }
 
-  public PostCommentDTO getPostComment() {
-    return postComment;
+  public PostCommentDTO getComment() {
+    return comment;
   }
 
-  public void setPostComment(PostCommentDTO postComment) {
-    this.postComment = postComment;
+  public void setComment(PostCommentDTO comment) {
+    this.comment = comment;
   }
 
   @Override
@@ -102,9 +102,9 @@ public class PostLikeDTO implements Serializable {
         return "PostLikeDTO{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", post=" + getPost() +
-            ", postComment=" + getPostComment() +
+            ", comment=" + getComment() +
             "}";
     }
 }

@@ -47,7 +47,7 @@ public class PermissionModel implements Serializable
 
   private BaseInfoDTO baseInfo;
 
-  private MasterUserDTO masterUser;
+  private MasterUserDTO owner;
 
   @Data
   @Builder
@@ -84,7 +84,7 @@ public class PermissionModel implements Serializable
 
     private BaseInfoDTO baseInfo;
 
-    private MasterUserDTO masterUser;
+    private MasterUserDTO owner;
   }
 
   @Data
@@ -122,6 +122,6 @@ public class PermissionModel implements Serializable
 
     private BaseInfoDTO baseInfo;
 
-    private MasterUserDTO masterUser;
+    private MasterUserDTO owner;
   }
 }

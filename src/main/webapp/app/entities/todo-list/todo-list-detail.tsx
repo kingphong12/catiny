@@ -51,9 +51,9 @@ export const TodoListDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{todoListEntity.content}</dd>
           <dt>
-            <Translate contentKey="catinyApp.todoList.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.todoList.info">Info</Translate>
           </dt>
-          <dd>{todoListEntity.baseInfo ? todoListEntity.baseInfo.id : ''}</dd>
+          <dd>{todoListEntity.info ? todoListEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/todo-list" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

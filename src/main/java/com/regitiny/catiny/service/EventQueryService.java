@@ -110,11 +110,9 @@ public class EventQueryService extends QueryService<Event> {
       if (criteria.getTagLine() != null) {
         specification = specification.and(buildStringSpecification(criteria.getTagLine(), Event_.tagLine));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(Event_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(Event_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
     }
     return specification;

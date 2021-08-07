@@ -12,10 +12,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, GroupPostMapper.class, PagePostMapper.class })
 @GeneratedByJHipster
 public interface PostMapper extends EntityMapper<PostDTO, Post> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "groupPost", source = "groupPost", qualifiedByName = "id")
-  @Mapping(target = "pagePost", source = "pagePost", qualifiedByName = "id")
-  @Mapping(target = "postShareParent", source = "postShareParent", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
+  @Mapping(target = "group", source = "group", qualifiedByName = "id")
+  @Mapping(target = "page", source = "page", qualifiedByName = "id")
+  @Mapping(target = "parent", source = "parent", qualifiedByName = "id")
   PostDTO toDto(Post s);
 
   @Named("id")

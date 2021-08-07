@@ -15,10 +15,10 @@ export interface IVideo {
   priorityIndex?: number | null;
   dataSize?: number | null;
   fileInfo?: IFileInfo | null;
-  baseInfo?: IBaseInfo | null;
-  videoProcesseds?: IVideo[] | null;
+  info?: IBaseInfo | null;
+  processeds?: IVideo[] | null;
   videoStream?: IVideoStream | null;
-  videoOriginal?: IVideo | null;
+  original?: IVideo | null;
 }
 
 export const defaultValue: Readonly<IVideo> = {};

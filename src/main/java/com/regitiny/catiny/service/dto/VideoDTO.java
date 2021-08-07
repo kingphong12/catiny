@@ -87,9 +87,9 @@ public class VideoDTO implements Serializable {
 
   private FileInfoDTO fileInfo;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private VideoDTO videoOriginal;
+  private VideoDTO original;
 
   public Long getId() {
     return id;
@@ -187,20 +187,20 @@ public class VideoDTO implements Serializable {
     this.fileInfo = fileInfo;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public VideoDTO getVideoOriginal() {
-    return videoOriginal;
+  public VideoDTO getOriginal() {
+    return original;
   }
 
-  public void setVideoOriginal(VideoDTO videoOriginal) {
-    this.videoOriginal = videoOriginal;
+  public void setOriginal(VideoDTO original) {
+    this.original = original;
   }
 
   @Override
@@ -240,8 +240,8 @@ public class VideoDTO implements Serializable {
             ", priorityIndex=" + getPriorityIndex() +
             ", dataSize=" + getDataSize() +
             ", fileInfo=" + getFileInfo() +
-            ", baseInfo=" + getBaseInfo() +
-            ", videoOriginal=" + getVideoOriginal() +
+            ", info=" + getInfo() +
+            ", original=" + getOriginal() +
             "}";
     }
 }

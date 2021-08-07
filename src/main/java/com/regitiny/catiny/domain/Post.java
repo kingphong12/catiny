@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.enumeration.PostInType;
 import com.regitiny.catiny.domain.enumeration.PostType;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Post entity\n@why?             ->\n@use-to           -> lưu các bài viết của người dùng\n@commonly-used-in -> đăng và xem các bài viết\n\n@describe         ->
@@ -65,95 +65,52 @@ public class Post implements Serializable {
   @Column(name = "search_field")
   private String searchField;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
   @OneToMany(mappedBy = "post")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "likes", "commentReplies", "post", "commentParent" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "likes", "replies", "post", "parent" }, allowSetters = true)
   private Set<PostComment> comments = new HashSet<>();
 
   @OneToMany(mappedBy = "post")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "post", "postComment" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "post", "comment" }, allowSetters = true)
   private Set<PostLike> likes = new HashSet<>();
 
-  @OneToMany(mappedBy = "postShareParent")
+  @OneToMany(mappedBy = "parent")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(
-    value = {
-      "baseInfo", "comments", "likes", "postShareChildren", "groupPost", "pagePost", "postShareParent", "newsFeeds", "topicInterests",
-    },
+    value = { "info", "comments", "likes", "children", "group", "page", "parent", "newsFeeds", "topicInterests" },
     allowSetters = true
   )
-  private Set<Post> postShareChildren = new HashSet<>();
+  private Set<Post> children = new HashSet<>();
 
   @ManyToOne
-  @JsonIgnoreProperties(value = { "profile", "baseInfo", "myPostInGroups", "topicInterests" }, allowSetters = true)
-  private GroupPost groupPost;
+  @JsonIgnoreProperties(value = { "profile", "info", "posts", "followeds", "topicInterests" }, allowSetters = true)
+  private GroupPost group;
 
   @ManyToOne
-  @JsonIgnoreProperties(value = { "profile", "baseInfo", "myPostInPages", "topicInterests" }, allowSetters = true)
-  private PagePost pagePost;
+  @JsonIgnoreProperties(value = { "profile", "info", "posts", "followeds", "topicInterests" }, allowSetters = true)
+  private PagePost page;
 
   @ManyToOne
   @JsonIgnoreProperties(
-    value = {
-      "baseInfo", "comments", "likes", "postShareChildren", "groupPost", "pagePost", "postShareParent", "newsFeeds", "topicInterests",
-    },
+    value = { "info", "comments", "likes", "children", "group", "page", "parent", "newsFeeds", "topicInterests" },
     allowSetters = true
   )
-  private Post postShareParent;
+  private Post parent;
 
   @OneToMany(mappedBy = "post")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "post" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "post" }, allowSetters = true)
   private Set<NewsFeed> newsFeeds = new HashSet<>();
 
   @ManyToMany(mappedBy = "posts")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
   private Set<TopicInterest> topicInterests = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -235,17 +192,17 @@ public class Post implements Serializable {
     this.searchField = searchField;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public Post baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public Post info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public Set<PostComment> getComments() {
@@ -310,74 +267,74 @@ public class Post implements Serializable {
     this.likes = postLikes;
   }
 
-  public Set<Post> getPostShareChildren() {
-    return this.postShareChildren;
+  public Set<Post> getChildren() {
+    return this.children;
   }
 
-  public Post postShareChildren(Set<Post> posts) {
-    this.setPostShareChildren(posts);
+  public Post children(Set<Post> posts) {
+    this.setChildren(posts);
     return this;
   }
 
-  public Post addPostShareChildren(Post post) {
-    this.postShareChildren.add(post);
-    post.setPostShareParent(this);
+  public Post addChildren(Post post) {
+    this.children.add(post);
+    post.setParent(this);
     return this;
   }
 
-  public Post removePostShareChildren(Post post) {
-    this.postShareChildren.remove(post);
-    post.setPostShareParent(null);
+  public Post removeChildren(Post post) {
+    this.children.remove(post);
+    post.setParent(null);
     return this;
   }
 
-  public void setPostShareChildren(Set<Post> posts) {
-    if (this.postShareChildren != null) {
-      this.postShareChildren.forEach(i -> i.setPostShareParent(null));
+  public void setChildren(Set<Post> posts) {
+    if (this.children != null) {
+      this.children.forEach(i -> i.setParent(null));
     }
     if (posts != null) {
-      posts.forEach(i -> i.setPostShareParent(this));
+      posts.forEach(i -> i.setParent(this));
     }
-    this.postShareChildren = posts;
+    this.children = posts;
   }
 
-  public GroupPost getGroupPost() {
-    return this.groupPost;
+  public GroupPost getGroup() {
+    return this.group;
   }
 
-  public Post groupPost(GroupPost groupPost) {
-    this.setGroupPost(groupPost);
+  public Post group(GroupPost groupPost) {
+    this.setGroup(groupPost);
     return this;
   }
 
-  public void setGroupPost(GroupPost groupPost) {
-    this.groupPost = groupPost;
+  public void setGroup(GroupPost groupPost) {
+    this.group = groupPost;
   }
 
-  public PagePost getPagePost() {
-    return this.pagePost;
+  public PagePost getPage() {
+    return this.page;
   }
 
-  public Post pagePost(PagePost pagePost) {
-    this.setPagePost(pagePost);
+  public Post page(PagePost pagePost) {
+    this.setPage(pagePost);
     return this;
   }
 
-  public void setPagePost(PagePost pagePost) {
-    this.pagePost = pagePost;
+  public void setPage(PagePost pagePost) {
+    this.page = pagePost;
   }
 
-  public Post getPostShareParent() {
-    return this.postShareParent;
+  public Post getParent() {
+    return this.parent;
   }
 
-  public Post postShareParent(Post post) {
-    this.setPostShareParent(post);
+  public Post parent(Post post) {
+    this.setParent(post);
     return this;
   }
 
-  public void setPostShareParent(Post post) {
-    this.postShareParent = post;
+  public void setParent(Post post) {
+    this.parent = post;
   }
 
   public Set<NewsFeed> getNewsFeeds() {

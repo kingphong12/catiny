@@ -23,8 +23,8 @@
             <column name="buffer_data_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_video_live_stream_buffer__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_video_live_stream_buffer__info_id" />
             </column>
             <column name="video_stream_id" type="bigint">
                 <constraints nullable="true" />

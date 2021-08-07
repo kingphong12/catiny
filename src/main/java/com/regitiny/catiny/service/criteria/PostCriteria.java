@@ -73,19 +73,19 @@ public class PostCriteria implements Serializable, Criteria {
 
   private PostTypeFilter postType;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   private LongFilter commentId;
 
   private LongFilter likeId;
 
-  private LongFilter postShareChildrenId;
+  private LongFilter childrenId;
 
-  private LongFilter groupPostId;
+  private LongFilter groupId;
 
-  private LongFilter pagePostId;
+  private LongFilter pageId;
 
-  private LongFilter postShareParentId;
+  private LongFilter parentId;
 
   private LongFilter newsFeedId;
 
@@ -98,13 +98,13 @@ public class PostCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.postInType = other.postInType == null ? null : other.postInType.copy();
     this.postType = other.postType == null ? null : other.postType.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.commentId = other.commentId == null ? null : other.commentId.copy();
     this.likeId = other.likeId == null ? null : other.likeId.copy();
-    this.postShareChildrenId = other.postShareChildrenId == null ? null : other.postShareChildrenId.copy();
-    this.groupPostId = other.groupPostId == null ? null : other.groupPostId.copy();
-    this.pagePostId = other.pagePostId == null ? null : other.pagePostId.copy();
-    this.postShareParentId = other.postShareParentId == null ? null : other.postShareParentId.copy();
+    this.childrenId = other.childrenId == null ? null : other.childrenId.copy();
+    this.groupId = other.groupId == null ? null : other.groupId.copy();
+    this.pageId = other.pageId == null ? null : other.pageId.copy();
+    this.parentId = other.parentId == null ? null : other.parentId.copy();
     this.newsFeedId = other.newsFeedId == null ? null : other.newsFeedId.copy();
     this.topicInterestId = other.topicInterestId == null ? null : other.topicInterestId.copy();
   }
@@ -174,19 +174,19 @@ public class PostCriteria implements Serializable, Criteria {
     this.postType = postType;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getCommentId() {
@@ -219,64 +219,64 @@ public class PostCriteria implements Serializable, Criteria {
     this.likeId = likeId;
   }
 
-  public LongFilter getPostShareChildrenId() {
-    return postShareChildrenId;
+  public LongFilter getChildrenId() {
+    return childrenId;
   }
 
-  public LongFilter postShareChildrenId() {
-    if (postShareChildrenId == null) {
-      postShareChildrenId = new LongFilter();
+  public LongFilter childrenId() {
+    if (childrenId == null) {
+      childrenId = new LongFilter();
     }
-    return postShareChildrenId;
+    return childrenId;
   }
 
-  public void setPostShareChildrenId(LongFilter postShareChildrenId) {
-    this.postShareChildrenId = postShareChildrenId;
+  public void setChildrenId(LongFilter childrenId) {
+    this.childrenId = childrenId;
   }
 
-  public LongFilter getGroupPostId() {
-    return groupPostId;
+  public LongFilter getGroupId() {
+    return groupId;
   }
 
-  public LongFilter groupPostId() {
-    if (groupPostId == null) {
-      groupPostId = new LongFilter();
+  public LongFilter groupId() {
+    if (groupId == null) {
+      groupId = new LongFilter();
     }
-    return groupPostId;
+    return groupId;
   }
 
-  public void setGroupPostId(LongFilter groupPostId) {
-    this.groupPostId = groupPostId;
+  public void setGroupId(LongFilter groupId) {
+    this.groupId = groupId;
   }
 
-  public LongFilter getPagePostId() {
-    return pagePostId;
+  public LongFilter getPageId() {
+    return pageId;
   }
 
-  public LongFilter pagePostId() {
-    if (pagePostId == null) {
-      pagePostId = new LongFilter();
+  public LongFilter pageId() {
+    if (pageId == null) {
+      pageId = new LongFilter();
     }
-    return pagePostId;
+    return pageId;
   }
 
-  public void setPagePostId(LongFilter pagePostId) {
-    this.pagePostId = pagePostId;
+  public void setPageId(LongFilter pageId) {
+    this.pageId = pageId;
   }
 
-  public LongFilter getPostShareParentId() {
-    return postShareParentId;
+  public LongFilter getParentId() {
+    return parentId;
   }
 
-  public LongFilter postShareParentId() {
-    if (postShareParentId == null) {
-      postShareParentId = new LongFilter();
+  public LongFilter parentId() {
+    if (parentId == null) {
+      parentId = new LongFilter();
     }
-    return postShareParentId;
+    return parentId;
   }
 
-  public void setPostShareParentId(LongFilter postShareParentId) {
-    this.postShareParentId = postShareParentId;
+  public void setParentId(LongFilter parentId) {
+    this.parentId = parentId;
   }
 
   public LongFilter getNewsFeedId() {
@@ -323,13 +323,13 @@ public class PostCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(postInType, that.postInType) &&
       Objects.equals(postType, that.postType) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(infoId, that.infoId) &&
       Objects.equals(commentId, that.commentId) &&
       Objects.equals(likeId, that.likeId) &&
-      Objects.equals(postShareChildrenId, that.postShareChildrenId) &&
-      Objects.equals(groupPostId, that.groupPostId) &&
-      Objects.equals(pagePostId, that.pagePostId) &&
-      Objects.equals(postShareParentId, that.postShareParentId) &&
+      Objects.equals(childrenId, that.childrenId) &&
+      Objects.equals(groupId, that.groupId) &&
+      Objects.equals(pageId, that.pageId) &&
+      Objects.equals(parentId, that.parentId) &&
       Objects.equals(newsFeedId, that.newsFeedId) &&
       Objects.equals(topicInterestId, that.topicInterestId)
     );
@@ -342,13 +342,13 @@ public class PostCriteria implements Serializable, Criteria {
       uuid,
       postInType,
       postType,
-      baseInfoId,
+      infoId,
       commentId,
       likeId,
-      postShareChildrenId,
-      groupPostId,
-      pagePostId,
-      postShareParentId,
+      childrenId,
+      groupId,
+      pageId,
+      parentId,
       newsFeedId,
       topicInterestId
     );
@@ -362,13 +362,13 @@ public class PostCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (postInType != null ? "postInType=" + postInType + ", " : "") +
             (postType != null ? "postType=" + postType + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (commentId != null ? "commentId=" + commentId + ", " : "") +
             (likeId != null ? "likeId=" + likeId + ", " : "") +
-            (postShareChildrenId != null ? "postShareChildrenId=" + postShareChildrenId + ", " : "") +
-            (groupPostId != null ? "groupPostId=" + groupPostId + ", " : "") +
-            (pagePostId != null ? "pagePostId=" + pagePostId + ", " : "") +
-            (postShareParentId != null ? "postShareParentId=" + postShareParentId + ", " : "") +
+            (childrenId != null ? "childrenId=" + childrenId + ", " : "") +
+            (groupId != null ? "groupId=" + groupId + ", " : "") +
+            (pageId != null ? "pageId=" + pageId + ", " : "") +
+            (parentId != null ? "parentId=" + parentId + ", " : "") +
             (newsFeedId != null ? "newsFeedId=" + newsFeedId + ", " : "") +
             (topicInterestId != null ? "topicInterestId=" + topicInterestId + ", " : "") +
             "}";

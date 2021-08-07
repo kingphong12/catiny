@@ -12,7 +12,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, ImageMapper.class })
 @GeneratedByJHipster
 public interface AlbumMapper extends EntityMapper<AlbumDTO, Album> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   @Mapping(target = "images", source = "images", qualifiedByName = "idSet")
   AlbumDTO toDto(Album s);
 

@@ -49,8 +49,8 @@ export const FollowUserUpdate = (props: RouteComponentProps<{ id: string }>) => 
     const entity = {
       ...followUserEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      followUserDetails: masterUsers.find(it => it.id.toString() === values.followUserDetailsId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      follow: masterUsers.find(it => it.id.toString() === values.followId.toString()),
     };
 
     if (isNew) {
@@ -65,8 +65,8 @@ export const FollowUserUpdate = (props: RouteComponentProps<{ id: string }>) => 
       ? {}
       : {
           ...followUserEntity,
-          baseInfoId: followUserEntity?.baseInfo?.id,
-          followUserDetailsId: followUserEntity?.followUserDetails?.id,
+          infoId: followUserEntity?.info?.id,
+          followId: followUserEntity?.follow?.id,
         };
 
   return (
@@ -108,10 +108,10 @@ export const FollowUserUpdate = (props: RouteComponentProps<{ id: string }>) => 
                 <Translate contentKey="catinyApp.followUser.help.uuid" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="follow-user-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.followUser.baseInfo')}
+                id="follow-user-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.followUser.info')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -124,10 +124,10 @@ export const FollowUserUpdate = (props: RouteComponentProps<{ id: string }>) => 
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="follow-user-followUserDetails"
-                name="followUserDetailsId"
-                data-cy="followUserDetails"
-                label={translate('catinyApp.followUser.followUserDetails')}
+                id="follow-user-follow"
+                name="followId"
+                data-cy="follow"
+                label={translate('catinyApp.followUser.follow')}
                 type="select"
               >
                 <option value="" key="0" />

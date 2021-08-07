@@ -49,8 +49,8 @@ export const FollowPageUpdate = (props: RouteComponentProps<{ id: string }>) => 
     const entity = {
       ...followPageEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      followPageDetails: pagePosts.find(it => it.id.toString() === values.followPageDetailsId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      pageDetails: pagePosts.find(it => it.id.toString() === values.pageDetailsId.toString()),
     };
 
     if (isNew) {
@@ -65,8 +65,8 @@ export const FollowPageUpdate = (props: RouteComponentProps<{ id: string }>) => 
       ? {}
       : {
           ...followPageEntity,
-          baseInfoId: followPageEntity?.baseInfo?.id,
-          followPageDetailsId: followPageEntity?.followPageDetails?.id,
+          infoId: followPageEntity?.info?.id,
+          pageDetailsId: followPageEntity?.pageDetails?.id,
         };
 
   return (
@@ -108,10 +108,10 @@ export const FollowPageUpdate = (props: RouteComponentProps<{ id: string }>) => 
                 <Translate contentKey="catinyApp.followPage.help.uuid" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="follow-page-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.followPage.baseInfo')}
+                id="follow-page-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.followPage.info')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -124,10 +124,10 @@ export const FollowPageUpdate = (props: RouteComponentProps<{ id: string }>) => 
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="follow-page-followPageDetails"
-                name="followPageDetailsId"
-                data-cy="followPageDetails"
-                label={translate('catinyApp.followPage.followPageDetails')}
+                id="follow-page-pageDetails"
+                name="pageDetailsId"
+                data-cy="pageDetails"
+                label={translate('catinyApp.followPage.pageDetails')}
                 type="select"
               >
                 <option value="" key="0" />

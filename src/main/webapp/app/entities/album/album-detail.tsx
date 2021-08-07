@@ -66,9 +66,9 @@ export const AlbumDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{albumEntity.avatar}</dd>
           <dt>
-            <Translate contentKey="catinyApp.album.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.album.info">Info</Translate>
           </dt>
-          <dd>{albumEntity.baseInfo ? albumEntity.baseInfo.id : ''}</dd>
+          <dd>{albumEntity.info ? albumEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.album.image">Image</Translate>
           </dt>

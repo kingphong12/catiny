@@ -42,7 +42,7 @@ public class FileInfoModel implements Serializable
   @ApiModelProperty("dataSize       : kích thước file theo byte")
   private Long dataSize;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -74,7 +74,7 @@ public class FileInfoModel implements Serializable
     @ApiModelProperty("dataSize       : kích thước file theo byte")
     private Long dataSize;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -107,6 +107,6 @@ public class FileInfoModel implements Serializable
     @ApiModelProperty("dataSize       : kích thước file theo byte")
     private Long dataSize;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

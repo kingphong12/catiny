@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.FollowPage;
 import com.regitiny.catiny.domain.PagePost;
 import com.regitiny.catiny.domain.PageProfile;
 import com.regitiny.catiny.domain.Post;
@@ -404,40 +405,59 @@ class PagePostResourceIT {
 
   @Test
   @Transactional
-  void getAllPagePostsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllPagePostsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    pagePost.setBaseInfo(baseInfo);
+    pagePost.setInfo(info);
     pagePostRepository.saveAndFlush(pagePost);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the pagePostList where baseInfo equals to baseInfoId
-    defaultPagePostShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the pagePostList where info equals to infoId
+    defaultPagePostShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the pagePostList where baseInfo equals to (baseInfoId + 1)
-    defaultPagePostShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the pagePostList where info equals to (infoId + 1)
+    defaultPagePostShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllPagePostsByMyPostInPageIsEqualToSomething() throws Exception {
+  void getAllPagePostsByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    Post myPostInPage = PostResourceIT.createEntity(em);
-    em.persist(myPostInPage);
+    Post post = PostResourceIT.createEntity(em);
+    em.persist(post);
     em.flush();
-    pagePost.addMyPostInPage(myPostInPage);
+    pagePost.addPost(post);
     pagePostRepository.saveAndFlush(pagePost);
-    Long myPostInPageId = myPostInPage.getId();
+    Long postId = post.getId();
 
-    // Get all the pagePostList where myPostInPage equals to myPostInPageId
-    defaultPagePostShouldBeFound("myPostInPageId.equals=" + myPostInPageId);
+    // Get all the pagePostList where post equals to postId
+    defaultPagePostShouldBeFound("postId.equals=" + postId);
 
-    // Get all the pagePostList where myPostInPage equals to (myPostInPageId + 1)
-    defaultPagePostShouldNotBeFound("myPostInPageId.equals=" + (myPostInPageId + 1));
+    // Get all the pagePostList where post equals to (postId + 1)
+    defaultPagePostShouldNotBeFound("postId.equals=" + (postId + 1));
+  }
+
+  @Test
+  @Transactional
+  void getAllPagePostsByFollowedIsEqualToSomething() throws Exception {
+    // Initialize the database
+    pagePostRepository.saveAndFlush(pagePost);
+    FollowPage followed = FollowPageResourceIT.createEntity(em);
+    em.persist(followed);
+    em.flush();
+    pagePost.addFollowed(followed);
+    pagePostRepository.saveAndFlush(pagePost);
+    Long followedId = followed.getId();
+
+    // Get all the pagePostList where followed equals to followedId
+    defaultPagePostShouldBeFound("followedId.equals=" + followedId);
+
+    // Get all the pagePostList where followed equals to (followedId + 1)
+    defaultPagePostShouldNotBeFound("followedId.equals=" + (followedId + 1));
   }
 
   @Test

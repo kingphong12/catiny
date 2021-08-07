@@ -116,7 +116,7 @@ describe('GroupPost e2e test', () => {
 
     cy.setFieldSelectToLastOfEntity('profile');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

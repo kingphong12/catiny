@@ -20,8 +20,8 @@
       },
       "id": "ID",
       "uuid": "Uuid",
-      "baseInfo": "Base Info",
-      "followPageDetails": "Follow Page Details",
+      "info": "Info",
+      "pageDetails": "Page Details",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)"
       }

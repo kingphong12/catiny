@@ -32,9 +32,9 @@ public class FriendDTO implements Serializable {
 
   private FriendType friendType;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private MasterUserDTO friendDetails;
+  private MasterUserDTO friend;
 
   public Long getId() {
     return id;
@@ -60,20 +60,20 @@ public class FriendDTO implements Serializable {
     this.friendType = friendType;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public MasterUserDTO getFriendDetails() {
-    return friendDetails;
+  public MasterUserDTO getFriend() {
+    return friend;
   }
 
-  public void setFriendDetails(MasterUserDTO friendDetails) {
-    this.friendDetails = friendDetails;
+  public void setFriend(MasterUserDTO friend) {
+    this.friend = friend;
   }
 
   @Override
@@ -104,8 +104,8 @@ public class FriendDTO implements Serializable {
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
             ", friendType='" + getFriendType() + "'" +
-            ", baseInfo=" + getBaseInfo() +
-            ", friendDetails=" + getFriendDetails() +
+            ", info=" + getInfo() +
+            ", friend=" + getFriend() +
             "}";
     }
 }

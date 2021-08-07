@@ -268,21 +268,21 @@ class PageProfileResourceIT {
 
   @Test
   @Transactional
-  void getAllPageProfilesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllPageProfilesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     pageProfileRepository.saveAndFlush(pageProfile);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    pageProfile.setBaseInfo(baseInfo);
+    pageProfile.setInfo(info);
     pageProfileRepository.saveAndFlush(pageProfile);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the pageProfileList where baseInfo equals to baseInfoId
-    defaultPageProfileShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the pageProfileList where info equals to infoId
+    defaultPageProfileShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the pageProfileList where baseInfo equals to (baseInfoId + 1)
-    defaultPageProfileShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the pageProfileList where info equals to (infoId + 1)
+    defaultPageProfileShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

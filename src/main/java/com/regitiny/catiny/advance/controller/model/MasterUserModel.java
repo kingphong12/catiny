@@ -53,7 +53,7 @@ public class MasterUserModel implements Serializable
 
   private RankUserDTO myRank;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private Set<TopicInterestDTO> topicInterests;
 
@@ -94,7 +94,7 @@ public class MasterUserModel implements Serializable
 
     private RankUserDTO myRank;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private Set<TopicInterestDTO> topicInterests;
   }
@@ -136,7 +136,7 @@ public class MasterUserModel implements Serializable
 
     private RankUserDTO myRank;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private Set<TopicInterestDTO> topicInterests;
   }

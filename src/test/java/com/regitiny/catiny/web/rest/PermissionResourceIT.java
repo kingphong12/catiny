@@ -1,5 +1,12 @@
 package com.regitiny.catiny.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
@@ -7,11 +14,19 @@ import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.repository.PermissionRepository;
 import com.regitiny.catiny.repository.search.PermissionSearchRepository;
+import com.regitiny.catiny.service.criteria.PermissionCriteria;
 import com.regitiny.catiny.service.dto.PermissionDTO;
 import com.regitiny.catiny.service.mapper.PermissionMapper;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,20 +37,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Integration tests for the {@link PermissionResource} REST controller.
  */
@@ -44,8 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 @GeneratedByJHipster
-class PermissionResourceIT
-{
+class PermissionResourceIT {
 
   private static final UUID DEFAULT_UUID = UUID.randomUUID();
   private static final UUID UPDATED_UUID = UUID.randomUUID();
@@ -73,8 +73,8 @@ class PermissionResourceIT
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/permissions";
 
-  private static final Random random = new Random();
-  private static final AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+  private static Random random = new Random();
+  private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
   @Autowired
   private PermissionRepository permissionRepository;
@@ -189,8 +189,7 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void checkUuidIsRequired() throws Exception
-  {
+  void checkUuidIsRequired() throws Exception {
     int databaseSizeBeforeTest = permissionRepository.findAll().size();
     // set the field null
     permission.setUuid(null);
@@ -208,8 +207,7 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void getAllPermissions() throws Exception
-  {
+  void getAllPermissions() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
 
@@ -269,8 +267,7 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void getAllPermissionsByUuidIsEqualToSomething() throws Exception
-  {
+  void getAllPermissionsByUuidIsEqualToSomething() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
 
@@ -283,8 +280,7 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void getAllPermissionsByUuidIsNotEqualToSomething() throws Exception
-  {
+  void getAllPermissionsByUuidIsNotEqualToSomething() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
 
@@ -297,8 +293,7 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void getAllPermissionsByUuidIsInShouldWork() throws Exception
-  {
+  void getAllPermissionsByUuidIsInShouldWork() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
 
@@ -311,8 +306,7 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void getAllPermissionsByUuidIsNullOrNotNull() throws Exception
-  {
+  void getAllPermissionsByUuidIsNullOrNotNull() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
 
@@ -325,8 +319,7 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void getAllPermissionsByReadIsEqualToSomething() throws Exception
-  {
+  void getAllPermissionsByReadIsEqualToSomething() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
 
@@ -709,21 +702,21 @@ class PermissionResourceIT
 
   @Test
   @Transactional
-  void getAllPermissionsByMasterUserIsEqualToSomething() throws Exception {
+  void getAllPermissionsByOwnerIsEqualToSomething() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
-    MasterUser masterUser = MasterUserResourceIT.createEntity(em);
-    em.persist(masterUser);
+    MasterUser owner = MasterUserResourceIT.createEntity(em);
+    em.persist(owner);
     em.flush();
-    permission.setMasterUser(masterUser);
+    permission.setOwner(owner);
     permissionRepository.saveAndFlush(permission);
-    Long masterUserId = masterUser.getId();
+    Long ownerId = owner.getId();
 
-    // Get all the permissionList where masterUser equals to masterUserId
-    defaultPermissionShouldBeFound("masterUserId.equals=" + masterUserId);
+    // Get all the permissionList where owner equals to ownerId
+    defaultPermissionShouldBeFound("ownerId.equals=" + ownerId);
 
-    // Get all the permissionList where masterUser equals to (masterUserId + 1)
-    defaultPermissionShouldNotBeFound("masterUserId.equals=" + (masterUserId + 1));
+    // Get all the permissionList where owner equals to (ownerId + 1)
+    defaultPermissionShouldNotBeFound("ownerId.equals=" + (ownerId + 1));
   }
 
   /**

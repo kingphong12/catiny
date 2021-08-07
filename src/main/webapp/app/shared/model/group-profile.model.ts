@@ -4,7 +4,7 @@ import { IGroupPost } from 'app/shared/model/group-post.model';
 export interface IGroupProfile {
   id?: number;
   uuid?: string;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   group?: IGroupPost | null;
 }
 

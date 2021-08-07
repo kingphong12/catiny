@@ -30,10 +30,10 @@
       "priorityIndex": "Priority Index",
       "dataSize": "Data Size",
       "fileInfo": "File Info",
-      "baseInfo": "Base Info",
-      "videoProcessed": "Video Processed",
+      "info": "Info",
+      "processed": "Processed",
       "videoStream": "Video Stream",
-      "videoOriginal": "Video Original",
+      "original": "Original",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)",
         "width": "width          : chiều rộng video",

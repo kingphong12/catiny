@@ -108,10 +108,10 @@ public class AccountStatusQueryService extends QueryService<AccountStatus> {
       if (criteria.getStatusComment() != null) {
         specification = specification.and(buildStringSpecification(criteria.getStatusComment(), AccountStatus_.statusComment));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(AccountStatus_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(AccountStatus_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
       if (criteria.getDeviceStatusId() != null) {

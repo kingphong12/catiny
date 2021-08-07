@@ -18,7 +18,7 @@
       <column name="jhi_add" type="boolean"/>
       <column name="level" type="numeric"/>
       <column name="base_info_id" type="numeric"/>
-      <column name="master_user_id" type="numeric"/>
+      <column name="owner_id" type="numeric"/>
       <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
     </loadUpdateData>
   </changeSet>

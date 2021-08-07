@@ -49,7 +49,7 @@ export const NewsFeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...newsFeedEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
       post: posts.find(it => it.id.toString() === values.postId.toString()),
     };
 
@@ -65,7 +65,7 @@ export const NewsFeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...newsFeedEntity,
-          baseInfoId: newsFeedEntity?.baseInfo?.id,
+          infoId: newsFeedEntity?.info?.id,
           postId: newsFeedEntity?.post?.id,
         };
 
@@ -117,13 +117,7 @@ export const NewsFeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <UncontrolledTooltip target="priorityIndexLabel">
                 <Translate contentKey="catinyApp.newsFeed.help.priorityIndex" />
               </UncontrolledTooltip>
-              <ValidatedField
-                id="news-feed-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.newsFeed.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="news-feed-info" name="infoId" data-cy="info" label={translate('catinyApp.newsFeed.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

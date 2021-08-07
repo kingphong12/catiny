@@ -7,7 +7,7 @@ export interface INotification {
   notifyType?: NotifyType | null;
   title?: string | null;
   content?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
 }
 
 export const defaultValue: Readonly<INotification> = {};

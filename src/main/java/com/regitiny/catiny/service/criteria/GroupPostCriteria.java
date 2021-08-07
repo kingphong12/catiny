@@ -35,9 +35,11 @@ public class GroupPostCriteria implements Serializable, Criteria {
 
   private LongFilter profileId;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
-  private LongFilter myPostInGroupId;
+  private LongFilter postId;
+
+  private LongFilter followedId;
 
   private LongFilter topicInterestId;
 
@@ -48,8 +50,9 @@ public class GroupPostCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.name = other.name == null ? null : other.name.copy();
     this.profileId = other.profileId == null ? null : other.profileId.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.myPostInGroupId = other.myPostInGroupId == null ? null : other.myPostInGroupId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.postId = other.postId == null ? null : other.postId.copy();
+    this.followedId = other.followedId == null ? null : other.followedId.copy();
     this.topicInterestId = other.topicInterestId == null ? null : other.topicInterestId.copy();
   }
 
@@ -118,34 +121,49 @@ public class GroupPostCriteria implements Serializable, Criteria {
     this.profileId = profileId;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
-  public LongFilter getMyPostInGroupId() {
-    return myPostInGroupId;
+  public LongFilter getPostId() {
+    return postId;
   }
 
-  public LongFilter myPostInGroupId() {
-    if (myPostInGroupId == null) {
-      myPostInGroupId = new LongFilter();
+  public LongFilter postId() {
+    if (postId == null) {
+      postId = new LongFilter();
     }
-    return myPostInGroupId;
+    return postId;
   }
 
-  public void setMyPostInGroupId(LongFilter myPostInGroupId) {
-    this.myPostInGroupId = myPostInGroupId;
+  public void setPostId(LongFilter postId) {
+    this.postId = postId;
+  }
+
+  public LongFilter getFollowedId() {
+    return followedId;
+  }
+
+  public LongFilter followedId() {
+    if (followedId == null) {
+      followedId = new LongFilter();
+    }
+    return followedId;
+  }
+
+  public void setFollowedId(LongFilter followedId) {
+    this.followedId = followedId;
   }
 
   public LongFilter getTopicInterestId() {
@@ -177,15 +195,16 @@ public class GroupPostCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(name, that.name) &&
       Objects.equals(profileId, that.profileId) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(myPostInGroupId, that.myPostInGroupId) &&
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(postId, that.postId) &&
+      Objects.equals(followedId, that.followedId) &&
       Objects.equals(topicInterestId, that.topicInterestId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, name, profileId, baseInfoId, myPostInGroupId, topicInterestId);
+    return Objects.hash(id, uuid, name, profileId, infoId, postId, followedId, topicInterestId);
   }
 
   // prettier-ignore
@@ -196,8 +215,9 @@ public class GroupPostCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (name != null ? "name=" + name + ", " : "") +
             (profileId != null ? "profileId=" + profileId + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (myPostInGroupId != null ? "myPostInGroupId=" + myPostInGroupId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (postId != null ? "postId=" + postId + ", " : "") +
+            (followedId != null ? "followedId=" + followedId + ", " : "") +
             (topicInterestId != null ? "topicInterestId=" + topicInterestId + ", " : "") +
             "}";
     }

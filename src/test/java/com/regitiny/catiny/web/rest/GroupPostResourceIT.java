@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.FollowGroup;
 import com.regitiny.catiny.domain.GroupPost;
 import com.regitiny.catiny.domain.GroupProfile;
 import com.regitiny.catiny.domain.Post;
@@ -404,40 +405,59 @@ class GroupPostResourceIT {
 
   @Test
   @Transactional
-  void getAllGroupPostsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllGroupPostsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    groupPost.setBaseInfo(baseInfo);
+    groupPost.setInfo(info);
     groupPostRepository.saveAndFlush(groupPost);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the groupPostList where baseInfo equals to baseInfoId
-    defaultGroupPostShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the groupPostList where info equals to infoId
+    defaultGroupPostShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the groupPostList where baseInfo equals to (baseInfoId + 1)
-    defaultGroupPostShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the groupPostList where info equals to (infoId + 1)
+    defaultGroupPostShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllGroupPostsByMyPostInGroupIsEqualToSomething() throws Exception {
+  void getAllGroupPostsByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    Post myPostInGroup = PostResourceIT.createEntity(em);
-    em.persist(myPostInGroup);
+    Post post = PostResourceIT.createEntity(em);
+    em.persist(post);
     em.flush();
-    groupPost.addMyPostInGroup(myPostInGroup);
+    groupPost.addPost(post);
     groupPostRepository.saveAndFlush(groupPost);
-    Long myPostInGroupId = myPostInGroup.getId();
+    Long postId = post.getId();
 
-    // Get all the groupPostList where myPostInGroup equals to myPostInGroupId
-    defaultGroupPostShouldBeFound("myPostInGroupId.equals=" + myPostInGroupId);
+    // Get all the groupPostList where post equals to postId
+    defaultGroupPostShouldBeFound("postId.equals=" + postId);
 
-    // Get all the groupPostList where myPostInGroup equals to (myPostInGroupId + 1)
-    defaultGroupPostShouldNotBeFound("myPostInGroupId.equals=" + (myPostInGroupId + 1));
+    // Get all the groupPostList where post equals to (postId + 1)
+    defaultGroupPostShouldNotBeFound("postId.equals=" + (postId + 1));
+  }
+
+  @Test
+  @Transactional
+  void getAllGroupPostsByFollowedIsEqualToSomething() throws Exception {
+    // Initialize the database
+    groupPostRepository.saveAndFlush(groupPost);
+    FollowGroup followed = FollowGroupResourceIT.createEntity(em);
+    em.persist(followed);
+    em.flush();
+    groupPost.addFollowed(followed);
+    groupPostRepository.saveAndFlush(groupPost);
+    Long followedId = followed.getId();
+
+    // Get all the groupPostList where followed equals to followedId
+    defaultGroupPostShouldBeFound("followedId.equals=" + followedId);
+
+    // Get all the groupPostList where followed equals to (followedId + 1)
+    defaultGroupPostShouldNotBeFound("followedId.equals=" + (followedId + 1));
   }
 
   @Test

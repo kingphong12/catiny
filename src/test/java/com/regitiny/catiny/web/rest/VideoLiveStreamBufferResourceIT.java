@@ -292,21 +292,21 @@ class VideoLiveStreamBufferResourceIT {
 
   @Test
   @Transactional
-  void getAllVideoLiveStreamBuffersByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllVideoLiveStreamBuffersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    videoLiveStreamBuffer.setBaseInfo(baseInfo);
+    videoLiveStreamBuffer.setInfo(info);
     videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the videoLiveStreamBufferList where baseInfo equals to baseInfoId
-    defaultVideoLiveStreamBufferShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the videoLiveStreamBufferList where info equals to infoId
+    defaultVideoLiveStreamBufferShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the videoLiveStreamBufferList where baseInfo equals to (baseInfoId + 1)
-    defaultVideoLiveStreamBufferShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the videoLiveStreamBufferList where info equals to (infoId + 1)
+    defaultVideoLiveStreamBufferShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

@@ -27,6 +27,6 @@ public class GroupProfileAdvanceServiceImpl extends AdvanceService<GroupProfile,
   public void a()
   {
     var a = groupProfileAdvanceRepository.findById(1L).get();
-    log.debug(a.getBaseInfo());
+    log.debug(a.getInfo());
   }
 }

@@ -13,7 +13,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "postLike",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
@@ -26,7 +26,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "postComment",
       "otherEntityRelationshipName": "like",
-      "relationshipName": "postComment"
+      "relationshipName": "comment"
     }
   ],
   "javadoc": "@what?            -> The PostLike entity.\\n@why?             ->\\n@use-to           -> Lưu thông tin về những lượt like của bài đăng\\n@commonly-used-in ->\\n\\n@describe         ->",

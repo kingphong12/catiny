@@ -122,9 +122,9 @@ describe('Video e2e test', () => {
 
     cy.setFieldSelectToLastOfEntity('fileInfo');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
-    cy.setFieldSelectToLastOfEntity('videoOriginal');
+    cy.setFieldSelectToLastOfEntity('original');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

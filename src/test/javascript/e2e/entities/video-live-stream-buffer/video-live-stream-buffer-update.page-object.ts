@@ -13,7 +13,7 @@ export default class VideoLiveStreamBufferUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#video-live-stream-buffer-uuid'));
   bufferDataInput: ElementFinder = element(by.css('input#video-live-stream-buffer-bufferData'));
-  baseInfoSelect: ElementFinder = element(by.css('select#video-live-stream-buffer-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#video-live-stream-buffer-info'));
   videoStreamSelect: ElementFinder = element(by.css('select#video-live-stream-buffer-videoStream'));
 
   getPageTitle() {
@@ -36,20 +36,20 @@ export default class VideoLiveStreamBufferUpdatePage {
     return this.bufferDataInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async videoStreamSelectLastOption() {
@@ -85,7 +85,7 @@ export default class VideoLiveStreamBufferUpdatePage {
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await waitUntilDisplayed(this.saveButton);
     await this.setBufferDataInput(absolutePath);
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.videoStreamSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);

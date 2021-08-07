@@ -54,13 +54,13 @@ public class PostDTO implements Serializable {
   @Lob
   private String searchField;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private GroupPostDTO groupPost;
+  private GroupPostDTO group;
 
-  private PagePostDTO pagePost;
+  private PagePostDTO page;
 
-  private PostDTO postShareParent;
+  private PostDTO parent;
 
   public Long getId() {
     return id;
@@ -110,36 +110,36 @@ public class PostDTO implements Serializable {
     this.searchField = searchField;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public GroupPostDTO getGroupPost() {
-    return groupPost;
+  public GroupPostDTO getGroup() {
+    return group;
   }
 
-  public void setGroupPost(GroupPostDTO groupPost) {
-    this.groupPost = groupPost;
+  public void setGroup(GroupPostDTO group) {
+    this.group = group;
   }
 
-  public PagePostDTO getPagePost() {
-    return pagePost;
+  public PagePostDTO getPage() {
+    return page;
   }
 
-  public void setPagePost(PagePostDTO pagePost) {
-    this.pagePost = pagePost;
+  public void setPage(PagePostDTO page) {
+    this.page = page;
   }
 
-  public PostDTO getPostShareParent() {
-    return postShareParent;
+  public PostDTO getParent() {
+    return parent;
   }
 
-  public void setPostShareParent(PostDTO postShareParent) {
-    this.postShareParent = postShareParent;
+  public void setParent(PostDTO parent) {
+    this.parent = parent;
   }
 
   @Override
@@ -173,10 +173,10 @@ public class PostDTO implements Serializable {
             ", postType='" + getPostType() + "'" +
             ", content='" + getContent() + "'" +
             ", searchField='" + getSearchField() + "'" +
-            ", baseInfo=" + getBaseInfo() +
-            ", groupPost=" + getGroupPost() +
-            ", pagePost=" + getPagePost() +
-            ", postShareParent=" + getPostShareParent() +
+            ", info=" + getInfo() +
+            ", group=" + getGroup() +
+            ", page=" + getPage() +
+            ", parent=" + getParent() +
             "}";
     }
 }

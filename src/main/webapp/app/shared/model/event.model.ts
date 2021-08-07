@@ -15,7 +15,7 @@ export interface IEvent {
   tagLine?: string | null;
   imageCollection?: string | null;
   videoCollection?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
 }
 
 export const defaultValue: Readonly<IEvent> = {};

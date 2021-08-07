@@ -20,13 +20,13 @@
             <column name="content" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_post_comment__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_post_comment__info_id" />
             </column>
             <column name="post_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="comment_parent_id" type="bigint">
+            <column name="parent_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

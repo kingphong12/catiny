@@ -5,10 +5,7 @@
       "fieldName": "uuid",
       "fieldType": "UUID",
       "javadoc": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)",
-      "fieldValidateRules": [
-        "required",
-        "unique"
-      ]
+      "fieldValidateRules": ["required", "unique"]
     },
     {
       "fieldName": "processStatus",
@@ -58,234 +55,31 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "historyUpdate",
       "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "historyUpdate"
+      "relationshipName": "history"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "masterUser",
+      "otherEntityRelationshipName": "baseInfo",
+      "relationshipName": "createdBy"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "masterUser",
+      "otherEntityRelationshipName": "baseInfo",
+      "relationshipName": "modifiedBy"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "masterUser",
+      "otherEntityRelationshipName": "owned",
+      "relationshipName": "owner"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "classInfo",
       "otherEntityRelationshipName": "baseInfo",
       "relationshipName": "classInfo"
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "userProfile",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "userProfile",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "accountStatus",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "accountStatus",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "deviceStatus",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "deviceStatus",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "friend",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "friend",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "followUser",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "followUser",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "followGroup",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "followGroup",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "followPage",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "followPage",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "fileInfo",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "fileInfo",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "pagePost",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "pagePost",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "pageProfile",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "pageProfile",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "groupPost",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "groupPost",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "post",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "post",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "postComment",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "postComment",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "postLike",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "postLike",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "groupProfile",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "groupProfile",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "newsFeed",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "newsFeed",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "messageGroup",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "messageGroup",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "messageContent",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "messageContent",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "rankUser",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "rankUser",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "rankGroup",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "rankGroup",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "notification",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "notification",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "album",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "album",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "video",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "video",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "image",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "image",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "videoStream",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "videoStream",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "videoLiveStreamBuffer",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "videoLiveStreamBuffer",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "topicInterest",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "topicInterest",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "todoList",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "todoList",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "event",
-      "otherEntityRelationshipName": "baseInfo",
-      "relationshipName": "event",
-      "ownerSide": false
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "masterUser",
-      "otherEntityRelationshipName": "myBaseInfoCreated",
-      "relationshipName": "createdBy"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "masterUser",
-      "otherEntityRelationshipName": "myBaseInfoModified",
-      "relationshipName": "modifiedBy"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "masterUser",
-      "otherEntityRelationshipName": "ownerOf",
-      "relationshipName": "owner"
     },
     {
       "relationshipType": "one-to-many",

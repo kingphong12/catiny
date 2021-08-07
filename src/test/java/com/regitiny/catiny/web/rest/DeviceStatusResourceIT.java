@@ -626,21 +626,21 @@ class DeviceStatusResourceIT {
 
   @Test
   @Transactional
-  void getAllDeviceStatusesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllDeviceStatusesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     deviceStatusRepository.saveAndFlush(deviceStatus);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    deviceStatus.setBaseInfo(baseInfo);
+    deviceStatus.setInfo(info);
     deviceStatusRepository.saveAndFlush(deviceStatus);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the deviceStatusList where baseInfo equals to baseInfoId
-    defaultDeviceStatusShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the deviceStatusList where info equals to infoId
+    defaultDeviceStatusShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the deviceStatusList where baseInfo equals to (baseInfoId + 1)
-    defaultDeviceStatusShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the deviceStatusList where info equals to (infoId + 1)
+    defaultDeviceStatusShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

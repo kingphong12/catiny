@@ -61,7 +61,7 @@ public class EventCriteria implements Serializable, Criteria {
 
   private StringFilter tagLine;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   public EventCriteria() {}
 
@@ -73,7 +73,7 @@ public class EventCriteria implements Serializable, Criteria {
     this.startTime = other.startTime == null ? null : other.startTime.copy();
     this.endTime = other.endTime == null ? null : other.endTime.copy();
     this.tagLine = other.tagLine == null ? null : other.tagLine.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
   }
 
   @Override
@@ -186,19 +186,19 @@ public class EventCriteria implements Serializable, Criteria {
     this.tagLine = tagLine;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   @Override
@@ -218,13 +218,13 @@ public class EventCriteria implements Serializable, Criteria {
       Objects.equals(startTime, that.startTime) &&
       Objects.equals(endTime, that.endTime) &&
       Objects.equals(tagLine, that.tagLine) &&
-      Objects.equals(baseInfoId, that.baseInfoId)
+      Objects.equals(infoId, that.infoId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, title, type, startTime, endTime, tagLine, baseInfoId);
+    return Objects.hash(id, uuid, title, type, startTime, endTime, tagLine, infoId);
   }
 
   // prettier-ignore
@@ -238,7 +238,7 @@ public class EventCriteria implements Serializable, Criteria {
             (startTime != null ? "startTime=" + startTime + ", " : "") +
             (endTime != null ? "endTime=" + endTime + ", " : "") +
             (tagLine != null ? "tagLine=" + tagLine + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             "}";
     }
 }

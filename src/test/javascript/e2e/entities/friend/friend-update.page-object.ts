@@ -9,8 +9,8 @@ export default class FriendUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#friend-uuid'));
   friendTypeSelect: ElementFinder = element(by.css('select#friend-friendType'));
-  baseInfoSelect: ElementFinder = element(by.css('select#friend-baseInfo'));
-  friendDetailsSelect: ElementFinder = element(by.css('select#friend-friendDetails'));
+  infoSelect: ElementFinder = element(by.css('select#friend-info'));
+  friendSelect: ElementFinder = element(by.css('select#friend-friend'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -35,36 +35,36 @@ export default class FriendUpdatePage {
   async friendTypeSelectLastOption() {
     await this.friendTypeSelect.all(by.tagName('option')).last().click();
   }
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
-  async friendDetailsSelectLastOption() {
-    await this.friendDetailsSelect.all(by.tagName('option')).last().click();
+  async friendSelectLastOption() {
+    await this.friendSelect.all(by.tagName('option')).last().click();
   }
 
-  async friendDetailsSelectOption(option) {
-    await this.friendDetailsSelect.sendKeys(option);
+  async friendSelectOption(option) {
+    await this.friendSelect.sendKeys(option);
   }
 
-  getFriendDetailsSelect() {
-    return this.friendDetailsSelect;
+  getFriendSelect() {
+    return this.friendSelect;
   }
 
-  async getFriendDetailsSelectedOption() {
-    return this.friendDetailsSelect.element(by.css('option:checked')).getText();
+  async getFriendSelectedOption() {
+    return this.friendSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -84,8 +84,8 @@ export default class FriendUpdatePage {
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await waitUntilDisplayed(this.saveButton);
     await this.friendTypeSelectLastOption();
-    await this.baseInfoSelectLastOption();
-    await this.friendDetailsSelectLastOption();
+    await this.infoSelectLastOption();
+    await this.friendSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

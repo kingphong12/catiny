@@ -33,7 +33,7 @@ public class VideoLiveStreamBufferModel implements Serializable
 
   private String bufferDataContentType;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private VideoStreamDTO videoStream;
 
@@ -57,7 +57,7 @@ public class VideoLiveStreamBufferModel implements Serializable
 
     private String bufferDataContentType;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private VideoStreamDTO videoStream;
   }
@@ -82,7 +82,7 @@ public class VideoLiveStreamBufferModel implements Serializable
 
     private String bufferDataContentType;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private VideoStreamDTO videoStream;
   }

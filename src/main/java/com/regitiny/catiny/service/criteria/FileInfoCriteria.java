@@ -39,7 +39,7 @@ public class FileInfoCriteria implements Serializable, Criteria {
 
   private LongFilter dataSize;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   public FileInfoCriteria() {}
 
@@ -50,7 +50,7 @@ public class FileInfoCriteria implements Serializable, Criteria {
     this.typeFile = other.typeFile == null ? null : other.typeFile.copy();
     this.path = other.path == null ? null : other.path.copy();
     this.dataSize = other.dataSize == null ? null : other.dataSize.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
   }
 
   @Override
@@ -148,19 +148,19 @@ public class FileInfoCriteria implements Serializable, Criteria {
     this.dataSize = dataSize;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   @Override
@@ -179,13 +179,13 @@ public class FileInfoCriteria implements Serializable, Criteria {
       Objects.equals(typeFile, that.typeFile) &&
       Objects.equals(path, that.path) &&
       Objects.equals(dataSize, that.dataSize) &&
-      Objects.equals(baseInfoId, that.baseInfoId)
+      Objects.equals(infoId, that.infoId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, nameFile, typeFile, path, dataSize, baseInfoId);
+    return Objects.hash(id, uuid, nameFile, typeFile, path, dataSize, infoId);
   }
 
   // prettier-ignore
@@ -198,7 +198,7 @@ public class FileInfoCriteria implements Serializable, Criteria {
             (typeFile != null ? "typeFile=" + typeFile + ", " : "") +
             (path != null ? "path=" + path + ", " : "") +
             (dataSize != null ? "dataSize=" + dataSize + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             "}";
     }
 }

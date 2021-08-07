@@ -27,9 +27,9 @@ public class FollowGroupModel implements Serializable
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private GroupPostDTO followGroupDetails;
+  private GroupPostDTO groupDetails;
 
   @Data
   @Builder
@@ -46,9 +46,9 @@ public class FollowGroupModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private GroupPostDTO followGroupDetails;
+    private GroupPostDTO groupDetails;
   }
 
   @Data
@@ -66,8 +66,8 @@ public class FollowGroupModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private GroupPostDTO followGroupDetails;
+    private GroupPostDTO groupDetails;
   }
 }

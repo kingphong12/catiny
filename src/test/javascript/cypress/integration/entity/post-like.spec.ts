@@ -102,11 +102,11 @@ describe('PostLike e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('bbb05213-cda8-46a0-bd45-48eed2b37e98'));
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('post');
 
-    cy.setFieldSelectToLastOfEntity('postComment');
+    cy.setFieldSelectToLastOfEntity('comment');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

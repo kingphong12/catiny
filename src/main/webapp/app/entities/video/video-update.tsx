@@ -57,8 +57,8 @@ export const VideoUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ...videoEntity,
       ...values,
       fileInfo: fileInfos.find(it => it.id.toString() === values.fileInfoId.toString()),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      videoOriginal: videos.find(it => it.id.toString() === values.videoOriginalId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      original: videos.find(it => it.id.toString() === values.originalId.toString()),
     };
 
     if (isNew) {
@@ -74,8 +74,8 @@ export const VideoUpdate = (props: RouteComponentProps<{ id: string }>) => {
       : {
           ...videoEntity,
           fileInfoId: videoEntity?.fileInfo?.id,
-          baseInfoId: videoEntity?.baseInfo?.id,
-          videoOriginalId: videoEntity?.videoOriginal?.id,
+          infoId: videoEntity?.info?.id,
+          originalId: videoEntity?.original?.id,
         };
 
   return (
@@ -216,13 +216,7 @@ export const VideoUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                id="video-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.video.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="video-info" name="infoId" data-cy="info" label={translate('catinyApp.video.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (
@@ -233,10 +227,10 @@ export const VideoUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="video-videoOriginal"
-                name="videoOriginalId"
-                data-cy="videoOriginal"
-                label={translate('catinyApp.video.videoOriginal')}
+                id="video-original"
+                name="originalId"
+                data-cy="original"
+                label={translate('catinyApp.video.original')}
                 type="select"
               >
                 <option value="" key="0" />

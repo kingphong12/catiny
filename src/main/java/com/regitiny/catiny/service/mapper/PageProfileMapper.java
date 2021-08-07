@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class })
 @GeneratedByJHipster
 public interface PageProfileMapper extends EntityMapper<PageProfileDTO, PageProfile> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   PageProfileDTO toDto(PageProfile s);
 
   @Named("id")

@@ -451,40 +451,40 @@ class MessageGroupResourceIT {
 
   @Test
   @Transactional
-  void getAllMessageGroupsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllMessageGroupsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     messageGroupRepository.saveAndFlush(messageGroup);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    messageGroup.setBaseInfo(baseInfo);
+    messageGroup.setInfo(info);
     messageGroupRepository.saveAndFlush(messageGroup);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the messageGroupList where baseInfo equals to baseInfoId
-    defaultMessageGroupShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the messageGroupList where info equals to infoId
+    defaultMessageGroupShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the messageGroupList where baseInfo equals to (baseInfoId + 1)
-    defaultMessageGroupShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the messageGroupList where info equals to (infoId + 1)
+    defaultMessageGroupShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllMessageGroupsByMessageContentIsEqualToSomething() throws Exception {
+  void getAllMessageGroupsByContentIsEqualToSomething() throws Exception {
     // Initialize the database
     messageGroupRepository.saveAndFlush(messageGroup);
-    MessageContent messageContent = MessageContentResourceIT.createEntity(em);
-    em.persist(messageContent);
+    MessageContent content = MessageContentResourceIT.createEntity(em);
+    em.persist(content);
     em.flush();
-    messageGroup.addMessageContent(messageContent);
+    messageGroup.addContent(content);
     messageGroupRepository.saveAndFlush(messageGroup);
-    Long messageContentId = messageContent.getId();
+    Long contentId = content.getId();
 
-    // Get all the messageGroupList where messageContent equals to messageContentId
-    defaultMessageGroupShouldBeFound("messageContentId.equals=" + messageContentId);
+    // Get all the messageGroupList where content equals to contentId
+    defaultMessageGroupShouldBeFound("contentId.equals=" + contentId);
 
-    // Get all the messageGroupList where messageContent equals to (messageContentId + 1)
-    defaultMessageGroupShouldNotBeFound("messageContentId.equals=" + (messageContentId + 1));
+    // Get all the messageGroupList where content equals to (contentId + 1)
+    defaultMessageGroupShouldNotBeFound("contentId.equals=" + (contentId + 1));
   }
 
   /**

@@ -45,17 +45,17 @@ export const PostCommentDetail = (props: RouteComponentProps<{ id: string }>) =>
           </dt>
           <dd>{postCommentEntity.content}</dd>
           <dt>
-            <Translate contentKey="catinyApp.postComment.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.postComment.info">Info</Translate>
           </dt>
-          <dd>{postCommentEntity.baseInfo ? postCommentEntity.baseInfo.id : ''}</dd>
+          <dd>{postCommentEntity.info ? postCommentEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.postComment.post">Post</Translate>
           </dt>
           <dd>{postCommentEntity.post ? postCommentEntity.post.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.postComment.commentParent">Comment Parent</Translate>
+            <Translate contentKey="catinyApp.postComment.parent">Parent</Translate>
           </dt>
-          <dd>{postCommentEntity.commentParent ? postCommentEntity.commentParent.id : ''}</dd>
+          <dd>{postCommentEntity.parent ? postCommentEntity.parent.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/post-comment" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

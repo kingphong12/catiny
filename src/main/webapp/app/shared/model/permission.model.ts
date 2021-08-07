@@ -1,8 +1,7 @@
-import {IBaseInfo} from 'app/shared/model/base-info.model';
-import {IMasterUser} from 'app/shared/model/master-user.model';
+import { IBaseInfo } from 'app/shared/model/base-info.model';
+import { IMasterUser } from 'app/shared/model/master-user.model';
 
-export interface IPermission
-{
+export interface IPermission {
   id?: number;
   uuid?: string;
   read?: boolean | null;
@@ -12,7 +11,7 @@ export interface IPermission
   add?: boolean | null;
   level?: number | null;
   baseInfo?: IBaseInfo | null;
-  masterUser?: IMasterUser | null;
+  owner?: IMasterUser | null;
 }
 
 export const defaultValue: Readonly<IPermission> = {

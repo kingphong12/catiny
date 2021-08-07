@@ -6,8 +6,8 @@ export interface IFriend {
   id?: number;
   uuid?: string;
   friendType?: FriendType | null;
-  baseInfo?: IBaseInfo | null;
-  friendDetails?: IMasterUser | null;
+  info?: IBaseInfo | null;
+  friend?: IMasterUser | null;
 }
 
 export const defaultValue: Readonly<IFriend> = {};

@@ -104,7 +104,7 @@ describe('RankUser e2e test', () => {
 
     cy.get(`[data-cy="ratingPoints"]`).type('52440').should('have.value', '52440');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('rankGroup');
 

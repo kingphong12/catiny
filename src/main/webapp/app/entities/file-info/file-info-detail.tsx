@@ -75,9 +75,9 @@ export const FileInfoDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{fileInfoEntity.dataSize}</dd>
           <dt>
-            <Translate contentKey="catinyApp.fileInfo.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.fileInfo.info">Info</Translate>
           </dt>
-          <dd>{fileInfoEntity.baseInfo ? fileInfoEntity.baseInfo.id : ''}</dd>
+          <dd>{fileInfoEntity.info ? fileInfoEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/file-info" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

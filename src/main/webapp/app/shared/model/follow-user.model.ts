@@ -4,8 +4,8 @@ import { IMasterUser } from 'app/shared/model/master-user.model';
 export interface IFollowUser {
   id?: number;
   uuid?: string;
-  baseInfo?: IBaseInfo | null;
-  followUserDetails?: IMasterUser | null;
+  info?: IBaseInfo | null;
+  follow?: IMasterUser | null;
 }
 
 export const defaultValue: Readonly<IFollowUser> = {};

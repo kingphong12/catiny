@@ -66,9 +66,9 @@ export const MessageGroupDetail = (props: RouteComponentProps<{ id: string }>) =
           </dt>
           <dd>{messageGroupEntity.addBy}</dd>
           <dt>
-            <Translate contentKey="catinyApp.messageGroup.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.messageGroup.info">Info</Translate>
           </dt>
-          <dd>{messageGroupEntity.baseInfo ? messageGroupEntity.baseInfo.id : ''}</dd>
+          <dd>{messageGroupEntity.info ? messageGroupEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/message-group" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -99,19 +99,14 @@ public class FollowPageQueryService extends QueryService<FollowPage> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), FollowPage_.uuid));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(FollowPage_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(FollowPage_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
-      if (criteria.getFollowPageDetailsId() != null) {
+      if (criteria.getPageDetailsId() != null) {
         specification =
           specification.and(
-            buildSpecification(
-              criteria.getFollowPageDetailsId(),
-              root -> root.join(FollowPage_.followPageDetails, JoinType.LEFT).get(PagePost_.id)
-            )
+            buildSpecification(criteria.getPageDetailsId(), root -> root.join(FollowPage_.pageDetails, JoinType.LEFT).get(PagePost_.id))
           );
       }
     }

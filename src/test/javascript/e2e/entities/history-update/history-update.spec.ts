@@ -1,15 +1,22 @@
-import {browser} from 'protractor';
+import { browser, element, by } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
 import HistoryUpdateComponentsPage from './history-update.page-object';
 import HistoryUpdateUpdatePage from './history-update-update.page-object';
-import {getRecordsCount, isVisible, waitUntilCount, waitUntilDisplayed,} from '../../util/utils';
+import {
+  waitUntilDisplayed,
+  waitUntilAnyDisplayed,
+  click,
+  getRecordsCount,
+  waitUntilHidden,
+  waitUntilCount,
+  isVisible,
+} from '../../util/utils';
 
 const expect = chai.expect;
 
-describe('HistoryUpdate e2e test', () =>
-{
+describe('HistoryUpdate e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
   let historyUpdateComponentsPage: HistoryUpdateComponentsPage;
@@ -17,8 +24,7 @@ describe('HistoryUpdate e2e test', () =>
   const username = process.env.E2E_USERNAME ?? 'admin';
   const password = process.env.E2E_PASSWORD ?? 'admin';
 
-  before(async () =>
-  {
+  before(async () => {
     await browser.get('/');
     navBarPage = new NavBarPage();
     signInPage = await navBarPage.getSignInPage();
@@ -32,22 +38,19 @@ describe('HistoryUpdate e2e test', () =>
     await waitUntilDisplayed(navBarPage.accountMenu);
   });
 
-  beforeEach(async () =>
-  {
+  beforeEach(async () => {
     await browser.get('/');
     await waitUntilDisplayed(navBarPage.entityMenu);
     historyUpdateComponentsPage = new HistoryUpdateComponentsPage();
     historyUpdateComponentsPage = await historyUpdateComponentsPage.goToPage(navBarPage);
   });
 
-  it('should load HistoryUpdates', async () =>
-  {
+  it('should load HistoryUpdates', async () => {
     expect(await historyUpdateComponentsPage.title.getText()).to.match(/History Updates/);
     expect(await historyUpdateComponentsPage.createButton.isEnabled()).to.be.true;
   });
 
-  it('should create and delete HistoryUpdates', async () =>
-  {
+  it('should create and delete HistoryUpdates', async () => {
     const beforeRecordsCount = (await isVisible(historyUpdateComponentsPage.noRecords))
       ? 0
       : await getRecordsCount(historyUpdateComponentsPage.table);
@@ -61,19 +64,15 @@ describe('HistoryUpdate e2e test', () =>
     expect(await historyUpdateComponentsPage.records.count()).to.eq(beforeRecordsCount + 1);
 
     await historyUpdateComponentsPage.deleteHistoryUpdate();
-    if (beforeRecordsCount !== 0)
-    {
+    if (beforeRecordsCount !== 0) {
       await waitUntilCount(historyUpdateComponentsPage.records, beforeRecordsCount);
       expect(await historyUpdateComponentsPage.records.count()).to.eq(beforeRecordsCount);
-    }
-    else
-    {
+    } else {
       await waitUntilDisplayed(historyUpdateComponentsPage.noRecords);
     }
   });
 
-  after(async () =>
-  {
+  after(async () => {
     await navBarPage.autoSignOut();
   });
 });

@@ -45,7 +45,7 @@ public class DeviceStatusModel implements Serializable
   @ApiModelProperty("statusComment  : người dùng comment lại trạng thái nếu muốn")
   private String statusComment;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private AccountStatusDTO accountStatus;
 
@@ -79,7 +79,7 @@ public class DeviceStatusModel implements Serializable
     @ApiModelProperty("statusComment  : người dùng comment lại trạng thái nếu muốn")
     private String statusComment;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private AccountStatusDTO accountStatus;
   }
@@ -114,7 +114,7 @@ public class DeviceStatusModel implements Serializable
     @ApiModelProperty("statusComment  : người dùng comment lại trạng thái nếu muốn")
     private String statusComment;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private AccountStatusDTO accountStatus;
   }

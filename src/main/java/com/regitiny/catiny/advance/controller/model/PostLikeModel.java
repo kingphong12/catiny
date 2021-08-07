@@ -28,11 +28,11 @@ public class PostLikeModel implements Serializable
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private PostDTO post;
 
-  private PostCommentDTO postComment;
+  private PostCommentDTO comment;
 
   @Data
   @Builder
@@ -49,11 +49,11 @@ public class PostLikeModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private PostDTO post;
 
-    private PostCommentDTO postComment;
+    private PostCommentDTO comment;
   }
 
   @Data
@@ -71,10 +71,10 @@ public class PostLikeModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private PostDTO post;
 
-    private PostCommentDTO postComment;
+    private PostCommentDTO comment;
   }
 }

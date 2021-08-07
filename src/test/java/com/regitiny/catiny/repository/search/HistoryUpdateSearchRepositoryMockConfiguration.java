@@ -10,8 +10,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @GeneratedByJHipster
-public class HistoryUpdateSearchRepositoryMockConfiguration
-{
+public class HistoryUpdateSearchRepositoryMockConfiguration {
 
   @MockBean
   private HistoryUpdateSearchRepository mockHistoryUpdateSearchRepository;

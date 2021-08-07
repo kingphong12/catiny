@@ -27,9 +27,9 @@ public class FollowPageModel implements Serializable
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private PagePostDTO followPageDetails;
+  private PagePostDTO pageDetails;
 
   @Data
   @Builder
@@ -46,9 +46,9 @@ public class FollowPageModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private PagePostDTO followPageDetails;
+    private PagePostDTO pageDetails;
   }
 
   @Data
@@ -66,8 +66,8 @@ public class FollowPageModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private PagePostDTO followPageDetails;
+    private PagePostDTO pageDetails;
   }
 }

@@ -14,7 +14,7 @@ export default class MasterUserUpdatePage {
   quickInfoInput: ElementFinder = element(by.css('textarea#master-user-quickInfo'));
   userSelect: ElementFinder = element(by.css('select#master-user-user'));
   myRankSelect: ElementFinder = element(by.css('select#master-user-myRank'));
-  baseInfoSelect: ElementFinder = element(by.css('select#master-user-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#master-user-info'));
   topicInterestSelect: ElementFinder = element(by.css('select#master-user-topicInterest'));
 
   getPageTitle() {
@@ -93,20 +93,20 @@ export default class MasterUserUpdatePage {
     return this.myRankSelect.element(by.css('option:checked')).getText();
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async topicInterestSelectLastOption() {
@@ -150,7 +150,7 @@ export default class MasterUserUpdatePage {
     await this.setQuickInfoInput('quickInfo');
     await this.userSelectLastOption();
     await this.myRankSelectLastOption();
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     // this.topicInterestSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);

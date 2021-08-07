@@ -8,6 +8,4 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * Spring Data Elasticsearch repository for the {@link HistoryUpdate} entity.
  */
 @GeneratedByJHipster
-public interface HistoryUpdateSearchRepository extends ElasticsearchRepository<HistoryUpdate, Long>
-{
-}
+public interface HistoryUpdateSearchRepository extends ElasticsearchRepository<HistoryUpdate, Long> {}

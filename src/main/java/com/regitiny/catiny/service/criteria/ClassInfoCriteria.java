@@ -1,14 +1,17 @@
 package com.regitiny.catiny.service.criteria;
 
 import com.regitiny.catiny.GeneratedByJHipster;
+import java.io.Serializable;
+import java.util.Objects;
 import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
+import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.service.filter.UUIDFilter;
-
-import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Criteria class for the {@link com.regitiny.catiny.domain.ClassInfo} entity. This class is used
@@ -72,46 +75,37 @@ public class ClassInfoCriteria implements Serializable, Criteria {
   }
 
   public UUIDFilter uuid() {
-    if (uuid == null)
-    {
+    if (uuid == null) {
       uuid = new UUIDFilter();
     }
     return uuid;
   }
 
-  public void setUuid(UUIDFilter uuid)
-  {
+  public void setUuid(UUIDFilter uuid) {
     this.uuid = uuid;
   }
 
-  public StringFilter getNamePackage()
-  {
+  public StringFilter getNamePackage() {
     return namePackage;
   }
 
-  public void setNamePackage(StringFilter namePackage)
-  {
-    this.namePackage = namePackage;
-  }
-
-  public StringFilter namePackage()
-  {
-    if (namePackage == null)
-    {
+  public StringFilter namePackage() {
+    if (namePackage == null) {
       namePackage = new StringFilter();
     }
     return namePackage;
   }
 
-  public StringFilter getFullName()
-  {
+  public void setNamePackage(StringFilter namePackage) {
+    this.namePackage = namePackage;
+  }
+
+  public StringFilter getFullName() {
     return fullName;
   }
 
-  public StringFilter fullName()
-  {
-    if (fullName == null)
-    {
+  public StringFilter fullName() {
+    if (fullName == null) {
       fullName = new StringFilter();
     }
     return fullName;
@@ -162,11 +156,11 @@ public class ClassInfoCriteria implements Serializable, Criteria {
     final ClassInfoCriteria that = (ClassInfoCriteria) o;
     return (
       Objects.equals(id, that.id) &&
-        Objects.equals(uuid, that.uuid) &&
-        Objects.equals(namePackage, that.namePackage) &&
-        Objects.equals(fullName, that.fullName) &&
-        Objects.equals(className, that.className) &&
-        Objects.equals(baseInfoId, that.baseInfoId)
+      Objects.equals(uuid, that.uuid) &&
+      Objects.equals(namePackage, that.namePackage) &&
+      Objects.equals(fullName, that.fullName) &&
+      Objects.equals(className, that.className) &&
+      Objects.equals(baseInfoId, that.baseInfoId)
     );
   }
 
@@ -179,12 +173,12 @@ public class ClassInfoCriteria implements Serializable, Criteria {
     @Override
     public String toString() {
         return "ClassInfoCriteria{" +
-          (id != null ? "id=" + id + ", " : "") +
-          (uuid != null ? "uuid=" + uuid + ", " : "") +
-          (namePackage != null ? "namePackage=" + namePackage + ", " : "") +
-          (fullName != null ? "fullName=" + fullName + ", " : "") +
-          (className != null ? "className=" + className + ", " : "") +
-          (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-          "}";
+            (id != null ? "id=" + id + ", " : "") +
+            (uuid != null ? "uuid=" + uuid + ", " : "") +
+            (namePackage != null ? "namePackage=" + namePackage + ", " : "") +
+            (fullName != null ? "fullName=" + fullName + ", " : "") +
+            (className != null ? "className=" + className + ", " : "") +
+            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            "}";
     }
 }

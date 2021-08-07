@@ -88,9 +88,9 @@ export const DeviceStatusDetail = (props: RouteComponentProps<{ id: string }>) =
           </dt>
           <dd>{deviceStatusEntity.statusComment}</dd>
           <dt>
-            <Translate contentKey="catinyApp.deviceStatus.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.deviceStatus.info">Info</Translate>
           </dt>
-          <dd>{deviceStatusEntity.baseInfo ? deviceStatusEntity.baseInfo.id : ''}</dd>
+          <dd>{deviceStatusEntity.info ? deviceStatusEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.deviceStatus.accountStatus">Account Status</Translate>
           </dt>

@@ -52,8 +52,8 @@ export const PostCommentUpdate = (props: RouteComponentProps<{ id: string }>) =>
     const entity = {
       ...postCommentEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      commentParent: postComments.find(it => it.id.toString() === values.commentParentId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      parent: postComments.find(it => it.id.toString() === values.parentId.toString()),
       post: posts.find(it => it.id.toString() === values.postId.toString()),
     };
 
@@ -69,9 +69,9 @@ export const PostCommentUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ? {}
       : {
           ...postCommentEntity,
-          baseInfoId: postCommentEntity?.baseInfo?.id,
+          infoId: postCommentEntity?.info?.id,
           postId: postCommentEntity?.post?.id,
-          commentParentId: postCommentEntity?.commentParent?.id,
+          parentId: postCommentEntity?.parent?.id,
         };
 
   return (
@@ -120,10 +120,10 @@ export const PostCommentUpdate = (props: RouteComponentProps<{ id: string }>) =>
                 type="textarea"
               />
               <ValidatedField
-                id="post-comment-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.postComment.baseInfo')}
+                id="post-comment-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.postComment.info')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -152,10 +152,10 @@ export const PostCommentUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="post-comment-commentParent"
-                name="commentParentId"
-                data-cy="commentParent"
-                label={translate('catinyApp.postComment.commentParent')}
+                id="post-comment-parent"
+                name="parentId"
+                data-cy="parent"
+                label={translate('catinyApp.postComment.parent')}
                 type="select"
               >
                 <option value="" key="0" />

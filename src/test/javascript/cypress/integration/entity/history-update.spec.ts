@@ -1,27 +1,24 @@
-import {entityItemSelector} from '../../support/commands';
+import { entityItemSelector } from '../../support/commands';
 import {
-  entityConfirmDeleteButtonSelector,
-  entityCreateButtonSelector,
-  entityCreateCancelButtonSelector,
-  entityCreateSaveButtonSelector,
-  entityDeleteButtonSelector,
-  entityDetailsBackButtonSelector,
-  entityDetailsButtonSelector,
-  entityEditButtonSelector,
   entityTableSelector,
+  entityDetailsButtonSelector,
+  entityDetailsBackButtonSelector,
+  entityCreateButtonSelector,
+  entityCreateSaveButtonSelector,
+  entityCreateCancelButtonSelector,
+  entityEditButtonSelector,
+  entityDeleteButtonSelector,
+  entityConfirmDeleteButtonSelector,
 } from '../../support/entity';
 
-describe('HistoryUpdate e2e test', () =>
-{
+describe('HistoryUpdate e2e test', () => {
   const historyUpdatePageUrl = '/history-update';
   const historyUpdatePageUrlPattern = new RegExp('/history-update(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
 
-  before(() =>
-  {
-    cy.window().then(win =>
-    {
+  before(() => {
+    cy.window().then(win => {
       win.sessionStorage.clear();
     });
     cy.visit('');
@@ -29,25 +26,19 @@ describe('HistoryUpdate e2e test', () =>
     cy.get(entityItemSelector).should('exist');
   });
 
-  beforeEach(() =>
-  {
+  beforeEach(() => {
     cy.intercept('GET', '/api/history-updates+(?*|)').as('entitiesRequest');
     cy.intercept('POST', '/api/history-updates').as('postEntityRequest');
     cy.intercept('DELETE', '/api/history-updates/*').as('deleteEntityRequest');
   });
 
-  it('should load HistoryUpdates', () =>
-  {
+  it('should load HistoryUpdates', () => {
     cy.visit('/');
     cy.clickOnEntityMenuItem('history-update');
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
-      if (response.body.length === 0)
-      {
+    cy.wait('@entitiesRequest').then(({ response }) => {
+      if (response.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
-      }
-      else
-      {
+      } else {
         cy.get(entityTableSelector).should('exist');
       }
     });
@@ -55,66 +46,55 @@ describe('HistoryUpdate e2e test', () =>
     cy.url().should('match', historyUpdatePageUrlPattern);
   });
 
-  it('should load details HistoryUpdate page', function ()
-  {
+  it('should load details HistoryUpdate page', function () {
     cy.visit(historyUpdatePageUrl);
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
-      if (response.body.length === 0)
-      {
+    cy.wait('@entitiesRequest').then(({ response }) => {
+      if (response.body.length === 0) {
         this.skip();
       }
     });
-    cy.get(entityDetailsButtonSelector).first().click({force: true});
+    cy.get(entityDetailsButtonSelector).first().click({ force: true });
     cy.getEntityDetailsHeading('historyUpdate');
-    cy.get(entityDetailsBackButtonSelector).click({force: true});
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
+    cy.get(entityDetailsBackButtonSelector).click({ force: true });
+    cy.wait('@entitiesRequest').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
     cy.url().should('match', historyUpdatePageUrlPattern);
   });
 
-  it('should load create HistoryUpdate page', () =>
-  {
+  it('should load create HistoryUpdate page', () => {
     cy.visit(historyUpdatePageUrl);
     cy.wait('@entitiesRequest');
-    cy.get(entityCreateButtonSelector).click({force: true});
+    cy.get(entityCreateButtonSelector).click({ force: true });
     cy.getEntityCreateUpdateHeading('HistoryUpdate');
     cy.get(entityCreateSaveButtonSelector).should('exist');
-    cy.get(entityCreateCancelButtonSelector).click({force: true});
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
+    cy.get(entityCreateCancelButtonSelector).click({ force: true });
+    cy.wait('@entitiesRequest').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
     cy.url().should('match', historyUpdatePageUrlPattern);
   });
 
-  it('should load edit HistoryUpdate page', function ()
-  {
+  it('should load edit HistoryUpdate page', function () {
     cy.visit(historyUpdatePageUrl);
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
-      if (response.body.length === 0)
-      {
+    cy.wait('@entitiesRequest').then(({ response }) => {
+      if (response.body.length === 0) {
         this.skip();
       }
     });
-    cy.get(entityEditButtonSelector).first().click({force: true});
+    cy.get(entityEditButtonSelector).first().click({ force: true });
     cy.getEntityCreateUpdateHeading('HistoryUpdate');
     cy.get(entityCreateSaveButtonSelector).should('exist');
-    cy.get(entityCreateCancelButtonSelector).click({force: true});
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
+    cy.get(entityCreateCancelButtonSelector).click({ force: true });
+    cy.wait('@entitiesRequest').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
     cy.url().should('match', historyUpdatePageUrlPattern);
   });
 
-  it('should create an instance of HistoryUpdate', () =>
-  {
+  it('should create an instance of HistoryUpdate', () => {
     cy.visit(historyUpdatePageUrl);
-    cy.get(entityCreateButtonSelector).click({force: true});
+    cy.get(entityCreateButtonSelector).click({ force: true });
     cy.getEntityCreateUpdateHeading('HistoryUpdate');
 
     cy.get(`[data-cy="uuid"]`)
@@ -131,45 +111,36 @@ describe('HistoryUpdate e2e test', () =>
 
     cy.setFieldSelectToLastOfEntity('baseInfo');
 
-    cy.get(entityCreateSaveButtonSelector).click({force: true});
-    cy.scrollTo('top', {ensureScrollable: false});
+    cy.get(entityCreateSaveButtonSelector).click({ force: true });
+    cy.scrollTo('top', { ensureScrollable: false });
     cy.get(entityCreateSaveButtonSelector).should('not.exist');
-    cy.wait('@postEntityRequest').then(({response}) =>
-    {
+    cy.wait('@postEntityRequest').then(({ response }) => {
       expect(response.statusCode).to.equal(201);
     });
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
+    cy.wait('@entitiesRequest').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
     cy.url().should('match', historyUpdatePageUrlPattern);
   });
 
-  it('should delete last instance of HistoryUpdate', function ()
-  {
+  it('should delete last instance of HistoryUpdate', function () {
     cy.intercept('GET', '/api/history-updates/*').as('dialogDeleteRequest');
     cy.visit(historyUpdatePageUrl);
-    cy.wait('@entitiesRequest').then(({response}) =>
-    {
-      if (response.body.length > 0)
-      {
+    cy.wait('@entitiesRequest').then(({ response }) => {
+      if (response.body.length > 0) {
         cy.get(entityTableSelector).should('have.lengthOf', response.body.length);
-        cy.get(entityDeleteButtonSelector).last().click({force: true});
+        cy.get(entityDeleteButtonSelector).last().click({ force: true });
         cy.wait('@dialogDeleteRequest');
         cy.getEntityDeleteDialogHeading('historyUpdate').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({force: true});
-        cy.wait('@deleteEntityRequest').then(({response}) =>
-        {
+        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response.statusCode).to.equal(204);
         });
-        cy.wait('@entitiesRequest').then(({response}) =>
-        {
+        cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', historyUpdatePageUrlPattern);
-      }
-      else
-      {
+      } else {
         this.skip();
       }
     });

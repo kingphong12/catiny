@@ -479,21 +479,21 @@ class AccountStatusResourceIT {
 
   @Test
   @Transactional
-  void getAllAccountStatusesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllAccountStatusesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     accountStatusRepository.saveAndFlush(accountStatus);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    accountStatus.setBaseInfo(baseInfo);
+    accountStatus.setInfo(info);
     accountStatusRepository.saveAndFlush(accountStatus);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the accountStatusList where baseInfo equals to baseInfoId
-    defaultAccountStatusShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the accountStatusList where info equals to infoId
+    defaultAccountStatusShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the accountStatusList where baseInfo equals to (baseInfoId + 1)
-    defaultAccountStatusShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the accountStatusList where info equals to (infoId + 1)
+    defaultAccountStatusShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test

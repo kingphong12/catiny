@@ -1,15 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {Link, RouteComponentProps} from 'react-router-dom';
-import {Button, Col, Row, UncontrolledTooltip} from 'reactstrap';
-import {Translate, translate, ValidatedField, ValidatedForm} from 'react-jhipster';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {getEntities as getBaseInfos} from 'app/entities/base-info/base-info.reducer';
-import {getEntities as getMasterUsers} from 'app/entities/master-user/master-user.reducer';
-import {createEntity, getEntity, updateEntity} from './permission.reducer';
-import {useAppDispatch, useAppSelector} from 'app/config/store';
+import React, { useState, useEffect } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Button, Row, Col, FormText, UncontrolledTooltip } from 'reactstrap';
+import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const PermissionUpdate = (props: RouteComponentProps<{ id: string }>) =>
-{
+import { IBaseInfo } from 'app/shared/model/base-info.model';
+import { getEntities as getBaseInfos } from 'app/entities/base-info/base-info.reducer';
+import { IMasterUser } from 'app/shared/model/master-user.model';
+import { getEntities as getMasterUsers } from 'app/entities/master-user/master-user.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './permission.reducer';
+import { IPermission } from 'app/shared/model/permission.model';
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+
+export const PermissionUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
@@ -45,7 +50,7 @@ export const PermissionUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ...permissionEntity,
       ...values,
       baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      masterUser: masterUsers.find(it => it.id.toString() === values.masterUserId.toString()),
+      owner: masterUsers.find(it => it.id.toString() === values.ownerId.toString()),
     };
 
     if (isNew) {
@@ -61,7 +66,7 @@ export const PermissionUpdate = (props: RouteComponentProps<{ id: string }>) =>
       : {
           ...permissionEntity,
           baseInfoId: permissionEntity?.baseInfo?.id,
-          masterUserId: permissionEntity?.masterUser?.id,
+          ownerId: permissionEntity?.owner?.id,
         };
 
   return (
@@ -81,37 +86,37 @@ export const PermissionUpdate = (props: RouteComponentProps<{ id: string }>) =>
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? (
                 <ValidatedField
-                  name='id'
+                  name="id"
                   required
                   readOnly
-                  id='permission-id'
+                  id="permission-id"
                   label={translate('global.field.id')}
-                  validate={{required: true}}
+                  validate={{ required: true }}
                 />
               ) : null}
               <ValidatedField
                 label={translate('catinyApp.permission.uuid')}
-                id='permission-uuid'
-                name='uuid'
-                data-cy='uuid'
-                type='text'
+                id="permission-uuid"
+                name="uuid"
+                data-cy="uuid"
+                type="text"
                 validate={{
-                  required: {value: true, message: translate('entity.validation.required')},
+                  required: { value: true, message: translate('entity.validation.required') },
                 }}
               />
-              <UncontrolledTooltip target='uuidLabel'>
-                <Translate contentKey='catinyApp.permission.help.uuid' />
+              <UncontrolledTooltip target="uuidLabel">
+                <Translate contentKey="catinyApp.permission.help.uuid" />
               </UncontrolledTooltip>
               <ValidatedField
                 label={translate('catinyApp.permission.read')}
-                id='permission-read'
-                name='read'
-                data-cy='read'
+                id="permission-read"
+                name="read"
+                data-cy="read"
                 check
-                type='checkbox'
+                type="checkbox"
               />
-              <UncontrolledTooltip target='readLabel'>
-                <Translate contentKey='catinyApp.permission.help.read' />
+              <UncontrolledTooltip target="readLabel">
+                <Translate contentKey="catinyApp.permission.help.read" />
               </UncontrolledTooltip>
               <ValidatedField
                 label={translate('catinyApp.permission.write')}
@@ -184,10 +189,10 @@ export const PermissionUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="permission-masterUser"
-                name="masterUserId"
-                data-cy="masterUser"
-                label={translate('catinyApp.permission.masterUser')}
+                id="permission-owner"
+                name="ownerId"
+                data-cy="owner"
+                label={translate('catinyApp.permission.owner')}
                 type="select"
               >
                 <option value="" key="0" />

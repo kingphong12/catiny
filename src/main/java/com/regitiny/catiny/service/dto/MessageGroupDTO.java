@@ -49,7 +49,7 @@ public class MessageGroupDTO implements Serializable {
   @ApiModelProperty(value = "addBy")
   private String addBy;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -91,12 +91,12 @@ public class MessageGroupDTO implements Serializable {
     this.addBy = addBy;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -129,7 +129,7 @@ public class MessageGroupDTO implements Serializable {
             ", groupName='" + getGroupName() + "'" +
             ", avatar='" + getAvatar() + "'" +
             ", addBy='" + getAddBy() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

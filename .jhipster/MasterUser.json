@@ -44,7 +44,7 @@
     {
       "relationshipType": "one-to-one",
       "otherEntityName": "rankUser",
-      "otherEntityRelationshipName": "masterUser",
+      "otherEntityRelationshipName": "owner",
       "relationshipName": "myRank",
       "ownerSide": true
     },
@@ -52,31 +52,13 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "masterUser",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "baseInfo",
-      "otherEntityRelationshipName": "createdBy",
-      "relationshipName": "myBaseInfoCreated"
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "baseInfo",
-      "otherEntityRelationshipName": "modifiedBy",
-      "relationshipName": "myBaseInfoModified"
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "baseInfo",
-      "otherEntityRelationshipName": "owner",
-      "relationshipName": "ownerOf"
-    },
-    {
-      "relationshipType": "one-to-many",
       "otherEntityName": "permission",
-      "otherEntityRelationshipName": "masterUser",
+      "otherEntityRelationshipName": "owner",
       "relationshipName": "permission"
     },
     {
@@ -85,6 +67,12 @@
       "otherEntityRelationshipName": "masterUser",
       "relationshipName": "topicInterest",
       "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "baseInfo",
+      "otherEntityRelationshipName": "owner",
+      "relationshipName": "owned"
     }
   ],
   "javadoc": "@what?            -> The MasterUser entity.\\n@why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)\\n@use-to:          -> Lưu thông tin cơ bản của một người dùng\\n@commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server\\n\\n@describe      \t  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây",

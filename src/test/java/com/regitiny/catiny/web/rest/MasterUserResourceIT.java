@@ -599,78 +599,21 @@ class MasterUserResourceIT {
 
   @Test
   @Transactional
-  void getAllMasterUsersByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllMasterUsersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     masterUserRepository.saveAndFlush(masterUser);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    masterUser.setBaseInfo(baseInfo);
+    masterUser.setInfo(info);
     masterUserRepository.saveAndFlush(masterUser);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the masterUserList where baseInfo equals to baseInfoId
-    defaultMasterUserShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the masterUserList where info equals to infoId
+    defaultMasterUserShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the masterUserList where baseInfo equals to (baseInfoId + 1)
-    defaultMasterUserShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllMasterUsersByMyBaseInfoCreatedIsEqualToSomething() throws Exception {
-    // Initialize the database
-    masterUserRepository.saveAndFlush(masterUser);
-    BaseInfo myBaseInfoCreated = BaseInfoResourceIT.createEntity(em);
-    em.persist(myBaseInfoCreated);
-    em.flush();
-    masterUser.addMyBaseInfoCreated(myBaseInfoCreated);
-    masterUserRepository.saveAndFlush(masterUser);
-    Long myBaseInfoCreatedId = myBaseInfoCreated.getId();
-
-    // Get all the masterUserList where myBaseInfoCreated equals to myBaseInfoCreatedId
-    defaultMasterUserShouldBeFound("myBaseInfoCreatedId.equals=" + myBaseInfoCreatedId);
-
-    // Get all the masterUserList where myBaseInfoCreated equals to (myBaseInfoCreatedId + 1)
-    defaultMasterUserShouldNotBeFound("myBaseInfoCreatedId.equals=" + (myBaseInfoCreatedId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllMasterUsersByMyBaseInfoModifiedIsEqualToSomething() throws Exception {
-    // Initialize the database
-    masterUserRepository.saveAndFlush(masterUser);
-    BaseInfo myBaseInfoModified = BaseInfoResourceIT.createEntity(em);
-    em.persist(myBaseInfoModified);
-    em.flush();
-    masterUser.addMyBaseInfoModified(myBaseInfoModified);
-    masterUserRepository.saveAndFlush(masterUser);
-    Long myBaseInfoModifiedId = myBaseInfoModified.getId();
-
-    // Get all the masterUserList where myBaseInfoModified equals to myBaseInfoModifiedId
-    defaultMasterUserShouldBeFound("myBaseInfoModifiedId.equals=" + myBaseInfoModifiedId);
-
-    // Get all the masterUserList where myBaseInfoModified equals to (myBaseInfoModifiedId + 1)
-    defaultMasterUserShouldNotBeFound("myBaseInfoModifiedId.equals=" + (myBaseInfoModifiedId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllMasterUsersByOwnerOfIsEqualToSomething() throws Exception {
-    // Initialize the database
-    masterUserRepository.saveAndFlush(masterUser);
-    BaseInfo ownerOf = BaseInfoResourceIT.createEntity(em);
-    em.persist(ownerOf);
-    em.flush();
-    masterUser.addOwnerOf(ownerOf);
-    masterUserRepository.saveAndFlush(masterUser);
-    Long ownerOfId = ownerOf.getId();
-
-    // Get all the masterUserList where ownerOf equals to ownerOfId
-    defaultMasterUserShouldBeFound("ownerOfId.equals=" + ownerOfId);
-
-    // Get all the masterUserList where ownerOf equals to (ownerOfId + 1)
-    defaultMasterUserShouldNotBeFound("ownerOfId.equals=" + (ownerOfId + 1));
+    // Get all the masterUserList where info equals to (infoId + 1)
+    defaultMasterUserShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
@@ -709,6 +652,25 @@ class MasterUserResourceIT {
 
     // Get all the masterUserList where topicInterest equals to (topicInterestId + 1)
     defaultMasterUserShouldNotBeFound("topicInterestId.equals=" + (topicInterestId + 1));
+  }
+
+  @Test
+  @Transactional
+  void getAllMasterUsersByOwnedIsEqualToSomething() throws Exception {
+    // Initialize the database
+    masterUserRepository.saveAndFlush(masterUser);
+    BaseInfo owned = BaseInfoResourceIT.createEntity(em);
+    em.persist(owned);
+    em.flush();
+    masterUser.addOwned(owned);
+    masterUserRepository.saveAndFlush(masterUser);
+    Long ownedId = owned.getId();
+
+    // Get all the masterUserList where owned equals to ownedId
+    defaultMasterUserShouldBeFound("ownedId.equals=" + ownedId);
+
+    // Get all the masterUserList where owned equals to (ownedId + 1)
+    defaultMasterUserShouldNotBeFound("ownedId.equals=" + (ownedId + 1));
   }
 
   /**

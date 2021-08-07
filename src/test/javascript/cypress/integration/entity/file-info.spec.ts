@@ -110,7 +110,7 @@ describe('FileInfo e2e test', () => {
 
     cy.get(`[data-cy="dataSize"]`).type('49582').should('have.value', '49582');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

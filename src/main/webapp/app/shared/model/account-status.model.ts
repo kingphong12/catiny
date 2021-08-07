@@ -9,7 +9,7 @@ export interface IAccountStatus {
   accountStatus?: StatusName | null;
   lastVisited?: string | null;
   statusComment?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   deviceStatuses?: IDeviceStatus[] | null;
 }
 

@@ -425,21 +425,21 @@ class NotificationResourceIT {
 
   @Test
   @Transactional
-  void getAllNotificationsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllNotificationsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     notificationRepository.saveAndFlush(notification);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    notification.setBaseInfo(baseInfo);
+    notification.setInfo(info);
     notificationRepository.saveAndFlush(notification);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the notificationList where baseInfo equals to baseInfoId
-    defaultNotificationShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the notificationList where info equals to infoId
+    defaultNotificationShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the notificationList where baseInfo equals to (baseInfoId + 1)
-    defaultNotificationShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the notificationList where info equals to (infoId + 1)
+    defaultNotificationShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   /**

@@ -35,7 +35,7 @@ public class AlbumCriteria implements Serializable, Criteria {
 
   private StringFilter note;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   private LongFilter imageId;
 
@@ -46,7 +46,7 @@ public class AlbumCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.name = other.name == null ? null : other.name.copy();
     this.note = other.note == null ? null : other.note.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.imageId = other.imageId == null ? null : other.imageId.copy();
   }
 
@@ -115,19 +115,19 @@ public class AlbumCriteria implements Serializable, Criteria {
     this.note = note;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getImageId() {
@@ -159,14 +159,14 @@ public class AlbumCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(name, that.name) &&
       Objects.equals(note, that.note) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(infoId, that.infoId) &&
       Objects.equals(imageId, that.imageId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, name, note, baseInfoId, imageId);
+    return Objects.hash(id, uuid, name, note, infoId, imageId);
   }
 
   // prettier-ignore
@@ -177,7 +177,7 @@ public class AlbumCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (name != null ? "name=" + name + ", " : "") +
             (note != null ? "note=" + note + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (imageId != null ? "imageId=" + imageId + ", " : "") +
             "}";
     }

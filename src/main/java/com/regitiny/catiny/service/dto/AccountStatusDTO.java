@@ -49,7 +49,7 @@ public class AccountStatusDTO implements Serializable {
   @ApiModelProperty(value = "statusComment  : người dùng comment lại trạng thái để hiển thị ra nếu muốn")
   private String statusComment;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -91,12 +91,12 @@ public class AccountStatusDTO implements Serializable {
     this.statusComment = statusComment;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -129,7 +129,7 @@ public class AccountStatusDTO implements Serializable {
             ", accountStatus='" + getAccountStatus() + "'" +
             ", lastVisited='" + getLastVisited() + "'" +
             ", statusComment='" + getStatusComment() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

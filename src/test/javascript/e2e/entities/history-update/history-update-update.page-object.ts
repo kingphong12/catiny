@@ -1,10 +1,9 @@
-import {by, element, ElementFinder} from 'protractor';
-import {waitUntilDisplayed, waitUntilHidden} from '../../util/utils';
+import { element, by, ElementFinder } from 'protractor';
+import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils';
 
 const expect = chai.expect;
 
-export default class HistoryUpdateUpdatePage
-{
+export default class HistoryUpdateUpdatePage {
   pageTitle: ElementFinder = element(by.id('catinyApp.historyUpdate.home.createOrEditLabel'));
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
@@ -13,78 +12,63 @@ export default class HistoryUpdateUpdatePage
   contentInput: ElementFinder = element(by.css('textarea#history-update-content'));
   baseInfoSelect: ElementFinder = element(by.css('select#history-update-baseInfo'));
 
-  getPageTitle()
-  {
+  getPageTitle() {
     return this.pageTitle;
   }
 
-  async setUuidInput(uuid)
-  {
+  async setUuidInput(uuid) {
     await this.uuidInput.sendKeys(uuid);
   }
 
-  async getUuidInput()
-  {
+  async getUuidInput() {
     return this.uuidInput.getAttribute('value');
   }
 
-  async setVersionInput(version)
-  {
+  async setVersionInput(version) {
     await this.versionInput.sendKeys(version);
   }
 
-  async getVersionInput()
-  {
+  async getVersionInput() {
     return this.versionInput.getAttribute('value');
   }
 
-  async setContentInput(content)
-  {
+  async setContentInput(content) {
     await this.contentInput.sendKeys(content);
   }
 
-  async getContentInput()
-  {
+  async getContentInput() {
     return this.contentInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption()
-  {
+  async baseInfoSelectLastOption() {
     await this.baseInfoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option)
-  {
+  async baseInfoSelectOption(option) {
     await this.baseInfoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect()
-  {
+  getBaseInfoSelect() {
     return this.baseInfoSelect;
   }
 
-  async getBaseInfoSelectedOption()
-  {
+  async getBaseInfoSelectedOption() {
     return this.baseInfoSelect.element(by.css('option:checked')).getText();
   }
 
-  async save()
-  {
+  async save() {
     await this.saveButton.click();
   }
 
-  async cancel()
-  {
+  async cancel() {
     await this.cancelButton.click();
   }
 
-  getSaveButton()
-  {
+  getSaveButton() {
     return this.saveButton;
   }
 
-  async enterData()
-  {
+  async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await waitUntilDisplayed(this.saveButton);

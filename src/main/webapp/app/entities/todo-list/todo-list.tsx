@@ -201,7 +201,7 @@ export const TodoList = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.todoList.content">Content</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.todoList.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.todoList.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -217,7 +217,7 @@ export const TodoList = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{todoList.uuid}</td>
                     <td>{todoList.title}</td>
                     <td>{todoList.content}</td>
-                    <td>{todoList.baseInfo ? <Link to={`base-info/${todoList.baseInfo.id}`}>{todoList.baseInfo.id}</Link> : ''}</td>
+                    <td>{todoList.info ? <Link to={`base-info/${todoList.info.id}`}>{todoList.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${todoList.id}`} color="info" size="sm" data-cy="entityDetailsButton">

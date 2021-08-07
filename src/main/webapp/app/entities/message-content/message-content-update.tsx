@@ -49,8 +49,8 @@ export const MessageContentUpdate = (props: RouteComponentProps<{ id: string }>)
     const entity = {
       ...messageContentEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      messageGroup: messageGroups.find(it => it.id.toString() === values.messageGroupId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      group: messageGroups.find(it => it.id.toString() === values.groupId.toString()),
     };
 
     if (isNew) {
@@ -65,8 +65,8 @@ export const MessageContentUpdate = (props: RouteComponentProps<{ id: string }>)
       ? {}
       : {
           ...messageContentEntity,
-          baseInfoId: messageContentEntity?.baseInfo?.id,
-          messageGroupId: messageContentEntity?.messageGroup?.id,
+          infoId: messageContentEntity?.info?.id,
+          groupId: messageContentEntity?.group?.id,
         };
 
   return (
@@ -158,10 +158,10 @@ export const MessageContentUpdate = (props: RouteComponentProps<{ id: string }>)
                 <Translate contentKey="catinyApp.messageContent.help.searchField" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="message-content-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.messageContent.baseInfo')}
+                id="message-content-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.messageContent.info')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -174,10 +174,10 @@ export const MessageContentUpdate = (props: RouteComponentProps<{ id: string }>)
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="message-content-messageGroup"
-                name="messageGroupId"
-                data-cy="messageGroup"
-                label={translate('catinyApp.messageContent.messageGroup')}
+                id="message-content-group"
+                name="groupId"
+                data-cy="group"
+                label={translate('catinyApp.messageContent.group')}
                 type="select"
               >
                 <option value="" key="0" />

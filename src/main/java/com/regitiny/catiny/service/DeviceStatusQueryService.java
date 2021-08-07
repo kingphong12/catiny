@@ -114,10 +114,10 @@ public class DeviceStatusQueryService extends QueryService<DeviceStatus> {
       if (criteria.getStatusComment() != null) {
         specification = specification.and(buildStringSpecification(criteria.getStatusComment(), DeviceStatus_.statusComment));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(DeviceStatus_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(DeviceStatus_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
       if (criteria.getAccountStatusId() != null) {

@@ -1,18 +1,16 @@
 package com.regitiny.catiny.service.dto;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.web.rest.TestUtil;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @GeneratedByJHipster
-class HistoryUpdateDTOTest
-{
+class HistoryUpdateDTOTest {
 
   @Test
-  void dtoEqualsVerifier() throws Exception
-  {
+  void dtoEqualsVerifier() throws Exception {
     TestUtil.equalsVerifier(HistoryUpdateDTO.class);
     HistoryUpdateDTO historyUpdateDTO1 = new HistoryUpdateDTO();
     historyUpdateDTO1.setId(1L);

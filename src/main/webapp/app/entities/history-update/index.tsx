@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch} from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
@@ -8,7 +8,7 @@ import HistoryUpdateDetail from './history-update-detail';
 import HistoryUpdateUpdate from './history-update-update';
 import HistoryUpdateDeleteDialog from './history-update-delete-dialog';
 
-const Routes = ({match}) => (
+const Routes = ({ match }) => (
   <>
     <Switch>
       <ErrorBoundaryRoute exact path={`${match.url}/new`} component={HistoryUpdateUpdate} />

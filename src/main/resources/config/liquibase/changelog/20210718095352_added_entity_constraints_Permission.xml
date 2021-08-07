@@ -14,9 +14,9 @@
                                  referencedColumnNames="id"
                                  referencedTableName="base_info"/>
 
-        <addForeignKeyConstraint baseColumnNames="master_user_id"
+        <addForeignKeyConstraint baseColumnNames="owner_id"
                                  baseTableName="permission"
-                                 constraintName="fk_permission__master_user_id"
+                                 constraintName="fk_permission__owner_id"
                                  referencedColumnNames="id"
                                  referencedTableName="master_user"/>
     </changeSet>

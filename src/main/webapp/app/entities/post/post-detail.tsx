@@ -72,21 +72,21 @@ export const PostDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{postEntity.searchField}</dd>
           <dt>
-            <Translate contentKey="catinyApp.post.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.post.info">Info</Translate>
           </dt>
-          <dd>{postEntity.baseInfo ? postEntity.baseInfo.id : ''}</dd>
+          <dd>{postEntity.info ? postEntity.info.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.post.groupPost">Group Post</Translate>
+            <Translate contentKey="catinyApp.post.group">Group</Translate>
           </dt>
-          <dd>{postEntity.groupPost ? postEntity.groupPost.id : ''}</dd>
+          <dd>{postEntity.group ? postEntity.group.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.post.pagePost">Page Post</Translate>
+            <Translate contentKey="catinyApp.post.page">Page</Translate>
           </dt>
-          <dd>{postEntity.pagePost ? postEntity.pagePost.id : ''}</dd>
+          <dd>{postEntity.page ? postEntity.page.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.post.postShareParent">Post Share Parent</Translate>
+            <Translate contentKey="catinyApp.post.parent">Parent</Translate>
           </dt>
-          <dd>{postEntity.postShareParent ? postEntity.postShareParent.id : ''}</dd>
+          <dd>{postEntity.parent ? postEntity.parent.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/post" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

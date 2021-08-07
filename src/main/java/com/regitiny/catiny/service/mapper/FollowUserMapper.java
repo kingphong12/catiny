@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, MasterUserMapper.class })
 @GeneratedByJHipster
 public interface FollowUserMapper extends EntityMapper<FollowUserDTO, FollowUser> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "followUserDetails", source = "followUserDetails", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
+  @Mapping(target = "follow", source = "follow", qualifiedByName = "id")
   FollowUserDTO toDto(FollowUser s);
 }

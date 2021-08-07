@@ -2,18 +2,16 @@ package com.regitiny.catiny.service.dto;
 
 import com.regitiny.catiny.GeneratedByJHipster;
 import io.swagger.annotations.ApiModelProperty;
-
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.regitiny.catiny.domain.Permission} entity.
  */
 @GeneratedByJHipster
-public class PermissionDTO implements Serializable
-{
+public class PermissionDTO implements Serializable {
 
   private Long id;
 
@@ -65,40 +63,33 @@ public class PermissionDTO implements Serializable
 
   private BaseInfoDTO baseInfo;
 
-  private MasterUserDTO masterUser;
+  private MasterUserDTO owner;
 
-  public Long getId()
-  {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Long id)
-  {
+  public void setId(Long id) {
     this.id = id;
   }
 
-  public UUID getUuid()
-  {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid)
-  {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public Boolean getRead()
-  {
+  public Boolean getRead() {
     return read;
   }
 
-  public void setRead(Boolean read)
-  {
+  public void setRead(Boolean read) {
     this.read = read;
   }
 
-  public Boolean getWrite()
-  {
+  public Boolean getWrite() {
     return write;
   }
 
@@ -146,12 +137,12 @@ public class PermissionDTO implements Serializable
     this.baseInfo = baseInfo;
   }
 
-  public MasterUserDTO getMasterUser() {
-    return masterUser;
+  public MasterUserDTO getOwner() {
+    return owner;
   }
 
-  public void setMasterUser(MasterUserDTO masterUser) {
-    this.masterUser = masterUser;
+  public void setOwner(MasterUserDTO owner) {
+    this.owner = owner;
   }
 
   @Override
@@ -179,16 +170,16 @@ public class PermissionDTO implements Serializable
     @Override
     public String toString() {
         return "PermissionDTO{" +
-          "id=" + getId() +
-          ", uuid='" + getUuid() + "'" +
-          ", read='" + getRead() + "'" +
-          ", write='" + getWrite() + "'" +
-          ", share='" + getShare() + "'" +
-          ", delete='" + getDelete() + "'" +
-          ", add='" + getAdd() + "'" +
-          ", level=" + getLevel() +
-          ", baseInfo=" + getBaseInfo() +
-          ", masterUser=" + getMasterUser() +
-          "}";
+            "id=" + getId() +
+            ", uuid='" + getUuid() + "'" +
+            ", read='" + getRead() + "'" +
+            ", write='" + getWrite() + "'" +
+            ", share='" + getShare() + "'" +
+            ", delete='" + getDelete() + "'" +
+            ", add='" + getAdd() + "'" +
+            ", level=" + getLevel() +
+            ", baseInfo=" + getBaseInfo() +
+            ", owner=" + getOwner() +
+            "}";
     }
 }

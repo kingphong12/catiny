@@ -83,9 +83,9 @@ export const MasterUserDetail = (props: RouteComponentProps<{ id: string }>) => 
           </dt>
           <dd>{masterUserEntity.myRank ? masterUserEntity.myRank.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.masterUser.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.masterUser.info">Info</Translate>
           </dt>
-          <dd>{masterUserEntity.baseInfo ? masterUserEntity.baseInfo.id : ''}</dd>
+          <dd>{masterUserEntity.info ? masterUserEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.masterUser.topicInterest">Topic Interest</Translate>
           </dt>

@@ -98,16 +98,14 @@ public class FriendQueryService extends QueryService<Friend> {
       if (criteria.getFriendType() != null) {
         specification = specification.and(buildSpecification(criteria.getFriendType(), Friend_.friendType));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(Friend_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(Friend_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
-      if (criteria.getFriendDetailsId() != null) {
+      if (criteria.getFriendId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getFriendDetailsId(), root -> root.join(Friend_.friendDetails, JoinType.LEFT).get(MasterUser_.id))
+            buildSpecification(criteria.getFriendId(), root -> root.join(Friend_.friend, JoinType.LEFT).get(MasterUser_.id))
           );
       }
     }

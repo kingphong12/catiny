@@ -15,7 +15,7 @@ export interface IUserProfile {
   lifeEvents?: string | null;
   hobbies?: string | null;
   featured?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
 }
 
 export const defaultValue: Readonly<IUserProfile> = {};

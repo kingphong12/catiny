@@ -53,7 +53,7 @@ public class GroupPostDTO implements Serializable {
 
   private GroupProfileDTO profile;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -103,12 +103,12 @@ public class GroupPostDTO implements Serializable {
     this.profile = profile;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -142,7 +142,7 @@ public class GroupPostDTO implements Serializable {
             ", avatar='" + getAvatar() + "'" +
             ", quickInfo='" + getQuickInfo() + "'" +
             ", profile=" + getProfile() +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

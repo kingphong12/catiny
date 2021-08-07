@@ -27,9 +27,9 @@ public class FollowUserModel implements Serializable
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private MasterUserDTO followUserDetails;
+  private MasterUserDTO follow;
 
   @Data
   @Builder
@@ -46,9 +46,9 @@ public class FollowUserModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private MasterUserDTO followUserDetails;
+    private MasterUserDTO follow;
   }
 
   @Data
@@ -66,8 +66,8 @@ public class FollowUserModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private MasterUserDTO followUserDetails;
+    private MasterUserDTO follow;
   }
 }

@@ -1,10 +1,9 @@
-import {by, element, ElementFinder} from 'protractor';
-import {waitUntilDisplayed, waitUntilHidden} from '../../util/utils';
+import { element, by, ElementFinder } from 'protractor';
+import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils';
 
 const expect = chai.expect;
 
-export default class ClassInfoUpdatePage
-{
+export default class ClassInfoUpdatePage {
   pageTitle: ElementFinder = element(by.id('catinyApp.classInfo.home.createOrEditLabel'));
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
@@ -17,33 +16,27 @@ export default class ClassInfoUpdatePage
     return this.pageTitle;
   }
 
-  async setUuidInput(uuid)
-  {
+  async setUuidInput(uuid) {
     await this.uuidInput.sendKeys(uuid);
   }
 
-  async getUuidInput()
-  {
+  async getUuidInput() {
     return this.uuidInput.getAttribute('value');
   }
 
-  async setNamePackageInput(namePackage)
-  {
+  async setNamePackageInput(namePackage) {
     await this.namePackageInput.sendKeys(namePackage);
   }
 
-  async getNamePackageInput()
-  {
+  async getNamePackageInput() {
     return this.namePackageInput.getAttribute('value');
   }
 
-  async setFullNameInput(fullName)
-  {
+  async setFullNameInput(fullName) {
     await this.fullNameInput.sendKeys(fullName);
   }
 
-  async getFullNameInput()
-  {
+  async getFullNameInput() {
     return this.fullNameInput.getAttribute('value');
   }
 

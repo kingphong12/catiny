@@ -7,8 +7,8 @@ export interface IMessageGroup {
   groupName?: string | null;
   avatar?: string | null;
   addBy?: string | null;
-  baseInfo?: IBaseInfo | null;
-  messageContents?: IMessageContent[] | null;
+  info?: IBaseInfo | null;
+  contents?: IMessageContent[] | null;
 }
 
 export const defaultValue: Readonly<IMessageGroup> = {};

@@ -54,7 +54,7 @@ export const PagePostUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ...pagePostEntity,
       ...values,
       profile: pageProfiles.find(it => it.id.toString() === values.profileId.toString()),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -70,7 +70,7 @@ export const PagePostUpdate = (props: RouteComponentProps<{ id: string }>) => {
       : {
           ...pagePostEntity,
           profileId: pagePostEntity?.profile?.id,
-          baseInfoId: pagePostEntity?.baseInfo?.id,
+          infoId: pagePostEntity?.info?.id,
         };
 
   return (
@@ -160,13 +160,7 @@ export const PagePostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                id="page-post-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.pagePost.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="page-post-info" name="infoId" data-cy="info" label={translate('catinyApp.pagePost.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

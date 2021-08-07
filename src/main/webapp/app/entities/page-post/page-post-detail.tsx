@@ -70,9 +70,9 @@ export const PagePostDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{pagePostEntity.profile ? pagePostEntity.profile.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.pagePost.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.pagePost.info">Info</Translate>
           </dt>
-          <dd>{pagePostEntity.baseInfo ? pagePostEntity.baseInfo.id : ''}</dd>
+          <dd>{pagePostEntity.info ? pagePostEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/page-post" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

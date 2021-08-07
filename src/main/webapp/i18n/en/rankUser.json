@@ -21,8 +21,9 @@
       "id": "ID",
       "uuid": "Uuid",
       "ratingPoints": "Rating Points",
-      "baseInfo": "Base Info",
+      "info": "Info",
       "rankGroup": "Rank Group",
+      "owner": "Owner",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)"
       }

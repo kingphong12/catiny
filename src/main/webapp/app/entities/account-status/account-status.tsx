@@ -204,7 +204,7 @@ export const AccountStatus = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.accountStatus.statusComment">Status Comment</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.accountStatus.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.accountStatus.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -227,9 +227,7 @@ export const AccountStatus = (props: RouteComponentProps<{ url: string }>) => {
                       ) : null}
                     </td>
                     <td>{accountStatus.statusComment}</td>
-                    <td>
-                      {accountStatus.baseInfo ? <Link to={`base-info/${accountStatus.baseInfo.id}`}>{accountStatus.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{accountStatus.info ? <Link to={`base-info/${accountStatus.info.id}`}>{accountStatus.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${accountStatus.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -29,7 +29,7 @@ public class PageProfileDTO implements Serializable {
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -47,12 +47,12 @@ public class PageProfileDTO implements Serializable {
     this.uuid = uuid;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -82,7 +82,7 @@ public class PageProfileDTO implements Serializable {
         return "PageProfileDTO{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

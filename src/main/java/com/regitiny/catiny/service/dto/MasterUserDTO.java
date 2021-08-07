@@ -65,7 +65,7 @@ public class MasterUserDTO implements Serializable {
 
   private RankUserDTO myRank;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private Set<TopicInterestDTO> topicInterests = new HashSet<>();
 
@@ -133,12 +133,12 @@ public class MasterUserDTO implements Serializable {
     this.myRank = myRank;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public Set<TopicInterestDTO> getTopicInterests() {
@@ -182,7 +182,7 @@ public class MasterUserDTO implements Serializable {
             ", quickInfo='" + getQuickInfo() + "'" +
             ", user=" + getUser() +
             ", myRank=" + getMyRank() +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", topicInterests=" + getTopicInterests() +
             "}";
     }

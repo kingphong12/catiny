@@ -31,14 +31,14 @@ public class UserProfileCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   public UserProfileCriteria() {}
 
   public UserProfileCriteria(UserProfileCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
   }
 
   @Override
@@ -76,19 +76,19 @@ public class UserProfileCriteria implements Serializable, Criteria {
     this.uuid = uuid;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   @Override
@@ -100,12 +100,12 @@ public class UserProfileCriteria implements Serializable, Criteria {
       return false;
     }
     final UserProfileCriteria that = (UserProfileCriteria) o;
-    return Objects.equals(id, that.id) && Objects.equals(uuid, that.uuid) && Objects.equals(baseInfoId, that.baseInfoId);
+    return Objects.equals(id, that.id) && Objects.equals(uuid, that.uuid) && Objects.equals(infoId, that.infoId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, baseInfoId);
+    return Objects.hash(id, uuid, infoId);
   }
 
   // prettier-ignore
@@ -114,7 +114,7 @@ public class UserProfileCriteria implements Serializable, Criteria {
         return "UserProfileCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             "}";
     }
 }

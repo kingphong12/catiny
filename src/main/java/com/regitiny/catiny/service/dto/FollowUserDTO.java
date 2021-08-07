@@ -29,9 +29,9 @@ public class FollowUserDTO implements Serializable {
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private MasterUserDTO followUserDetails;
+  private MasterUserDTO follow;
 
   public Long getId() {
     return id;
@@ -49,20 +49,20 @@ public class FollowUserDTO implements Serializable {
     this.uuid = uuid;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
-  public MasterUserDTO getFollowUserDetails() {
-    return followUserDetails;
+  public MasterUserDTO getFollow() {
+    return follow;
   }
 
-  public void setFollowUserDetails(MasterUserDTO followUserDetails) {
-    this.followUserDetails = followUserDetails;
+  public void setFollow(MasterUserDTO follow) {
+    this.follow = follow;
   }
 
   @Override
@@ -92,8 +92,8 @@ public class FollowUserDTO implements Serializable {
         return "FollowUserDTO{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
-            ", baseInfo=" + getBaseInfo() +
-            ", followUserDetails=" + getFollowUserDetails() +
+            ", info=" + getInfo() +
+            ", follow=" + getFollow() +
             "}";
     }
 }

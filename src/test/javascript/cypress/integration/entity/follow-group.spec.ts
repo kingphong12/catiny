@@ -102,9 +102,9 @@ describe('FollowGroup e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('d7e6faa6-21aa-42ec-af5c-b15fcdbc8b5e'));
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
-    cy.setFieldSelectToLastOfEntity('followGroupDetails');
+    cy.setFieldSelectToLastOfEntity('groupDetails');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

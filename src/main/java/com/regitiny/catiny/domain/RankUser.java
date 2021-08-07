@@ -2,14 +2,14 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
+import java.io.Serializable;
+import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.UUID;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The RankUser entity.\n@why?             ->\n@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\n@commonly-used-in -> thường thấy trong phần\n\n@describe         ->
@@ -39,53 +39,18 @@ public class RankUser implements Serializable {
   @Column(name = "rating_points")
   private Float ratingPoints;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
   @ManyToOne
-  @JsonIgnoreProperties(value = { "baseInfo", "rankUsers" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "rankUsers" }, allowSetters = true)
   private RankGroup rankGroup;
+
+  @JsonIgnoreProperties(value = { "user", "myRank", "info", "permissions", "topicInterests", "owneds" }, allowSetters = true)
+  @OneToOne(mappedBy = "myRank")
+  private MasterUser owner;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
   public Long getId() {
@@ -127,17 +92,17 @@ public class RankUser implements Serializable {
     this.ratingPoints = ratingPoints;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public RankUser baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public RankUser info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public RankGroup getRankGroup() {
@@ -151,6 +116,25 @@ public class RankUser implements Serializable {
 
   public void setRankGroup(RankGroup rankGroup) {
     this.rankGroup = rankGroup;
+  }
+
+  public MasterUser getOwner() {
+    return this.owner;
+  }
+
+  public RankUser owner(MasterUser masterUser) {
+    this.setOwner(masterUser);
+    return this;
+  }
+
+  public void setOwner(MasterUser masterUser) {
+    if (this.owner != null) {
+      this.owner.setMyRank(null);
+    }
+    if (masterUser != null) {
+      masterUser.setMyRank(this);
+    }
+    this.owner = masterUser;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

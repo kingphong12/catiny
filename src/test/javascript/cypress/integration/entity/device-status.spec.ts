@@ -112,7 +112,7 @@ describe('DeviceStatus e2e test', () => {
 
     cy.get(`[data-cy="statusComment"]`).type('Representative Chicken').should('have.value', 'Representative Chicken');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('accountStatus');
 

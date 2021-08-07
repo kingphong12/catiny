@@ -198,7 +198,7 @@ export const VideoStream = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.videoStream.video">Video</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.videoStream.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.videoStream.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -213,9 +213,7 @@ export const VideoStream = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{videoStream.uuid}</td>
                     <td>{videoStream.video ? <Link to={`video/${videoStream.video.id}`}>{videoStream.video.id}</Link> : ''}</td>
-                    <td>
-                      {videoStream.baseInfo ? <Link to={`base-info/${videoStream.baseInfo.id}`}>{videoStream.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{videoStream.info ? <Link to={`base-info/${videoStream.info.id}`}>{videoStream.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${videoStream.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -1,14 +1,14 @@
-import {entityItemSelector} from '../../support/commands';
+import { entityItemSelector } from '../../support/commands';
 import {
-  entityConfirmDeleteButtonSelector,
-  entityCreateButtonSelector,
-  entityCreateCancelButtonSelector,
-  entityCreateSaveButtonSelector,
-  entityDeleteButtonSelector,
-  entityDetailsBackButtonSelector,
-  entityDetailsButtonSelector,
-  entityEditButtonSelector,
   entityTableSelector,
+  entityDetailsButtonSelector,
+  entityDetailsBackButtonSelector,
+  entityCreateButtonSelector,
+  entityCreateSaveButtonSelector,
+  entityCreateCancelButtonSelector,
+  entityEditButtonSelector,
+  entityDeleteButtonSelector,
+  entityConfirmDeleteButtonSelector,
 } from '../../support/entity';
 
 describe('Permission e2e test', () => {
@@ -92,10 +92,9 @@ describe('Permission e2e test', () => {
     cy.url().should('match', permissionPageUrlPattern);
   });
 
-  it('should create an instance of Permission', () =>
-  {
+  it('should create an instance of Permission', () => {
     cy.visit(permissionPageUrl);
-    cy.get(entityCreateButtonSelector).click({force: true});
+    cy.get(entityCreateButtonSelector).click({ force: true });
     cy.getEntityCreateUpdateHeading('Permission');
 
     cy.get(`[data-cy="uuid"]`)
@@ -122,7 +121,7 @@ describe('Permission e2e test', () => {
 
     cy.setFieldSelectToLastOfEntity('baseInfo');
 
-    cy.setFieldSelectToLastOfEntity('masterUser');
+    cy.setFieldSelectToLastOfEntity('owner');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

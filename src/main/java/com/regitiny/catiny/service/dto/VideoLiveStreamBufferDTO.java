@@ -34,7 +34,7 @@ public class VideoLiveStreamBufferDTO implements Serializable {
   private byte[] bufferData;
 
   private String bufferDataContentType;
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private VideoStreamDTO videoStream;
 
@@ -70,12 +70,12 @@ public class VideoLiveStreamBufferDTO implements Serializable {
     this.bufferDataContentType = bufferDataContentType;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public VideoStreamDTO getVideoStream() {
@@ -114,7 +114,7 @@ public class VideoLiveStreamBufferDTO implements Serializable {
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
             ", bufferData='" + getBufferData() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", videoStream=" + getVideoStream() +
             "}";
     }

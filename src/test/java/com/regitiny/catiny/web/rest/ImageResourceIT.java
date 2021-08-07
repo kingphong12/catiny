@@ -1055,59 +1055,59 @@ class ImageResourceIT {
 
   @Test
   @Transactional
-  void getAllImagesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllImagesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    image.setBaseInfo(baseInfo);
+    image.setInfo(info);
     imageRepository.saveAndFlush(image);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the imageList where baseInfo equals to baseInfoId
-    defaultImageShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the imageList where info equals to infoId
+    defaultImageShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the imageList where baseInfo equals to (baseInfoId + 1)
-    defaultImageShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the imageList where info equals to (infoId + 1)
+    defaultImageShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllImagesByImageProcessedIsEqualToSomething() throws Exception {
+  void getAllImagesByProcessedIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    Image imageProcessed = ImageResourceIT.createEntity(em);
-    em.persist(imageProcessed);
+    Image processed = ImageResourceIT.createEntity(em);
+    em.persist(processed);
     em.flush();
-    image.addImageProcessed(imageProcessed);
+    image.addProcessed(processed);
     imageRepository.saveAndFlush(image);
-    Long imageProcessedId = imageProcessed.getId();
+    Long processedId = processed.getId();
 
-    // Get all the imageList where imageProcessed equals to imageProcessedId
-    defaultImageShouldBeFound("imageProcessedId.equals=" + imageProcessedId);
+    // Get all the imageList where processed equals to processedId
+    defaultImageShouldBeFound("processedId.equals=" + processedId);
 
-    // Get all the imageList where imageProcessed equals to (imageProcessedId + 1)
-    defaultImageShouldNotBeFound("imageProcessedId.equals=" + (imageProcessedId + 1));
+    // Get all the imageList where processed equals to (processedId + 1)
+    defaultImageShouldNotBeFound("processedId.equals=" + (processedId + 1));
   }
 
   @Test
   @Transactional
-  void getAllImagesByImageOriginalIsEqualToSomething() throws Exception {
+  void getAllImagesByOriginalIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    Image imageOriginal = ImageResourceIT.createEntity(em);
-    em.persist(imageOriginal);
+    Image original = ImageResourceIT.createEntity(em);
+    em.persist(original);
     em.flush();
-    image.setImageOriginal(imageOriginal);
+    image.setOriginal(original);
     imageRepository.saveAndFlush(image);
-    Long imageOriginalId = imageOriginal.getId();
+    Long originalId = original.getId();
 
-    // Get all the imageList where imageOriginal equals to imageOriginalId
-    defaultImageShouldBeFound("imageOriginalId.equals=" + imageOriginalId);
+    // Get all the imageList where original equals to originalId
+    defaultImageShouldBeFound("originalId.equals=" + originalId);
 
-    // Get all the imageList where imageOriginal equals to (imageOriginalId + 1)
-    defaultImageShouldNotBeFound("imageOriginalId.equals=" + (imageOriginalId + 1));
+    // Get all the imageList where original equals to (originalId + 1)
+    defaultImageShouldNotBeFound("originalId.equals=" + (originalId + 1));
   }
 
   @Test

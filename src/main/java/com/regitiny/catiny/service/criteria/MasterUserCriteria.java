@@ -39,17 +39,13 @@ public class MasterUserCriteria implements Serializable, Criteria {
 
   private LongFilter myRankId;
 
-  private LongFilter baseInfoId;
-
-  private LongFilter myBaseInfoCreatedId;
-
-  private LongFilter myBaseInfoModifiedId;
-
-  private LongFilter ownerOfId;
+  private LongFilter infoId;
 
   private LongFilter permissionId;
 
   private LongFilter topicInterestId;
+
+  private LongFilter ownedId;
 
   public MasterUserCriteria() {}
 
@@ -60,12 +56,10 @@ public class MasterUserCriteria implements Serializable, Criteria {
     this.nickname = other.nickname == null ? null : other.nickname.copy();
     this.userId = other.userId == null ? null : other.userId.copy();
     this.myRankId = other.myRankId == null ? null : other.myRankId.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.myBaseInfoCreatedId = other.myBaseInfoCreatedId == null ? null : other.myBaseInfoCreatedId.copy();
-    this.myBaseInfoModifiedId = other.myBaseInfoModifiedId == null ? null : other.myBaseInfoModifiedId.copy();
-    this.ownerOfId = other.ownerOfId == null ? null : other.ownerOfId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.permissionId = other.permissionId == null ? null : other.permissionId.copy();
     this.topicInterestId = other.topicInterestId == null ? null : other.topicInterestId.copy();
+    this.ownedId = other.ownedId == null ? null : other.ownedId.copy();
   }
 
   @Override
@@ -163,64 +157,19 @@ public class MasterUserCriteria implements Serializable, Criteria {
     this.myRankId = myRankId;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
-  }
-
-  public LongFilter getMyBaseInfoCreatedId() {
-    return myBaseInfoCreatedId;
-  }
-
-  public LongFilter myBaseInfoCreatedId() {
-    if (myBaseInfoCreatedId == null) {
-      myBaseInfoCreatedId = new LongFilter();
-    }
-    return myBaseInfoCreatedId;
-  }
-
-  public void setMyBaseInfoCreatedId(LongFilter myBaseInfoCreatedId) {
-    this.myBaseInfoCreatedId = myBaseInfoCreatedId;
-  }
-
-  public LongFilter getMyBaseInfoModifiedId() {
-    return myBaseInfoModifiedId;
-  }
-
-  public LongFilter myBaseInfoModifiedId() {
-    if (myBaseInfoModifiedId == null) {
-      myBaseInfoModifiedId = new LongFilter();
-    }
-    return myBaseInfoModifiedId;
-  }
-
-  public void setMyBaseInfoModifiedId(LongFilter myBaseInfoModifiedId) {
-    this.myBaseInfoModifiedId = myBaseInfoModifiedId;
-  }
-
-  public LongFilter getOwnerOfId() {
-    return ownerOfId;
-  }
-
-  public LongFilter ownerOfId() {
-    if (ownerOfId == null) {
-      ownerOfId = new LongFilter();
-    }
-    return ownerOfId;
-  }
-
-  public void setOwnerOfId(LongFilter ownerOfId) {
-    this.ownerOfId = ownerOfId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getPermissionId() {
@@ -253,6 +202,21 @@ public class MasterUserCriteria implements Serializable, Criteria {
     this.topicInterestId = topicInterestId;
   }
 
+  public LongFilter getOwnedId() {
+    return ownedId;
+  }
+
+  public LongFilter ownedId() {
+    if (ownedId == null) {
+      ownedId = new LongFilter();
+    }
+    return ownedId;
+  }
+
+  public void setOwnedId(LongFilter ownedId) {
+    this.ownedId = ownedId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -269,31 +233,16 @@ public class MasterUserCriteria implements Serializable, Criteria {
       Objects.equals(nickname, that.nickname) &&
       Objects.equals(userId, that.userId) &&
       Objects.equals(myRankId, that.myRankId) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(myBaseInfoCreatedId, that.myBaseInfoCreatedId) &&
-      Objects.equals(myBaseInfoModifiedId, that.myBaseInfoModifiedId) &&
-      Objects.equals(ownerOfId, that.ownerOfId) &&
+      Objects.equals(infoId, that.infoId) &&
       Objects.equals(permissionId, that.permissionId) &&
-      Objects.equals(topicInterestId, that.topicInterestId)
+      Objects.equals(topicInterestId, that.topicInterestId) &&
+      Objects.equals(ownedId, that.ownedId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-      id,
-      uuid,
-      fullName,
-      nickname,
-      userId,
-      myRankId,
-      baseInfoId,
-      myBaseInfoCreatedId,
-      myBaseInfoModifiedId,
-      ownerOfId,
-      permissionId,
-      topicInterestId
-    );
+    return Objects.hash(id, uuid, fullName, nickname, userId, myRankId, infoId, permissionId, topicInterestId, ownedId);
   }
 
   // prettier-ignore
@@ -306,12 +255,10 @@ public class MasterUserCriteria implements Serializable, Criteria {
             (nickname != null ? "nickname=" + nickname + ", " : "") +
             (userId != null ? "userId=" + userId + ", " : "") +
             (myRankId != null ? "myRankId=" + myRankId + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (myBaseInfoCreatedId != null ? "myBaseInfoCreatedId=" + myBaseInfoCreatedId + ", " : "") +
-            (myBaseInfoModifiedId != null ? "myBaseInfoModifiedId=" + myBaseInfoModifiedId + ", " : "") +
-            (ownerOfId != null ? "ownerOfId=" + ownerOfId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (permissionId != null ? "permissionId=" + permissionId + ", " : "") +
             (topicInterestId != null ? "topicInterestId=" + topicInterestId + ", " : "") +
+            (ownedId != null ? "ownedId=" + ownedId + ", " : "") +
             "}";
     }
 }

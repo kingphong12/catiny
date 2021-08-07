@@ -12,7 +12,7 @@ export default class PagePostUpdatePage {
   avatarInput: ElementFinder = element(by.css('textarea#page-post-avatar'));
   quickInfoInput: ElementFinder = element(by.css('textarea#page-post-quickInfo'));
   profileSelect: ElementFinder = element(by.css('select#page-post-profile'));
-  baseInfoSelect: ElementFinder = element(by.css('select#page-post-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#page-post-info'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -66,20 +66,20 @@ export default class PagePostUpdatePage {
     return this.profileSelect.element(by.css('option:checked')).getText();
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -104,7 +104,7 @@ export default class PagePostUpdatePage {
     await waitUntilDisplayed(this.saveButton);
     await this.setQuickInfoInput('quickInfo');
     await this.profileSelectLastOption();
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

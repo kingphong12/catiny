@@ -99,10 +99,10 @@ public class PostCommentQueryService extends QueryService<PostComment> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), PostComment_.uuid));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(PostComment_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(PostComment_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
       if (criteria.getLikeId() != null) {
@@ -111,26 +111,20 @@ public class PostCommentQueryService extends QueryService<PostComment> {
             buildSpecification(criteria.getLikeId(), root -> root.join(PostComment_.likes, JoinType.LEFT).get(PostLike_.id))
           );
       }
-      if (criteria.getCommentReplyId() != null) {
+      if (criteria.getReplyId() != null) {
         specification =
           specification.and(
-            buildSpecification(
-              criteria.getCommentReplyId(),
-              root -> root.join(PostComment_.commentReplies, JoinType.LEFT).get(PostComment_.id)
-            )
+            buildSpecification(criteria.getReplyId(), root -> root.join(PostComment_.replies, JoinType.LEFT).get(PostComment_.id))
           );
       }
       if (criteria.getPostId() != null) {
         specification =
           specification.and(buildSpecification(criteria.getPostId(), root -> root.join(PostComment_.post, JoinType.LEFT).get(Post_.id)));
       }
-      if (criteria.getCommentParentId() != null) {
+      if (criteria.getParentId() != null) {
         specification =
           specification.and(
-            buildSpecification(
-              criteria.getCommentParentId(),
-              root -> root.join(PostComment_.commentParent, JoinType.LEFT).get(PostComment_.id)
-            )
+            buildSpecification(criteria.getParentId(), root -> root.join(PostComment_.parent, JoinType.LEFT).get(PostComment_.id))
           );
       }
     }

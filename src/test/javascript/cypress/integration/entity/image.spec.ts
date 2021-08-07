@@ -118,9 +118,9 @@ describe('Image e2e test', () => {
 
     cy.setFieldSelectToLastOfEntity('fileInfo');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
-    cy.setFieldSelectToLastOfEntity('imageOriginal');
+    cy.setFieldSelectToLastOfEntity('original');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

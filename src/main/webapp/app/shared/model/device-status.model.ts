@@ -12,7 +12,7 @@ export interface IDeviceStatus {
   deviceStatus?: StatusName | null;
   lastVisited?: string | null;
   statusComment?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   accountStatus?: IAccountStatus | null;
 }
 

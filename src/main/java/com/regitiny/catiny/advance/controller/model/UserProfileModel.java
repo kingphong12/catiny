@@ -104,7 +104,7 @@ public class UserProfileModel implements Serializable
   @Lob
   private String featured;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -198,7 +198,7 @@ public class UserProfileModel implements Serializable
     @Lob
     private String featured;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -293,6 +293,6 @@ public class UserProfileModel implements Serializable
     @Lob
     private String featured;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

@@ -4,8 +4,8 @@ import { IGroupPost } from 'app/shared/model/group-post.model';
 export interface IFollowGroup {
   id?: number;
   uuid?: string;
-  baseInfo?: IBaseInfo | null;
-  followGroupDetails?: IGroupPost | null;
+  info?: IBaseInfo | null;
+  groupDetails?: IGroupPost | null;
 }
 
 export const defaultValue: Readonly<IFollowGroup> = {};

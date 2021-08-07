@@ -18,14 +18,14 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "friend",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "masterUser",
       "otherEntityRelationshipName": "friend",
-      "relationshipName": "friendDetails"
+      "relationshipName": "friend"
     }
   ],
   "javadoc": "@what?            -> The Friend entity.\\n@why?             ->\\n@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\\n@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\\n\\n@describe         ->",

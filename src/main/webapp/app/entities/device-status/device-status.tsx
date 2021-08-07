@@ -210,7 +210,7 @@ export const DeviceStatus = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.deviceStatus.statusComment">Status Comment</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.deviceStatus.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.deviceStatus.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
                     <Translate contentKey="catinyApp.deviceStatus.accountStatus">Account Status</Translate> <FontAwesomeIcon icon="sort" />
@@ -240,9 +240,7 @@ export const DeviceStatus = (props: RouteComponentProps<{ url: string }>) => {
                       ) : null}
                     </td>
                     <td>{deviceStatus.statusComment}</td>
-                    <td>
-                      {deviceStatus.baseInfo ? <Link to={`base-info/${deviceStatus.baseInfo.id}`}>{deviceStatus.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{deviceStatus.info ? <Link to={`base-info/${deviceStatus.info.id}`}>{deviceStatus.info.id}</Link> : ''}</td>
                     <td>
                       {deviceStatus.accountStatus ? (
                         <Link to={`account-status/${deviceStatus.accountStatus.id}`}>{deviceStatus.accountStatus.id}</Link>

@@ -665,21 +665,21 @@ class EventResourceIT {
 
   @Test
   @Transactional
-  void getAllEventsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllEventsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     eventRepository.saveAndFlush(event);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    event.setBaseInfo(baseInfo);
+    event.setInfo(info);
     eventRepository.saveAndFlush(event);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the eventList where baseInfo equals to baseInfoId
-    defaultEventShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the eventList where info equals to infoId
+    defaultEventShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the eventList where baseInfo equals to (baseInfoId + 1)
-    defaultEventShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the eventList where info equals to (infoId + 1)
+    defaultEventShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   /**

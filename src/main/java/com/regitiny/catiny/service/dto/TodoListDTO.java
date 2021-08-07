@@ -35,7 +35,7 @@ public class TodoListDTO implements Serializable {
   @Lob
   private String content;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -69,12 +69,12 @@ public class TodoListDTO implements Serializable {
     this.content = content;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -106,7 +106,7 @@ public class TodoListDTO implements Serializable {
             ", uuid='" + getUuid() + "'" +
             ", title='" + getTitle() + "'" +
             ", content='" + getContent() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

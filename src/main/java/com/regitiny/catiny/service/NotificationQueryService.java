@@ -105,10 +105,10 @@ public class NotificationQueryService extends QueryService<Notification> {
       if (criteria.getTitle() != null) {
         specification = specification.and(buildStringSpecification(criteria.getTitle(), Notification_.title));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(Notification_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(Notification_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
     }

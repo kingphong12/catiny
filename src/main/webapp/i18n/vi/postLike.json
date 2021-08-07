@@ -20,9 +20,9 @@
       },
       "id": "ID",
       "uuid": "Uuid",
-      "baseInfo": "Base Info",
+      "info": "Info",
       "post": "Post",
-      "postComment": "Post Comment",
+      "comment": "Comment",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)"
       }

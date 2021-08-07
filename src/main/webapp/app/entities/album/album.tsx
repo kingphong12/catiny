@@ -204,7 +204,7 @@ export const Album = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.album.avatar">Avatar</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.album.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.album.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -221,7 +221,7 @@ export const Album = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{album.name}</td>
                     <td>{album.note}</td>
                     <td>{album.avatar}</td>
-                    <td>{album.baseInfo ? <Link to={`base-info/${album.baseInfo.id}`}>{album.baseInfo.id}</Link> : ''}</td>
+                    <td>{album.info ? <Link to={`base-info/${album.info.id}`}>{album.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${album.id}`} color="info" size="sm" data-cy="entityDetailsButton">

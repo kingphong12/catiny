@@ -338,6 +338,9 @@ dependencies {
   implementation "com.jcraft:jsch:${jschVersion}"
   runtimeClasspath "org.webjars:bootstrap:${bootstrapVersion}" // chỉ add vào để cho intelliJ gợi ý class khi code thôi
   implementation "com.squareup:javapoet:${javapoestVersion}"
+
+//  implementation "com.speedment.jpastreamer:jpastreamer-core:1.0.2"
+//  annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:1.0.2"
 }
 
 if (project.hasProperty("gae"))

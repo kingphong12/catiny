@@ -43,7 +43,7 @@ public class AlbumModel implements Serializable
   @Lob
   private String avatar;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private Set<ImageDTO> images;
 
@@ -76,7 +76,7 @@ public class AlbumModel implements Serializable
     @Lob
     private String avatar;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private Set<ImageDTO> images;
   }
@@ -110,7 +110,7 @@ public class AlbumModel implements Serializable
     @Lob
     private String avatar;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private Set<ImageDTO> images;
   }

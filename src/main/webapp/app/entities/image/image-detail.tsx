@@ -106,13 +106,13 @@ export const ImageDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{imageEntity.fileInfo ? imageEntity.fileInfo.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.image.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.image.info">Info</Translate>
           </dt>
-          <dd>{imageEntity.baseInfo ? imageEntity.baseInfo.id : ''}</dd>
+          <dd>{imageEntity.info ? imageEntity.info.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.image.imageOriginal">Image Original</Translate>
+            <Translate contentKey="catinyApp.image.original">Original</Translate>
           </dt>
-          <dd>{imageEntity.imageOriginal ? imageEntity.imageOriginal.id : ''}</dd>
+          <dd>{imageEntity.original ? imageEntity.original.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/image" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

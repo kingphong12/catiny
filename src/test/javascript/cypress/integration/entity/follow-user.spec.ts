@@ -102,9 +102,9 @@ describe('FollowUser e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('468112e4-8a83-4f64-bf7b-9e3b4384e413'));
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
-    cy.setFieldSelectToLastOfEntity('followUserDetails');
+    cy.setFieldSelectToLastOfEntity('follow');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

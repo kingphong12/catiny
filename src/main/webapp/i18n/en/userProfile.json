@@ -32,7 +32,7 @@
       "lifeEvents": "Life Events",
       "hobbies": "Hobbies",
       "featured": "Featured",
-      "baseInfo": "Base Info",
+      "info": "Info",
       "help": {
         "uuid": "uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend)",
         "work": "work : nơi làm việc\n@data-type : Json\n@describe : những nơi, công ty đã từng làm việc , khoảng thời gian vị trí ...\n@example :\n-companyName\n-companyAddress\n-companyContact\n@author           -&gt; yuvytung.",

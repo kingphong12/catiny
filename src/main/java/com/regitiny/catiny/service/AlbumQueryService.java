@@ -101,11 +101,9 @@ public class AlbumQueryService extends QueryService<Album> {
       if (criteria.getNote() != null) {
         specification = specification.and(buildStringSpecification(criteria.getNote(), Album_.note));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(Album_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(Album_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
       if (criteria.getImageId() != null) {
         specification =

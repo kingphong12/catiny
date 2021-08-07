@@ -8,9 +8,9 @@ export default class PostLikeUpdatePage {
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#post-like-uuid'));
-  baseInfoSelect: ElementFinder = element(by.css('select#post-like-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#post-like-info'));
   postSelect: ElementFinder = element(by.css('select#post-like-post'));
-  postCommentSelect: ElementFinder = element(by.css('select#post-like-postComment'));
+  commentSelect: ElementFinder = element(by.css('select#post-like-comment'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -24,20 +24,20 @@ export default class PostLikeUpdatePage {
     return this.uuidInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async postSelectLastOption() {
@@ -56,20 +56,20 @@ export default class PostLikeUpdatePage {
     return this.postSelect.element(by.css('option:checked')).getText();
   }
 
-  async postCommentSelectLastOption() {
-    await this.postCommentSelect.all(by.tagName('option')).last().click();
+  async commentSelectLastOption() {
+    await this.commentSelect.all(by.tagName('option')).last().click();
   }
 
-  async postCommentSelectOption(option) {
-    await this.postCommentSelect.sendKeys(option);
+  async commentSelectOption(option) {
+    await this.commentSelect.sendKeys(option);
   }
 
-  getPostCommentSelect() {
-    return this.postCommentSelect;
+  getCommentSelect() {
+    return this.commentSelect;
   }
 
-  async getPostCommentSelectedOption() {
-    return this.postCommentSelect.element(by.css('option:checked')).getText();
+  async getCommentSelectedOption() {
+    return this.commentSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -87,9 +87,9 @@ export default class PostLikeUpdatePage {
   async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.postSelectLastOption();
-    await this.postCommentSelectLastOption();
+    await this.commentSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

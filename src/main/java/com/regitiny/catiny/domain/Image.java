@@ -2,18 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Image entity.\n@why?             ->\n@use-to           -> Lưu thông tin Ảnh mà người dùng upload lên\n@commonly-used-in ->\n\n@describe         ->
@@ -84,67 +82,28 @@ public class Image implements Serializable {
   @Column(name = "data_size")
   private Long dataSize;
 
-  @JsonIgnoreProperties(value = { "baseInfo" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
   private FileInfo fileInfo;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
-  @OneToMany(mappedBy = "imageOriginal")
+  @OneToMany(mappedBy = "original")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "fileInfo", "baseInfo", "imageProcesseds", "imageOriginal", "albums" }, allowSetters = true)
-  private Set<Image> imageProcesseds = new HashSet<>();
+  @JsonIgnoreProperties(value = { "fileInfo", "info", "processeds", "original", "albums" }, allowSetters = true)
+  private Set<Image> processeds = new HashSet<>();
 
   @ManyToOne
-  @JsonIgnoreProperties(value = { "fileInfo", "baseInfo", "imageProcesseds", "imageOriginal", "albums" }, allowSetters = true)
-  private Image imageOriginal;
+  @JsonIgnoreProperties(value = { "fileInfo", "info", "processeds", "original", "albums" }, allowSetters = true)
+  private Image original;
 
   @ManyToMany(mappedBy = "images")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "images" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "images" }, allowSetters = true)
   private Set<Album> albums = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -278,61 +237,61 @@ public class Image implements Serializable {
     this.fileInfo = fileInfo;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public Image baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public Image info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
-  public Set<Image> getImageProcesseds() {
-    return this.imageProcesseds;
+  public Set<Image> getProcesseds() {
+    return this.processeds;
   }
 
-  public Image imageProcesseds(Set<Image> images) {
-    this.setImageProcesseds(images);
+  public Image processeds(Set<Image> images) {
+    this.setProcesseds(images);
     return this;
   }
 
-  public Image addImageProcessed(Image image) {
-    this.imageProcesseds.add(image);
-    image.setImageOriginal(this);
+  public Image addProcessed(Image image) {
+    this.processeds.add(image);
+    image.setOriginal(this);
     return this;
   }
 
-  public Image removeImageProcessed(Image image) {
-    this.imageProcesseds.remove(image);
-    image.setImageOriginal(null);
+  public Image removeProcessed(Image image) {
+    this.processeds.remove(image);
+    image.setOriginal(null);
     return this;
   }
 
-  public void setImageProcesseds(Set<Image> images) {
-    if (this.imageProcesseds != null) {
-      this.imageProcesseds.forEach(i -> i.setImageOriginal(null));
+  public void setProcesseds(Set<Image> images) {
+    if (this.processeds != null) {
+      this.processeds.forEach(i -> i.setOriginal(null));
     }
     if (images != null) {
-      images.forEach(i -> i.setImageOriginal(this));
+      images.forEach(i -> i.setOriginal(this));
     }
-    this.imageProcesseds = images;
+    this.processeds = images;
   }
 
-  public Image getImageOriginal() {
-    return this.imageOriginal;
+  public Image getOriginal() {
+    return this.original;
   }
 
-  public Image imageOriginal(Image image) {
-    this.setImageOriginal(image);
+  public Image original(Image image) {
+    this.setOriginal(image);
     return this;
   }
 
-  public void setImageOriginal(Image image) {
-    this.imageOriginal = image;
+  public void setOriginal(Image image) {
+    this.original = image;
   }
 
   public Set<Album> getAlbums() {

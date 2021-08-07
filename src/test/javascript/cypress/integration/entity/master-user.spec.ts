@@ -120,7 +120,7 @@ describe('MasterUser e2e test', () => {
 
     cy.setFieldSelectToLastOfEntity('myRank');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('topicInterest');
 

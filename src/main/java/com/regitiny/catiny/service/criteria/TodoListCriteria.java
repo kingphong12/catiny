@@ -33,7 +33,7 @@ public class TodoListCriteria implements Serializable, Criteria {
 
   private StringFilter title;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   public TodoListCriteria() {}
 
@@ -41,7 +41,7 @@ public class TodoListCriteria implements Serializable, Criteria {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.title = other.title == null ? null : other.title.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
   }
 
   @Override
@@ -94,19 +94,19 @@ public class TodoListCriteria implements Serializable, Criteria {
     this.title = title;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   @Override
@@ -122,13 +122,13 @@ public class TodoListCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(title, that.title) &&
-      Objects.equals(baseInfoId, that.baseInfoId)
+      Objects.equals(infoId, that.infoId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, title, baseInfoId);
+    return Objects.hash(id, uuid, title, infoId);
   }
 
   // prettier-ignore
@@ -138,7 +138,7 @@ public class TodoListCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (title != null ? "title=" + title + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             "}";
     }
 }

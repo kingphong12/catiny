@@ -51,9 +51,9 @@ export const TopicInterestDetail = (props: RouteComponentProps<{ id: string }>) 
           </dt>
           <dd>{topicInterestEntity.content}</dd>
           <dt>
-            <Translate contentKey="catinyApp.topicInterest.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.topicInterest.info">Info</Translate>
           </dt>
-          <dd>{topicInterestEntity.baseInfo ? topicInterestEntity.baseInfo.id : ''}</dd>
+          <dd>{topicInterestEntity.info ? topicInterestEntity.info.id : ''}</dd>
           <dt>
             <Translate contentKey="catinyApp.topicInterest.post">Post</Translate>
           </dt>

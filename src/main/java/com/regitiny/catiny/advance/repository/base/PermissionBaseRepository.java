@@ -16,5 +16,5 @@ import io.vavr.control.Option;
  */
 public interface PermissionBaseRepository extends BaseRepository<Permission>, CommonRepository<Permission>, PermissionRepository
 {
-  Option<Permission> findOneByBaseInfoAndMasterUser(BaseInfo baseInfo, MasterUser masterUser);
+  Option<Permission> findOneByBaseInfoAndOwner(BaseInfo baseInfo, MasterUser masterUser);
 }

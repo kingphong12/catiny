@@ -102,7 +102,7 @@ describe('GroupProfile e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('f01d5f96-9c8e-4918-beaa-402f6c226b45'));
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

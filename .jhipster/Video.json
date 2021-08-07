@@ -73,14 +73,14 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "video",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "video",
-      "otherEntityRelationshipName": "videoOriginal",
-      "relationshipName": "videoProcessed"
+      "otherEntityRelationshipName": "original",
+      "relationshipName": "processed"
     },
     {
       "relationshipType": "one-to-one",
@@ -92,8 +92,8 @@
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "video",
-      "otherEntityRelationshipName": "videoProcessed",
-      "relationshipName": "videoOriginal"
+      "otherEntityRelationshipName": "processed",
+      "relationshipName": "original"
     }
   ],
   "javadoc": "@what?            -> The Video entity.\\n@why?             ->\\n@use-to           -> Lưu thông tin video mà người dùng upload lên\\n@commonly-used-in ->\\n\\n@describe         ->",

@@ -219,10 +219,10 @@ export const Image = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.image.fileInfo">File Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.image.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.image.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.image.imageOriginal">Image Original</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.image.original">Original</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -244,8 +244,8 @@ export const Image = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{image.priorityIndex}</td>
                     <td>{image.dataSize}</td>
                     <td>{image.fileInfo ? <Link to={`file-info/${image.fileInfo.id}`}>{image.fileInfo.id}</Link> : ''}</td>
-                    <td>{image.baseInfo ? <Link to={`base-info/${image.baseInfo.id}`}>{image.baseInfo.id}</Link> : ''}</td>
-                    <td>{image.imageOriginal ? <Link to={`image/${image.imageOriginal.id}`}>{image.imageOriginal.id}</Link> : ''}</td>
+                    <td>{image.info ? <Link to={`base-info/${image.info.id}`}>{image.info.id}</Link> : ''}</td>
+                    <td>{image.original ? <Link to={`image/${image.original.id}`}>{image.original.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${image.id}`} color="info" size="sm" data-cy="entityDetailsButton">

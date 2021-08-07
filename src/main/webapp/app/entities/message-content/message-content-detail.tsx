@@ -84,13 +84,13 @@ export const MessageContentDetail = (props: RouteComponentProps<{ id: string }>)
           </dt>
           <dd>{messageContentEntity.searchField}</dd>
           <dt>
-            <Translate contentKey="catinyApp.messageContent.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.messageContent.info">Info</Translate>
           </dt>
-          <dd>{messageContentEntity.baseInfo ? messageContentEntity.baseInfo.id : ''}</dd>
+          <dd>{messageContentEntity.info ? messageContentEntity.info.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.messageContent.messageGroup">Message Group</Translate>
+            <Translate contentKey="catinyApp.messageContent.group">Group</Translate>
           </dt>
-          <dd>{messageContentEntity.messageGroup ? messageContentEntity.messageGroup.id : ''}</dd>
+          <dd>{messageContentEntity.group ? messageContentEntity.group.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/message-content" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

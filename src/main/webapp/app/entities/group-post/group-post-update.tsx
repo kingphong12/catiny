@@ -54,7 +54,7 @@ export const GroupPostUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ...groupPostEntity,
       ...values,
       profile: groupProfiles.find(it => it.id.toString() === values.profileId.toString()),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -70,7 +70,7 @@ export const GroupPostUpdate = (props: RouteComponentProps<{ id: string }>) => {
       : {
           ...groupPostEntity,
           profileId: groupPostEntity?.profile?.id,
-          baseInfoId: groupPostEntity?.baseInfo?.id,
+          infoId: groupPostEntity?.info?.id,
         };
 
   return (
@@ -160,13 +160,7 @@ export const GroupPostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                id="group-post-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.groupPost.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="group-post-info" name="infoId" data-cy="info" label={translate('catinyApp.groupPost.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

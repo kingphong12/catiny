@@ -3,14 +3,14 @@ package com.regitiny.catiny.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.enumeration.FriendType;
+import java.io.Serializable;
+import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.UUID;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Friend entity.\n@why?             ->\n@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\n@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\n\n@describe         ->
@@ -41,56 +41,14 @@ public class Friend implements Serializable {
   @Column(name = "friend_type")
   private FriendType friendType;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
   @ManyToOne
-  @JsonIgnoreProperties(
-    value = { "user", "myRank", "baseInfo", "myBaseInfoCreateds", "myBaseInfoModifieds", "ownerOfs", "permissions", "topicInterests" },
-    allowSetters = true
-  )
-  private MasterUser friendDetails;
+  @JsonIgnoreProperties(value = { "user", "myRank", "info", "permissions", "topicInterests", "owneds" }, allowSetters = true)
+  private MasterUser friend;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
   public Long getId() {
@@ -132,30 +90,30 @@ public class Friend implements Serializable {
     this.friendType = friendType;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public Friend baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public Friend info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
-  public MasterUser getFriendDetails() {
-    return this.friendDetails;
+  public MasterUser getFriend() {
+    return this.friend;
   }
 
-  public Friend friendDetails(MasterUser masterUser) {
-    this.setFriendDetails(masterUser);
+  public Friend friend(MasterUser masterUser) {
+    this.setFriend(masterUser);
     return this;
   }
 
-  public void setFriendDetails(MasterUser masterUser) {
-    this.friendDetails = masterUser;
+  public void setFriend(MasterUser masterUser) {
+    this.friend = masterUser;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

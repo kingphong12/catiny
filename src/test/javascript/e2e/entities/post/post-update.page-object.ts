@@ -12,10 +12,10 @@ export default class PostUpdatePage {
   postTypeSelect: ElementFinder = element(by.css('select#post-postType'));
   contentInput: ElementFinder = element(by.css('textarea#post-content'));
   searchFieldInput: ElementFinder = element(by.css('textarea#post-searchField'));
-  baseInfoSelect: ElementFinder = element(by.css('select#post-baseInfo'));
-  groupPostSelect: ElementFinder = element(by.css('select#post-groupPost'));
-  pagePostSelect: ElementFinder = element(by.css('select#post-pagePost'));
-  postShareParentSelect: ElementFinder = element(by.css('select#post-postShareParent'));
+  infoSelect: ElementFinder = element(by.css('select#post-info'));
+  groupSelect: ElementFinder = element(by.css('select#post-group'));
+  pageSelect: ElementFinder = element(by.css('select#post-page'));
+  parentSelect: ElementFinder = element(by.css('select#post-parent'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -67,68 +67,68 @@ export default class PostUpdatePage {
     return this.searchFieldInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
-  async groupPostSelectLastOption() {
-    await this.groupPostSelect.all(by.tagName('option')).last().click();
+  async groupSelectLastOption() {
+    await this.groupSelect.all(by.tagName('option')).last().click();
   }
 
-  async groupPostSelectOption(option) {
-    await this.groupPostSelect.sendKeys(option);
+  async groupSelectOption(option) {
+    await this.groupSelect.sendKeys(option);
   }
 
-  getGroupPostSelect() {
-    return this.groupPostSelect;
+  getGroupSelect() {
+    return this.groupSelect;
   }
 
-  async getGroupPostSelectedOption() {
-    return this.groupPostSelect.element(by.css('option:checked')).getText();
+  async getGroupSelectedOption() {
+    return this.groupSelect.element(by.css('option:checked')).getText();
   }
 
-  async pagePostSelectLastOption() {
-    await this.pagePostSelect.all(by.tagName('option')).last().click();
+  async pageSelectLastOption() {
+    await this.pageSelect.all(by.tagName('option')).last().click();
   }
 
-  async pagePostSelectOption(option) {
-    await this.pagePostSelect.sendKeys(option);
+  async pageSelectOption(option) {
+    await this.pageSelect.sendKeys(option);
   }
 
-  getPagePostSelect() {
-    return this.pagePostSelect;
+  getPageSelect() {
+    return this.pageSelect;
   }
 
-  async getPagePostSelectedOption() {
-    return this.pagePostSelect.element(by.css('option:checked')).getText();
+  async getPageSelectedOption() {
+    return this.pageSelect.element(by.css('option:checked')).getText();
   }
 
-  async postShareParentSelectLastOption() {
-    await this.postShareParentSelect.all(by.tagName('option')).last().click();
+  async parentSelectLastOption() {
+    await this.parentSelect.all(by.tagName('option')).last().click();
   }
 
-  async postShareParentSelectOption(option) {
-    await this.postShareParentSelect.sendKeys(option);
+  async parentSelectOption(option) {
+    await this.parentSelect.sendKeys(option);
   }
 
-  getPostShareParentSelect() {
-    return this.postShareParentSelect;
+  getParentSelect() {
+    return this.parentSelect;
   }
 
-  async getPostShareParentSelectedOption() {
-    return this.postShareParentSelect.element(by.css('option:checked')).getText();
+  async getParentSelectedOption() {
+    return this.parentSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -154,10 +154,10 @@ export default class PostUpdatePage {
     await this.setContentInput('content');
     await waitUntilDisplayed(this.saveButton);
     await this.setSearchFieldInput('searchField');
-    await this.baseInfoSelectLastOption();
-    await this.groupPostSelectLastOption();
-    await this.pagePostSelectLastOption();
-    await this.postShareParentSelectLastOption();
+    await this.infoSelectLastOption();
+    await this.groupSelectLastOption();
+    await this.pageSelectLastOption();
+    await this.parentSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

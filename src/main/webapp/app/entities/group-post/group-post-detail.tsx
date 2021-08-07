@@ -70,9 +70,9 @@ export const GroupPostDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{groupPostEntity.profile ? groupPostEntity.profile.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.groupPost.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.groupPost.info">Info</Translate>
           </dt>
-          <dd>{groupPostEntity.baseInfo ? groupPostEntity.baseInfo.id : ''}</dd>
+          <dd>{groupPostEntity.info ? groupPostEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/group-post" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

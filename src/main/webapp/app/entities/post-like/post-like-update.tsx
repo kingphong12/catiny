@@ -53,9 +53,9 @@ export const PostLikeUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...postLikeEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
       post: posts.find(it => it.id.toString() === values.postId.toString()),
-      postComment: postComments.find(it => it.id.toString() === values.postCommentId.toString()),
+      comment: postComments.find(it => it.id.toString() === values.commentId.toString()),
     };
 
     if (isNew) {
@@ -70,9 +70,9 @@ export const PostLikeUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...postLikeEntity,
-          baseInfoId: postLikeEntity?.baseInfo?.id,
+          infoId: postLikeEntity?.info?.id,
           postId: postLikeEntity?.post?.id,
-          postCommentId: postLikeEntity?.postComment?.id,
+          commentId: postLikeEntity?.comment?.id,
         };
 
   return (
@@ -113,13 +113,7 @@ export const PostLikeUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <UncontrolledTooltip target="uuidLabel">
                 <Translate contentKey="catinyApp.postLike.help.uuid" />
               </UncontrolledTooltip>
-              <ValidatedField
-                id="post-like-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.postLike.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="post-like-info" name="infoId" data-cy="info" label={translate('catinyApp.postLike.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (
@@ -140,10 +134,10 @@ export const PostLikeUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="post-like-postComment"
-                name="postCommentId"
-                data-cy="postComment"
-                label={translate('catinyApp.postLike.postComment')}
+                id="post-like-comment"
+                name="commentId"
+                data-cy="comment"
+                label={translate('catinyApp.postLike.comment')}
                 type="select"
               >
                 <option value="" key="0" />

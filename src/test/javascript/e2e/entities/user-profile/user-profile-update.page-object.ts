@@ -20,7 +20,7 @@ export default class UserProfileUpdatePage {
   lifeEventsInput: ElementFinder = element(by.css('textarea#user-profile-lifeEvents'));
   hobbiesInput: ElementFinder = element(by.css('textarea#user-profile-hobbies'));
   featuredInput: ElementFinder = element(by.css('textarea#user-profile-featured'));
-  baseInfoSelect: ElementFinder = element(by.css('select#user-profile-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#user-profile-info'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -130,20 +130,20 @@ export default class UserProfileUpdatePage {
     return this.featuredInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -185,7 +185,7 @@ export default class UserProfileUpdatePage {
     await this.setHobbiesInput('hobbies');
     await waitUntilDisplayed(this.saveButton);
     await this.setFeaturedInput('featured');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

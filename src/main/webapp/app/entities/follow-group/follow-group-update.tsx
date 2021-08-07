@@ -49,8 +49,8 @@ export const FollowGroupUpdate = (props: RouteComponentProps<{ id: string }>) =>
     const entity = {
       ...followGroupEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
-      followGroupDetails: groupPosts.find(it => it.id.toString() === values.followGroupDetailsId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
+      groupDetails: groupPosts.find(it => it.id.toString() === values.groupDetailsId.toString()),
     };
 
     if (isNew) {
@@ -65,8 +65,8 @@ export const FollowGroupUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ? {}
       : {
           ...followGroupEntity,
-          baseInfoId: followGroupEntity?.baseInfo?.id,
-          followGroupDetailsId: followGroupEntity?.followGroupDetails?.id,
+          infoId: followGroupEntity?.info?.id,
+          groupDetailsId: followGroupEntity?.groupDetails?.id,
         };
 
   return (
@@ -108,10 +108,10 @@ export const FollowGroupUpdate = (props: RouteComponentProps<{ id: string }>) =>
                 <Translate contentKey="catinyApp.followGroup.help.uuid" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="follow-group-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.followGroup.baseInfo')}
+                id="follow-group-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.followGroup.info')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -124,10 +124,10 @@ export const FollowGroupUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="follow-group-followGroupDetails"
-                name="followGroupDetailsId"
-                data-cy="followGroupDetails"
-                label={translate('catinyApp.followGroup.followGroupDetails')}
+                id="follow-group-groupDetails"
+                name="groupDetailsId"
+                data-cy="groupDetails"
+                label={translate('catinyApp.followGroup.groupDetails')}
                 type="select"
               >
                 <option value="" key="0" />

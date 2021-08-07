@@ -2,11 +2,18 @@ package com.regitiny.catiny.service.criteria;
 
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.enumeration.ProcessStatus;
-import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.*;
-
 import java.io.Serializable;
 import java.util.Objects;
+import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
+import tech.jhipster.service.filter.DoubleFilter;
+import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.InstantFilter;
+import tech.jhipster.service.filter.IntegerFilter;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.UUIDFilter;
 
 /**
  * Criteria class for the {@link com.regitiny.catiny.domain.BaseInfo} entity. This class is used
@@ -33,8 +40,7 @@ public class BaseInfoCriteria implements Serializable, Criteria {
     }
 
     @Override
-    public ProcessStatusFilter copy()
-    {
+    public ProcessStatusFilter copy() {
       return new ProcessStatusFilter(this);
     }
   }
@@ -59,73 +65,15 @@ public class BaseInfoCriteria implements Serializable, Criteria {
 
   private LongFilter countUse;
 
-  private LongFilter historyUpdateId;
-
-  private LongFilter classInfoId;
-
-  private LongFilter userProfileId;
-
-  private LongFilter accountStatusId;
-
-  private LongFilter deviceStatusId;
-
-  private LongFilter friendId;
-
-  private LongFilter followUserId;
-
-  private LongFilter followGroupId;
-
-  private LongFilter followPageId;
-
-  private LongFilter fileInfoId;
-
-  private LongFilter pagePostId;
-
-  private LongFilter pageProfileId;
-
-  private LongFilter groupPostId;
-
-  private LongFilter postId;
-
-  private LongFilter postCommentId;
-
-  private LongFilter postLikeId;
-
-  private LongFilter groupProfileId;
-
-  private LongFilter newsFeedId;
-
-  private LongFilter messageGroupId;
-
-  private LongFilter messageContentId;
-
-  private LongFilter rankUserId;
-
-  private LongFilter rankGroupId;
-
-  private LongFilter notificationId;
-
-  private LongFilter albumId;
-
-  private LongFilter videoId;
-
-  private LongFilter imageId;
-
-  private LongFilter videoStreamId;
-
-  private LongFilter videoLiveStreamBufferId;
-
-  private LongFilter topicInterestId;
-
-  private LongFilter todoListId;
-
-  private LongFilter eventId;
+  private LongFilter historyId;
 
   private LongFilter createdById;
 
   private LongFilter modifiedById;
 
   private LongFilter ownerId;
+
+  private LongFilter classInfoId;
 
   private LongFilter permissionId;
 
@@ -141,40 +89,11 @@ public class BaseInfoCriteria implements Serializable, Criteria {
     this.deleted = other.deleted == null ? null : other.deleted.copy();
     this.priorityIndex = other.priorityIndex == null ? null : other.priorityIndex.copy();
     this.countUse = other.countUse == null ? null : other.countUse.copy();
-    this.historyUpdateId = other.historyUpdateId == null ? null : other.historyUpdateId.copy();
-    this.classInfoId = other.classInfoId == null ? null : other.classInfoId.copy();
-    this.userProfileId = other.userProfileId == null ? null : other.userProfileId.copy();
-    this.accountStatusId = other.accountStatusId == null ? null : other.accountStatusId.copy();
-    this.deviceStatusId = other.deviceStatusId == null ? null : other.deviceStatusId.copy();
-    this.friendId = other.friendId == null ? null : other.friendId.copy();
-    this.followUserId = other.followUserId == null ? null : other.followUserId.copy();
-    this.followGroupId = other.followGroupId == null ? null : other.followGroupId.copy();
-    this.followPageId = other.followPageId == null ? null : other.followPageId.copy();
-    this.fileInfoId = other.fileInfoId == null ? null : other.fileInfoId.copy();
-    this.pagePostId = other.pagePostId == null ? null : other.pagePostId.copy();
-    this.pageProfileId = other.pageProfileId == null ? null : other.pageProfileId.copy();
-    this.groupPostId = other.groupPostId == null ? null : other.groupPostId.copy();
-    this.postId = other.postId == null ? null : other.postId.copy();
-    this.postCommentId = other.postCommentId == null ? null : other.postCommentId.copy();
-    this.postLikeId = other.postLikeId == null ? null : other.postLikeId.copy();
-    this.groupProfileId = other.groupProfileId == null ? null : other.groupProfileId.copy();
-    this.newsFeedId = other.newsFeedId == null ? null : other.newsFeedId.copy();
-    this.messageGroupId = other.messageGroupId == null ? null : other.messageGroupId.copy();
-    this.messageContentId = other.messageContentId == null ? null : other.messageContentId.copy();
-    this.rankUserId = other.rankUserId == null ? null : other.rankUserId.copy();
-    this.rankGroupId = other.rankGroupId == null ? null : other.rankGroupId.copy();
-    this.notificationId = other.notificationId == null ? null : other.notificationId.copy();
-    this.albumId = other.albumId == null ? null : other.albumId.copy();
-    this.videoId = other.videoId == null ? null : other.videoId.copy();
-    this.imageId = other.imageId == null ? null : other.imageId.copy();
-    this.videoStreamId = other.videoStreamId == null ? null : other.videoStreamId.copy();
-    this.videoLiveStreamBufferId = other.videoLiveStreamBufferId == null ? null : other.videoLiveStreamBufferId.copy();
-    this.topicInterestId = other.topicInterestId == null ? null : other.topicInterestId.copy();
-    this.todoListId = other.todoListId == null ? null : other.todoListId.copy();
-    this.eventId = other.eventId == null ? null : other.eventId.copy();
+    this.historyId = other.historyId == null ? null : other.historyId.copy();
     this.createdById = other.createdById == null ? null : other.createdById.copy();
     this.modifiedById = other.modifiedById == null ? null : other.modifiedById.copy();
     this.ownerId = other.ownerId == null ? null : other.ownerId.copy();
+    this.classInfoId = other.classInfoId == null ? null : other.classInfoId.copy();
     this.permissionId = other.permissionId == null ? null : other.permissionId.copy();
   }
 
@@ -188,46 +107,37 @@ public class BaseInfoCriteria implements Serializable, Criteria {
   }
 
   public LongFilter id() {
-    if (id == null)
-    {
+    if (id == null) {
       id = new LongFilter();
     }
     return id;
   }
 
-  public void setId(LongFilter id)
-  {
+  public void setId(LongFilter id) {
     this.id = id;
   }
 
-  public UUIDFilter getUuid()
-  {
+  public UUIDFilter getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUIDFilter uuid)
-  {
-    this.uuid = uuid;
-  }
-
-  public UUIDFilter uuid()
-  {
-    if (uuid == null)
-    {
+  public UUIDFilter uuid() {
+    if (uuid == null) {
       uuid = new UUIDFilter();
     }
     return uuid;
   }
 
-  public ProcessStatusFilter getProcessStatus()
-  {
+  public void setUuid(UUIDFilter uuid) {
+    this.uuid = uuid;
+  }
+
+  public ProcessStatusFilter getProcessStatus() {
     return processStatus;
   }
 
-  public ProcessStatusFilter processStatus()
-  {
-    if (processStatus == null)
-    {
+  public ProcessStatusFilter processStatus() {
+    if (processStatus == null) {
       processStatus = new ProcessStatusFilter();
     }
     return processStatus;
@@ -317,488 +227,29 @@ public class BaseInfoCriteria implements Serializable, Criteria {
   }
 
   public LongFilter countUse() {
-    if (countUse == null)
-    {
+    if (countUse == null) {
       countUse = new LongFilter();
     }
     return countUse;
   }
 
-  public void setCountUse(LongFilter countUse)
-  {
+  public void setCountUse(LongFilter countUse) {
     this.countUse = countUse;
   }
 
-  public LongFilter getHistoryUpdateId()
-  {
-    return historyUpdateId;
+  public LongFilter getHistoryId() {
+    return historyId;
   }
 
-  public void setHistoryUpdateId(LongFilter historyUpdateId)
-  {
-    this.historyUpdateId = historyUpdateId;
-  }
-
-  public LongFilter historyUpdateId()
-  {
-    if (historyUpdateId == null)
-    {
-      historyUpdateId = new LongFilter();
+  public LongFilter historyId() {
+    if (historyId == null) {
+      historyId = new LongFilter();
     }
-    return historyUpdateId;
+    return historyId;
   }
 
-  public LongFilter getClassInfoId()
-  {
-    return classInfoId;
-  }
-
-  public LongFilter classInfoId()
-  {
-    if (classInfoId == null)
-    {
-      classInfoId = new LongFilter();
-    }
-    return classInfoId;
-  }
-
-  public void setClassInfoId(LongFilter classInfoId) {
-    this.classInfoId = classInfoId;
-  }
-
-  public LongFilter getUserProfileId() {
-    return userProfileId;
-  }
-
-  public LongFilter userProfileId() {
-    if (userProfileId == null) {
-      userProfileId = new LongFilter();
-    }
-    return userProfileId;
-  }
-
-  public void setUserProfileId(LongFilter userProfileId) {
-    this.userProfileId = userProfileId;
-  }
-
-  public LongFilter getAccountStatusId() {
-    return accountStatusId;
-  }
-
-  public LongFilter accountStatusId() {
-    if (accountStatusId == null) {
-      accountStatusId = new LongFilter();
-    }
-    return accountStatusId;
-  }
-
-  public void setAccountStatusId(LongFilter accountStatusId) {
-    this.accountStatusId = accountStatusId;
-  }
-
-  public LongFilter getDeviceStatusId() {
-    return deviceStatusId;
-  }
-
-  public LongFilter deviceStatusId() {
-    if (deviceStatusId == null) {
-      deviceStatusId = new LongFilter();
-    }
-    return deviceStatusId;
-  }
-
-  public void setDeviceStatusId(LongFilter deviceStatusId) {
-    this.deviceStatusId = deviceStatusId;
-  }
-
-  public LongFilter getFriendId() {
-    return friendId;
-  }
-
-  public LongFilter friendId() {
-    if (friendId == null) {
-      friendId = new LongFilter();
-    }
-    return friendId;
-  }
-
-  public void setFriendId(LongFilter friendId) {
-    this.friendId = friendId;
-  }
-
-  public LongFilter getFollowUserId() {
-    return followUserId;
-  }
-
-  public LongFilter followUserId() {
-    if (followUserId == null) {
-      followUserId = new LongFilter();
-    }
-    return followUserId;
-  }
-
-  public void setFollowUserId(LongFilter followUserId) {
-    this.followUserId = followUserId;
-  }
-
-  public LongFilter getFollowGroupId() {
-    return followGroupId;
-  }
-
-  public LongFilter followGroupId() {
-    if (followGroupId == null) {
-      followGroupId = new LongFilter();
-    }
-    return followGroupId;
-  }
-
-  public void setFollowGroupId(LongFilter followGroupId) {
-    this.followGroupId = followGroupId;
-  }
-
-  public LongFilter getFollowPageId() {
-    return followPageId;
-  }
-
-  public LongFilter followPageId() {
-    if (followPageId == null) {
-      followPageId = new LongFilter();
-    }
-    return followPageId;
-  }
-
-  public void setFollowPageId(LongFilter followPageId) {
-    this.followPageId = followPageId;
-  }
-
-  public LongFilter getFileInfoId() {
-    return fileInfoId;
-  }
-
-  public LongFilter fileInfoId() {
-    if (fileInfoId == null) {
-      fileInfoId = new LongFilter();
-    }
-    return fileInfoId;
-  }
-
-  public void setFileInfoId(LongFilter fileInfoId) {
-    this.fileInfoId = fileInfoId;
-  }
-
-  public LongFilter getPagePostId() {
-    return pagePostId;
-  }
-
-  public LongFilter pagePostId() {
-    if (pagePostId == null) {
-      pagePostId = new LongFilter();
-    }
-    return pagePostId;
-  }
-
-  public void setPagePostId(LongFilter pagePostId) {
-    this.pagePostId = pagePostId;
-  }
-
-  public LongFilter getPageProfileId() {
-    return pageProfileId;
-  }
-
-  public LongFilter pageProfileId() {
-    if (pageProfileId == null) {
-      pageProfileId = new LongFilter();
-    }
-    return pageProfileId;
-  }
-
-  public void setPageProfileId(LongFilter pageProfileId) {
-    this.pageProfileId = pageProfileId;
-  }
-
-  public LongFilter getGroupPostId() {
-    return groupPostId;
-  }
-
-  public LongFilter groupPostId() {
-    if (groupPostId == null) {
-      groupPostId = new LongFilter();
-    }
-    return groupPostId;
-  }
-
-  public void setGroupPostId(LongFilter groupPostId) {
-    this.groupPostId = groupPostId;
-  }
-
-  public LongFilter getPostId() {
-    return postId;
-  }
-
-  public LongFilter postId() {
-    if (postId == null) {
-      postId = new LongFilter();
-    }
-    return postId;
-  }
-
-  public void setPostId(LongFilter postId) {
-    this.postId = postId;
-  }
-
-  public LongFilter getPostCommentId() {
-    return postCommentId;
-  }
-
-  public LongFilter postCommentId() {
-    if (postCommentId == null) {
-      postCommentId = new LongFilter();
-    }
-    return postCommentId;
-  }
-
-  public void setPostCommentId(LongFilter postCommentId) {
-    this.postCommentId = postCommentId;
-  }
-
-  public LongFilter getPostLikeId() {
-    return postLikeId;
-  }
-
-  public LongFilter postLikeId() {
-    if (postLikeId == null) {
-      postLikeId = new LongFilter();
-    }
-    return postLikeId;
-  }
-
-  public void setPostLikeId(LongFilter postLikeId) {
-    this.postLikeId = postLikeId;
-  }
-
-  public LongFilter getGroupProfileId() {
-    return groupProfileId;
-  }
-
-  public LongFilter groupProfileId() {
-    if (groupProfileId == null) {
-      groupProfileId = new LongFilter();
-    }
-    return groupProfileId;
-  }
-
-  public void setGroupProfileId(LongFilter groupProfileId) {
-    this.groupProfileId = groupProfileId;
-  }
-
-  public LongFilter getNewsFeedId() {
-    return newsFeedId;
-  }
-
-  public LongFilter newsFeedId() {
-    if (newsFeedId == null) {
-      newsFeedId = new LongFilter();
-    }
-    return newsFeedId;
-  }
-
-  public void setNewsFeedId(LongFilter newsFeedId) {
-    this.newsFeedId = newsFeedId;
-  }
-
-  public LongFilter getMessageGroupId() {
-    return messageGroupId;
-  }
-
-  public LongFilter messageGroupId() {
-    if (messageGroupId == null) {
-      messageGroupId = new LongFilter();
-    }
-    return messageGroupId;
-  }
-
-  public void setMessageGroupId(LongFilter messageGroupId) {
-    this.messageGroupId = messageGroupId;
-  }
-
-  public LongFilter getMessageContentId() {
-    return messageContentId;
-  }
-
-  public LongFilter messageContentId() {
-    if (messageContentId == null) {
-      messageContentId = new LongFilter();
-    }
-    return messageContentId;
-  }
-
-  public void setMessageContentId(LongFilter messageContentId) {
-    this.messageContentId = messageContentId;
-  }
-
-  public LongFilter getRankUserId() {
-    return rankUserId;
-  }
-
-  public LongFilter rankUserId() {
-    if (rankUserId == null) {
-      rankUserId = new LongFilter();
-    }
-    return rankUserId;
-  }
-
-  public void setRankUserId(LongFilter rankUserId) {
-    this.rankUserId = rankUserId;
-  }
-
-  public LongFilter getRankGroupId() {
-    return rankGroupId;
-  }
-
-  public LongFilter rankGroupId() {
-    if (rankGroupId == null) {
-      rankGroupId = new LongFilter();
-    }
-    return rankGroupId;
-  }
-
-  public void setRankGroupId(LongFilter rankGroupId) {
-    this.rankGroupId = rankGroupId;
-  }
-
-  public LongFilter getNotificationId() {
-    return notificationId;
-  }
-
-  public LongFilter notificationId() {
-    if (notificationId == null) {
-      notificationId = new LongFilter();
-    }
-    return notificationId;
-  }
-
-  public void setNotificationId(LongFilter notificationId) {
-    this.notificationId = notificationId;
-  }
-
-  public LongFilter getAlbumId() {
-    return albumId;
-  }
-
-  public LongFilter albumId() {
-    if (albumId == null) {
-      albumId = new LongFilter();
-    }
-    return albumId;
-  }
-
-  public void setAlbumId(LongFilter albumId) {
-    this.albumId = albumId;
-  }
-
-  public LongFilter getVideoId() {
-    return videoId;
-  }
-
-  public LongFilter videoId() {
-    if (videoId == null) {
-      videoId = new LongFilter();
-    }
-    return videoId;
-  }
-
-  public void setVideoId(LongFilter videoId) {
-    this.videoId = videoId;
-  }
-
-  public LongFilter getImageId() {
-    return imageId;
-  }
-
-  public LongFilter imageId() {
-    if (imageId == null) {
-      imageId = new LongFilter();
-    }
-    return imageId;
-  }
-
-  public void setImageId(LongFilter imageId) {
-    this.imageId = imageId;
-  }
-
-  public LongFilter getVideoStreamId() {
-    return videoStreamId;
-  }
-
-  public LongFilter videoStreamId() {
-    if (videoStreamId == null) {
-      videoStreamId = new LongFilter();
-    }
-    return videoStreamId;
-  }
-
-  public void setVideoStreamId(LongFilter videoStreamId) {
-    this.videoStreamId = videoStreamId;
-  }
-
-  public LongFilter getVideoLiveStreamBufferId() {
-    return videoLiveStreamBufferId;
-  }
-
-  public LongFilter videoLiveStreamBufferId() {
-    if (videoLiveStreamBufferId == null) {
-      videoLiveStreamBufferId = new LongFilter();
-    }
-    return videoLiveStreamBufferId;
-  }
-
-  public void setVideoLiveStreamBufferId(LongFilter videoLiveStreamBufferId) {
-    this.videoLiveStreamBufferId = videoLiveStreamBufferId;
-  }
-
-  public LongFilter getTopicInterestId() {
-    return topicInterestId;
-  }
-
-  public LongFilter topicInterestId() {
-    if (topicInterestId == null) {
-      topicInterestId = new LongFilter();
-    }
-    return topicInterestId;
-  }
-
-  public void setTopicInterestId(LongFilter topicInterestId) {
-    this.topicInterestId = topicInterestId;
-  }
-
-  public LongFilter getTodoListId() {
-    return todoListId;
-  }
-
-  public LongFilter todoListId() {
-    if (todoListId == null) {
-      todoListId = new LongFilter();
-    }
-    return todoListId;
-  }
-
-  public void setTodoListId(LongFilter todoListId) {
-    this.todoListId = todoListId;
-  }
-
-  public LongFilter getEventId() {
-    return eventId;
-  }
-
-  public LongFilter eventId() {
-    if (eventId == null) {
-      eventId = new LongFilter();
-    }
-    return eventId;
-  }
-
-  public void setEventId(LongFilter eventId) {
-    this.eventId = eventId;
+  public void setHistoryId(LongFilter historyId) {
+    this.historyId = historyId;
   }
 
   public LongFilter getCreatedById() {
@@ -846,6 +297,21 @@ public class BaseInfoCriteria implements Serializable, Criteria {
     this.ownerId = ownerId;
   }
 
+  public LongFilter getClassInfoId() {
+    return classInfoId;
+  }
+
+  public LongFilter classInfoId() {
+    if (classInfoId == null) {
+      classInfoId = new LongFilter();
+    }
+    return classInfoId;
+  }
+
+  public void setClassInfoId(LongFilter classInfoId) {
+    this.classInfoId = classInfoId;
+  }
+
   public LongFilter getPermissionId() {
     return permissionId;
   }
@@ -872,48 +338,19 @@ public class BaseInfoCriteria implements Serializable, Criteria {
     final BaseInfoCriteria that = (BaseInfoCriteria) o;
     return (
       Objects.equals(id, that.id) &&
-        Objects.equals(uuid, that.uuid) &&
-        Objects.equals(processStatus, that.processStatus) &&
-        Objects.equals(modifiedClass, that.modifiedClass) &&
-        Objects.equals(createdDate, that.createdDate) &&
-        Objects.equals(modifiedDate, that.modifiedDate) &&
-        Objects.equals(deleted, that.deleted) &&
-        Objects.equals(priorityIndex, that.priorityIndex) &&
-        Objects.equals(countUse, that.countUse) &&
-        Objects.equals(historyUpdateId, that.historyUpdateId) &&
-        Objects.equals(classInfoId, that.classInfoId) &&
-        Objects.equals(userProfileId, that.userProfileId) &&
-        Objects.equals(accountStatusId, that.accountStatusId) &&
-        Objects.equals(deviceStatusId, that.deviceStatusId) &&
-        Objects.equals(friendId, that.friendId) &&
-        Objects.equals(followUserId, that.followUserId) &&
-        Objects.equals(followGroupId, that.followGroupId) &&
-        Objects.equals(followPageId, that.followPageId) &&
-        Objects.equals(fileInfoId, that.fileInfoId) &&
-        Objects.equals(pagePostId, that.pagePostId) &&
-      Objects.equals(pageProfileId, that.pageProfileId) &&
-      Objects.equals(groupPostId, that.groupPostId) &&
-      Objects.equals(postId, that.postId) &&
-      Objects.equals(postCommentId, that.postCommentId) &&
-      Objects.equals(postLikeId, that.postLikeId) &&
-      Objects.equals(groupProfileId, that.groupProfileId) &&
-      Objects.equals(newsFeedId, that.newsFeedId) &&
-      Objects.equals(messageGroupId, that.messageGroupId) &&
-      Objects.equals(messageContentId, that.messageContentId) &&
-      Objects.equals(rankUserId, that.rankUserId) &&
-      Objects.equals(rankGroupId, that.rankGroupId) &&
-      Objects.equals(notificationId, that.notificationId) &&
-      Objects.equals(albumId, that.albumId) &&
-      Objects.equals(videoId, that.videoId) &&
-      Objects.equals(imageId, that.imageId) &&
-      Objects.equals(videoStreamId, that.videoStreamId) &&
-      Objects.equals(videoLiveStreamBufferId, that.videoLiveStreamBufferId) &&
-      Objects.equals(topicInterestId, that.topicInterestId) &&
-      Objects.equals(todoListId, that.todoListId) &&
-      Objects.equals(eventId, that.eventId) &&
+      Objects.equals(uuid, that.uuid) &&
+      Objects.equals(processStatus, that.processStatus) &&
+      Objects.equals(modifiedClass, that.modifiedClass) &&
+      Objects.equals(createdDate, that.createdDate) &&
+      Objects.equals(modifiedDate, that.modifiedDate) &&
+      Objects.equals(deleted, that.deleted) &&
+      Objects.equals(priorityIndex, that.priorityIndex) &&
+      Objects.equals(countUse, that.countUse) &&
+      Objects.equals(historyId, that.historyId) &&
       Objects.equals(createdById, that.createdById) &&
       Objects.equals(modifiedById, that.modifiedById) &&
       Objects.equals(ownerId, that.ownerId) &&
+      Objects.equals(classInfoId, that.classInfoId) &&
       Objects.equals(permissionId, that.permissionId)
     );
   }
@@ -930,40 +367,11 @@ public class BaseInfoCriteria implements Serializable, Criteria {
       deleted,
       priorityIndex,
       countUse,
-      historyUpdateId,
-      classInfoId,
-      userProfileId,
-      accountStatusId,
-      deviceStatusId,
-      friendId,
-      followUserId,
-      followGroupId,
-      followPageId,
-      fileInfoId,
-      pagePostId,
-      pageProfileId,
-      groupPostId,
-      postId,
-      postCommentId,
-      postLikeId,
-      groupProfileId,
-      newsFeedId,
-      messageGroupId,
-      messageContentId,
-      rankUserId,
-      rankGroupId,
-      notificationId,
-      albumId,
-      videoId,
-      imageId,
-      videoStreamId,
-      videoLiveStreamBufferId,
-      topicInterestId,
-      todoListId,
-      eventId,
+      historyId,
       createdById,
       modifiedById,
       ownerId,
+      classInfoId,
       permissionId
     );
   }
@@ -972,49 +380,20 @@ public class BaseInfoCriteria implements Serializable, Criteria {
     @Override
     public String toString() {
         return "BaseInfoCriteria{" +
-          (id != null ? "id=" + id + ", " : "") +
-          (uuid != null ? "uuid=" + uuid + ", " : "") +
-          (processStatus != null ? "processStatus=" + processStatus + ", " : "") +
-          (modifiedClass != null ? "modifiedClass=" + modifiedClass + ", " : "") +
-          (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
-          (modifiedDate != null ? "modifiedDate=" + modifiedDate + ", " : "") +
-          (deleted != null ? "deleted=" + deleted + ", " : "") +
-          (priorityIndex != null ? "priorityIndex=" + priorityIndex + ", " : "") +
-          (countUse != null ? "countUse=" + countUse + ", " : "") +
-          (historyUpdateId != null ? "historyUpdateId=" + historyUpdateId + ", " : "") +
-          (classInfoId != null ? "classInfoId=" + classInfoId + ", " : "") +
-          (userProfileId != null ? "userProfileId=" + userProfileId + ", " : "") +
-          (accountStatusId != null ? "accountStatusId=" + accountStatusId + ", " : "") +
-          (deviceStatusId != null ? "deviceStatusId=" + deviceStatusId + ", " : "") +
-          (friendId != null ? "friendId=" + friendId + ", " : "") +
-          (followUserId != null ? "followUserId=" + followUserId + ", " : "") +
-          (followGroupId != null ? "followGroupId=" + followGroupId + ", " : "") +
-          (followPageId != null ? "followPageId=" + followPageId + ", " : "") +
-          (fileInfoId != null ? "fileInfoId=" + fileInfoId + ", " : "") +
-          (pagePostId != null ? "pagePostId=" + pagePostId + ", " : "") +
-            (pageProfileId != null ? "pageProfileId=" + pageProfileId + ", " : "") +
-            (groupPostId != null ? "groupPostId=" + groupPostId + ", " : "") +
-            (postId != null ? "postId=" + postId + ", " : "") +
-            (postCommentId != null ? "postCommentId=" + postCommentId + ", " : "") +
-            (postLikeId != null ? "postLikeId=" + postLikeId + ", " : "") +
-            (groupProfileId != null ? "groupProfileId=" + groupProfileId + ", " : "") +
-            (newsFeedId != null ? "newsFeedId=" + newsFeedId + ", " : "") +
-            (messageGroupId != null ? "messageGroupId=" + messageGroupId + ", " : "") +
-            (messageContentId != null ? "messageContentId=" + messageContentId + ", " : "") +
-            (rankUserId != null ? "rankUserId=" + rankUserId + ", " : "") +
-            (rankGroupId != null ? "rankGroupId=" + rankGroupId + ", " : "") +
-            (notificationId != null ? "notificationId=" + notificationId + ", " : "") +
-            (albumId != null ? "albumId=" + albumId + ", " : "") +
-            (videoId != null ? "videoId=" + videoId + ", " : "") +
-            (imageId != null ? "imageId=" + imageId + ", " : "") +
-            (videoStreamId != null ? "videoStreamId=" + videoStreamId + ", " : "") +
-            (videoLiveStreamBufferId != null ? "videoLiveStreamBufferId=" + videoLiveStreamBufferId + ", " : "") +
-            (topicInterestId != null ? "topicInterestId=" + topicInterestId + ", " : "") +
-            (todoListId != null ? "todoListId=" + todoListId + ", " : "") +
-            (eventId != null ? "eventId=" + eventId + ", " : "") +
+            (id != null ? "id=" + id + ", " : "") +
+            (uuid != null ? "uuid=" + uuid + ", " : "") +
+            (processStatus != null ? "processStatus=" + processStatus + ", " : "") +
+            (modifiedClass != null ? "modifiedClass=" + modifiedClass + ", " : "") +
+            (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
+            (modifiedDate != null ? "modifiedDate=" + modifiedDate + ", " : "") +
+            (deleted != null ? "deleted=" + deleted + ", " : "") +
+            (priorityIndex != null ? "priorityIndex=" + priorityIndex + ", " : "") +
+            (countUse != null ? "countUse=" + countUse + ", " : "") +
+            (historyId != null ? "historyId=" + historyId + ", " : "") +
             (createdById != null ? "createdById=" + createdById + ", " : "") +
             (modifiedById != null ? "modifiedById=" + modifiedById + ", " : "") +
             (ownerId != null ? "ownerId=" + ownerId + ", " : "") +
+            (classInfoId != null ? "classInfoId=" + classInfoId + ", " : "") +
             (permissionId != null ? "permissionId=" + permissionId + ", " : "") +
             "}";
     }

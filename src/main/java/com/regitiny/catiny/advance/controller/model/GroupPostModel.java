@@ -45,7 +45,7 @@ public class GroupPostModel implements Serializable
 
   private GroupProfileDTO profile;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -79,7 +79,7 @@ public class GroupPostModel implements Serializable
 
     private GroupProfileDTO profile;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -114,6 +114,6 @@ public class GroupPostModel implements Serializable
 
     private GroupProfileDTO profile;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

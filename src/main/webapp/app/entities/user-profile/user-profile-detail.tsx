@@ -147,9 +147,9 @@ export const UserProfileDetail = (props: RouteComponentProps<{ id: string }>) =>
           </dt>
           <dd>{userProfileEntity.featured}</dd>
           <dt>
-            <Translate contentKey="catinyApp.userProfile.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.userProfile.info">Info</Translate>
           </dt>
-          <dd>{userProfileEntity.baseInfo ? userProfileEntity.baseInfo.id : ''}</dd>
+          <dd>{userProfileEntity.info ? userProfileEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/user-profile" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

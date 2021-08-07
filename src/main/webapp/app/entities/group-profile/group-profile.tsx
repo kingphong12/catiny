@@ -195,7 +195,7 @@ export const GroupProfile = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.groupProfile.uuid">Uuid</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.groupProfile.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.groupProfile.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -209,9 +209,7 @@ export const GroupProfile = (props: RouteComponentProps<{ url: string }>) => {
                       </Button>
                     </td>
                     <td>{groupProfile.uuid}</td>
-                    <td>
-                      {groupProfile.baseInfo ? <Link to={`base-info/${groupProfile.baseInfo.id}`}>{groupProfile.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{groupProfile.info ? <Link to={`base-info/${groupProfile.info.id}`}>{groupProfile.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${groupProfile.id}`} color="info" size="sm" data-cy="entityDetailsButton">

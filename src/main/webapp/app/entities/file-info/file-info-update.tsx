@@ -45,7 +45,7 @@ export const FileInfoUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...fileInfoEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -60,7 +60,7 @@ export const FileInfoUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...fileInfoEntity,
-          baseInfoId: fileInfoEntity?.baseInfo?.id,
+          infoId: fileInfoEntity?.info?.id,
         };
 
   return (
@@ -144,13 +144,7 @@ export const FileInfoUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <UncontrolledTooltip target="dataSizeLabel">
                 <Translate contentKey="catinyApp.fileInfo.help.dataSize" />
               </UncontrolledTooltip>
-              <ValidatedField
-                id="file-info-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.fileInfo.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="file-info-info" name="infoId" data-cy="info" label={translate('catinyApp.fileInfo.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

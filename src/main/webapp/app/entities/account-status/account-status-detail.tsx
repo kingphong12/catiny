@@ -70,9 +70,9 @@ export const AccountStatusDetail = (props: RouteComponentProps<{ id: string }>) 
           </dt>
           <dd>{accountStatusEntity.statusComment}</dd>
           <dt>
-            <Translate contentKey="catinyApp.accountStatus.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.accountStatus.info">Info</Translate>
           </dt>
-          <dd>{accountStatusEntity.baseInfo ? accountStatusEntity.baseInfo.id : ''}</dd>
+          <dd>{accountStatusEntity.info ? accountStatusEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/account-status" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

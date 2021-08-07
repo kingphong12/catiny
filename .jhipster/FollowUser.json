@@ -13,14 +13,14 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "followUser",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "masterUser",
       "otherEntityRelationshipName": "followUser",
-      "relationshipName": "followUserDetails"
+      "relationshipName": "follow"
     }
   ],
   "javadoc": "@what?            -> The FollowUser entity.\\n@why?             ->\\n@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\\n@commonly-used-in -> Chủ đề mà người dùng theo dõi\\n\\n@describe         ->",

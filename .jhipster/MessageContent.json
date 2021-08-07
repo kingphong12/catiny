@@ -42,14 +42,14 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "messageContent",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "messageGroup",
-      "otherEntityRelationshipName": "messageContent",
-      "relationshipName": "messageGroup"
+      "otherEntityRelationshipName": "content",
+      "relationshipName": "group"
     }
   ],
   "javadoc": "@what?            -> The MessageContent entity.\\n@why?             ->\\n@use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể\\n@commonly-used-in ->\\n\\n@describe         ->",

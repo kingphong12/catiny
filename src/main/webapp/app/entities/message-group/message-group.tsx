@@ -204,7 +204,7 @@ export const MessageGroup = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.messageGroup.addBy">Add By</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.messageGroup.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.messageGroup.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -221,9 +221,7 @@ export const MessageGroup = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{messageGroup.groupName}</td>
                     <td>{messageGroup.avatar}</td>
                     <td>{messageGroup.addBy}</td>
-                    <td>
-                      {messageGroup.baseInfo ? <Link to={`base-info/${messageGroup.baseInfo.id}`}>{messageGroup.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{messageGroup.info ? <Link to={`base-info/${messageGroup.info.id}`}>{messageGroup.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${messageGroup.id}`} color="info" size="sm" data-cy="entityDetailsButton">

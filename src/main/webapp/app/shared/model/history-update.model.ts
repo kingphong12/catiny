@@ -1,7 +1,6 @@
-import {IBaseInfo} from 'app/shared/model/base-info.model';
+import { IBaseInfo } from 'app/shared/model/base-info.model';
 
-export interface IHistoryUpdate
-{
+export interface IHistoryUpdate {
   id?: number;
   uuid?: string;
   version?: number | null;

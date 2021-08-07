@@ -1,14 +1,14 @@
-import {entityItemSelector} from '../../support/commands';
+import { entityItemSelector } from '../../support/commands';
 import {
-  entityConfirmDeleteButtonSelector,
-  entityCreateButtonSelector,
-  entityCreateCancelButtonSelector,
-  entityCreateSaveButtonSelector,
-  entityDeleteButtonSelector,
-  entityDetailsBackButtonSelector,
-  entityDetailsButtonSelector,
-  entityEditButtonSelector,
   entityTableSelector,
+  entityDetailsButtonSelector,
+  entityDetailsBackButtonSelector,
+  entityCreateButtonSelector,
+  entityCreateSaveButtonSelector,
+  entityCreateCancelButtonSelector,
+  entityEditButtonSelector,
+  entityDeleteButtonSelector,
+  entityConfirmDeleteButtonSelector,
 } from '../../support/entity';
 
 describe('BaseInfo e2e test', () => {
@@ -92,10 +92,9 @@ describe('BaseInfo e2e test', () => {
     cy.url().should('match', baseInfoPageUrlPattern);
   });
 
-  it('should create an instance of BaseInfo', () =>
-  {
+  it('should create an instance of BaseInfo', () => {
     cy.visit(baseInfoPageUrl);
-    cy.get(entityCreateButtonSelector).click({force: true});
+    cy.get(entityCreateButtonSelector).click({ force: true });
     cy.getEntityCreateUpdateHeading('BaseInfo');
 
     cy.get(`[data-cy="uuid"]`)
@@ -123,13 +122,13 @@ describe('BaseInfo e2e test', () => {
 
     cy.get(`[data-cy="countUse"]`).type('53156').should('have.value', '53156');
 
-    cy.setFieldSelectToLastOfEntity('classInfo');
-
     cy.setFieldSelectToLastOfEntity('createdBy');
 
     cy.setFieldSelectToLastOfEntity('modifiedBy');
 
     cy.setFieldSelectToLastOfEntity('owner');
+
+    cy.setFieldSelectToLastOfEntity('classInfo');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

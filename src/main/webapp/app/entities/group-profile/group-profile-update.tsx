@@ -49,7 +49,7 @@ export const GroupProfileUpdate = (props: RouteComponentProps<{ id: string }>) =
     const entity = {
       ...groupProfileEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -64,7 +64,7 @@ export const GroupProfileUpdate = (props: RouteComponentProps<{ id: string }>) =
       ? {}
       : {
           ...groupProfileEntity,
-          baseInfoId: groupProfileEntity?.baseInfo?.id,
+          infoId: groupProfileEntity?.info?.id,
         };
 
   return (
@@ -106,10 +106,10 @@ export const GroupProfileUpdate = (props: RouteComponentProps<{ id: string }>) =
                 <Translate contentKey="catinyApp.groupProfile.help.uuid" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="group-profile-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.groupProfile.baseInfo')}
+                id="group-profile-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.groupProfile.info')}
                 type="select"
               >
                 <option value="" key="0" />

@@ -195,7 +195,7 @@ export const RankGroup = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.rankGroup.uuid">Uuid</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.rankGroup.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.rankGroup.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -209,7 +209,7 @@ export const RankGroup = (props: RouteComponentProps<{ url: string }>) => {
                       </Button>
                     </td>
                     <td>{rankGroup.uuid}</td>
-                    <td>{rankGroup.baseInfo ? <Link to={`base-info/${rankGroup.baseInfo.id}`}>{rankGroup.baseInfo.id}</Link> : ''}</td>
+                    <td>{rankGroup.info ? <Link to={`base-info/${rankGroup.info.id}`}>{rankGroup.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${rankGroup.id}`} color="info" size="sm" data-cy="entityDetailsButton">

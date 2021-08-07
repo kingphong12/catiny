@@ -8,13 +8,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link BaseInfo} and its DTO {@link BaseInfoDTO}.
  */
-@Mapper(componentModel = "spring", uses = { ClassInfoMapper.class, MasterUserMapper.class })
+@Mapper(componentModel = "spring", uses = { MasterUserMapper.class, ClassInfoMapper.class })
 @GeneratedByJHipster
 public interface BaseInfoMapper extends EntityMapper<BaseInfoDTO, BaseInfo> {
-  @Mapping(target = "classInfo", source = "classInfo", qualifiedByName = "id")
   @Mapping(target = "createdBy", source = "createdBy", qualifiedByName = "id")
   @Mapping(target = "modifiedBy", source = "modifiedBy", qualifiedByName = "id")
   @Mapping(target = "owner", source = "owner", qualifiedByName = "id")
+  @Mapping(target = "classInfo", source = "classInfo", qualifiedByName = "id")
   BaseInfoDTO toDto(BaseInfo s);
 
   @Named("id")

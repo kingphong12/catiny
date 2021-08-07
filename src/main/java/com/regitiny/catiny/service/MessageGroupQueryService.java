@@ -105,19 +105,16 @@ public class MessageGroupQueryService extends QueryService<MessageGroup> {
       if (criteria.getAddBy() != null) {
         specification = specification.and(buildStringSpecification(criteria.getAddBy(), MessageGroup_.addBy));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(MessageGroup_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
+            buildSpecification(criteria.getInfoId(), root -> root.join(MessageGroup_.info, JoinType.LEFT).get(BaseInfo_.id))
           );
       }
-      if (criteria.getMessageContentId() != null) {
+      if (criteria.getContentId() != null) {
         specification =
           specification.and(
-            buildSpecification(
-              criteria.getMessageContentId(),
-              root -> root.join(MessageGroup_.messageContents, JoinType.LEFT).get(MessageContent_.id)
-            )
+            buildSpecification(criteria.getContentId(), root -> root.join(MessageGroup_.contents, JoinType.LEFT).get(MessageContent_.id))
           );
       }
     }

@@ -195,13 +195,13 @@ export const PostLike = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.postLike.uuid">Uuid</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.postLike.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.postLike.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
                     <Translate contentKey="catinyApp.postLike.post">Post</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.postLike.postComment">Post Comment</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.postLike.comment">Comment</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -215,11 +215,9 @@ export const PostLike = (props: RouteComponentProps<{ url: string }>) => {
                       </Button>
                     </td>
                     <td>{postLike.uuid}</td>
-                    <td>{postLike.baseInfo ? <Link to={`base-info/${postLike.baseInfo.id}`}>{postLike.baseInfo.id}</Link> : ''}</td>
+                    <td>{postLike.info ? <Link to={`base-info/${postLike.info.id}`}>{postLike.info.id}</Link> : ''}</td>
                     <td>{postLike.post ? <Link to={`post/${postLike.post.id}`}>{postLike.post.id}</Link> : ''}</td>
-                    <td>
-                      {postLike.postComment ? <Link to={`post-comment/${postLike.postComment.id}`}>{postLike.postComment.id}</Link> : ''}
-                    </td>
+                    <td>{postLike.comment ? <Link to={`post-comment/${postLike.comment.id}`}>{postLike.comment.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${postLike.id}`} color="info" size="sm" data-cy="entityDetailsButton">

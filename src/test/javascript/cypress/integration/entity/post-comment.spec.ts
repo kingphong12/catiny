@@ -107,11 +107,11 @@ describe('PostComment e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('post');
 
-    cy.setFieldSelectToLastOfEntity('commentParent');
+    cy.setFieldSelectToLastOfEntity('parent');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

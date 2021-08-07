@@ -104,7 +104,7 @@ describe('VideoLiveStreamBuffer e2e test', () => {
 
     cy.setFieldImageAsBytesOfEntity('bufferData', 'integration-test.png', 'image/png');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('videoStream');
 

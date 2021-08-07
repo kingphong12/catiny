@@ -8,8 +8,8 @@ export default class FollowGroupUpdatePage {
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#follow-group-uuid'));
-  baseInfoSelect: ElementFinder = element(by.css('select#follow-group-baseInfo'));
-  followGroupDetailsSelect: ElementFinder = element(by.css('select#follow-group-followGroupDetails'));
+  infoSelect: ElementFinder = element(by.css('select#follow-group-info'));
+  groupDetailsSelect: ElementFinder = element(by.css('select#follow-group-groupDetails'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -23,36 +23,36 @@ export default class FollowGroupUpdatePage {
     return this.uuidInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
-  async followGroupDetailsSelectLastOption() {
-    await this.followGroupDetailsSelect.all(by.tagName('option')).last().click();
+  async groupDetailsSelectLastOption() {
+    await this.groupDetailsSelect.all(by.tagName('option')).last().click();
   }
 
-  async followGroupDetailsSelectOption(option) {
-    await this.followGroupDetailsSelect.sendKeys(option);
+  async groupDetailsSelectOption(option) {
+    await this.groupDetailsSelect.sendKeys(option);
   }
 
-  getFollowGroupDetailsSelect() {
-    return this.followGroupDetailsSelect;
+  getGroupDetailsSelect() {
+    return this.groupDetailsSelect;
   }
 
-  async getFollowGroupDetailsSelectedOption() {
-    return this.followGroupDetailsSelect.element(by.css('option:checked')).getText();
+  async getGroupDetailsSelectedOption() {
+    return this.groupDetailsSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -70,8 +70,8 @@ export default class FollowGroupUpdatePage {
   async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
-    await this.baseInfoSelectLastOption();
-    await this.followGroupDetailsSelectLastOption();
+    await this.infoSelectLastOption();
+    await this.groupDetailsSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

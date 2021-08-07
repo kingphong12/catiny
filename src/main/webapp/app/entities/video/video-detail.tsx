@@ -121,13 +121,13 @@ export const VideoDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{videoEntity.fileInfo ? videoEntity.fileInfo.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.video.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.video.info">Info</Translate>
           </dt>
-          <dd>{videoEntity.baseInfo ? videoEntity.baseInfo.id : ''}</dd>
+          <dd>{videoEntity.info ? videoEntity.info.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.video.videoOriginal">Video Original</Translate>
+            <Translate contentKey="catinyApp.video.original">Original</Translate>
           </dt>
-          <dd>{videoEntity.videoOriginal ? videoEntity.videoOriginal.id : ''}</dd>
+          <dd>{videoEntity.original ? videoEntity.original.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/video" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

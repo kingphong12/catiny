@@ -195,11 +195,10 @@ export const FollowPage = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.followPage.uuid">Uuid</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.followPage.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.followPage.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.followPage.followPageDetails">Follow Page Details</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.followPage.pageDetails">Page Details</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -213,13 +212,9 @@ export const FollowPage = (props: RouteComponentProps<{ url: string }>) => {
                       </Button>
                     </td>
                     <td>{followPage.uuid}</td>
-                    <td>{followPage.baseInfo ? <Link to={`base-info/${followPage.baseInfo.id}`}>{followPage.baseInfo.id}</Link> : ''}</td>
+                    <td>{followPage.info ? <Link to={`base-info/${followPage.info.id}`}>{followPage.info.id}</Link> : ''}</td>
                     <td>
-                      {followPage.followPageDetails ? (
-                        <Link to={`page-post/${followPage.followPageDetails.id}`}>{followPage.followPageDetails.id}</Link>
-                      ) : (
-                        ''
-                      )}
+                      {followPage.pageDetails ? <Link to={`page-post/${followPage.pageDetails.id}`}>{followPage.pageDetails.id}</Link> : ''}
                     </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">

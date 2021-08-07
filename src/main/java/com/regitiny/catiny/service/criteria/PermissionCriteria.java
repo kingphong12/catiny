@@ -1,11 +1,17 @@
 package com.regitiny.catiny.service.criteria;
 
 import com.regitiny.catiny.GeneratedByJHipster;
-import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.*;
-
 import java.io.Serializable;
 import java.util.Objects;
+import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
+import tech.jhipster.service.filter.DoubleFilter;
+import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.IntegerFilter;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.UUIDFilter;
 
 /**
  * Criteria class for the {@link com.regitiny.catiny.domain.Permission} entity. This class is used
@@ -17,8 +23,7 @@ import java.util.Objects;
  * fix type specific filters.
  */
 @GeneratedByJHipster
-public class PermissionCriteria implements Serializable, Criteria
-{
+public class PermissionCriteria implements Serializable, Criteria {
 
   private static final long serialVersionUID = 1L;
 
@@ -40,7 +45,7 @@ public class PermissionCriteria implements Serializable, Criteria
 
   private LongFilter baseInfoId;
 
-  private LongFilter masterUserId;
+  private LongFilter ownerId;
 
   public PermissionCriteria() {}
 
@@ -54,7 +59,7 @@ public class PermissionCriteria implements Serializable, Criteria
     this.add = other.add == null ? null : other.add.copy();
     this.level = other.level == null ? null : other.level.copy();
     this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.masterUserId = other.masterUserId == null ? null : other.masterUserId.copy();
+    this.ownerId = other.ownerId == null ? null : other.ownerId.copy();
   }
 
   @Override
@@ -67,46 +72,37 @@ public class PermissionCriteria implements Serializable, Criteria
   }
 
   public LongFilter id() {
-    if (id == null)
-    {
+    if (id == null) {
       id = new LongFilter();
     }
     return id;
   }
 
-  public void setId(LongFilter id)
-  {
+  public void setId(LongFilter id) {
     this.id = id;
   }
 
-  public UUIDFilter getUuid()
-  {
+  public UUIDFilter getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUIDFilter uuid)
-  {
-    this.uuid = uuid;
-  }
-
-  public UUIDFilter uuid()
-  {
-    if (uuid == null)
-    {
+  public UUIDFilter uuid() {
+    if (uuid == null) {
       uuid = new UUIDFilter();
     }
     return uuid;
   }
 
-  public BooleanFilter getRead()
-  {
+  public void setUuid(UUIDFilter uuid) {
+    this.uuid = uuid;
+  }
+
+  public BooleanFilter getRead() {
     return read;
   }
 
-  public BooleanFilter read()
-  {
-    if (read == null)
-    {
+  public BooleanFilter read() {
+    if (read == null) {
       read = new BooleanFilter();
     }
     return read;
@@ -206,19 +202,19 @@ public class PermissionCriteria implements Serializable, Criteria
     this.baseInfoId = baseInfoId;
   }
 
-  public LongFilter getMasterUserId() {
-    return masterUserId;
+  public LongFilter getOwnerId() {
+    return ownerId;
   }
 
-  public LongFilter masterUserId() {
-    if (masterUserId == null) {
-      masterUserId = new LongFilter();
+  public LongFilter ownerId() {
+    if (ownerId == null) {
+      ownerId = new LongFilter();
     }
-    return masterUserId;
+    return ownerId;
   }
 
-  public void setMasterUserId(LongFilter masterUserId) {
-    this.masterUserId = masterUserId;
+  public void setOwnerId(LongFilter ownerId) {
+    this.ownerId = ownerId;
   }
 
   @Override
@@ -232,37 +228,37 @@ public class PermissionCriteria implements Serializable, Criteria
     final PermissionCriteria that = (PermissionCriteria) o;
     return (
       Objects.equals(id, that.id) &&
-        Objects.equals(uuid, that.uuid) &&
-        Objects.equals(read, that.read) &&
-        Objects.equals(write, that.write) &&
-        Objects.equals(share, that.share) &&
-        Objects.equals(delete, that.delete) &&
-        Objects.equals(add, that.add) &&
-        Objects.equals(level, that.level) &&
-        Objects.equals(baseInfoId, that.baseInfoId) &&
-        Objects.equals(masterUserId, that.masterUserId)
+      Objects.equals(uuid, that.uuid) &&
+      Objects.equals(read, that.read) &&
+      Objects.equals(write, that.write) &&
+      Objects.equals(share, that.share) &&
+      Objects.equals(delete, that.delete) &&
+      Objects.equals(add, that.add) &&
+      Objects.equals(level, that.level) &&
+      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(ownerId, that.ownerId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, read, write, share, delete, add, level, baseInfoId, masterUserId);
+    return Objects.hash(id, uuid, read, write, share, delete, add, level, baseInfoId, ownerId);
   }
 
   // prettier-ignore
     @Override
     public String toString() {
         return "PermissionCriteria{" +
-          (id != null ? "id=" + id + ", " : "") +
-          (uuid != null ? "uuid=" + uuid + ", " : "") +
-          (read != null ? "read=" + read + ", " : "") +
-          (write != null ? "write=" + write + ", " : "") +
-          (share != null ? "share=" + share + ", " : "") +
-          (delete != null ? "delete=" + delete + ", " : "") +
-          (add != null ? "add=" + add + ", " : "") +
-          (level != null ? "level=" + level + ", " : "") +
-          (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-          (masterUserId != null ? "masterUserId=" + masterUserId + ", " : "") +
-          "}";
+            (id != null ? "id=" + id + ", " : "") +
+            (uuid != null ? "uuid=" + uuid + ", " : "") +
+            (read != null ? "read=" + read + ", " : "") +
+            (write != null ? "write=" + write + ", " : "") +
+            (share != null ? "share=" + share + ", " : "") +
+            (delete != null ? "delete=" + delete + ", " : "") +
+            (add != null ? "add=" + add + ", " : "") +
+            (level != null ? "level=" + level + ", " : "") +
+            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (ownerId != null ? "ownerId=" + ownerId + ", " : "") +
+            "}";
     }
 }

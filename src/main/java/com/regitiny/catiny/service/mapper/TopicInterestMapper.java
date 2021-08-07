@@ -12,7 +12,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, PostMapper.class, PagePostMapper.class, GroupPostMapper.class })
 @GeneratedByJHipster
 public interface TopicInterestMapper extends EntityMapper<TopicInterestDTO, TopicInterest> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   @Mapping(target = "posts", source = "posts", qualifiedByName = "idSet")
   @Mapping(target = "pagePosts", source = "pagePosts", qualifiedByName = "idSet")
   @Mapping(target = "groupPosts", source = "groupPosts", qualifiedByName = "idSet")

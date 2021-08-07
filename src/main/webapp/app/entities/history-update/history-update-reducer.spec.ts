@@ -3,31 +3,26 @@ import axios from 'axios';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
-import {parseHeaderForLinks} from 'react-jhipster';
+import { parseHeaderForLinks } from 'react-jhipster';
 
 import reducer, {
   createEntity,
   deleteEntity,
   getEntities,
+  searchEntities,
   getEntity,
+  updateEntity,
   partialUpdateEntity,
   reset,
-  searchEntities,
-  updateEntity,
 } from './history-update.reducer';
-import {EntityState} from 'app/shared/reducers/reducer.utils';
-import {defaultValue, IHistoryUpdate} from 'app/shared/model/history-update.model';
+import { EntityState } from 'app/shared/reducers/reducer.utils';
+import { IHistoryUpdate, defaultValue } from 'app/shared/model/history-update.model';
 
-describe('Entities reducer tests', () =>
-{
-  function isEmpty(element): boolean
-  {
-    if (element instanceof Array)
-    {
+describe('Entities reducer tests', () => {
+  function isEmpty(element): boolean {
+    if (element instanceof Array) {
       return element.length === 0;
-    }
-    else
-    {
+    } else {
       return Object.keys(element).length === 0;
     }
   }
@@ -45,8 +40,7 @@ describe('Entities reducer tests', () =>
     updateSuccess: false,
   };
 
-  function testInitialState(state)
-  {
+  function testInitialState(state) {
     expect(state).toMatchObject({
       loading: false,
       errorMessage: null,
@@ -57,28 +51,21 @@ describe('Entities reducer tests', () =>
     expect(isEmpty(state.entity));
   }
 
-  function testMultipleTypes(types, payload, testFunction, error?)
-  {
-    types.forEach(e =>
-    {
-      testFunction(reducer(undefined, {type: e, payload, error}));
+  function testMultipleTypes(types, payload, testFunction, error?) {
+    types.forEach(e => {
+      testFunction(reducer(undefined, { type: e, payload, error }));
     });
   }
 
-  describe('Common', () =>
-  {
-    it('should return the initial state', () =>
-    {
-      testInitialState(reducer(undefined, {type: ''}));
+  describe('Common', () => {
+    it('should return the initial state', () => {
+      testInitialState(reducer(undefined, { type: '' }));
     });
   });
 
-  describe('Requests', () =>
-  {
-    it('should set state to loading', () =>
-    {
-      testMultipleTypes([getEntities.pending.type, searchEntities.pending.type, getEntity.pending.type], {}, state =>
-      {
+  describe('Requests', () => {
+    it('should set state to loading', () => {
+      testMultipleTypes([getEntities.pending.type, searchEntities.pending.type, getEntity.pending.type], {}, state => {
         expect(state).toMatchObject({
           errorMessage: null,
           updateSuccess: false,
@@ -87,13 +74,11 @@ describe('Entities reducer tests', () =>
       });
     });
 
-    it('should set state to updating', () =>
-    {
+    it('should set state to updating', () => {
       testMultipleTypes(
         [createEntity.pending.type, updateEntity.pending.type, partialUpdateEntity.pending.type, deleteEntity.pending.type],
         {},
-        state =>
-        {
+        state => {
           expect(state).toMatchObject({
             errorMessage: null,
             updateSuccess: false,
@@ -103,18 +88,15 @@ describe('Entities reducer tests', () =>
       );
     });
 
-    it('should reset the state', () =>
-    {
-      expect(reducer({...initialState, loading: true}, reset())).toEqual({
+    it('should reset the state', () => {
+      expect(reducer({ ...initialState, loading: true }, reset())).toEqual({
         ...initialState,
       });
     });
   });
 
-  describe('Failures', () =>
-  {
-    it('should set a message in errorMessage', () =>
-    {
+  describe('Failures', () => {
+    it('should set a message in errorMessage', () => {
       testMultipleTypes(
         [
           getEntities.rejected.type,
@@ -126,8 +108,7 @@ describe('Entities reducer tests', () =>
           deleteEntity.rejected.type,
         ],
         'some message',
-        state =>
-        {
+        state => {
           expect(state).toMatchObject({
             errorMessage: 'error message',
             updateSuccess: false,
@@ -141,11 +122,9 @@ describe('Entities reducer tests', () =>
     });
   });
 
-  describe('Successes', () =>
-  {
-    it('should fetch all entities', () =>
-    {
-      const payload = {data: [{1: 'fake1'}, {2: 'fake2'}], headers: {'x-total-count': 123, link: ';'}};
+  describe('Successes', () => {
+    it('should fetch all entities', () => {
+      const payload = { data: [{ 1: 'fake1' }, { 2: 'fake2' }], headers: { 'x-total-count': 123, link: ';' } };
       const links = parseHeaderForLinks(payload.headers.link);
       expect(
         reducer(undefined, {
@@ -160,9 +139,8 @@ describe('Entities reducer tests', () =>
         entities: payload.data,
       });
     });
-    it('should search all entities', () =>
-    {
-      const payload = {data: [{1: 'fake1'}, {2: 'fake2'}], headers: {'x-total-count': 123, link: ';'}};
+    it('should search all entities', () => {
+      const payload = { data: [{ 1: 'fake1' }, { 2: 'fake2' }], headers: { 'x-total-count': 123, link: ';' } };
       const links = parseHeaderForLinks(payload.headers.link);
       expect(
         reducer(undefined, {
@@ -178,9 +156,8 @@ describe('Entities reducer tests', () =>
       });
     });
 
-    it('should fetch a single entity', () =>
-    {
-      const payload = {data: {1: 'fake1'}};
+    it('should fetch a single entity', () => {
+      const payload = { data: { 1: 'fake1' } };
       expect(
         reducer(undefined, {
           type: getEntity.fulfilled.type,
@@ -193,9 +170,8 @@ describe('Entities reducer tests', () =>
       });
     });
 
-    it('should create/update entity', () =>
-    {
-      const payload = {data: 'fake payload'};
+    it('should create/update entity', () => {
+      const payload = { data: 'fake payload' };
       expect(
         reducer(undefined, {
           type: createEntity.fulfilled.type,
@@ -209,8 +185,7 @@ describe('Entities reducer tests', () =>
       });
     });
 
-    it('should delete entity', () =>
-    {
+    it('should delete entity', () => {
       const payload = 'fake payload';
       const toTest = reducer(undefined, {
         type: deleteEntity.fulfilled.type,
@@ -223,13 +198,11 @@ describe('Entities reducer tests', () =>
     });
   });
 
-  describe('Actions', () =>
-  {
+  describe('Actions', () => {
     let store;
 
-    const resolvedObject = {value: 'whatever'};
-    beforeEach(() =>
-    {
+    const resolvedObject = { value: 'whatever' };
+    beforeEach(() => {
       const mockStore = configureStore([thunk]);
       store = mockStore({});
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
@@ -239,8 +212,7 @@ describe('Entities reducer tests', () =>
       axios.delete = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
-    it('dispatches FETCH_HISTORYUPDATE_LIST actions', async () =>
-    {
+    it('dispatches FETCH_HISTORYUPDATE_LIST actions', async () => {
       const expectedActions = [
         {
           type: getEntities.pending.type,
@@ -254,8 +226,7 @@ describe('Entities reducer tests', () =>
       expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
       expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
-    it('dispatches SEARCH_HISTORYUPDATES actions', async () =>
-    {
+    it('dispatches SEARCH_HISTORYUPDATES actions', async () => {
       const expectedActions = [
         {
           type: searchEntities.pending.type,
@@ -270,8 +241,7 @@ describe('Entities reducer tests', () =>
       expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
 
-    it('dispatches FETCH_HISTORYUPDATE actions', async () =>
-    {
+    it('dispatches FETCH_HISTORYUPDATE actions', async () => {
       const expectedActions = [
         {
           type: getEntity.pending.type,
@@ -286,8 +256,7 @@ describe('Entities reducer tests', () =>
       expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
 
-    it('dispatches CREATE_HISTORYUPDATE actions', async () =>
-    {
+    it('dispatches CREATE_HISTORYUPDATE actions', async () => {
       const expectedActions = [
         {
           type: createEntity.pending.type,
@@ -297,13 +266,12 @@ describe('Entities reducer tests', () =>
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(createEntity({id: 456}));
+      await store.dispatch(createEntity({ id: 456 }));
       expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
       expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
 
-    it('dispatches UPDATE_HISTORYUPDATE actions', async () =>
-    {
+    it('dispatches UPDATE_HISTORYUPDATE actions', async () => {
       const expectedActions = [
         {
           type: updateEntity.pending.type,
@@ -313,13 +281,12 @@ describe('Entities reducer tests', () =>
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(updateEntity({id: 456}));
+      await store.dispatch(updateEntity({ id: 456 }));
       expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
       expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
 
-    it('dispatches PARTIAL_UPDATE_HISTORYUPDATE actions', async () =>
-    {
+    it('dispatches PARTIAL_UPDATE_HISTORYUPDATE actions', async () => {
       const expectedActions = [
         {
           type: partialUpdateEntity.pending.type,
@@ -329,13 +296,12 @@ describe('Entities reducer tests', () =>
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(partialUpdateEntity({id: 123}));
+      await store.dispatch(partialUpdateEntity({ id: 123 }));
       expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
       expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
 
-    it('dispatches DELETE_HISTORYUPDATE actions', async () =>
-    {
+    it('dispatches DELETE_HISTORYUPDATE actions', async () => {
       const expectedActions = [
         {
           type: deleteEntity.pending.type,
@@ -350,8 +316,7 @@ describe('Entities reducer tests', () =>
       expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
 
-    it('dispatches RESET actions', async () =>
-    {
+    it('dispatches RESET actions', async () => {
       const expectedActions = [reset()];
       await store.dispatch(reset());
       expect(store.getActions()).toEqual(expectedActions);

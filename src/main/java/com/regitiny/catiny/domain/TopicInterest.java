@@ -2,16 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The TopicInterest entity.\n@why?             ->\n@use-to           -> Lưu những chủ đề mà người dùng quan tâm\n@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\n\n@describe         ->
@@ -45,49 +45,10 @@ public class TopicInterest implements Serializable {
   @Column(name = "content")
   private String content;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
   @ManyToMany
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -97,9 +58,7 @@ public class TopicInterest implements Serializable {
     inverseJoinColumns = @JoinColumn(name = "post_id")
   )
   @JsonIgnoreProperties(
-    value = {
-      "baseInfo", "comments", "likes", "postShareChildren", "groupPost", "pagePost", "postShareParent", "newsFeeds", "topicInterests",
-    },
+    value = { "info", "comments", "likes", "children", "group", "page", "parent", "newsFeeds", "topicInterests" },
     allowSetters = true
   )
   private Set<Post> posts = new HashSet<>();
@@ -111,7 +70,7 @@ public class TopicInterest implements Serializable {
     joinColumns = @JoinColumn(name = "topic_interest_id"),
     inverseJoinColumns = @JoinColumn(name = "page_post_id")
   )
-  @JsonIgnoreProperties(value = { "profile", "baseInfo", "myPostInPages", "topicInterests" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "profile", "info", "posts", "followeds", "topicInterests" }, allowSetters = true)
   private Set<PagePost> pagePosts = new HashSet<>();
 
   @ManyToMany
@@ -121,15 +80,12 @@ public class TopicInterest implements Serializable {
     joinColumns = @JoinColumn(name = "topic_interest_id"),
     inverseJoinColumns = @JoinColumn(name = "group_post_id")
   )
-  @JsonIgnoreProperties(value = { "profile", "baseInfo", "myPostInGroups", "topicInterests" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "profile", "info", "posts", "followeds", "topicInterests" }, allowSetters = true)
   private Set<GroupPost> groupPosts = new HashSet<>();
 
   @ManyToMany(mappedBy = "topicInterests")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(
-    value = { "user", "myRank", "baseInfo", "myBaseInfoCreateds", "myBaseInfoModifieds", "ownerOfs", "permissions", "topicInterests" },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "user", "myRank", "info", "permissions", "topicInterests", "owneds" }, allowSetters = true)
   private Set<MasterUser> masterUsers = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -185,17 +141,17 @@ public class TopicInterest implements Serializable {
     this.content = content;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public TopicInterest baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public TopicInterest info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public Set<Post> getPosts() {

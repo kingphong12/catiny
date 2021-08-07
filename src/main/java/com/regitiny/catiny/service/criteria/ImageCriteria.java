@@ -47,11 +47,11 @@ public class ImageCriteria implements Serializable, Criteria {
 
   private LongFilter fileInfoId;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
-  private LongFilter imageProcessedId;
+  private LongFilter processedId;
 
-  private LongFilter imageOriginalId;
+  private LongFilter originalId;
 
   private LongFilter albumId;
 
@@ -68,9 +68,9 @@ public class ImageCriteria implements Serializable, Criteria {
     this.priorityIndex = other.priorityIndex == null ? null : other.priorityIndex.copy();
     this.dataSize = other.dataSize == null ? null : other.dataSize.copy();
     this.fileInfoId = other.fileInfoId == null ? null : other.fileInfoId.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.imageProcessedId = other.imageProcessedId == null ? null : other.imageProcessedId.copy();
-    this.imageOriginalId = other.imageOriginalId == null ? null : other.imageOriginalId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.processedId = other.processedId == null ? null : other.processedId.copy();
+    this.originalId = other.originalId == null ? null : other.originalId.copy();
     this.albumId = other.albumId == null ? null : other.albumId.copy();
   }
 
@@ -229,49 +229,49 @@ public class ImageCriteria implements Serializable, Criteria {
     this.fileInfoId = fileInfoId;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
-  public LongFilter getImageProcessedId() {
-    return imageProcessedId;
+  public LongFilter getProcessedId() {
+    return processedId;
   }
 
-  public LongFilter imageProcessedId() {
-    if (imageProcessedId == null) {
-      imageProcessedId = new LongFilter();
+  public LongFilter processedId() {
+    if (processedId == null) {
+      processedId = new LongFilter();
     }
-    return imageProcessedId;
+    return processedId;
   }
 
-  public void setImageProcessedId(LongFilter imageProcessedId) {
-    this.imageProcessedId = imageProcessedId;
+  public void setProcessedId(LongFilter processedId) {
+    this.processedId = processedId;
   }
 
-  public LongFilter getImageOriginalId() {
-    return imageOriginalId;
+  public LongFilter getOriginalId() {
+    return originalId;
   }
 
-  public LongFilter imageOriginalId() {
-    if (imageOriginalId == null) {
-      imageOriginalId = new LongFilter();
+  public LongFilter originalId() {
+    if (originalId == null) {
+      originalId = new LongFilter();
     }
-    return imageOriginalId;
+    return originalId;
   }
 
-  public void setImageOriginalId(LongFilter imageOriginalId) {
-    this.imageOriginalId = imageOriginalId;
+  public void setOriginalId(LongFilter originalId) {
+    this.originalId = originalId;
   }
 
   public LongFilter getAlbumId() {
@@ -309,9 +309,9 @@ public class ImageCriteria implements Serializable, Criteria {
       Objects.equals(priorityIndex, that.priorityIndex) &&
       Objects.equals(dataSize, that.dataSize) &&
       Objects.equals(fileInfoId, that.fileInfoId) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(imageProcessedId, that.imageProcessedId) &&
-      Objects.equals(imageOriginalId, that.imageOriginalId) &&
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(processedId, that.processedId) &&
+      Objects.equals(originalId, that.originalId) &&
       Objects.equals(albumId, that.albumId)
     );
   }
@@ -329,9 +329,9 @@ public class ImageCriteria implements Serializable, Criteria {
       priorityIndex,
       dataSize,
       fileInfoId,
-      baseInfoId,
-      imageProcessedId,
-      imageOriginalId,
+      infoId,
+      processedId,
+      originalId,
       albumId
     );
   }
@@ -350,9 +350,9 @@ public class ImageCriteria implements Serializable, Criteria {
             (priorityIndex != null ? "priorityIndex=" + priorityIndex + ", " : "") +
             (dataSize != null ? "dataSize=" + dataSize + ", " : "") +
             (fileInfoId != null ? "fileInfoId=" + fileInfoId + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (imageProcessedId != null ? "imageProcessedId=" + imageProcessedId + ", " : "") +
-            (imageOriginalId != null ? "imageOriginalId=" + imageOriginalId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (processedId != null ? "processedId=" + processedId + ", " : "") +
+            (originalId != null ? "originalId=" + originalId + ", " : "") +
             (albumId != null ? "albumId=" + albumId + ", " : "") +
             "}";
     }

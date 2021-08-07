@@ -8,8 +8,8 @@ export default class FollowUserUpdatePage {
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#follow-user-uuid'));
-  baseInfoSelect: ElementFinder = element(by.css('select#follow-user-baseInfo'));
-  followUserDetailsSelect: ElementFinder = element(by.css('select#follow-user-followUserDetails'));
+  infoSelect: ElementFinder = element(by.css('select#follow-user-info'));
+  followSelect: ElementFinder = element(by.css('select#follow-user-follow'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -23,36 +23,36 @@ export default class FollowUserUpdatePage {
     return this.uuidInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
-  async followUserDetailsSelectLastOption() {
-    await this.followUserDetailsSelect.all(by.tagName('option')).last().click();
+  async followSelectLastOption() {
+    await this.followSelect.all(by.tagName('option')).last().click();
   }
 
-  async followUserDetailsSelectOption(option) {
-    await this.followUserDetailsSelect.sendKeys(option);
+  async followSelectOption(option) {
+    await this.followSelect.sendKeys(option);
   }
 
-  getFollowUserDetailsSelect() {
-    return this.followUserDetailsSelect;
+  getFollowSelect() {
+    return this.followSelect;
   }
 
-  async getFollowUserDetailsSelectedOption() {
-    return this.followUserDetailsSelect.element(by.css('option:checked')).getText();
+  async getFollowSelectedOption() {
+    return this.followSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -70,8 +70,8 @@ export default class FollowUserUpdatePage {
   async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
-    await this.baseInfoSelectLastOption();
-    await this.followUserDetailsSelectLastOption();
+    await this.infoSelectLastOption();
+    await this.followSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

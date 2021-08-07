@@ -39,13 +39,13 @@ export const FollowUserDetail = (props: RouteComponentProps<{ id: string }>) => 
           </dt>
           <dd>{followUserEntity.uuid}</dd>
           <dt>
-            <Translate contentKey="catinyApp.followUser.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.followUser.info">Info</Translate>
           </dt>
-          <dd>{followUserEntity.baseInfo ? followUserEntity.baseInfo.id : ''}</dd>
+          <dd>{followUserEntity.info ? followUserEntity.info.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.followUser.followUserDetails">Follow User Details</Translate>
+            <Translate contentKey="catinyApp.followUser.follow">Follow</Translate>
           </dt>
-          <dd>{followUserEntity.followUserDetails ? followUserEntity.followUserDetails.id : ''}</dd>
+          <dd>{followUserEntity.follow ? followUserEntity.follow.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/follow-user" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -111,11 +111,9 @@ public class FileInfoQueryService extends QueryService<FileInfo> {
       if (criteria.getDataSize() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getDataSize(), FileInfo_.dataSize));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(FileInfo_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(FileInfo_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
     }
     return specification;

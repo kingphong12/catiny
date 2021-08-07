@@ -9,7 +9,11 @@ import com.regitiny.catiny.repository.search.RankUserSearchRepository;
 import com.regitiny.catiny.service.RankUserService;
 import com.regitiny.catiny.service.dto.RankUserDTO;
 import com.regitiny.catiny.service.mapper.RankUserMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -82,6 +86,20 @@ public class RankUserServiceImpl implements RankUserService {
   public Page<RankUserDTO> findAll(Pageable pageable) {
     log.debug("Request to get all RankUsers");
     return rankUserRepository.findAll(pageable).map(rankUserMapper::toDto);
+  }
+
+  /**
+   *  Get all the rankUsers where Owner is {@code null}.
+   *  @return the list of entities.
+   */
+  @Transactional(readOnly = true)
+  public List<RankUserDTO> findAllWhereOwnerIsNull() {
+    log.debug("Request to get all rankUsers where Owner is null");
+    return StreamSupport
+      .stream(rankUserRepository.findAll().spliterator(), false)
+      .filter(rankUser -> rankUser.getOwner() == null)
+      .map(rankUserMapper::toDto)
+      .collect(Collectors.toCollection(LinkedList::new));
   }
 
   @Override

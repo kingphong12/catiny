@@ -11,6 +11,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class })
 @GeneratedByJHipster
 public interface NotificationMapper extends EntityMapper<NotificationDTO, Notification> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   NotificationDTO toDto(Notification s);
 }

@@ -13,9 +13,9 @@ export interface IImage {
   priorityIndex?: number | null;
   dataSize?: number | null;
   fileInfo?: IFileInfo | null;
-  baseInfo?: IBaseInfo | null;
-  imageProcesseds?: IImage[] | null;
-  imageOriginal?: IImage | null;
+  info?: IBaseInfo | null;
+  processeds?: IImage[] | null;
+  original?: IImage | null;
   albums?: IAlbum[] | null;
 }
 

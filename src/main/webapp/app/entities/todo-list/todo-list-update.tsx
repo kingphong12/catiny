@@ -45,7 +45,7 @@ export const TodoListUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...todoListEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -60,7 +60,7 @@ export const TodoListUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...todoListEntity,
-          baseInfoId: todoListEntity?.baseInfo?.id,
+          infoId: todoListEntity?.info?.id,
         };
 
   return (
@@ -109,13 +109,7 @@ export const TodoListUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 data-cy="content"
                 type="textarea"
               />
-              <ValidatedField
-                id="todo-list-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.todoList.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="todo-list-info" name="infoId" data-cy="info" label={translate('catinyApp.todoList.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

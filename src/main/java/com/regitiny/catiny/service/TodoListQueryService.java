@@ -102,11 +102,9 @@ public class TodoListQueryService extends QueryService<TodoList> {
       if (criteria.getTitle() != null) {
         specification = specification.and(buildStringSpecification(criteria.getTitle(), TodoList_.title));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(TodoList_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(TodoList_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
     }
     return specification;

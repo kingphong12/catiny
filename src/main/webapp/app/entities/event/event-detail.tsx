@@ -129,9 +129,9 @@ export const EventDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{eventEntity.videoCollection}</dd>
           <dt>
-            <Translate contentKey="catinyApp.event.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.event.info">Info</Translate>
           </dt>
-          <dd>{eventEntity.baseInfo ? eventEntity.baseInfo.id : ''}</dd>
+          <dd>{eventEntity.info ? eventEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/event" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -31,7 +31,7 @@ public class PageProfileCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
   private LongFilter pageId;
 
@@ -40,7 +40,7 @@ public class PageProfileCriteria implements Serializable, Criteria {
   public PageProfileCriteria(PageProfileCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.pageId = other.pageId == null ? null : other.pageId.copy();
   }
 
@@ -79,19 +79,19 @@ public class PageProfileCriteria implements Serializable, Criteria {
     this.uuid = uuid;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
   public LongFilter getPageId() {
@@ -121,14 +121,14 @@ public class PageProfileCriteria implements Serializable, Criteria {
     return (
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(infoId, that.infoId) &&
       Objects.equals(pageId, that.pageId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, baseInfoId, pageId);
+    return Objects.hash(id, uuid, infoId, pageId);
   }
 
   // prettier-ignore
@@ -137,7 +137,7 @@ public class PageProfileCriteria implements Serializable, Criteria {
         return "PageProfileCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
             (pageId != null ? "pageId=" + pageId + ", " : "") +
             "}";
     }

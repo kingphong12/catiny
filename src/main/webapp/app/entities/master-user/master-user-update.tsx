@@ -60,7 +60,7 @@ export const MasterUserUpdate = (props: RouteComponentProps<{ id: string }>) => 
       topicInterests: mapIdList(values.topicInterests),
       user: users.find(it => it.id.toString() === values.userId.toString()),
       myRank: rankUsers.find(it => it.id.toString() === values.myRankId.toString()),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -77,7 +77,7 @@ export const MasterUserUpdate = (props: RouteComponentProps<{ id: string }>) => 
           ...masterUserEntity,
           userId: masterUserEntity?.user?.id,
           myRankId: masterUserEntity?.myRank?.id,
-          baseInfoId: masterUserEntity?.baseInfo?.id,
+          infoId: masterUserEntity?.info?.id,
           topicInterests: masterUserEntity?.topicInterests?.map(e => e.id.toString()),
         };
 
@@ -195,10 +195,10 @@ export const MasterUserUpdate = (props: RouteComponentProps<{ id: string }>) => 
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="master-user-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.masterUser.baseInfo')}
+                id="master-user-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.masterUser.info')}
                 type="select"
               >
                 <option value="" key="0" />

@@ -233,7 +233,7 @@ export const UserProfile = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.userProfile.featured">Featured</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.userProfile.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.userProfile.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -259,9 +259,7 @@ export const UserProfile = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{userProfile.lifeEvents}</td>
                     <td>{userProfile.hobbies}</td>
                     <td>{userProfile.featured}</td>
-                    <td>
-                      {userProfile.baseInfo ? <Link to={`base-info/${userProfile.baseInfo.id}`}>{userProfile.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{userProfile.info ? <Link to={`base-info/${userProfile.info.id}`}>{userProfile.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${userProfile.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -102,7 +102,7 @@ describe('RankGroup e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('f186b8af-c097-4299-8930-2b15ac68e030'));
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

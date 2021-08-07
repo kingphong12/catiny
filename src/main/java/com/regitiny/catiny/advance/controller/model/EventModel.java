@@ -64,7 +64,7 @@ public class EventModel implements Serializable
   @Lob
   private String videoCollection;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -116,7 +116,7 @@ public class EventModel implements Serializable
     @Lob
     private String videoCollection;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -169,6 +169,6 @@ public class EventModel implements Serializable
     @Lob
     private String videoCollection;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

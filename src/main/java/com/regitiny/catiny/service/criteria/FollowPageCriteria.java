@@ -31,17 +31,17 @@ public class FollowPageCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
-  private LongFilter followPageDetailsId;
+  private LongFilter pageDetailsId;
 
   public FollowPageCriteria() {}
 
   public FollowPageCriteria(FollowPageCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.followPageDetailsId = other.followPageDetailsId == null ? null : other.followPageDetailsId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.pageDetailsId = other.pageDetailsId == null ? null : other.pageDetailsId.copy();
   }
 
   @Override
@@ -79,34 +79,34 @@ public class FollowPageCriteria implements Serializable, Criteria {
     this.uuid = uuid;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
-  public LongFilter getFollowPageDetailsId() {
-    return followPageDetailsId;
+  public LongFilter getPageDetailsId() {
+    return pageDetailsId;
   }
 
-  public LongFilter followPageDetailsId() {
-    if (followPageDetailsId == null) {
-      followPageDetailsId = new LongFilter();
+  public LongFilter pageDetailsId() {
+    if (pageDetailsId == null) {
+      pageDetailsId = new LongFilter();
     }
-    return followPageDetailsId;
+    return pageDetailsId;
   }
 
-  public void setFollowPageDetailsId(LongFilter followPageDetailsId) {
-    this.followPageDetailsId = followPageDetailsId;
+  public void setPageDetailsId(LongFilter pageDetailsId) {
+    this.pageDetailsId = pageDetailsId;
   }
 
   @Override
@@ -121,14 +121,14 @@ public class FollowPageCriteria implements Serializable, Criteria {
     return (
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(followPageDetailsId, that.followPageDetailsId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(pageDetailsId, that.pageDetailsId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, baseInfoId, followPageDetailsId);
+    return Objects.hash(id, uuid, infoId, pageDetailsId);
   }
 
   // prettier-ignore
@@ -137,8 +137,8 @@ public class FollowPageCriteria implements Serializable, Criteria {
         return "FollowPageCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (followPageDetailsId != null ? "followPageDetailsId=" + followPageDetailsId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (pageDetailsId != null ? "pageDetailsId=" + pageDetailsId + ", " : "") +
             "}";
     }
 }

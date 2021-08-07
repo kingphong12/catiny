@@ -39,9 +39,9 @@ export const PageProfileDetail = (props: RouteComponentProps<{ id: string }>) =>
           </dt>
           <dd>{pageProfileEntity.uuid}</dd>
           <dt>
-            <Translate contentKey="catinyApp.pageProfile.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.pageProfile.info">Info</Translate>
           </dt>
-          <dd>{pageProfileEntity.baseInfo ? pageProfileEntity.baseInfo.id : ''}</dd>
+          <dd>{pageProfileEntity.info ? pageProfileEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/page-profile" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

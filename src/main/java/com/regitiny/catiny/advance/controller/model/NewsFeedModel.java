@@ -30,7 +30,7 @@ public class NewsFeedModel implements Serializable
   @ApiModelProperty("priorityIndex  : chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao)")
   private Long priorityIndex;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private PostDTO post;
 
@@ -52,7 +52,7 @@ public class NewsFeedModel implements Serializable
     @ApiModelProperty("priorityIndex  : chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao)")
     private Long priorityIndex;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private PostDTO post;
   }
@@ -75,7 +75,7 @@ public class NewsFeedModel implements Serializable
     @ApiModelProperty("priorityIndex  : chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao)")
     private Long priorityIndex;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private PostDTO post;
   }

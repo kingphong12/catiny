@@ -47,7 +47,7 @@ export const AccountStatusUpdate = (props: RouteComponentProps<{ id: string }>) 
     const entity = {
       ...accountStatusEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -66,7 +66,7 @@ export const AccountStatusUpdate = (props: RouteComponentProps<{ id: string }>) 
           ...accountStatusEntity,
           accountStatus: 'ONLINE',
           lastVisited: convertDateTimeFromServer(accountStatusEntity.lastVisited),
-          baseInfoId: accountStatusEntity?.baseInfo?.id,
+          infoId: accountStatusEntity?.info?.id,
         };
 
   return (
@@ -144,10 +144,10 @@ export const AccountStatusUpdate = (props: RouteComponentProps<{ id: string }>) 
                 <Translate contentKey="catinyApp.accountStatus.help.statusComment" />
               </UncontrolledTooltip>
               <ValidatedField
-                id="account-status-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.accountStatus.baseInfo')}
+                id="account-status-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.accountStatus.info')}
                 type="select"
               >
                 <option value="" key="0" />

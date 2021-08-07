@@ -15,13 +15,13 @@ export interface IPost {
   postType?: PostType | null;
   content?: string | null;
   searchField?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   comments?: IPostComment[] | null;
   likes?: IPostLike[] | null;
-  postShareChildren?: IPost[] | null;
-  groupPost?: IGroupPost | null;
-  pagePost?: IPagePost | null;
-  postShareParent?: IPost | null;
+  children?: IPost[] | null;
+  group?: IGroupPost | null;
+  page?: IPagePost | null;
+  parent?: IPost | null;
   newsFeeds?: INewsFeed[] | null;
   topicInterests?: ITopicInterest[] | null;
 }

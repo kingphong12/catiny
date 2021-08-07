@@ -268,40 +268,40 @@ class FollowPageResourceIT {
 
   @Test
   @Transactional
-  void getAllFollowPagesByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllFollowPagesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     followPageRepository.saveAndFlush(followPage);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    followPage.setBaseInfo(baseInfo);
+    followPage.setInfo(info);
     followPageRepository.saveAndFlush(followPage);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the followPageList where baseInfo equals to baseInfoId
-    defaultFollowPageShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the followPageList where info equals to infoId
+    defaultFollowPageShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the followPageList where baseInfo equals to (baseInfoId + 1)
-    defaultFollowPageShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the followPageList where info equals to (infoId + 1)
+    defaultFollowPageShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllFollowPagesByFollowPageDetailsIsEqualToSomething() throws Exception {
+  void getAllFollowPagesByPageDetailsIsEqualToSomething() throws Exception {
     // Initialize the database
     followPageRepository.saveAndFlush(followPage);
-    PagePost followPageDetails = PagePostResourceIT.createEntity(em);
-    em.persist(followPageDetails);
+    PagePost pageDetails = PagePostResourceIT.createEntity(em);
+    em.persist(pageDetails);
     em.flush();
-    followPage.setFollowPageDetails(followPageDetails);
+    followPage.setPageDetails(pageDetails);
     followPageRepository.saveAndFlush(followPage);
-    Long followPageDetailsId = followPageDetails.getId();
+    Long pageDetailsId = pageDetails.getId();
 
-    // Get all the followPageList where followPageDetails equals to followPageDetailsId
-    defaultFollowPageShouldBeFound("followPageDetailsId.equals=" + followPageDetailsId);
+    // Get all the followPageList where pageDetails equals to pageDetailsId
+    defaultFollowPageShouldBeFound("pageDetailsId.equals=" + pageDetailsId);
 
-    // Get all the followPageList where followPageDetails equals to (followPageDetailsId + 1)
-    defaultFollowPageShouldNotBeFound("followPageDetailsId.equals=" + (followPageDetailsId + 1));
+    // Get all the followPageList where pageDetails equals to (pageDetailsId + 1)
+    defaultFollowPageShouldNotBeFound("pageDetailsId.equals=" + (pageDetailsId + 1));
   }
 
   /**

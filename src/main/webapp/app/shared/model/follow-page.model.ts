@@ -4,8 +4,8 @@ import { IPagePost } from 'app/shared/model/page-post.model';
 export interface IFollowPage {
   id?: number;
   uuid?: string;
-  baseInfo?: IBaseInfo | null;
-  followPageDetails?: IPagePost | null;
+  info?: IBaseInfo | null;
+  pageDetails?: IPagePost | null;
 }
 
 export const defaultValue: Readonly<IFollowPage> = {};

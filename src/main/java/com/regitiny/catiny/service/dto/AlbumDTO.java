@@ -52,7 +52,7 @@ public class AlbumDTO implements Serializable {
   @Lob
   private String avatar;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private Set<ImageDTO> images = new HashSet<>();
 
@@ -96,12 +96,12 @@ public class AlbumDTO implements Serializable {
     this.avatar = avatar;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public Set<ImageDTO> getImages() {
@@ -142,7 +142,7 @@ public class AlbumDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", note='" + getNote() + "'" +
             ", avatar='" + getAvatar() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", images=" + getImages() +
             "}";
     }

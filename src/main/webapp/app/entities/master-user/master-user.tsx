@@ -213,7 +213,7 @@ export const MasterUser = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.masterUser.myRank">My Rank</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.masterUser.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.masterUser.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -233,7 +233,7 @@ export const MasterUser = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{masterUser.quickInfo}</td>
                     <td>{masterUser.user ? masterUser.user.id : ''}</td>
                     <td>{masterUser.myRank ? <Link to={`rank-user/${masterUser.myRank.id}`}>{masterUser.myRank.id}</Link> : ''}</td>
-                    <td>{masterUser.baseInfo ? <Link to={`base-info/${masterUser.baseInfo.id}`}>{masterUser.baseInfo.id}</Link> : ''}</td>
+                    <td>{masterUser.info ? <Link to={`base-info/${masterUser.info.id}`}>{masterUser.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${masterUser.id}`} color="info" size="sm" data-cy="entityDetailsButton">

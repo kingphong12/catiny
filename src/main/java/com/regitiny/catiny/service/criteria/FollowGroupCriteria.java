@@ -31,17 +31,17 @@ public class FollowGroupCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
-  private LongFilter baseInfoId;
+  private LongFilter infoId;
 
-  private LongFilter followGroupDetailsId;
+  private LongFilter groupDetailsId;
 
   public FollowGroupCriteria() {}
 
   public FollowGroupCriteria(FollowGroupCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
-    this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
-    this.followGroupDetailsId = other.followGroupDetailsId == null ? null : other.followGroupDetailsId.copy();
+    this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.groupDetailsId = other.groupDetailsId == null ? null : other.groupDetailsId.copy();
   }
 
   @Override
@@ -79,34 +79,34 @@ public class FollowGroupCriteria implements Serializable, Criteria {
     this.uuid = uuid;
   }
 
-  public LongFilter getBaseInfoId() {
-    return baseInfoId;
+  public LongFilter getInfoId() {
+    return infoId;
   }
 
-  public LongFilter baseInfoId() {
-    if (baseInfoId == null) {
-      baseInfoId = new LongFilter();
+  public LongFilter infoId() {
+    if (infoId == null) {
+      infoId = new LongFilter();
     }
-    return baseInfoId;
+    return infoId;
   }
 
-  public void setBaseInfoId(LongFilter baseInfoId) {
-    this.baseInfoId = baseInfoId;
+  public void setInfoId(LongFilter infoId) {
+    this.infoId = infoId;
   }
 
-  public LongFilter getFollowGroupDetailsId() {
-    return followGroupDetailsId;
+  public LongFilter getGroupDetailsId() {
+    return groupDetailsId;
   }
 
-  public LongFilter followGroupDetailsId() {
-    if (followGroupDetailsId == null) {
-      followGroupDetailsId = new LongFilter();
+  public LongFilter groupDetailsId() {
+    if (groupDetailsId == null) {
+      groupDetailsId = new LongFilter();
     }
-    return followGroupDetailsId;
+    return groupDetailsId;
   }
 
-  public void setFollowGroupDetailsId(LongFilter followGroupDetailsId) {
-    this.followGroupDetailsId = followGroupDetailsId;
+  public void setGroupDetailsId(LongFilter groupDetailsId) {
+    this.groupDetailsId = groupDetailsId;
   }
 
   @Override
@@ -121,14 +121,14 @@ public class FollowGroupCriteria implements Serializable, Criteria {
     return (
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
-      Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(followGroupDetailsId, that.followGroupDetailsId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(groupDetailsId, that.groupDetailsId)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, baseInfoId, followGroupDetailsId);
+    return Objects.hash(id, uuid, infoId, groupDetailsId);
   }
 
   // prettier-ignore
@@ -137,8 +137,8 @@ public class FollowGroupCriteria implements Serializable, Criteria {
         return "FollowGroupCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
-            (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
-            (followGroupDetailsId != null ? "followGroupDetailsId=" + followGroupDetailsId + ", " : "") +
+            (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (groupDetailsId != null ? "groupDetailsId=" + groupDetailsId + ", " : "") +
             "}";
     }
 }

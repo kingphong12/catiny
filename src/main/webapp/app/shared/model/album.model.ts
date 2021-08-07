@@ -7,7 +7,7 @@ export interface IAlbum {
   name?: string;
   note?: string | null;
   avatar?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
   images?: IImage[] | null;
 }
 

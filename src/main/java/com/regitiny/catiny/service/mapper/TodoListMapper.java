@@ -11,6 +11,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class })
 @GeneratedByJHipster
 public interface TodoListMapper extends EntityMapper<TodoListDTO, TodoList> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
   TodoListDTO toDto(TodoList s);
 }

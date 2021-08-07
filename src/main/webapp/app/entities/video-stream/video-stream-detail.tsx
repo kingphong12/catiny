@@ -43,9 +43,9 @@ export const VideoStreamDetail = (props: RouteComponentProps<{ id: string }>) =>
           </dt>
           <dd>{videoStreamEntity.video ? videoStreamEntity.video.id : ''}</dd>
           <dt>
-            <Translate contentKey="catinyApp.videoStream.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.videoStream.info">Info</Translate>
           </dt>
-          <dd>{videoStreamEntity.baseInfo ? videoStreamEntity.baseInfo.id : ''}</dd>
+          <dd>{videoStreamEntity.info ? videoStreamEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/video-stream" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

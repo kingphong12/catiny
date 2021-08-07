@@ -28,7 +28,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "notification",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     }
   ],

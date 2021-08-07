@@ -124,9 +124,9 @@ describe('MessageContent e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
-    cy.setFieldSelectToLastOfEntity('messageGroup');
+    cy.setFieldSelectToLastOfEntity('group');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

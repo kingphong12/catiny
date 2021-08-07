@@ -1281,40 +1281,40 @@ class VideoResourceIT {
 
   @Test
   @Transactional
-  void getAllVideosByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllVideosByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    video.setBaseInfo(baseInfo);
+    video.setInfo(info);
     videoRepository.saveAndFlush(video);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the videoList where baseInfo equals to baseInfoId
-    defaultVideoShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the videoList where info equals to infoId
+    defaultVideoShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the videoList where baseInfo equals to (baseInfoId + 1)
-    defaultVideoShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the videoList where info equals to (infoId + 1)
+    defaultVideoShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllVideosByVideoProcessedIsEqualToSomething() throws Exception {
+  void getAllVideosByProcessedIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    Video videoProcessed = VideoResourceIT.createEntity(em);
-    em.persist(videoProcessed);
+    Video processed = VideoResourceIT.createEntity(em);
+    em.persist(processed);
     em.flush();
-    video.addVideoProcessed(videoProcessed);
+    video.addProcessed(processed);
     videoRepository.saveAndFlush(video);
-    Long videoProcessedId = videoProcessed.getId();
+    Long processedId = processed.getId();
 
-    // Get all the videoList where videoProcessed equals to videoProcessedId
-    defaultVideoShouldBeFound("videoProcessedId.equals=" + videoProcessedId);
+    // Get all the videoList where processed equals to processedId
+    defaultVideoShouldBeFound("processedId.equals=" + processedId);
 
-    // Get all the videoList where videoProcessed equals to (videoProcessedId + 1)
-    defaultVideoShouldNotBeFound("videoProcessedId.equals=" + (videoProcessedId + 1));
+    // Get all the videoList where processed equals to (processedId + 1)
+    defaultVideoShouldNotBeFound("processedId.equals=" + (processedId + 1));
   }
 
   @Test
@@ -1339,21 +1339,21 @@ class VideoResourceIT {
 
   @Test
   @Transactional
-  void getAllVideosByVideoOriginalIsEqualToSomething() throws Exception {
+  void getAllVideosByOriginalIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    Video videoOriginal = VideoResourceIT.createEntity(em);
-    em.persist(videoOriginal);
+    Video original = VideoResourceIT.createEntity(em);
+    em.persist(original);
     em.flush();
-    video.setVideoOriginal(videoOriginal);
+    video.setOriginal(original);
     videoRepository.saveAndFlush(video);
-    Long videoOriginalId = videoOriginal.getId();
+    Long originalId = original.getId();
 
-    // Get all the videoList where videoOriginal equals to videoOriginalId
-    defaultVideoShouldBeFound("videoOriginalId.equals=" + videoOriginalId);
+    // Get all the videoList where original equals to originalId
+    defaultVideoShouldBeFound("originalId.equals=" + originalId);
 
-    // Get all the videoList where videoOriginal equals to (videoOriginalId + 1)
-    defaultVideoShouldNotBeFound("videoOriginalId.equals=" + (videoOriginalId + 1));
+    // Get all the videoList where original equals to (originalId + 1)
+    defaultVideoShouldNotBeFound("originalId.equals=" + (originalId + 1));
   }
 
   /**

@@ -20,8 +20,8 @@
             <column name="video_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_video_stream__video_id" />
             </column>
-            <column name="base_info_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_video_stream__base_info_id" />
+            <column name="info_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_video_stream__info_id" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

@@ -62,7 +62,7 @@ public class DeviceStatusDTO implements Serializable {
   @ApiModelProperty(value = "statusComment  : người dùng comment lại trạng thái nếu muốn")
   private String statusComment;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private AccountStatusDTO accountStatus;
 
@@ -122,12 +122,12 @@ public class DeviceStatusDTO implements Serializable {
     this.statusComment = statusComment;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public AccountStatusDTO getAccountStatus() {
@@ -170,7 +170,7 @@ public class DeviceStatusDTO implements Serializable {
             ", deviceStatus='" + getDeviceStatus() + "'" +
             ", lastVisited='" + getLastVisited() + "'" +
             ", statusComment='" + getStatusComment() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", accountStatus=" + getAccountStatus() +
             "}";
     }

@@ -12,7 +12,7 @@ export default class FileInfoUpdatePage {
   typeFileInput: ElementFinder = element(by.css('input#file-info-typeFile'));
   pathInput: ElementFinder = element(by.css('input#file-info-path'));
   dataSizeInput: ElementFinder = element(by.css('input#file-info-dataSize'));
-  baseInfoSelect: ElementFinder = element(by.css('select#file-info-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#file-info-info'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -58,20 +58,20 @@ export default class FileInfoUpdatePage {
     return this.dataSizeInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -97,7 +97,7 @@ export default class FileInfoUpdatePage {
     await this.setPathInput('path');
     await waitUntilDisplayed(this.saveButton);
     await this.setDataSizeInput('5');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

@@ -11,7 +11,7 @@ export default class AlbumUpdatePage {
   nameInput: ElementFinder = element(by.css('input#album-name'));
   noteInput: ElementFinder = element(by.css('input#album-note'));
   avatarInput: ElementFinder = element(by.css('textarea#album-avatar'));
-  baseInfoSelect: ElementFinder = element(by.css('select#album-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#album-info'));
   imageSelect: ElementFinder = element(by.css('select#album-image'));
 
   getPageTitle() {
@@ -50,20 +50,20 @@ export default class AlbumUpdatePage {
     return this.avatarInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async imageSelectLastOption() {
@@ -103,7 +103,7 @@ export default class AlbumUpdatePage {
     await this.setNoteInput('note');
     await waitUntilDisplayed(this.saveButton);
     await this.setAvatarInput('avatar');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     // this.imageSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);

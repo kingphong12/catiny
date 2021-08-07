@@ -6,6 +6,7 @@ import com.regitiny.catiny.advance.service.impl.MasterUserAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.PermissionAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
 import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.domain.enumeration.ProcessStatus;
 import com.regitiny.catiny.util.MasterUserUtil;
@@ -25,6 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -33,14 +35,15 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
 /**
  * Aspect for AdvanceRepository.
  */
 @Aspect
-@Component
 @Order(2)
-@RequiredArgsConstructor
+@Component
 @Transactional
+@RequiredArgsConstructor
 public class AdvanceRepositoryAspectService
 {
   private final Environment env;
@@ -49,55 +52,6 @@ public class AdvanceRepositoryAspectService
   private final PermissionAdvanceServiceImpl permissionAdvanceService;
   private final MasterUserAdvanceServiceImpl masterUserAdvanceService;
   private final HistoryUpdateAdvanceServiceImpl historyUpdateAdvanceService;
-
-  /**
-   * Pointcut that matches all repositories, services and Web REST endpoints.
-   */
-  @Pointcut(
-    " (execution(* com.regitiny.catiny.advance.repository.*.save(..)) ||" +
-//      " execution(* com.regitiny.catiny.repository.*.save(..))) ||" +
-      " execution(* com.regitiny.catiny.advance.repository.base*.save(..))) " +
-      " && !execution(* com.regitiny.catiny.repository.UserRepository.save(..))"
-  )
-  public void repositorySavePointcut()
-  {
-    // Method is empty as this is just a Pointcut, the implementations are in the advices.
-  }
-
-  /**
-   * use to fix bug Jhipster
-   * sau khi save thì dữ liệu hibernate lồng nhau bởi các relationship
-   * với elasticsearch thì dữ liệu sẽ trở thành các jsonObject lồng nhau vô tận
-   * nên tạm thời sử dụng method này dùng MapStruct để : Entity -> EntityDTO -> Entity
-   *
-   * @param joinPoint join point for advice.
-   * @return result.
-   * @throws Throwable throws {@link IllegalArgumentException}.
-   */
-  @Around("repositorySavePointcut() ")
-  public Object around(ProceedingJoinPoint joinPoint) throws Throwable
-  {
-    Logger log = logger(joinPoint);
-
-    log.debug("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
-    try
-    {
-      var args = joinPoint.getArgs();
-      if (args.length != 1)
-        return joinPoint.proceed();
-      var entity = args[0];
-      var methodGetUuid = entity.getClass().getMethod("getUuid");
-      var uuid = methodGetUuid.invoke(entity);
-      if (Objects.isNull(uuid))
-        entity.getClass().getMethod("setUuid", UUID.class).invoke(entity, UUID.randomUUID());
-      return joinPoint.proceed(new Object[]{entity});
-    }
-    catch (IllegalArgumentException e)
-    {
-      log.error("Illegal argument: {} in {}()", Arrays.toString(joinPoint.getArgs()), joinPoint.getSignature().getName());
-      return joinPoint.proceed();
-    }
-  }
 
   /**
    * Retrieves the {@link Logger} associated to the given {@link JoinPoint}.
@@ -146,66 +100,59 @@ public class AdvanceRepositoryAspectService
       var entity = joinPoint.getArgs()[0];
       log.debug("entity original. entity : {}", entity);
 
-      var advanceRepositoryBean = applicationContext.getBean(advanceRepositoryName.get(0));
+      var advanceRepositoryBean = joinPoint.getTarget();// applicationContext.getBean(advanceRepositoryName.get(0));
       var advanceMapperBean = (EntityAdvanceMapper) applicationContext.getBean(advanceRepositoryName.get(0).replace("AdvanceRepository", "AdvanceMapperImpl"));
-
       var advanceRepositoryBeanInvoker = new ReflectUtil(advanceRepositoryBean);
-      try
-      {
-        ReflectUtil.methodInvoke(entity, "getId")
-          .map(id -> advanceRepositoryBeanInvoker.methodInvoke("findById", new Class[]{Object.class}, id).get())
-          .orElse(ReflectUtil.methodInvoke(entity, "getUuid")
-            .map(uuid -> advanceRepositoryBeanInvoker.methodInvoke("findOneByUuid", uuid)))
-          .peek(entityExist -> log.debug("entity really exist in database -> update entity . entity details : {}", entityExist))
+
+      ReflectUtil.methodInvoke(entity, "getId")
+        .map(id -> advanceRepositoryBeanInvoker.methodInvoke("findById", new Class[]{Object.class}, id).get())
+        .orElse(ReflectUtil.methodInvoke(entity, "getUuid")
+          .map(uuid -> advanceRepositoryBeanInvoker.methodInvoke("findOneByUuid", uuid).getOrNull()))
+        .peek(entityExist -> log.debug("entity really exist in database -> update entity . entity details : {}", entityExist))
 //        update
-          .map(entityExist -> ReflectUtil.methodInvoke(entityExist, "getBaseInfo")
-            .map(o -> (BaseInfo) o)
-            //kiểm tra quyền ghi
-            .filter(baseInfo -> Option.of(baseInfo.getOwner().getId().equals(MasterUserUtil.getCurrentMasterUser().getOrNull().getId())).orElse(
-              permissionAdvanceService.publicLocal().advanceRepository
-                .findOneByBaseInfoAndMasterUser(baseInfo, MasterUserUtil.getCurrentMasterUser().getOrNull())
-                .orElse(permissionAdvanceService.publicLocal().advanceRepository
-                  .findOneByBaseInfoAndMasterUser(baseInfo, MasterUserUtil.anonymousMasterUser().getOrNull()))
-                .map(Permission::getWrite)).getOrElse(false))
-            .peek(baseInfo -> historyUpdateAdvanceService.updateChangeLog(baseInfo, new JSONObject()
-              .put("details-prev", advanceMapperBean.cleanEntity(entityExist))
-              .put("base-info-prev", baseInfoAdvanceService.publicLocal().advanceMapper.cleanEntity(baseInfo))
-              .toString()))
-            .map(baseInfo -> baseInfoAdvanceService.publicLocal().advanceRepository.save(baseInfo
-              .modifiedDate(Instant.now())
-              .modifiedBy(MasterUserUtil.getCurrentMasterUser().get())
-              .processStatus(ProcessStatus.PROCESSING)))
-            .map(baseInfo ->
-            {
-              if (ReflectUtil.methodInvoke(entity, "getBaseInfo").isEmpty())
-                return ReflectUtil.methodInvoke(entity, "setBaseInfo", baseInfo).get();
-              return entity;
-            })
-            .getOrElse(() ->
-            {
-              log.debug("không tìm thấy base info hoặc không có quyền truy cập ");
-              return null;
-            }))
+        .map(entityExist -> ReflectUtil.methodInvoke(entityExist, "getInfo")
+          .map(o -> (BaseInfo) o)
+          //kiểm tra quyền ghi
+          .filter(baseInfo -> Option.of(baseInfo.getOwner())
+            .map(MasterUser::getId)
+            .map(id -> id.equals(MasterUserUtil.getCurrentMasterUser().map(MasterUser::getId).get()))
+            .orElse(permissionAdvanceService.publicLocal().advanceRepository
+              .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtil.getCurrentMasterUser().getOrElse(MasterUserUtil.anonymousMasterUser().get()))
+              .map(Permission::getWrite))
+            .getOrElse(false))
+          .peek(baseInfo -> historyUpdateAdvanceService.updateChangeLog(baseInfo, new JSONObject()
+            .put("details-prev", advanceMapperBean.cleanEntity(entityExist))
+            .put("base-info-prev", baseInfoAdvanceService.publicLocal().advanceMapper.cleanEntity(baseInfo))
+            .toString()))
+          .map(baseInfo -> baseInfoAdvanceService.publicLocal().advanceRepository.save(baseInfo
+            .modifiedDate(Instant.now())
+//            .processStatus(ProcessStatus.PROCESSING)
+            .modifiedBy(MasterUserUtil.getCurrentMasterUser().get())))
+          .map(baseInfo ->
+          {
+            if (ReflectUtil.methodInvoke(entity, "getInfo").isEmpty())
+              return ReflectUtil.methodInvoke(entity, "setInfo", baseInfo).get();
+            return entity;
+          })
+          .getOrElse(() ->
+          {
+            log.debug("không tìm thấy base info hoặc không có quyền truy cập ");
+            return null;
+          }))
 //        create new entity
 //        bỏ quả nếu nó là tạo mới MasterUser
-          .orElse(Option.when(!advanceRepositoryName.get(0).toLowerCase().contains("MasterUser".toLowerCase()),
-            ReflectUtil.methodInvoke(entity, "setBaseInfo", baseInfoAdvanceService.createForOwner())))
-          .getOrElse(entity);
-        var result = joinPoint.proceed(new Object[]{entity});
-        log.debug("entity after save entity : {}", entity);
-        return result;
-      }
-      catch (NoSuchMethodException | SecurityException e)
-      {
-        log.debug("exception related to invoke method", e);
-      }
+        .orElse(Option.when(!advanceRepositoryName.get(0).toLowerCase().contains("MasterUser".toLowerCase()),
+          ReflectUtil.methodInvoke(entity, "setInfo", baseInfoAdvanceService.createForOwner())))
+        .getOrElse(entity);
+      var result = joinPoint.proceed(new Object[]{entity});
+      log.debug("entity after save entity : {}", entity);
+      return result;
     }
     catch (IllegalArgumentException e)
     {
       log.error("Illegal argument: {} in {}()", Arrays.toString(joinPoint.getArgs()), joinPoint.getSignature().getName());
       throw e;
     }
-    return joinPoint.proceed();
   }
 
 }

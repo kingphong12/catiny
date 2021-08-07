@@ -1,16 +1,37 @@
 package com.regitiny.catiny.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
-import com.regitiny.catiny.domain.*;
+import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.ClassInfo;
+import com.regitiny.catiny.domain.HistoryUpdate;
+import com.regitiny.catiny.domain.MasterUser;
+import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.domain.enumeration.ProcessStatus;
 import com.regitiny.catiny.repository.BaseInfoRepository;
 import com.regitiny.catiny.repository.search.BaseInfoSearchRepository;
+import com.regitiny.catiny.service.criteria.BaseInfoCriteria;
 import com.regitiny.catiny.service.dto.BaseInfoDTO;
 import com.regitiny.catiny.service.mapper.BaseInfoMapper;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,22 +41,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link BaseInfoResource} REST controller.
@@ -45,8 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 @GeneratedByJHipster
-class BaseInfoResourceIT
-{
+class BaseInfoResourceIT {
 
   private static final UUID DEFAULT_UUID = UUID.randomUUID();
   private static final UUID UPDATED_UUID = UUID.randomUUID();
@@ -81,8 +86,8 @@ class BaseInfoResourceIT
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/base-infos";
 
-  private static final Random random = new Random();
-  private static final AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+  private static Random random = new Random();
+  private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
   @Autowired
   private BaseInfoRepository baseInfoRepository;
@@ -203,8 +208,7 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void checkUuidIsRequired() throws Exception
-  {
+  void checkUuidIsRequired() throws Exception {
     int databaseSizeBeforeTest = baseInfoRepository.findAll().size();
     // set the field null
     baseInfo.setUuid(null);
@@ -222,8 +226,7 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void getAllBaseInfos() throws Exception
-  {
+  void getAllBaseInfos() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
 
@@ -238,7 +241,7 @@ class BaseInfoResourceIT
       .andExpect(jsonPath("$.[*].modifiedClass").value(hasItem(DEFAULT_MODIFIED_CLASS)))
       .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
       .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
-      .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)))
+      .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES.toString())))
       .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
       .andExpect(jsonPath("$.[*].priorityIndex").value(hasItem(DEFAULT_PRIORITY_INDEX.intValue())))
       .andExpect(jsonPath("$.[*].countUse").value(hasItem(DEFAULT_COUNT_USE.intValue())));
@@ -261,7 +264,7 @@ class BaseInfoResourceIT
       .andExpect(jsonPath("$.modifiedClass").value(DEFAULT_MODIFIED_CLASS))
       .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
       .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.toString()))
-      .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES))
+      .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES.toString()))
       .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
       .andExpect(jsonPath("$.priorityIndex").value(DEFAULT_PRIORITY_INDEX.intValue()))
       .andExpect(jsonPath("$.countUse").value(DEFAULT_COUNT_USE.intValue()));
@@ -287,8 +290,7 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void getAllBaseInfosByUuidIsEqualToSomething() throws Exception
-  {
+  void getAllBaseInfosByUuidIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
 
@@ -301,8 +303,7 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void getAllBaseInfosByUuidIsNotEqualToSomething() throws Exception
-  {
+  void getAllBaseInfosByUuidIsNotEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
 
@@ -315,8 +316,7 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void getAllBaseInfosByUuidIsInShouldWork() throws Exception
-  {
+  void getAllBaseInfosByUuidIsInShouldWork() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
 
@@ -329,8 +329,7 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void getAllBaseInfosByUuidIsNullOrNotNull() throws Exception
-  {
+  void getAllBaseInfosByUuidIsNullOrNotNull() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
 
@@ -343,8 +342,7 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void getAllBaseInfosByProcessStatusIsEqualToSomething() throws Exception
-  {
+  void getAllBaseInfosByProcessStatusIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
 
@@ -838,622 +836,21 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
-  void getAllBaseInfosByHistoryUpdateIsEqualToSomething() throws Exception
-  {
+  void getAllBaseInfosByHistoryIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    HistoryUpdate historyUpdate = HistoryUpdateResourceIT.createEntity(em);
-    em.persist(historyUpdate);
+    HistoryUpdate history = HistoryUpdateResourceIT.createEntity(em);
+    em.persist(history);
     em.flush();
-    baseInfo.addHistoryUpdate(historyUpdate);
+    baseInfo.addHistory(history);
     baseInfoRepository.saveAndFlush(baseInfo);
-    Long historyUpdateId = historyUpdate.getId();
+    Long historyId = history.getId();
 
-    // Get all the baseInfoList where historyUpdate equals to historyUpdateId
-    defaultBaseInfoShouldBeFound("historyUpdateId.equals=" + historyUpdateId);
+    // Get all the baseInfoList where history equals to historyId
+    defaultBaseInfoShouldBeFound("historyId.equals=" + historyId);
 
-    // Get all the baseInfoList where historyUpdate equals to (historyUpdateId + 1)
-    defaultBaseInfoShouldNotBeFound("historyUpdateId.equals=" + (historyUpdateId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByClassInfoIsEqualToSomething() throws Exception
-  {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    ClassInfo classInfo = ClassInfoResourceIT.createEntity(em);
-    em.persist(classInfo);
-    em.flush();
-    baseInfo.setClassInfo(classInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long classInfoId = classInfo.getId();
-
-    // Get all the baseInfoList where classInfo equals to classInfoId
-    defaultBaseInfoShouldBeFound("classInfoId.equals=" + classInfoId);
-
-    // Get all the baseInfoList where classInfo equals to (classInfoId + 1)
-    defaultBaseInfoShouldNotBeFound("classInfoId.equals=" + (classInfoId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByUserProfileIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    UserProfile userProfile = UserProfileResourceIT.createEntity(em);
-    em.persist(userProfile);
-    em.flush();
-    baseInfo.setUserProfile(userProfile);
-    userProfile.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long userProfileId = userProfile.getId();
-
-    // Get all the baseInfoList where userProfile equals to userProfileId
-    defaultBaseInfoShouldBeFound("userProfileId.equals=" + userProfileId);
-
-    // Get all the baseInfoList where userProfile equals to (userProfileId + 1)
-    defaultBaseInfoShouldNotBeFound("userProfileId.equals=" + (userProfileId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByAccountStatusIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    AccountStatus accountStatus = AccountStatusResourceIT.createEntity(em);
-    em.persist(accountStatus);
-    em.flush();
-    baseInfo.setAccountStatus(accountStatus);
-    accountStatus.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long accountStatusId = accountStatus.getId();
-
-    // Get all the baseInfoList where accountStatus equals to accountStatusId
-    defaultBaseInfoShouldBeFound("accountStatusId.equals=" + accountStatusId);
-
-    // Get all the baseInfoList where accountStatus equals to (accountStatusId + 1)
-    defaultBaseInfoShouldNotBeFound("accountStatusId.equals=" + (accountStatusId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByDeviceStatusIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    DeviceStatus deviceStatus = DeviceStatusResourceIT.createEntity(em);
-    em.persist(deviceStatus);
-    em.flush();
-    baseInfo.setDeviceStatus(deviceStatus);
-    deviceStatus.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long deviceStatusId = deviceStatus.getId();
-
-    // Get all the baseInfoList where deviceStatus equals to deviceStatusId
-    defaultBaseInfoShouldBeFound("deviceStatusId.equals=" + deviceStatusId);
-
-    // Get all the baseInfoList where deviceStatus equals to (deviceStatusId + 1)
-    defaultBaseInfoShouldNotBeFound("deviceStatusId.equals=" + (deviceStatusId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByFriendIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Friend friend = FriendResourceIT.createEntity(em);
-    em.persist(friend);
-    em.flush();
-    baseInfo.setFriend(friend);
-    friend.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long friendId = friend.getId();
-
-    // Get all the baseInfoList where friend equals to friendId
-    defaultBaseInfoShouldBeFound("friendId.equals=" + friendId);
-
-    // Get all the baseInfoList where friend equals to (friendId + 1)
-    defaultBaseInfoShouldNotBeFound("friendId.equals=" + (friendId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByFollowUserIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    FollowUser followUser = FollowUserResourceIT.createEntity(em);
-    em.persist(followUser);
-    em.flush();
-    baseInfo.setFollowUser(followUser);
-    followUser.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long followUserId = followUser.getId();
-
-    // Get all the baseInfoList where followUser equals to followUserId
-    defaultBaseInfoShouldBeFound("followUserId.equals=" + followUserId);
-
-    // Get all the baseInfoList where followUser equals to (followUserId + 1)
-    defaultBaseInfoShouldNotBeFound("followUserId.equals=" + (followUserId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByFollowGroupIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    FollowGroup followGroup = FollowGroupResourceIT.createEntity(em);
-    em.persist(followGroup);
-    em.flush();
-    baseInfo.setFollowGroup(followGroup);
-    followGroup.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long followGroupId = followGroup.getId();
-
-    // Get all the baseInfoList where followGroup equals to followGroupId
-    defaultBaseInfoShouldBeFound("followGroupId.equals=" + followGroupId);
-
-    // Get all the baseInfoList where followGroup equals to (followGroupId + 1)
-    defaultBaseInfoShouldNotBeFound("followGroupId.equals=" + (followGroupId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByFollowPageIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    FollowPage followPage = FollowPageResourceIT.createEntity(em);
-    em.persist(followPage);
-    em.flush();
-    baseInfo.setFollowPage(followPage);
-    followPage.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long followPageId = followPage.getId();
-
-    // Get all the baseInfoList where followPage equals to followPageId
-    defaultBaseInfoShouldBeFound("followPageId.equals=" + followPageId);
-
-    // Get all the baseInfoList where followPage equals to (followPageId + 1)
-    defaultBaseInfoShouldNotBeFound("followPageId.equals=" + (followPageId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByFileInfoIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    FileInfo fileInfo = FileInfoResourceIT.createEntity(em);
-    em.persist(fileInfo);
-    em.flush();
-    baseInfo.setFileInfo(fileInfo);
-    fileInfo.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long fileInfoId = fileInfo.getId();
-
-    // Get all the baseInfoList where fileInfo equals to fileInfoId
-    defaultBaseInfoShouldBeFound("fileInfoId.equals=" + fileInfoId);
-
-    // Get all the baseInfoList where fileInfo equals to (fileInfoId + 1)
-    defaultBaseInfoShouldNotBeFound("fileInfoId.equals=" + (fileInfoId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByPagePostIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    PagePost pagePost = PagePostResourceIT.createEntity(em);
-    em.persist(pagePost);
-    em.flush();
-    baseInfo.setPagePost(pagePost);
-    pagePost.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long pagePostId = pagePost.getId();
-
-    // Get all the baseInfoList where pagePost equals to pagePostId
-    defaultBaseInfoShouldBeFound("pagePostId.equals=" + pagePostId);
-
-    // Get all the baseInfoList where pagePost equals to (pagePostId + 1)
-    defaultBaseInfoShouldNotBeFound("pagePostId.equals=" + (pagePostId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByPageProfileIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    PageProfile pageProfile = PageProfileResourceIT.createEntity(em);
-    em.persist(pageProfile);
-    em.flush();
-    baseInfo.setPageProfile(pageProfile);
-    pageProfile.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long pageProfileId = pageProfile.getId();
-
-    // Get all the baseInfoList where pageProfile equals to pageProfileId
-    defaultBaseInfoShouldBeFound("pageProfileId.equals=" + pageProfileId);
-
-    // Get all the baseInfoList where pageProfile equals to (pageProfileId + 1)
-    defaultBaseInfoShouldNotBeFound("pageProfileId.equals=" + (pageProfileId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByGroupPostIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    GroupPost groupPost = GroupPostResourceIT.createEntity(em);
-    em.persist(groupPost);
-    em.flush();
-    baseInfo.setGroupPost(groupPost);
-    groupPost.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long groupPostId = groupPost.getId();
-
-    // Get all the baseInfoList where groupPost equals to groupPostId
-    defaultBaseInfoShouldBeFound("groupPostId.equals=" + groupPostId);
-
-    // Get all the baseInfoList where groupPost equals to (groupPostId + 1)
-    defaultBaseInfoShouldNotBeFound("groupPostId.equals=" + (groupPostId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByPostIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Post post = PostResourceIT.createEntity(em);
-    em.persist(post);
-    em.flush();
-    baseInfo.setPost(post);
-    post.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long postId = post.getId();
-
-    // Get all the baseInfoList where post equals to postId
-    defaultBaseInfoShouldBeFound("postId.equals=" + postId);
-
-    // Get all the baseInfoList where post equals to (postId + 1)
-    defaultBaseInfoShouldNotBeFound("postId.equals=" + (postId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByPostCommentIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    PostComment postComment = PostCommentResourceIT.createEntity(em);
-    em.persist(postComment);
-    em.flush();
-    baseInfo.setPostComment(postComment);
-    postComment.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long postCommentId = postComment.getId();
-
-    // Get all the baseInfoList where postComment equals to postCommentId
-    defaultBaseInfoShouldBeFound("postCommentId.equals=" + postCommentId);
-
-    // Get all the baseInfoList where postComment equals to (postCommentId + 1)
-    defaultBaseInfoShouldNotBeFound("postCommentId.equals=" + (postCommentId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByPostLikeIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    PostLike postLike = PostLikeResourceIT.createEntity(em);
-    em.persist(postLike);
-    em.flush();
-    baseInfo.setPostLike(postLike);
-    postLike.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long postLikeId = postLike.getId();
-
-    // Get all the baseInfoList where postLike equals to postLikeId
-    defaultBaseInfoShouldBeFound("postLikeId.equals=" + postLikeId);
-
-    // Get all the baseInfoList where postLike equals to (postLikeId + 1)
-    defaultBaseInfoShouldNotBeFound("postLikeId.equals=" + (postLikeId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByGroupProfileIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    GroupProfile groupProfile = GroupProfileResourceIT.createEntity(em);
-    em.persist(groupProfile);
-    em.flush();
-    baseInfo.setGroupProfile(groupProfile);
-    groupProfile.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long groupProfileId = groupProfile.getId();
-
-    // Get all the baseInfoList where groupProfile equals to groupProfileId
-    defaultBaseInfoShouldBeFound("groupProfileId.equals=" + groupProfileId);
-
-    // Get all the baseInfoList where groupProfile equals to (groupProfileId + 1)
-    defaultBaseInfoShouldNotBeFound("groupProfileId.equals=" + (groupProfileId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByNewsFeedIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    NewsFeed newsFeed = NewsFeedResourceIT.createEntity(em);
-    em.persist(newsFeed);
-    em.flush();
-    baseInfo.setNewsFeed(newsFeed);
-    newsFeed.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long newsFeedId = newsFeed.getId();
-
-    // Get all the baseInfoList where newsFeed equals to newsFeedId
-    defaultBaseInfoShouldBeFound("newsFeedId.equals=" + newsFeedId);
-
-    // Get all the baseInfoList where newsFeed equals to (newsFeedId + 1)
-    defaultBaseInfoShouldNotBeFound("newsFeedId.equals=" + (newsFeedId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByMessageGroupIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    MessageGroup messageGroup = MessageGroupResourceIT.createEntity(em);
-    em.persist(messageGroup);
-    em.flush();
-    baseInfo.setMessageGroup(messageGroup);
-    messageGroup.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long messageGroupId = messageGroup.getId();
-
-    // Get all the baseInfoList where messageGroup equals to messageGroupId
-    defaultBaseInfoShouldBeFound("messageGroupId.equals=" + messageGroupId);
-
-    // Get all the baseInfoList where messageGroup equals to (messageGroupId + 1)
-    defaultBaseInfoShouldNotBeFound("messageGroupId.equals=" + (messageGroupId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByMessageContentIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    MessageContent messageContent = MessageContentResourceIT.createEntity(em);
-    em.persist(messageContent);
-    em.flush();
-    baseInfo.setMessageContent(messageContent);
-    messageContent.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long messageContentId = messageContent.getId();
-
-    // Get all the baseInfoList where messageContent equals to messageContentId
-    defaultBaseInfoShouldBeFound("messageContentId.equals=" + messageContentId);
-
-    // Get all the baseInfoList where messageContent equals to (messageContentId + 1)
-    defaultBaseInfoShouldNotBeFound("messageContentId.equals=" + (messageContentId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByRankUserIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    RankUser rankUser = RankUserResourceIT.createEntity(em);
-    em.persist(rankUser);
-    em.flush();
-    baseInfo.setRankUser(rankUser);
-    rankUser.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long rankUserId = rankUser.getId();
-
-    // Get all the baseInfoList where rankUser equals to rankUserId
-    defaultBaseInfoShouldBeFound("rankUserId.equals=" + rankUserId);
-
-    // Get all the baseInfoList where rankUser equals to (rankUserId + 1)
-    defaultBaseInfoShouldNotBeFound("rankUserId.equals=" + (rankUserId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByRankGroupIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    RankGroup rankGroup = RankGroupResourceIT.createEntity(em);
-    em.persist(rankGroup);
-    em.flush();
-    baseInfo.setRankGroup(rankGroup);
-    rankGroup.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long rankGroupId = rankGroup.getId();
-
-    // Get all the baseInfoList where rankGroup equals to rankGroupId
-    defaultBaseInfoShouldBeFound("rankGroupId.equals=" + rankGroupId);
-
-    // Get all the baseInfoList where rankGroup equals to (rankGroupId + 1)
-    defaultBaseInfoShouldNotBeFound("rankGroupId.equals=" + (rankGroupId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByNotificationIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Notification notification = NotificationResourceIT.createEntity(em);
-    em.persist(notification);
-    em.flush();
-    baseInfo.setNotification(notification);
-    notification.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long notificationId = notification.getId();
-
-    // Get all the baseInfoList where notification equals to notificationId
-    defaultBaseInfoShouldBeFound("notificationId.equals=" + notificationId);
-
-    // Get all the baseInfoList where notification equals to (notificationId + 1)
-    defaultBaseInfoShouldNotBeFound("notificationId.equals=" + (notificationId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByAlbumIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Album album = AlbumResourceIT.createEntity(em);
-    em.persist(album);
-    em.flush();
-    baseInfo.setAlbum(album);
-    album.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long albumId = album.getId();
-
-    // Get all the baseInfoList where album equals to albumId
-    defaultBaseInfoShouldBeFound("albumId.equals=" + albumId);
-
-    // Get all the baseInfoList where album equals to (albumId + 1)
-    defaultBaseInfoShouldNotBeFound("albumId.equals=" + (albumId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByVideoIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Video video = VideoResourceIT.createEntity(em);
-    em.persist(video);
-    em.flush();
-    baseInfo.setVideo(video);
-    video.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long videoId = video.getId();
-
-    // Get all the baseInfoList where video equals to videoId
-    defaultBaseInfoShouldBeFound("videoId.equals=" + videoId);
-
-    // Get all the baseInfoList where video equals to (videoId + 1)
-    defaultBaseInfoShouldNotBeFound("videoId.equals=" + (videoId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByImageIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Image image = ImageResourceIT.createEntity(em);
-    em.persist(image);
-    em.flush();
-    baseInfo.setImage(image);
-    image.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long imageId = image.getId();
-
-    // Get all the baseInfoList where image equals to imageId
-    defaultBaseInfoShouldBeFound("imageId.equals=" + imageId);
-
-    // Get all the baseInfoList where image equals to (imageId + 1)
-    defaultBaseInfoShouldNotBeFound("imageId.equals=" + (imageId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByVideoStreamIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    VideoStream videoStream = VideoStreamResourceIT.createEntity(em);
-    em.persist(videoStream);
-    em.flush();
-    baseInfo.setVideoStream(videoStream);
-    videoStream.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long videoStreamId = videoStream.getId();
-
-    // Get all the baseInfoList where videoStream equals to videoStreamId
-    defaultBaseInfoShouldBeFound("videoStreamId.equals=" + videoStreamId);
-
-    // Get all the baseInfoList where videoStream equals to (videoStreamId + 1)
-    defaultBaseInfoShouldNotBeFound("videoStreamId.equals=" + (videoStreamId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByVideoLiveStreamBufferIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    VideoLiveStreamBuffer videoLiveStreamBuffer = VideoLiveStreamBufferResourceIT.createEntity(em);
-    em.persist(videoLiveStreamBuffer);
-    em.flush();
-    baseInfo.setVideoLiveStreamBuffer(videoLiveStreamBuffer);
-    videoLiveStreamBuffer.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long videoLiveStreamBufferId = videoLiveStreamBuffer.getId();
-
-    // Get all the baseInfoList where videoLiveStreamBuffer equals to videoLiveStreamBufferId
-    defaultBaseInfoShouldBeFound("videoLiveStreamBufferId.equals=" + videoLiveStreamBufferId);
-
-    // Get all the baseInfoList where videoLiveStreamBuffer equals to (videoLiveStreamBufferId + 1)
-    defaultBaseInfoShouldNotBeFound("videoLiveStreamBufferId.equals=" + (videoLiveStreamBufferId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByTopicInterestIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    TopicInterest topicInterest = TopicInterestResourceIT.createEntity(em);
-    em.persist(topicInterest);
-    em.flush();
-    baseInfo.setTopicInterest(topicInterest);
-    topicInterest.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long topicInterestId = topicInterest.getId();
-
-    // Get all the baseInfoList where topicInterest equals to topicInterestId
-    defaultBaseInfoShouldBeFound("topicInterestId.equals=" + topicInterestId);
-
-    // Get all the baseInfoList where topicInterest equals to (topicInterestId + 1)
-    defaultBaseInfoShouldNotBeFound("topicInterestId.equals=" + (topicInterestId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByTodoListIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    TodoList todoList = TodoListResourceIT.createEntity(em);
-    em.persist(todoList);
-    em.flush();
-    baseInfo.setTodoList(todoList);
-    todoList.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long todoListId = todoList.getId();
-
-    // Get all the baseInfoList where todoList equals to todoListId
-    defaultBaseInfoShouldBeFound("todoListId.equals=" + todoListId);
-
-    // Get all the baseInfoList where todoList equals to (todoListId + 1)
-    defaultBaseInfoShouldNotBeFound("todoListId.equals=" + (todoListId + 1));
-  }
-
-  @Test
-  @Transactional
-  void getAllBaseInfosByEventIsEqualToSomething() throws Exception {
-    // Initialize the database
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Event event = EventResourceIT.createEntity(em);
-    em.persist(event);
-    em.flush();
-    baseInfo.setEvent(event);
-    event.setBaseInfo(baseInfo);
-    baseInfoRepository.saveAndFlush(baseInfo);
-    Long eventId = event.getId();
-
-    // Get all the baseInfoList where event equals to eventId
-    defaultBaseInfoShouldBeFound("eventId.equals=" + eventId);
-
-    // Get all the baseInfoList where event equals to (eventId + 1)
-    defaultBaseInfoShouldNotBeFound("eventId.equals=" + (eventId + 1));
+    // Get all the baseInfoList where history equals to (historyId + 1)
+    defaultBaseInfoShouldNotBeFound("historyId.equals=" + (historyId + 1));
   }
 
   @Test
@@ -1515,6 +912,25 @@ class BaseInfoResourceIT
 
   @Test
   @Transactional
+  void getAllBaseInfosByClassInfoIsEqualToSomething() throws Exception {
+    // Initialize the database
+    baseInfoRepository.saveAndFlush(baseInfo);
+    ClassInfo classInfo = ClassInfoResourceIT.createEntity(em);
+    em.persist(classInfo);
+    em.flush();
+    baseInfo.setClassInfo(classInfo);
+    baseInfoRepository.saveAndFlush(baseInfo);
+    Long classInfoId = classInfo.getId();
+
+    // Get all the baseInfoList where classInfo equals to classInfoId
+    defaultBaseInfoShouldBeFound("classInfoId.equals=" + classInfoId);
+
+    // Get all the baseInfoList where classInfo equals to (classInfoId + 1)
+    defaultBaseInfoShouldNotBeFound("classInfoId.equals=" + (classInfoId + 1));
+  }
+
+  @Test
+  @Transactional
   void getAllBaseInfosByPermissionIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
@@ -1546,7 +962,7 @@ class BaseInfoResourceIT
       .andExpect(jsonPath("$.[*].modifiedClass").value(hasItem(DEFAULT_MODIFIED_CLASS)))
       .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
       .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
-      .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)))
+      .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES.toString())))
       .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
       .andExpect(jsonPath("$.[*].priorityIndex").value(hasItem(DEFAULT_PRIORITY_INDEX.intValue())))
       .andExpect(jsonPath("$.[*].countUse").value(hasItem(DEFAULT_COUNT_USE.intValue())));
@@ -1913,7 +1329,7 @@ class BaseInfoResourceIT
       .andExpect(jsonPath("$.[*].modifiedClass").value(hasItem(DEFAULT_MODIFIED_CLASS)))
       .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
       .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
-      .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)))
+      .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES.toString())))
       .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
       .andExpect(jsonPath("$.[*].priorityIndex").value(hasItem(DEFAULT_PRIORITY_INDEX.intValue())))
       .andExpect(jsonPath("$.[*].countUse").value(hasItem(DEFAULT_COUNT_USE.intValue())));

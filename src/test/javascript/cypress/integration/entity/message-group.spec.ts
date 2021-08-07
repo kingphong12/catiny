@@ -111,7 +111,7 @@ describe('MessageGroup e2e test', () => {
 
     cy.get(`[data-cy="addBy"]`).type('Persevering Island Toys').should('have.value', 'Persevering Island Toys');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

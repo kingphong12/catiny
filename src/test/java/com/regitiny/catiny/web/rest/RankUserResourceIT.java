@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.RankGroup;
 import com.regitiny.catiny.domain.RankUser;
 import com.regitiny.catiny.repository.RankUserRepository;
@@ -379,21 +380,21 @@ class RankUserResourceIT {
 
   @Test
   @Transactional
-  void getAllRankUsersByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllRankUsersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     rankUserRepository.saveAndFlush(rankUser);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    rankUser.setBaseInfo(baseInfo);
+    rankUser.setInfo(info);
     rankUserRepository.saveAndFlush(rankUser);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the rankUserList where baseInfo equals to baseInfoId
-    defaultRankUserShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the rankUserList where info equals to infoId
+    defaultRankUserShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the rankUserList where baseInfo equals to (baseInfoId + 1)
-    defaultRankUserShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the rankUserList where info equals to (infoId + 1)
+    defaultRankUserShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
@@ -413,6 +414,26 @@ class RankUserResourceIT {
 
     // Get all the rankUserList where rankGroup equals to (rankGroupId + 1)
     defaultRankUserShouldNotBeFound("rankGroupId.equals=" + (rankGroupId + 1));
+  }
+
+  @Test
+  @Transactional
+  void getAllRankUsersByOwnerIsEqualToSomething() throws Exception {
+    // Initialize the database
+    rankUserRepository.saveAndFlush(rankUser);
+    MasterUser owner = MasterUserResourceIT.createEntity(em);
+    em.persist(owner);
+    em.flush();
+    rankUser.setOwner(owner);
+    owner.setMyRank(rankUser);
+    rankUserRepository.saveAndFlush(rankUser);
+    Long ownerId = owner.getId();
+
+    // Get all the rankUserList where owner equals to ownerId
+    defaultRankUserShouldBeFound("ownerId.equals=" + ownerId);
+
+    // Get all the rankUserList where owner equals to (ownerId + 1)
+    defaultRankUserShouldNotBeFound("ownerId.equals=" + (ownerId + 1));
   }
 
   /**

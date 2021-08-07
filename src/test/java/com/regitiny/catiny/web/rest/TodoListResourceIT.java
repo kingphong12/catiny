@@ -358,21 +358,21 @@ class TodoListResourceIT {
 
   @Test
   @Transactional
-  void getAllTodoListsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllTodoListsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     todoListRepository.saveAndFlush(todoList);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    todoList.setBaseInfo(baseInfo);
+    todoList.setInfo(info);
     todoListRepository.saveAndFlush(todoList);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the todoListList where baseInfo equals to baseInfoId
-    defaultTodoListShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the todoListList where info equals to infoId
+    defaultTodoListShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the todoListList where baseInfo equals to (baseInfoId + 1)
-    defaultTodoListShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the todoListList where info equals to (infoId + 1)
+    defaultTodoListShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   /**

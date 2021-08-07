@@ -45,7 +45,7 @@ export const RankGroupUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...rankGroupEntity,
       ...values,
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -60,7 +60,7 @@ export const RankGroupUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...rankGroupEntity,
-          baseInfoId: rankGroupEntity?.baseInfo?.id,
+          infoId: rankGroupEntity?.info?.id,
         };
 
   return (
@@ -101,13 +101,7 @@ export const RankGroupUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <UncontrolledTooltip target="uuidLabel">
                 <Translate contentKey="catinyApp.rankGroup.help.uuid" />
               </UncontrolledTooltip>
-              <ValidatedField
-                id="rank-group-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.rankGroup.baseInfo')}
-                type="select"
-              >
+              <ValidatedField id="rank-group-info" name="infoId" data-cy="info" label={translate('catinyApp.rankGroup.info')} type="select">
                 <option value="" key="0" />
                 {baseInfos
                   ? baseInfos.map(otherEntity => (

@@ -198,10 +198,10 @@ export const Friend = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.friend.friendType">Friend Type</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.friend.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.friend.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.friend.friendDetails">Friend Details</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.friend.friend">Friend</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -218,10 +218,8 @@ export const Friend = (props: RouteComponentProps<{ url: string }>) => {
                     <td>
                       <Translate contentKey={`catinyApp.FriendType.${friend.friendType}`} />
                     </td>
-                    <td>{friend.baseInfo ? <Link to={`base-info/${friend.baseInfo.id}`}>{friend.baseInfo.id}</Link> : ''}</td>
-                    <td>
-                      {friend.friendDetails ? <Link to={`master-user/${friend.friendDetails.id}`}>{friend.friendDetails.id}</Link> : ''}
-                    </td>
+                    <td>{friend.info ? <Link to={`base-info/${friend.info.id}`}>{friend.info.id}</Link> : ''}</td>
+                    <td>{friend.friend ? <Link to={`master-user/${friend.friend.id}`}>{friend.friend.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${friend.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -47,9 +47,9 @@ public class MessageContentModel implements Serializable
   @Lob
   private String searchField;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
-  private MessageGroupDTO messageGroup;
+  private MessageGroupDTO group;
 
   @Data
   @Builder
@@ -85,9 +85,9 @@ public class MessageContentModel implements Serializable
     @Lob
     private String searchField;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private MessageGroupDTO messageGroup;
+    private MessageGroupDTO group;
   }
 
   @Data
@@ -124,8 +124,8 @@ public class MessageContentModel implements Serializable
     @Lob
     private String searchField;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
-    private MessageGroupDTO messageGroup;
+    private MessageGroupDTO group;
   }
 }

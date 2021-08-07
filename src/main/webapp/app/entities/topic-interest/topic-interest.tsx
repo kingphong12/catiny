@@ -201,7 +201,7 @@ export const TopicInterest = (props: RouteComponentProps<{ url: string }>) => {
                     <Translate contentKey="catinyApp.topicInterest.content">Content</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="catinyApp.topicInterest.baseInfo">Base Info</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="catinyApp.topicInterest.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -217,9 +217,7 @@ export const TopicInterest = (props: RouteComponentProps<{ url: string }>) => {
                     <td>{topicInterest.uuid}</td>
                     <td>{topicInterest.title}</td>
                     <td>{topicInterest.content}</td>
-                    <td>
-                      {topicInterest.baseInfo ? <Link to={`base-info/${topicInterest.baseInfo.id}`}>{topicInterest.baseInfo.id}</Link> : ''}
-                    </td>
+                    <td>{topicInterest.info ? <Link to={`base-info/${topicInterest.info.id}`}>{topicInterest.info.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${topicInterest.id}`} color="info" size="sm" data-cy="entityDetailsButton">

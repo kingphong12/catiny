@@ -37,7 +37,7 @@ public class AccountStatusModel implements Serializable
   @ApiModelProperty("statusComment  : người dùng comment lại trạng thái để hiển thị ra nếu muốn")
   private String statusComment;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -63,7 +63,7 @@ public class AccountStatusModel implements Serializable
     @ApiModelProperty("statusComment  : người dùng comment lại trạng thái để hiển thị ra nếu muốn")
     private String statusComment;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -90,6 +90,6 @@ public class AccountStatusModel implements Serializable
     @ApiModelProperty("statusComment  : người dùng comment lại trạng thái để hiển thị ra nếu muốn")
     private String statusComment;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

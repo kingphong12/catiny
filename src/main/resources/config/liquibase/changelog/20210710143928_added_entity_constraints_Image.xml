@@ -14,15 +14,15 @@
                                  referencedColumnNames="id"
                                  referencedTableName="file_info"/>
 
-        <addForeignKeyConstraint baseColumnNames="base_info_id"
+        <addForeignKeyConstraint baseColumnNames="info_id"
                                  baseTableName="image"
-                                 constraintName="fk_image__base_info_id"
+                                 constraintName="fk_image__info_id"
                                  referencedColumnNames="id"
                                  referencedTableName="base_info"/>
 
-        <addForeignKeyConstraint baseColumnNames="image_original_id"
+        <addForeignKeyConstraint baseColumnNames="original_id"
                                  baseTableName="image"
-                                 constraintName="fk_image__image_original_id"
+                                 constraintName="fk_image__original_id"
                                  referencedColumnNames="id"
                                  referencedTableName="image"/>
     </changeSet>

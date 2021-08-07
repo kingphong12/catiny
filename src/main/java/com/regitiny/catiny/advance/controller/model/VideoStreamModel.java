@@ -29,7 +29,7 @@ public class VideoStreamModel implements Serializable
 
   private VideoDTO video;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -48,7 +48,7 @@ public class VideoStreamModel implements Serializable
 
     private VideoDTO video;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -68,6 +68,6 @@ public class VideoStreamModel implements Serializable
 
     private VideoDTO video;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

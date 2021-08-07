@@ -12,6 +12,6 @@ import org.mapstruct.*;
 @GeneratedByJHipster
 public interface PermissionMapper extends EntityMapper<PermissionDTO, Permission> {
   @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "masterUser", source = "masterUser", qualifiedByName = "id")
+  @Mapping(target = "owner", source = "owner", qualifiedByName = "id")
   PermissionDTO toDto(Permission s);
 }

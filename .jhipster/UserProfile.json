@@ -85,7 +85,7 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "userProfile",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     }
   ],

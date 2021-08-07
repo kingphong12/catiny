@@ -268,40 +268,40 @@ class FollowGroupResourceIT {
 
   @Test
   @Transactional
-  void getAllFollowGroupsByBaseInfoIsEqualToSomething() throws Exception {
+  void getAllFollowGroupsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     followGroupRepository.saveAndFlush(followGroup);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
-    em.persist(baseInfo);
+    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    em.persist(info);
     em.flush();
-    followGroup.setBaseInfo(baseInfo);
+    followGroup.setInfo(info);
     followGroupRepository.saveAndFlush(followGroup);
-    Long baseInfoId = baseInfo.getId();
+    Long infoId = info.getId();
 
-    // Get all the followGroupList where baseInfo equals to baseInfoId
-    defaultFollowGroupShouldBeFound("baseInfoId.equals=" + baseInfoId);
+    // Get all the followGroupList where info equals to infoId
+    defaultFollowGroupShouldBeFound("infoId.equals=" + infoId);
 
-    // Get all the followGroupList where baseInfo equals to (baseInfoId + 1)
-    defaultFollowGroupShouldNotBeFound("baseInfoId.equals=" + (baseInfoId + 1));
+    // Get all the followGroupList where info equals to (infoId + 1)
+    defaultFollowGroupShouldNotBeFound("infoId.equals=" + (infoId + 1));
   }
 
   @Test
   @Transactional
-  void getAllFollowGroupsByFollowGroupDetailsIsEqualToSomething() throws Exception {
+  void getAllFollowGroupsByGroupDetailsIsEqualToSomething() throws Exception {
     // Initialize the database
     followGroupRepository.saveAndFlush(followGroup);
-    GroupPost followGroupDetails = GroupPostResourceIT.createEntity(em);
-    em.persist(followGroupDetails);
+    GroupPost groupDetails = GroupPostResourceIT.createEntity(em);
+    em.persist(groupDetails);
     em.flush();
-    followGroup.setFollowGroupDetails(followGroupDetails);
+    followGroup.setGroupDetails(groupDetails);
     followGroupRepository.saveAndFlush(followGroup);
-    Long followGroupDetailsId = followGroupDetails.getId();
+    Long groupDetailsId = groupDetails.getId();
 
-    // Get all the followGroupList where followGroupDetails equals to followGroupDetailsId
-    defaultFollowGroupShouldBeFound("followGroupDetailsId.equals=" + followGroupDetailsId);
+    // Get all the followGroupList where groupDetails equals to groupDetailsId
+    defaultFollowGroupShouldBeFound("groupDetailsId.equals=" + groupDetailsId);
 
-    // Get all the followGroupList where followGroupDetails equals to (followGroupDetailsId + 1)
-    defaultFollowGroupShouldNotBeFound("followGroupDetailsId.equals=" + (followGroupDetailsId + 1));
+    // Get all the followGroupList where groupDetails equals to (groupDetailsId + 1)
+    defaultFollowGroupShouldNotBeFound("groupDetailsId.equals=" + (groupDetailsId + 1));
   }
 
   /**

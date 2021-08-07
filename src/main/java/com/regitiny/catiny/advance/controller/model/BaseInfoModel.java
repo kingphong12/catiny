@@ -55,13 +55,13 @@ public class BaseInfoModel implements Serializable
   @ApiModelProperty("countUse *     : đếm số lần truy cập vào bản ghi này để xem sửa xóa")
   private Long countUse;
 
-  private ClassInfoDTO classInfo;
-
   private MasterUserDTO createdBy;
 
   private MasterUserDTO modifiedBy;
 
   private MasterUserDTO owner;
+
+  private ClassInfoDTO classInfo;
 
   @Data
   @Builder
@@ -103,13 +103,13 @@ public class BaseInfoModel implements Serializable
     @ApiModelProperty("countUse *     : đếm số lần truy cập vào bản ghi này để xem sửa xóa")
     private Long countUse;
 
-    private ClassInfoDTO classInfo;
-
     private MasterUserDTO createdBy;
 
     private MasterUserDTO modifiedBy;
 
     private MasterUserDTO owner;
+
+    private ClassInfoDTO classInfo;
   }
 
   @Data
@@ -152,12 +152,12 @@ public class BaseInfoModel implements Serializable
     @ApiModelProperty("countUse *     : đếm số lần truy cập vào bản ghi này để xem sửa xóa")
     private Long countUse;
 
-    private ClassInfoDTO classInfo;
-
     private MasterUserDTO createdBy;
 
     private MasterUserDTO modifiedBy;
 
     private MasterUserDTO owner;
+
+    private ClassInfoDTO classInfo;
   }
 }

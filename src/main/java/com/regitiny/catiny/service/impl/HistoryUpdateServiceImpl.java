@@ -1,5 +1,7 @@
 package com.regitiny.catiny.service.impl;
 
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.HistoryUpdate;
 import com.regitiny.catiny.repository.HistoryUpdateRepository;
@@ -7,6 +9,7 @@ import com.regitiny.catiny.repository.search.HistoryUpdateSearchRepository;
 import com.regitiny.catiny.service.HistoryUpdateService;
 import com.regitiny.catiny.service.dto.HistoryUpdateDTO;
 import com.regitiny.catiny.service.mapper.HistoryUpdateMapper;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -14,18 +17,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-
 /**
  * Service Implementation for managing {@link HistoryUpdate}.
  */
 @Service
 @Transactional
 @GeneratedByJHipster
-public class HistoryUpdateServiceImpl implements HistoryUpdateService
-{
+public class HistoryUpdateServiceImpl implements HistoryUpdateService {
 
   private final Logger log = LoggerFactory.getLogger(HistoryUpdateServiceImpl.class);
 
@@ -39,16 +37,14 @@ public class HistoryUpdateServiceImpl implements HistoryUpdateService
     HistoryUpdateRepository historyUpdateRepository,
     HistoryUpdateMapper historyUpdateMapper,
     HistoryUpdateSearchRepository historyUpdateSearchRepository
-  )
-  {
+  ) {
     this.historyUpdateRepository = historyUpdateRepository;
     this.historyUpdateMapper = historyUpdateMapper;
     this.historyUpdateSearchRepository = historyUpdateSearchRepository;
   }
 
   @Override
-  public HistoryUpdateDTO save(HistoryUpdateDTO historyUpdateDTO)
-  {
+  public HistoryUpdateDTO save(HistoryUpdateDTO historyUpdateDTO) {
     log.debug("Request to save HistoryUpdate : {}", historyUpdateDTO);
     HistoryUpdate historyUpdate = historyUpdateMapper.toEntity(historyUpdateDTO);
     historyUpdate = historyUpdateRepository.save(historyUpdate);
@@ -58,15 +54,13 @@ public class HistoryUpdateServiceImpl implements HistoryUpdateService
   }
 
   @Override
-  public Optional<HistoryUpdateDTO> partialUpdate(HistoryUpdateDTO historyUpdateDTO)
-  {
+  public Optional<HistoryUpdateDTO> partialUpdate(HistoryUpdateDTO historyUpdateDTO) {
     log.debug("Request to partially update HistoryUpdate : {}", historyUpdateDTO);
 
     return historyUpdateRepository
       .findById(historyUpdateDTO.getId())
       .map(
-        existingHistoryUpdate ->
-        {
+        existingHistoryUpdate -> {
           historyUpdateMapper.partialUpdate(existingHistoryUpdate, historyUpdateDTO);
 
           return existingHistoryUpdate;
@@ -74,8 +68,7 @@ public class HistoryUpdateServiceImpl implements HistoryUpdateService
       )
       .map(historyUpdateRepository::save)
       .map(
-        savedHistoryUpdate ->
-        {
+        savedHistoryUpdate -> {
           historyUpdateSearchRepository.save(savedHistoryUpdate);
 
           return savedHistoryUpdate;
@@ -86,23 +79,20 @@ public class HistoryUpdateServiceImpl implements HistoryUpdateService
 
   @Override
   @Transactional(readOnly = true)
-  public Page<HistoryUpdateDTO> findAll(Pageable pageable)
-  {
+  public Page<HistoryUpdateDTO> findAll(Pageable pageable) {
     log.debug("Request to get all HistoryUpdates");
     return historyUpdateRepository.findAll(pageable).map(historyUpdateMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<HistoryUpdateDTO> findOne(Long id)
-  {
+  public Optional<HistoryUpdateDTO> findOne(Long id) {
     log.debug("Request to get HistoryUpdate : {}", id);
     return historyUpdateRepository.findById(id).map(historyUpdateMapper::toDto);
   }
 
   @Override
-  public void delete(Long id)
-  {
+  public void delete(Long id) {
     log.debug("Request to delete HistoryUpdate : {}", id);
     historyUpdateRepository.deleteById(id);
     historyUpdateSearchRepository.deleteById(id);
@@ -110,8 +100,7 @@ public class HistoryUpdateServiceImpl implements HistoryUpdateService
 
   @Override
   @Transactional(readOnly = true)
-  public Page<HistoryUpdateDTO> search(String query, Pageable pageable)
-  {
+  public Page<HistoryUpdateDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of HistoryUpdates for query {}", query);
     return historyUpdateSearchRepository.search(queryStringQuery(query), pageable).map(historyUpdateMapper::toDto);
   }

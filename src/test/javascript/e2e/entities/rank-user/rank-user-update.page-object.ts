@@ -9,7 +9,7 @@ export default class RankUserUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#rank-user-uuid'));
   ratingPointsInput: ElementFinder = element(by.css('input#rank-user-ratingPoints'));
-  baseInfoSelect: ElementFinder = element(by.css('select#rank-user-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#rank-user-info'));
   rankGroupSelect: ElementFinder = element(by.css('select#rank-user-rankGroup'));
 
   getPageTitle() {
@@ -32,20 +32,20 @@ export default class RankUserUpdatePage {
     return this.ratingPointsInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async rankGroupSelectLastOption() {
@@ -81,7 +81,7 @@ export default class RankUserUpdatePage {
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await waitUntilDisplayed(this.saveButton);
     await this.setRatingPointsInput('5');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.rankGroupSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);

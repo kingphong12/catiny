@@ -2,16 +2,16 @@ package com.regitiny.catiny.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.regitiny.catiny.GeneratedByJHipster;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The GroupPost entity\n@why?             -> mọi người cần tạo ra một nhóm riêng hoặc chung để có thể trao đổi\n@use-to           -> quản lý nhóm\n@commonly-used-in -> các nhóm\n\n@describe         ->
@@ -59,68 +59,32 @@ public class GroupPost implements Serializable {
   @Column(name = "quick_info")
   private String quickInfo;
 
-  @JsonIgnoreProperties(value = { "baseInfo", "group" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "group" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
   private GroupProfile profile;
 
-  @JsonIgnoreProperties(
-    value = {
-      "historyUpdates",
-      "classInfo",
-      "userProfile",
-      "accountStatus",
-      "deviceStatus",
-      "friend",
-      "followUser",
-      "followGroup",
-      "followPage",
-      "fileInfo",
-      "pagePost",
-      "pageProfile",
-      "groupPost",
-      "post",
-      "postComment",
-      "postLike",
-      "groupProfile",
-      "newsFeed",
-      "messageGroup",
-      "messageContent",
-      "rankUser",
-      "rankGroup",
-      "notification",
-      "album",
-      "video",
-      "image",
-      "videoStream",
-      "videoLiveStreamBuffer",
-      "topicInterest",
-      "todoList",
-      "event",
-      "createdBy",
-      "modifiedBy",
-      "owner",
-      "permissions",
-    },
-    allowSetters = true
-  )
+  @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
-  private BaseInfo baseInfo;
+  private BaseInfo info;
 
-  @OneToMany(mappedBy = "groupPost")
+  @OneToMany(mappedBy = "group")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(
-    value = {
-      "baseInfo", "comments", "likes", "postShareChildren", "groupPost", "pagePost", "postShareParent", "newsFeeds", "topicInterests",
-    },
+    value = { "info", "comments", "likes", "children", "group", "page", "parent", "newsFeeds", "topicInterests" },
     allowSetters = true
   )
-  private Set<Post> myPostInGroups = new HashSet<>();
+  private Set<Post> posts = new HashSet<>();
+
+  @OneToMany(mappedBy = "groupDetails")
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  @JsonIgnoreProperties(value = { "info", "groupDetails" }, allowSetters = true)
+  private Set<FollowGroup> followeds = new HashSet<>();
 
   @ManyToMany(mappedBy = "groupPosts")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  @JsonIgnoreProperties(value = { "baseInfo", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
+  @JsonIgnoreProperties(value = { "info", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
   private Set<TopicInterest> topicInterests = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -202,48 +166,79 @@ public class GroupPost implements Serializable {
     this.profile = groupProfile;
   }
 
-  public BaseInfo getBaseInfo() {
-    return this.baseInfo;
+  public BaseInfo getInfo() {
+    return this.info;
   }
 
-  public GroupPost baseInfo(BaseInfo baseInfo) {
-    this.setBaseInfo(baseInfo);
+  public GroupPost info(BaseInfo baseInfo) {
+    this.setInfo(baseInfo);
     return this;
   }
 
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
-  public Set<Post> getMyPostInGroups() {
-    return this.myPostInGroups;
+  public Set<Post> getPosts() {
+    return this.posts;
   }
 
-  public GroupPost myPostInGroups(Set<Post> posts) {
-    this.setMyPostInGroups(posts);
+  public GroupPost posts(Set<Post> posts) {
+    this.setPosts(posts);
     return this;
   }
 
-  public GroupPost addMyPostInGroup(Post post) {
-    this.myPostInGroups.add(post);
-    post.setGroupPost(this);
+  public GroupPost addPost(Post post) {
+    this.posts.add(post);
+    post.setGroup(this);
     return this;
   }
 
-  public GroupPost removeMyPostInGroup(Post post) {
-    this.myPostInGroups.remove(post);
-    post.setGroupPost(null);
+  public GroupPost removePost(Post post) {
+    this.posts.remove(post);
+    post.setGroup(null);
     return this;
   }
 
-  public void setMyPostInGroups(Set<Post> posts) {
-    if (this.myPostInGroups != null) {
-      this.myPostInGroups.forEach(i -> i.setGroupPost(null));
+  public void setPosts(Set<Post> posts) {
+    if (this.posts != null) {
+      this.posts.forEach(i -> i.setGroup(null));
     }
     if (posts != null) {
-      posts.forEach(i -> i.setGroupPost(this));
+      posts.forEach(i -> i.setGroup(this));
     }
-    this.myPostInGroups = posts;
+    this.posts = posts;
+  }
+
+  public Set<FollowGroup> getFolloweds() {
+    return this.followeds;
+  }
+
+  public GroupPost followeds(Set<FollowGroup> followGroups) {
+    this.setFolloweds(followGroups);
+    return this;
+  }
+
+  public GroupPost addFollowed(FollowGroup followGroup) {
+    this.followeds.add(followGroup);
+    followGroup.setGroupDetails(this);
+    return this;
+  }
+
+  public GroupPost removeFollowed(FollowGroup followGroup) {
+    this.followeds.remove(followGroup);
+    followGroup.setGroupDetails(null);
+    return this;
+  }
+
+  public void setFolloweds(Set<FollowGroup> followGroups) {
+    if (this.followeds != null) {
+      this.followeds.forEach(i -> i.setGroupDetails(null));
+    }
+    if (followGroups != null) {
+      followGroups.forEach(i -> i.setGroupDetails(this));
+    }
+    this.followeds = followGroups;
   }
 
   public Set<TopicInterest> getTopicInterests() {

@@ -13,8 +13,8 @@ import org.mapstruct.*;
 @GeneratedByJHipster
 public interface ImageMapper extends EntityMapper<ImageDTO, Image> {
   @Mapping(target = "fileInfo", source = "fileInfo", qualifiedByName = "id")
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "imageOriginal", source = "imageOriginal", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
+  @Mapping(target = "original", source = "original", qualifiedByName = "id")
   ImageDTO toDto(Image s);
 
   @Named("id")

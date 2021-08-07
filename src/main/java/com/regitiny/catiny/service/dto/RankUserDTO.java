@@ -31,7 +31,7 @@ public class RankUserDTO implements Serializable {
 
   private Float ratingPoints;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private RankGroupDTO rankGroup;
 
@@ -59,12 +59,12 @@ public class RankUserDTO implements Serializable {
     this.ratingPoints = ratingPoints;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public RankGroupDTO getRankGroup() {
@@ -103,7 +103,7 @@ public class RankUserDTO implements Serializable {
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
             ", ratingPoints=" + getRatingPoints() +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", rankGroup=" + getRankGroup() +
             "}";
     }

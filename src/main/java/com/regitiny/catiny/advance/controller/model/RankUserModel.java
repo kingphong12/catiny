@@ -29,7 +29,7 @@ public class RankUserModel implements Serializable
 
   private Float ratingPoints;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private RankGroupDTO rankGroup;
 
@@ -50,7 +50,7 @@ public class RankUserModel implements Serializable
 
     private Float ratingPoints;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private RankGroupDTO rankGroup;
   }
@@ -72,7 +72,7 @@ public class RankUserModel implements Serializable
 
     private Float ratingPoints;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
 
     private RankGroupDTO rankGroup;
   }

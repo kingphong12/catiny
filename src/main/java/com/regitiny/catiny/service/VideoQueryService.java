@@ -128,16 +128,14 @@ public class VideoQueryService extends QueryService<Video> {
             buildSpecification(criteria.getFileInfoId(), root -> root.join(Video_.fileInfo, JoinType.LEFT).get(FileInfo_.id))
           );
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(Video_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(Video_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
-      if (criteria.getVideoProcessedId() != null) {
+      if (criteria.getProcessedId() != null) {
         specification =
           specification.and(
-            buildSpecification(criteria.getVideoProcessedId(), root -> root.join(Video_.videoProcesseds, JoinType.LEFT).get(Video_.id))
+            buildSpecification(criteria.getProcessedId(), root -> root.join(Video_.processeds, JoinType.LEFT).get(Video_.id))
           );
       }
       if (criteria.getVideoStreamId() != null) {
@@ -146,11 +144,9 @@ public class VideoQueryService extends QueryService<Video> {
             buildSpecification(criteria.getVideoStreamId(), root -> root.join(Video_.videoStream, JoinType.LEFT).get(VideoStream_.id))
           );
       }
-      if (criteria.getVideoOriginalId() != null) {
+      if (criteria.getOriginalId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getVideoOriginalId(), root -> root.join(Video_.videoOriginal, JoinType.LEFT).get(Video_.id))
-          );
+          specification.and(buildSpecification(criteria.getOriginalId(), root -> root.join(Video_.original, JoinType.LEFT).get(Video_.id)));
       }
     }
     return specification;

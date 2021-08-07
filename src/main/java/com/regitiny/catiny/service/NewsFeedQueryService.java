@@ -102,11 +102,9 @@ public class NewsFeedQueryService extends QueryService<NewsFeed> {
       if (criteria.getPriorityIndex() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getPriorityIndex(), NewsFeed_.priorityIndex));
       }
-      if (criteria.getBaseInfoId() != null) {
+      if (criteria.getInfoId() != null) {
         specification =
-          specification.and(
-            buildSpecification(criteria.getBaseInfoId(), root -> root.join(NewsFeed_.baseInfo, JoinType.LEFT).get(BaseInfo_.id))
-          );
+          specification.and(buildSpecification(criteria.getInfoId(), root -> root.join(NewsFeed_.info, JoinType.LEFT).get(BaseInfo_.id)));
       }
       if (criteria.getPostId() != null) {
         specification =

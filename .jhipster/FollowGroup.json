@@ -13,14 +13,14 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "followGroup",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "groupPost",
-      "otherEntityRelationshipName": "followGroup",
-      "relationshipName": "followGroupDetails"
+      "otherEntityRelationshipName": "followed",
+      "relationshipName": "groupDetails"
     }
   ],
   "javadoc": "@what?            -> The FollowGroup entity.\\n@why?             ->\\n@use-to           -> Quản lý các nhóm mà người dùng đăng ký theo dõi\\n@commonly-used-in -> Chủ đề mà người dùng theo dõi\\n\\n@describe         ->",

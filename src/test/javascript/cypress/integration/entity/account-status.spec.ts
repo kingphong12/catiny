@@ -108,7 +108,7 @@ describe('AccountStatus e2e test', () => {
 
     cy.get(`[data-cy="statusComment"]`).type('Refined synergies').should('have.value', 'Refined synergies');
 
-    cy.setFieldSelectToLastOfEntity('baseInfo');
+    cy.setFieldSelectToLastOfEntity('info');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

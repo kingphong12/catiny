@@ -8,9 +8,9 @@
     -->
     <changeSet id="20210710143920-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="base_info_id"
+        <addForeignKeyConstraint baseColumnNames="info_id"
                                  baseTableName="post_like"
-                                 constraintName="fk_post_like__base_info_id"
+                                 constraintName="fk_post_like__info_id"
                                  referencedColumnNames="id"
                                  referencedTableName="base_info"/>
 
@@ -20,9 +20,9 @@
                                  referencedColumnNames="id"
                                  referencedTableName="post"/>
 
-        <addForeignKeyConstraint baseColumnNames="post_comment_id"
+        <addForeignKeyConstraint baseColumnNames="comment_id"
                                  baseTableName="post_like"
-                                 constraintName="fk_post_like__post_comment_id"
+                                 constraintName="fk_post_like__comment_id"
                                  referencedColumnNames="id"
                                  referencedTableName="post_comment"/>
     </changeSet>

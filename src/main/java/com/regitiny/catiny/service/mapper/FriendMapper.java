@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { BaseInfoMapper.class, MasterUserMapper.class })
 @GeneratedByJHipster
 public interface FriendMapper extends EntityMapper<FriendDTO, Friend> {
-  @Mapping(target = "baseInfo", source = "baseInfo", qualifiedByName = "id")
-  @Mapping(target = "friendDetails", source = "friendDetails", qualifiedByName = "id")
+  @Mapping(target = "info", source = "info", qualifiedByName = "id")
+  @Mapping(target = "friend", source = "friend", qualifiedByName = "id")
   FriendDTO toDto(Friend s);
 }

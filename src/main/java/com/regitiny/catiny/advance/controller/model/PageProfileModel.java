@@ -26,7 +26,7 @@ public class PageProfileModel implements Serializable
   )
   private UUID uuid;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   @Data
   @Builder
@@ -43,7 +43,7 @@ public class PageProfileModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 
   @Data
@@ -61,6 +61,6 @@ public class PageProfileModel implements Serializable
     )
     private UUID uuid;
 
-    private BaseInfoDTO baseInfo;
+    private BaseInfoDTO info;
   }
 }

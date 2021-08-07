@@ -134,7 +134,7 @@ public class UserProfileDTO implements Serializable {
   @Lob
   private String featured;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   public Long getId() {
     return id;
@@ -248,12 +248,12 @@ public class UserProfileDTO implements Serializable {
     this.featured = featured;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   @Override
@@ -295,7 +295,7 @@ public class UserProfileDTO implements Serializable {
             ", lifeEvents='" + getLifeEvents() + "'" +
             ", hobbies='" + getHobbies() + "'" +
             ", featured='" + getFeatured() + "'" +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             "}";
     }
 }

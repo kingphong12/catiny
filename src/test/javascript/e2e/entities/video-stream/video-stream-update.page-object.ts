@@ -9,7 +9,7 @@ export default class VideoStreamUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#video-stream-uuid'));
   videoSelect: ElementFinder = element(by.css('select#video-stream-video'));
-  baseInfoSelect: ElementFinder = element(by.css('select#video-stream-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#video-stream-info'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -39,20 +39,20 @@ export default class VideoStreamUpdatePage {
     return this.videoSelect.element(by.css('option:checked')).getText();
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {
@@ -71,7 +71,7 @@ export default class VideoStreamUpdatePage {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await this.videoSelectLastOption();
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
   }

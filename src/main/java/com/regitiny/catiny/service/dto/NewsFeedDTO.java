@@ -35,7 +35,7 @@ public class NewsFeedDTO implements Serializable {
   @ApiModelProperty(value = "priorityIndex  : chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao)")
   private Long priorityIndex;
 
-  private BaseInfoDTO baseInfo;
+  private BaseInfoDTO info;
 
   private PostDTO post;
 
@@ -63,12 +63,12 @@ public class NewsFeedDTO implements Serializable {
     this.priorityIndex = priorityIndex;
   }
 
-  public BaseInfoDTO getBaseInfo() {
-    return baseInfo;
+  public BaseInfoDTO getInfo() {
+    return info;
   }
 
-  public void setBaseInfo(BaseInfoDTO baseInfo) {
-    this.baseInfo = baseInfo;
+  public void setInfo(BaseInfoDTO info) {
+    this.info = info;
   }
 
   public PostDTO getPost() {
@@ -107,7 +107,7 @@ public class NewsFeedDTO implements Serializable {
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
             ", priorityIndex=" + getPriorityIndex() +
-            ", baseInfo=" + getBaseInfo() +
+            ", info=" + getInfo() +
             ", post=" + getPost() +
             "}";
     }

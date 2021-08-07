@@ -13,7 +13,7 @@ export default class DeviceStatusUpdatePage {
   deviceStatusSelect: ElementFinder = element(by.css('select#device-status-deviceStatus'));
   lastVisitedInput: ElementFinder = element(by.css('input#device-status-lastVisited'));
   statusCommentInput: ElementFinder = element(by.css('input#device-status-statusComment'));
-  baseInfoSelect: ElementFinder = element(by.css('select#device-status-baseInfo'));
+  infoSelect: ElementFinder = element(by.css('select#device-status-info'));
   accountStatusSelect: ElementFinder = element(by.css('select#device-status-accountStatus'));
 
   getPageTitle() {
@@ -74,20 +74,20 @@ export default class DeviceStatusUpdatePage {
     return this.statusCommentInput.getAttribute('value');
   }
 
-  async baseInfoSelectLastOption() {
-    await this.baseInfoSelect.all(by.tagName('option')).last().click();
+  async infoSelectLastOption() {
+    await this.infoSelect.all(by.tagName('option')).last().click();
   }
 
-  async baseInfoSelectOption(option) {
-    await this.baseInfoSelect.sendKeys(option);
+  async infoSelectOption(option) {
+    await this.infoSelect.sendKeys(option);
   }
 
-  getBaseInfoSelect() {
-    return this.baseInfoSelect;
+  getInfoSelect() {
+    return this.infoSelect;
   }
 
-  async getBaseInfoSelectedOption() {
-    return this.baseInfoSelect.element(by.css('option:checked')).getText();
+  async getInfoSelectedOption() {
+    return this.infoSelect.element(by.css('option:checked')).getText();
   }
 
   async accountStatusSelectLastOption() {
@@ -131,7 +131,7 @@ export default class DeviceStatusUpdatePage {
     await this.setLastVisitedInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
     await waitUntilDisplayed(this.saveButton);
     await this.setStatusCommentInput('statusComment');
-    await this.baseInfoSelectLastOption();
+    await this.infoSelectLastOption();
     await this.accountStatusSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);

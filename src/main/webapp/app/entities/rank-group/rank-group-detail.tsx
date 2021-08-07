@@ -39,9 +39,9 @@ export const RankGroupDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{rankGroupEntity.uuid}</dd>
           <dt>
-            <Translate contentKey="catinyApp.rankGroup.baseInfo">Base Info</Translate>
+            <Translate contentKey="catinyApp.rankGroup.info">Info</Translate>
           </dt>
-          <dd>{rankGroupEntity.baseInfo ? rankGroupEntity.baseInfo.id : ''}</dd>
+          <dd>{rankGroupEntity.info ? rankGroupEntity.info.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/rank-group" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

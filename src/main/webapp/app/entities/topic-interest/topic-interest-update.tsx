@@ -64,7 +64,7 @@ export const TopicInterestUpdate = (props: RouteComponentProps<{ id: string }>) 
       posts: mapIdList(values.posts),
       pagePosts: mapIdList(values.pagePosts),
       groupPosts: mapIdList(values.groupPosts),
-      baseInfo: baseInfos.find(it => it.id.toString() === values.baseInfoId.toString()),
+      info: baseInfos.find(it => it.id.toString() === values.infoId.toString()),
     };
 
     if (isNew) {
@@ -79,7 +79,7 @@ export const TopicInterestUpdate = (props: RouteComponentProps<{ id: string }>) 
       ? {}
       : {
           ...topicInterestEntity,
-          baseInfoId: topicInterestEntity?.baseInfo?.id,
+          infoId: topicInterestEntity?.info?.id,
           posts: topicInterestEntity?.posts?.map(e => e.id.toString()),
           pagePosts: topicInterestEntity?.pagePosts?.map(e => e.id.toString()),
           groupPosts: topicInterestEntity?.groupPosts?.map(e => e.id.toString()),
@@ -138,10 +138,10 @@ export const TopicInterestUpdate = (props: RouteComponentProps<{ id: string }>) 
                 type="textarea"
               />
               <ValidatedField
-                id="topic-interest-baseInfo"
-                name="baseInfoId"
-                data-cy="baseInfo"
-                label={translate('catinyApp.topicInterest.baseInfo')}
+                id="topic-interest-info"
+                name="infoId"
+                data-cy="info"
+                label={translate('catinyApp.topicInterest.info')}
                 type="select"
               >
                 <option value="" key="0" />

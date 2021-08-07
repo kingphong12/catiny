@@ -5,7 +5,7 @@ export interface ITodoList {
   uuid?: string;
   title?: string | null;
   content?: string | null;
-  baseInfo?: IBaseInfo | null;
+  info?: IBaseInfo | null;
 }
 
 export const defaultValue: Readonly<ITodoList> = {};

@@ -2,17 +2,15 @@ package com.regitiny.catiny.service;
 
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.service.dto.HistoryUpdateDTO;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
 
 /**
  * Service Interface for managing {@link com.regitiny.catiny.domain.HistoryUpdate}.
  */
 @GeneratedByJHipster
-public interface HistoryUpdateService
-{
+public interface HistoryUpdateService {
   /**
    * Save a historyUpdate.
    *
@@ -20,7 +18,6 @@ public interface HistoryUpdateService
    * @return the persisted entity.
    */
   HistoryUpdateDTO save(HistoryUpdateDTO historyUpdateDTO);
-
 
   /**
    * Partially updates a historyUpdate.
@@ -30,7 +27,6 @@ public interface HistoryUpdateService
    */
   Optional<HistoryUpdateDTO> partialUpdate(HistoryUpdateDTO historyUpdateDTO);
 
-
   /**
    * Get all the historyUpdates.
    *
@@ -38,7 +34,6 @@ public interface HistoryUpdateService
    * @return the list of entities.
    */
   Page<HistoryUpdateDTO> findAll(Pageable pageable);
-
 
   /**
    * Get the "id" historyUpdate.
@@ -48,7 +43,6 @@ public interface HistoryUpdateService
    */
   Optional<HistoryUpdateDTO> findOne(Long id);
 
-
   /**
    * Delete the "id" historyUpdate.
    *
@@ -56,11 +50,11 @@ public interface HistoryUpdateService
    */
   void delete(Long id);
 
-
   /**
    * Search for the historyUpdate corresponding to the query.
    *
-   * @param query    the query of the search.
+   * @param query the query of the search.
+   *
    * @param pageable the pagination information.
    * @return the list of entities.
    */

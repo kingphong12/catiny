@@ -38,14 +38,20 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "baseInfo",
       "otherEntityRelationshipName": "pagePost",
-      "relationshipName": "baseInfo",
+      "relationshipName": "info",
       "ownerSide": true
     },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "post",
-      "otherEntityRelationshipName": "pagePost",
-      "relationshipName": "myPostInPage"
+      "otherEntityRelationshipName": "page",
+      "relationshipName": "post"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "followPage",
+      "otherEntityRelationshipName": "pageDetails",
+      "relationshipName": "followed"
     },
     {
       "relationshipType": "many-to-many",

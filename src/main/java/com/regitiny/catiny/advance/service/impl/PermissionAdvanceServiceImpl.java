@@ -7,6 +7,7 @@ import com.regitiny.catiny.advance.service.mapper.PermissionAdvanceMapper;
 import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.service.PermissionQueryService;
 import com.regitiny.catiny.service.PermissionService;
+import com.regitiny.catiny.util.MasterUserUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -37,13 +38,15 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
    */
   public Permission createForOwner()
   {
-    return permissionAdvanceRepository.save(new Permission().uuid(UUID.randomUUID())
+    var permission = new Permission().uuid(UUID.randomUUID())
       .read(true)
       .write(true)
       .share(true)
       .add(true)
       .delete(true)
-      .level(0));
+      .level(0);
+    MasterUserUtil.getCurrentMasterUser().forEach(permission::owner);
+    return permissionAdvanceRepository.save(permission);
   }
 
   /**
@@ -58,13 +61,15 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
    */
   public Permission createForAnonymous()
   {
-    return permissionAdvanceRepository.save(new Permission().uuid(UUID.randomUUID())
+    var permission = new Permission().uuid(UUID.randomUUID())
       .read(false)
       .write(false)
       .share(false)
       .add(false)
       .delete(false)
-      .level(Integer.MAX_VALUE));
+      .level(Integer.MAX_VALUE);
+    MasterUserUtil.anonymousMasterUser().forEach(permission::owner);
+    return permissionAdvanceRepository.save(permission);
   }
 
   /**

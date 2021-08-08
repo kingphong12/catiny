@@ -83,19 +83,22 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
 
     MasterUserUtil.getCurrentMasterUser()
       .forEach(masterUser -> baseInfo.owner(masterUser)
-        .addPermission(permissionAdvanceService.createForOwner().owner(masterUser))
+        .addPermission(permissionAdvanceService.createForOwner())
         .createdBy(masterUser)
         .modifiedBy(masterUser));
-    MasterUserUtil.anonymousMasterUser().map(permissionAdvanceService.createForAnonymous()::owner).forEach(baseInfo::addPermission);
+    MasterUserUtil.anonymousMasterUser()
+      .map(masterUser -> permissionAdvanceService.createForAnonymous())
+      .forEach(baseInfo::addPermission);
 
-    return baseInfoAdvanceRepository.save(baseInfo.addHistory(historyUpdateAdvanceService.createFirstVersion()));
+
+    return baseInfoAdvanceRepository.save(baseInfo.addHistory(historyUpdateAdvanceService.createFirstVersion(baseInfo)));
   }
 
   public BaseInfo createWhenCreateMasterUser(MasterUser masterUser)
   {
     var now = Instant.now();
     var ownerPermission = permissionAdvanceService.createForOwner().owner(masterUser);
-    var historyUpdate = historyUpdateAdvanceService.createFirstVersion();
+
     var baseInfo = new BaseInfo()
       .processStatus(ProcessStatus.NOT_PROCESSED)
 //      .modifiedClass(null)
@@ -106,9 +109,11 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
       .createdBy(masterUser)
       .modifiedBy(masterUser)
       .priorityIndex(0L)
-      .countUse(0L)
-      .addHistory(historyUpdate);
-    return baseInfoAdvanceRepository.save(baseInfo);
+      .countUse(0L);
+    baseInfo = baseInfoAdvanceRepository.save(baseInfo);
+
+    var historyUpdate = historyUpdateAdvanceService.createFirstVersion(baseInfo);
+    return baseInfo;
   }
 
 

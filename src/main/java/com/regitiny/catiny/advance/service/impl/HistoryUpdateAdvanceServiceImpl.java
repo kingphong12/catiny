@@ -11,7 +11,6 @@ import com.regitiny.catiny.service.HistoryUpdateService;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,14 +32,18 @@ public class HistoryUpdateAdvanceServiceImpl extends AdvanceService<HistoryUpdat
   private final BaseInfoAdvanceServiceImpl baseInfoAdvanceServiceImpl;
 
 
-  public HistoryUpdate createFirstVersion()
+  public HistoryUpdate createFirstVersion(BaseInfo baseInfo)
   {
-    var result = historyUpdateAdvanceRepository.save(new HistoryUpdate().uuid(UUID.randomUUID()).version(0).content(null));
-    historyUpdateAdvanceSearch.save(result);
+    var result = historyUpdateAdvanceRepository.save(new HistoryUpdate()
+      .uuid(UUID.randomUUID())
+      .baseInfo(baseInfo)
+      .version(0)
+      .content(null));
+    historyUpdateAdvanceSearch.save(historyUpdateAdvanceMapper.cleanEntity(result));
     return result;
   }
 
-  public Option<HistoryUpdate> updateChangeLog(BaseInfo baseInfoInput, Object content)
+  public Option<HistoryUpdate> updateChangeLog(BaseInfo baseInfoInput, String content)
   {
     if (Objects.isNull(content))
     {
@@ -49,14 +52,16 @@ public class HistoryUpdateAdvanceServiceImpl extends AdvanceService<HistoryUpdat
     }
 
     return baseInfoAdvanceServiceImpl.findOne(baseInfoInput)
-      .map(baseInfo ->
-      {
-        var countVersion = historyUpdateAdvanceRepository.lastVersion(baseInfo).getOrElse(0);
-        var historyUpdate = createFirstVersion()
-          .baseInfo(baseInfo)
-          .version(++countVersion)
-          .content(new JSONObject(content).toString());
-        return historyUpdateAdvanceRepository.save(historyUpdate);
-      });
+      .map(baseInfo -> historyUpdateAdvanceRepository.lastVersion(baseInfo)
+        .filter(integer -> !baseInfo.getHistories().isEmpty())
+        .map(integer -> new HistoryUpdate().baseInfo(baseInfo)
+          .version(++integer)
+          .content(content))
+        .orElse(Option.of(new HistoryUpdate()
+          .uuid(UUID.randomUUID())
+          .version(0)
+          .baseInfo(baseInfo)))
+        .map(historyUpdateAdvanceRepository::save)
+        .get());
   }
 }

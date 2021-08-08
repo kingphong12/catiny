@@ -1,5 +1,6 @@
 package com.regitiny.catiny.aop;
 
+import com.google.gson.Gson;
 import com.regitiny.catiny.advance.service.impl.BaseInfoAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.HistoryUpdateAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.MasterUserAdvanceServiceImpl;
@@ -8,7 +9,6 @@ import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
 import com.regitiny.catiny.domain.BaseInfo;
 import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
-import com.regitiny.catiny.domain.enumeration.ProcessStatus;
 import com.regitiny.catiny.util.MasterUserUtil;
 import com.regitiny.catiny.util.ReflectUtil;
 import io.vavr.control.Option;
@@ -18,7 +18,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +25,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -104,46 +100,51 @@ public class AdvanceRepositoryAspectService
       var advanceMapperBean = (EntityAdvanceMapper) applicationContext.getBean(advanceRepositoryName.get(0).replace("AdvanceRepository", "AdvanceMapperImpl"));
       var advanceRepositoryBeanInvoker = new ReflectUtil(advanceRepositoryBean);
 
-      ReflectUtil.methodInvoke(entity, "getId")
-        .map(id -> advanceRepositoryBeanInvoker.methodInvoke("findById", new Class[]{Object.class}, id).get())
+      var entityOld = ReflectUtil.methodInvoke(entity, "getId")
+        .map(id -> advanceRepositoryBeanInvoker.methodInvoke("findById", new Class[]{Object.class}, id).getOrNull())
         .orElse(ReflectUtil.methodInvoke(entity, "getUuid")
-          .map(uuid -> advanceRepositoryBeanInvoker.methodInvoke("findOneByUuid", uuid).getOrNull()))
-        .peek(entityExist -> log.debug("entity really exist in database -> update entity . entity details : {}", entityExist))
-//        update
-        .map(entityExist -> ReflectUtil.methodInvoke(entityExist, "getInfo")
-          .map(o -> (BaseInfo) o)
-          //kiểm tra quyền ghi
-          .filter(baseInfo -> Option.of(baseInfo.getOwner())
+          .map(uuid -> advanceRepositoryBeanInvoker.methodInvoke("findOneByUuid", uuid).getOrNull()));
+      //kiểm tra quyền ghi
+
+      if (entityOld.isEmpty())
+      {
+        if (advanceRepositoryName.get(0).toLowerCase().contains("MasterUser".toLowerCase()))
+          return joinPoint.proceed();
+        ReflectUtil.methodInvoke(entity, "setInfo", baseInfoAdvanceService.createForOwner());
+      }
+      else
+      {
+        var baseInfoOption = ReflectUtil.methodInvoke(entityOld.get(), "getInfo")
+          .map(o -> (BaseInfo) o);
+        var canUpdate = baseInfoOption
+          .map(baseInfo -> Option.of(baseInfo.getOwner())
             .map(MasterUser::getId)
             .map(id -> id.equals(MasterUserUtil.getCurrentMasterUser().map(MasterUser::getId).get()))
             .orElse(permissionAdvanceService.publicLocal().advanceRepository
               .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtil.getCurrentMasterUser().getOrElse(MasterUserUtil.anonymousMasterUser().get()))
               .map(Permission::getWrite))
-            .getOrElse(false))
-          .peek(baseInfo -> historyUpdateAdvanceService.updateChangeLog(baseInfo, new JSONObject()
-            .put("details-prev", advanceMapperBean.cleanEntity(entityExist))
-            .put("base-info-prev", baseInfoAdvanceService.publicLocal().advanceMapper.cleanEntity(baseInfo))
-            .toString()))
-          .map(baseInfo -> baseInfoAdvanceService.publicLocal().advanceRepository.save(baseInfo
+            .get())
+          .getOrElse(false);
+        if (canUpdate)
+        {
+          var baseInfo = baseInfoOption.get();
+          historyUpdateAdvanceService.updateChangeLog(baseInfo, new JSONObject()
+            .put("entity", new Gson().toJson(advanceMapperBean.cleanEntity(entityOld.get())))
+            .put("baseInfo", new Gson().toJson(baseInfoAdvanceService.publicLocal().advanceMapper.cleanEntity(baseInfo)))
+            .toString());
+          baseInfo = baseInfoAdvanceService.publicLocal().advanceRepository.save(baseInfo
             .modifiedDate(Instant.now())
 //            .processStatus(ProcessStatus.PROCESSING)
-            .modifiedBy(MasterUserUtil.getCurrentMasterUser().get())))
-          .map(baseInfo ->
-          {
-            if (ReflectUtil.methodInvoke(entity, "getInfo").isEmpty())
-              return ReflectUtil.methodInvoke(entity, "setInfo", baseInfo).get();
-            return entity;
-          })
-          .getOrElse(() ->
-          {
-            log.debug("không tìm thấy base info hoặc không có quyền truy cập ");
-            return null;
-          }))
-//        create new entity
-//        bỏ quả nếu nó là tạo mới MasterUser
-        .orElse(Option.when(!advanceRepositoryName.get(0).toLowerCase().contains("MasterUser".toLowerCase()),
-          ReflectUtil.methodInvoke(entity, "setInfo", baseInfoAdvanceService.createForOwner())))
-        .getOrElse(entity);
+            .modifiedBy(MasterUserUtil.getCurrentMasterUser().get()));
+          if (ReflectUtil.methodInvoke(entity, "getInfo").isEmpty())
+            ReflectUtil.methodInvoke(entity, "setInfo", baseInfo).get();
+        }
+        else
+        {
+          log.warn("not found base info or no access");
+          return null;
+        }
+      }
       var result = joinPoint.proceed(new Object[]{entity});
       log.debug("entity after save entity : {}", entity);
       return result;

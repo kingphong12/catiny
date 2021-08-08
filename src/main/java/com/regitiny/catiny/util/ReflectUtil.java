@@ -26,8 +26,8 @@ public class ReflectUtil
   public static Option<Object> methodInvoke(Object object, String methodName, Class<?>[] parameterTypes, Object... parameter)
   {
     return Try.of(() -> object.getClass()
-      .getMethod(methodName, parameterTypes)
-      .invoke(object, parameter))
+        .getMethod(methodName, parameterTypes)
+        .invoke(object, parameter))
       .onFailure(throwable -> log.error("error when invoke method -> method name : {} \nparameter : {}", methodName, parameter, throwable))
       .map(o ->
       {

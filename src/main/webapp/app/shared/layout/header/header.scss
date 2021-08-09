@@ -1,5 +1,5 @@
-$header-color: #fff;
-$header-color-secondary: #bbb;
+$header-color: aqua;
+$header-color-secondary: #ddd;
 $header-color-hover: darken($header-color, 20%);
 
 /* ==========================================================================
@@ -48,7 +48,7 @@ Navbar styles
     text-decoration: none;
   }
   .brand-icon {
-    height: 35px;
+    //height: 35px;
     width: auto;
     display: inline-block;
     img {

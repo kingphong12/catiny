@@ -1,10 +1,5 @@
 import React, {Fragment} from "react";
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
 import PageTitle from '../components/PageTitle';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
 import Load from '../components/Load';
 
 const groupList = [
@@ -49,10 +44,6 @@ const groupList = [
 
 const Badge = () => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
     <div className="main-content right-chat-active">
       <div className="middle-sidebar-bottom">
         <div className="middle-sidebar-left pe-0">
@@ -96,9 +87,6 @@ const Badge = () => (
 
       </div>
     </div>
-
-    <PopupChat/>
-    <AppFooter/>
   </Fragment>
 );
 

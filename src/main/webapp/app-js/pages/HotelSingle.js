@@ -1,9 +1,4 @@
 import React, {Component, Fragment} from "react";
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
 
 import Slider from "react-slick";
 
@@ -92,10 +87,6 @@ class HotelSingle extends Component
     };
     return (
       <Fragment>
-        <Header/>
-        <LeftNav/>
-        <RightChat/>
-
         <div className="main-content right-chat-active">
           <div className="middle-sidebar-bottom">
             <div className="middle-sidebar-left pe-0">
@@ -419,10 +410,6 @@ class HotelSingle extends Component
             </div>
           </div>
         </div>
-
-        <PopupChat/>
-        <AppFooter/>
-
       </Fragment>
     );
   }

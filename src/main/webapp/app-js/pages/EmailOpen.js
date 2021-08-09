@@ -1,19 +1,9 @@
 import React, {Fragment} from "react";
 
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
-
 import {Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel,} from 'react-accessible-accordion';
 
 const EmailOpen = () => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
     <div className="main-content right-chat-active">
       <div className="middle-sidebar-bottom">
         <div className="middle-sidebar-left pe-0 ps-lg-3 ms-0 me-0" style={{maxWidth: `100%`}}>
@@ -107,10 +97,6 @@ const EmailOpen = () => (
         </div>
       </div>
     </div>
-
-    <PopupChat/>
-    <AppFooter/>
-
   </Fragment>
 );
 

@@ -1,4 +1,4 @@
-import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
+import {loadingBarReducer as loadingBar} from 'react-redux-loading-bar';
 
 import locale from './locale';
 import authentication from './authentication';
@@ -82,6 +82,7 @@ import classInfo from 'app/entities/class-info/class-info.reducer';
 // prettier-ignore
 import historyUpdate from 'app/entities/history-update/history-update.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
+import setting from 'app/modules/setting/setting.reducer';
 
 const rootReducer = {
   authentication,
@@ -131,6 +132,7 @@ const rootReducer = {
   historyUpdate,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
+  setting,
 };
 
 export default rootReducer;

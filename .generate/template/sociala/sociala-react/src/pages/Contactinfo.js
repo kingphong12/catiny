@@ -1,20 +1,16 @@
-import React, { Component , Fragment } from "react";
-import { Link } from 'react-router-dom';
+import React, {Component, Fragment} from "react";
+import {Link} from 'react-router-dom';
 
-import Header from '../components/Header';
-import Leftnav from '../components/Leftnav';
-import Rightchat from '../components/Rightchat';
-import Appfooter from '../components/Appfooter';
-import Popupchat from '../components/Popupchat';
 
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const AnyReactComponent = ({text}) => <div>{text}</div>;
 
-class Contactinfo extends Component {
-    static defaultProps = {
-        center: {
-            lat: 59.95,
+class Contactinfo extends Component
+{
+  static defaultProps = {
+    center: {
+      lat: 59.95,
             lng: 30.33
         },
         zoom: 11

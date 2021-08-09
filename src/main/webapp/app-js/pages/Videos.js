@@ -1,10 +1,5 @@
 import React, {Fragment} from "react";
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
 import Load from '../components/Load';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
 
 import {Player} from 'video-react';
 
@@ -37,34 +32,29 @@ const videoList = [
 
 const Videos = () => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
-
     <div className="main-content right-chat-active">
       <div className="middle-sidebar-bottom">
         <div className="middle-sidebar-left pe-0">
           <div className="row justify-content-center">
             <div className="col-lg-10">
               {videoList.map((value, index) => (
-                <div key={index} className="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
-                  <div className="card-body p-0 d-flex">
-                    <figure className="avatar me-3"><img src={`assets/images/${value.avater}`} alt="video"
-                                                         className="shadow-sm rounded-circle w45"/></figure>
-                    <h4 className="fw-700 text-grey-900 font-xssss mt-1"> {value.user} <span
-                      className="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500"> {value.time}</span></h4>
-                    <a href="/defaultvideo" className="ms-auto"><i className="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i></a>
+                <div key={index} className='card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3'>
+                  <div className='card-body p-0 d-flex'>
+                    <figure className='avatar me-3'>
+                      <img src={`assets/images/${value.avater}`} alt='video' className='shadow-sm rounded-circle w45' /></figure>
+                    <h4 className='fw-700 text-grey-900 font-xssss mt-1'> {value.user} <span
+                      className='d-block font-xssss fw-500 mt-1 lh-3 text-grey-500'> {value.time}</span></h4>
+                    <a href='/defaultvideo' className='ms-auto'><i className='ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss'></i></a>
                   </div>
 
-                  <div className="card-body p-0 mb-3 rounded-3 overflow-hidden">
+                  <div className='card-body p-0 mb-3 rounded-3 overflow-hidden'>
                     <Player
                       poster={`assets/images/${value.videoimage}`}
                       src={`assets/images/${value.videourl}`}
                     />
                   </div>
-                  <div className="card-body p-0 me-lg-5">
-                    <p className="fw-500 text-grey-500 lh-26 font-xssss w-100 mb-0"> {value.des} <a href="/defaultvideo"
+                  <div className='card-body p-0 me-lg-5'>
+                    <p className='fw-500 text-grey-500 lh-26 font-xssss w-100 mb-0'> {value.des} <a href='/defaultvideo'
                                                                                                     className="fw-600 text-primary ms-2">See
                       more</a></p>
                   </div>
@@ -86,9 +76,6 @@ const Videos = () => (
         </div>
       </div>
     </div>
-
-    <PopupChat/>
-    <AppFooter/>
   </Fragment>
 );
 

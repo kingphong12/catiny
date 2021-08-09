@@ -1,17 +1,7 @@
 import React, {Fragment} from "react";
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
 
 const Checkout = () => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
-
     <div className="main-content right-chat-active bg-white">
       <div className="middle-sidebar-bottom">
         <div className="middle-sidebar-left pe-0">
@@ -221,9 +211,6 @@ const Checkout = () => (
         </div>
       </div>
     </div>
-
-    <PopupChat/>
-    <AppFooter/>
   </Fragment>
 );
 

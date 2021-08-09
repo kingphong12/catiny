@@ -1,12 +1,6 @@
 import React, {Component, Fragment} from "react";
 import Chart from "react-apexcharts";
 
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
-
 class Analytics extends Component
 {
   constructor(props)
@@ -62,9 +56,6 @@ class Analytics extends Component
   {
     return (
       <Fragment>
-        <Header/>
-        <LeftNav/>
-        <RightChat/>
 
         <div className="main-content bg-white right-chat-active">
           <div className="middle-sidebar-bottom">
@@ -89,40 +80,39 @@ class Analytics extends Component
                 <div className="col-lg-3 pe-2">
                   <div className="card w-100 border-0 shadow-none p-4 rounded-xxl mb-3" style={{background: `#e5f6ff`}}>
                     <div className="card-body d-flex p-0">
-                      <i className="btn-round-lg d-inline-block me-3 bg-primary-gradiant feather-home font-md text-white"></i>
-                      <h4 className="text-primary font-xl fw-700">2.3M <span
-                        className="fw-500 mt-0 d-block text-grey-500 font-xssss">day visiter</span></h4>
+                      <i className='btn-round-lg d-inline-block me-3 bg-primary-gradiant feather-home font-md text-white' />
+                      <h4 className='text-primary font-xl fw-700'>2.3M <span
+                        className='fw-500 mt-0 d-block text-grey-500 font-xssss'>day visiter</span></h4>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-3 pe-2 ps-2">
                   <div className="card w-100 border-0 shadow-none p-4 rounded-xxl mb-3" style={{background: `#f6f3ff`}}>
                     <div className="card-body d-flex p-0">
-                      <i className="btn-round-lg d-inline-block me-3 bg-secondary feather-lock font-md text-white"></i>
-                      <h4 className="text-secondary font-xl fw-700">44.6K <span
-                        className="fw-500 mt-0 d-block text-grey-500 font-xssss">total user</span></h4>
+                      <i className='btn-round-lg d-inline-block me-3 bg-secondary feather-lock font-md text-white' />
+                      <h4 className='text-secondary font-xl fw-700'>44.6K <span
+                        className='fw-500 mt-0 d-block text-grey-500 font-xssss'>total user</span></h4>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-3 pe-2 ps-2">
                   <div className="card w-100 border-0 shadow-none p-4 rounded-xxl mb-3" style={{background: `#e2f6e9`}}>
                     <div className="card-body d-flex p-0">
-                      <i className="btn-round-lg d-inline-block me-3 bg-success feather-command font-md text-white"></i>
-                      <h4 className="text-success font-xl fw-700">603 <span
-                        className="fw-500 mt-0 d-block text-grey-500 font-xssss">monthly sale</span></h4>
+                      <i className='btn-round-lg d-inline-block me-3 bg-success feather-command font-md text-white' />
+                      <h4 className='text-success font-xl fw-700'>603 <span
+                        className='fw-500 mt-0 d-block text-grey-500 font-xssss'>monthly sale</span></h4>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-3 ps-2">
                   <div className="card w-100 border-0 shadow-none p-4 rounded-xxl mb-3" style={{background: `#fff0e9`}}>
                     <div className="card-body d-flex p-0">
-                      <i className="btn-round-lg d-inline-block me-3 bg-warning feather-shopping-bag font-md text-white"></i>
-                      <h4 className="text-warning font-xl fw-700">3M <span className="fw-500 mt-0 d-block text-grey-500 font-xssss">day visiter</span>
+                      <i className='btn-round-lg d-inline-block me-3 bg-warning feather-shopping-bag font-md text-white' />
+                      <h4 className='text-warning font-xl fw-700'>3M <span className='fw-500 mt-0 d-block text-grey-500 font-xssss'>day visiter</span>
                       </h4>
                     </div>
                   </div>
                 </div>
-
                 <div className="col-lg-12 mb-3">
                   <div className="card w-100 p-3 border-0 mb-3 rounded-xxl bg-lightblue2 shadow-none overflow-hidden">
                     <Chart
@@ -137,9 +127,6 @@ class Analytics extends Component
             </div>
           </div>
         </div>
-
-        <PopupChat/>
-        <AppFooter/>
       </Fragment>
     );
   }

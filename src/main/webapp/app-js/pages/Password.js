@@ -1,21 +1,10 @@
 import React, {Fragment} from "react";
 import {Link} from 'react-router-dom';
 
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-
 
 const Password = () => (
   <Fragment>
-
     <div className="main-wrapper">
-
-      <Header/>
-      <LeftNav/>
-      <RightChat/>
-
-
       <div className="main-content bg-lightblue theme-dark-bg right-chat-active">
 
         <div className="middle-sidebar-bottom">

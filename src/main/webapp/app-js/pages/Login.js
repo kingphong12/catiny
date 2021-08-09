@@ -48,7 +48,6 @@ const Login = () => (
                                                                                                     className="fw-700 ms-1">Register</a></h6>
               </div>
               <div className="col-sm-12 p-0 text-center mt-2">
-
                 <h6 className="mb-0 d-inline-block bg-white fw-500 font-xsss text-grey-500 mb-3">Or, Sign in with your social account </h6>
                 <div className="form-group mb-1"><a href="/register"
                                                     className="form-control text-left style2-input text-white fw-600 bg-facebook border-0 p-0 mb-2"><img
@@ -60,7 +59,6 @@ const Login = () => (
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </Fragment>

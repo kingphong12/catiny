@@ -26,7 +26,6 @@ const Register = () => (
             <div className="card-body rounded-0 text-left">
               <h2 className="fw-700 display1-size display2-md-size mb-4">Create <br/>your account</h2>
               <form>
-
                 <div className="form-group icon-input mb-3">
                   <i className="font-sm ti-user text-grey-500 pe-0"></i>
                   <input type="text" className="style2-input ps-5 form-control text-grey-900 font-xsss fw-600" placeholder="Your Name"/>
@@ -46,10 +45,8 @@ const Register = () => (
                 <div className="form-check text-left mb-3">
                   <input type="checkbox" className="form-check-input mt-2" id="exampleCheck2"/>
                   <label className="form-check-label font-xsss text-grey-500">Accept Term and Conditions</label>
-
                 </div>
               </form>
-
               <div className="col-sm-12 p-0 text-left">
                 <div className="form-group mb-1"><a href="/register"
                                                     className="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Register</a>
@@ -57,11 +54,9 @@ const Register = () => (
                 <h6 className="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">Already have account <a href="/login"
                                                                                                        className="fw-700 ms-1">Login</a></h6>
               </div>
-
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </Fragment>

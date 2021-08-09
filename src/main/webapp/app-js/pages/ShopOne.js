@@ -1,9 +1,4 @@
 import React, {Fragment} from "react";
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
 
 const productList = [
     {
@@ -71,10 +66,6 @@ const productList = [
 
 const ShopOne = () => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
     <div className="main-content bg-white right-chat-active">
 
       <div className="middle-sidebar-bottom">
@@ -107,32 +98,28 @@ const ShopOne = () => (
                 {productList.map((value, index) => (
 
                   <div key={index} className="col-lg-4 col-md-6">
-                    <div className="card w-100 border-0 mt-4">
-                      <div className="card-image w-100 p-0 text-center bg-greylight rounded-3 mb-2">
-                        <a href="/singleproduct"><img src={`assets/images/${value.imageUrl}`} alt="product" className="w-100 mt-0 mb-0 p-5"/></a>
+                    <div className='card w-100 border-0 mt-4'>
+                      <div className='card-image w-100 p-0 text-center bg-greylight rounded-3 mb-2'>
+                        <a href='/singleproduct'><img src={`assets/images/${value.imageUrl}`} alt='product' className='w-100 mt-0 mb-0 p-5' /></a>
                       </div>
-                      <div className="card-body w-100 p-0 text-center">
-                        <h2 className="mt-2 mb-1"><a href="/singleproduct" className="text-black fw-700 font-xsss lh-26">{value.name}</a></h2>
-                        <h6 className="font-xsss fw-600 text-grey-500 ls-2">${value.price}</h6>
+                      <div className='card-body w-100 p-0 text-center'>
+                        <h2 className='mt-2 mb-1'><a href='/singleproduct' className='text-black fw-700 font-xsss lh-26'>{value.name}</a></h2>
+                        <h6 className='font-xsss fw-600 text-grey-500 ls-2'>${value.price}</h6>
                       </div>
                     </div>
                   </div>
 
                 ))}
-
-
-                <div className="col-lg-12 mt-3 mb-5 text-center"><a href="/shop1"
-                                                                    className="fw-700 text-white font-xssss text-uppercase ls-3 lh-32 rounded-3 mt-3 text-center d-inline-block p-2 bg-current w150">Load
-                  More</a></div>
+                <div className='col-lg-12 mt-3 mb-5 text-center'>
+                  <a href='/shop1'
+                     className='fw-700 text-white font-xssss text-uppercase ls-3 lh-32 rounded-3 mt-3 text-center d-inline-block p-2 bg-current w150'>Load
+                    More</a></div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
-    <PopupChat/>
-    <AppFooter/>
   </Fragment>
 );
 

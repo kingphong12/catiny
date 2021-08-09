@@ -1,10 +1,5 @@
 import React, {Fragment} from "react";
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
 import PageTitle from '../components/PageTitle';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
 
 import GoogleMapReact from 'google-map-react';
 
@@ -59,10 +54,6 @@ const hotelList = [
 
 const Hotel = props => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
     <div className="main-content right-chat-active">
       <div className="middle-sidebar-bottom">
         <div className="middle-sidebar-left pe-0" style={{maxWidth: "100%"}}>
@@ -134,9 +125,6 @@ const Hotel = props => (
         </div>
       </div>
     </div>
-
-    <PopupChat/>
-    <AppFooter/>
   </Fragment>
 );
 

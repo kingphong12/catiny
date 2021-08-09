@@ -1,12 +1,6 @@
 import React, {Fragment} from "react";
 import {Link} from 'react-router-dom';
 
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
-
 const emailList = [
     {
         imageUrl: 'user.png',
@@ -155,22 +149,15 @@ const emailList = [
 
 const Email = () => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
     <div className="main-content right-chat-active">
       <div className="middle-sidebar-bottom">
         <div className="middle-sidebar-left pe-0 ps-lg-3 ms-0 me-0" style={{maxWidth: `100%`}}>
           <div className="row">
             <div className="col-lg-12">
-
               <div className="chat-wrapper p-3 w-100 position-relative scroll-bar bg-white theme-dark-bg">
                 <ul className="email-message">
                   {emailList.map((value, index) => (
-
                     <li key={index}>
-
                       <Link to="/defaultemailopen" className={`rounded-3 ${value.read}`}>
                         <div className="form-check mt-1">
                           <input className="form-check-input" type="checkbox" id="blankCheckbox1" value="option1"/>
@@ -191,10 +178,7 @@ const Email = () => (
                         <div className="email-time text-grey-500 fw-600">{value.time}</div>
                       </Link>
                     </li>
-
                   ))}
-
-
                 </ul>
               </div>
             </div>
@@ -202,10 +186,6 @@ const Email = () => (
         </div>
       </div>
     </div>
-
-    <PopupChat/>
-    <AppFooter/>
-
   </Fragment>
 );
 

@@ -1,11 +1,5 @@
 import React, {Fragment} from "react";
 
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
-
 const notiList = [
     {
         imageUrl: 'user.png',
@@ -134,10 +128,6 @@ const notiList = [
 const Notification = () => (
 
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
     <div className="main-content theme-dark-bg right-chat-active">
 
       <div className="middle-sidebar-bottom">
@@ -153,10 +143,8 @@ const Notification = () => (
                     className="feather-alert-circle font-xss text-grey-500"></i></a>
                   <a href="/defaultnotification" className="ms-2 btn-round-sm bg-greylight rounded-3"><i
                     className="feather-trash-2 font-xss text-grey-500"></i></a></h2>
-
                 <ul className="notification-box">
                   {notiList.map((value, index) => (
-
                     <li key={index}>
                       <a href="/defaultnotification" className={`d-flex align-items-center p-3 rounded-3 ${value.read}`}>
                         <img src={`assets/images/${value.imageUrl}`} alt="user" className="w45 me-3"/>
@@ -166,22 +154,14 @@ const Notification = () => (
                         <i className="ti-more-alt text-grey-500 font-xs ms-auto"></i>
                       </a>
                     </li>
-
                   ))}
-
                 </ul>
               </div>
-
             </div>
-
-
           </div>
         </div>
       </div>
     </div>
-
-    <PopupChat/>
-    <AppFooter/>
   </Fragment>
 );
 

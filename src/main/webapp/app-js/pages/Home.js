@@ -1,11 +1,5 @@
 import React, {Fragment} from "react";
 
-import Header from '../components/Header';
-import LeftNav from '../components/LeftNav';
-import RightChat from '../components/RightChat';
-import AppFooter from '../components/AppFooter';
-import PopupChat from '../components/PopupChat';
-
 
 import Friends from '../components/Friends';
 import Contacts from '../components/Contacts';
@@ -22,10 +16,6 @@ import ProfilePhoto from '../components/ProfilePhoto';
 
 const Home = () => (
   <Fragment>
-    <Header/>
-    <LeftNav/>
-    <RightChat/>
-
     <div className="main-content right-chat-active">
       <div className="middle-sidebar-bottom">
         <div className="middle-sidebar-left">
@@ -58,8 +48,6 @@ const Home = () => (
         </div>
       </div>
     </div>
-    <PopupChat/>
-    <AppFooter/>
   </Fragment>
 );
 

@@ -26,7 +26,7 @@ import Group from "app-js/pages/Group";
 import Storie from "app-js/pages/Storie";
 import Email from "app-js/pages/Email";
 import EmailOpen from "app-js/pages/EmailOpen";
-import Settings from "app-js/pages/Settings";
+import Settings from "app/modules/setting/settings";
 import Videos from "app-js/pages/Videos";
 import Analytics from "app-js/pages/Analytics";
 import Member from "app-js/pages/Member";
@@ -53,6 +53,7 @@ import UserPage from "app-js/pages/UserPage";
 import AuthorPage from "app-js/pages/AuthorPage";
 import ComingSoon from "app-js/pages/ComingSoon";
 import HotelSingle from "app-js/pages/HotelSingle";
+import Account2 from "app-js/pages/Account";
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -64,20 +65,26 @@ const Admin = Loadable({
   loading: () => <div>loading ...</div>,
 });
 
-const Routes = () => {
+const Routes = () =>
+{
   const location = useLocation();
-  React.useEffect(() => {
+  React.useEffect(() =>
+  {
     sendActivity(location.pathname);
   }, [location]);
+
+  //yuvytung
+
+
   return (
-    <div className="view-routes">
+    <div className='view-routes'>
       <Switch>
-        <ErrorBoundaryRoute path="/login" component={Login}/>
-        <ErrorBoundaryRoute path="/logout" component={Logout}/>
-        <ErrorBoundaryRoute path="/account/register" component={Register}/>
-        <ErrorBoundaryRoute path="/account/activate/:key?" component={Activate}/>
-        <ErrorBoundaryRoute path="/account/reset/request" component={PasswordResetInit}/>
-        <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish}/>
+        <ErrorBoundaryRoute path='/login' component={Login} />
+        <ErrorBoundaryRoute path='/logout' component={Logout} />
+        <ErrorBoundaryRoute path='/account/register' component={Register} />
+        <ErrorBoundaryRoute path='/account/activate/:key?' component={Activate} />
+        <ErrorBoundaryRoute path='/account/reset/request' component={PasswordResetInit} />
+        <ErrorBoundaryRoute path='/account/reset/finish/:key?' component={PasswordResetFinish} />
         <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
         <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
         <ErrorBoundaryRoute path="/" exact component={Home}/>
@@ -92,9 +99,9 @@ const Routes = () => {
         <ErrorBoundaryRoute exact path={`/defaultemailopen`} component={EmailOpen}/>
         <ErrorBoundaryRoute exact path={`/defaultsettings`} component={Settings}/>
         <ErrorBoundaryRoute exact path={`/defaultvideo`} component={Videos}/>
-        <ErrorBoundaryRoute exact path={`/defaultanalytics`} component={Analytics}/>
-        <ErrorBoundaryRoute exact path={`/accountinformation`} component={Account}/>
-        <ErrorBoundaryRoute exact path={`/defaultmember`} component={Member}/>
+        <ErrorBoundaryRoute exact path={`/defaultanalytics`} component={Analytics} />
+        <ErrorBoundaryRoute exact path={`/accountinformation`} component={Account2} />
+        <ErrorBoundaryRoute exact path={`/defaultmember`} component={Member} />
         <ErrorBoundaryRoute exact path={`/contactinformation`} component={ContactInfo}/>
         <ErrorBoundaryRoute exact path={`/socialaccount`} component={SocialAccount}/>
         <ErrorBoundaryRoute exact path={`/password`} component={Password}/>

@@ -11,10 +11,12 @@ const commonConfig = require('./webpack.common.js');
 
 const ENV = 'production';
 
-module.exports = webpackMerge(commonConfig({ env: ENV }), {
+module.exports = webpackMerge(commonConfig({env: ENV}), {
   // devtool: 'source-map', // Enable source maps. Please note that this will slow down the build
   mode: ENV,
-  entry: ['./src/main/webapp/app/index', './build/openapi/src/main/typescript/open-api'],
+  entry: ['./src/main/webapp/app/index',
+    // './build/openapi/src/main/typescript/open-api'
+  ],
   output: {
     path: utils.root('build/resources/main/static/'),
     filename: 'app/[name].[contenthash].bundle.js',
@@ -40,7 +42,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
           'postcss-loader',
           {
             loader: 'sass-loader',
-            options: { implementation: sass },
+            options: {implementation: sass},
           },
         ],
       },

@@ -4,7 +4,6 @@ import com.squareup.javapoet.JavaFile;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,11 +17,11 @@ public class GeneratorMain
   public static void main(String[] args)
   {
     var thisClassPath = GeneratorMain.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-    var projectPath = thisClassPath.replace("/build/classes/java/main/","");
-    generate(projectPath,projectPath+"2");
+    var projectPath = thisClassPath.replace("/build/classes/java/main/", "");
+    generate(projectPath, projectPath + "2");
   }
 
-  public static void generate(String thisProjectPath , String outputProjectPath)
+  public static void generate(String thisProjectPath, String outputProjectPath)
   {
     try (
       var fg = new FileInputStream(thisProjectPath + "/.generate/generate-advance.json");

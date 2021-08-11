@@ -3,7 +3,7 @@ import './app.scss';
 import 'app/config/dayjs.ts';
 
 import React, {useEffect} from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import {toast, ToastContainer} from 'react-toastify';
 import {hot} from 'react-hot-loader';
 
@@ -21,6 +21,8 @@ import '../assets/scss/main.scss';
 import LeftNav from "app/shared/layout/left-nav/left-nav";
 import RightChat from "app-js/components/RightChat";
 import PopupChat from "app-js/components/PopupChat";
+import ErrorBoundaryRoute from "app/shared/error/error-boundary-route";
+import Demo from "app-js/demo/Demo";
 
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
@@ -47,37 +49,29 @@ export const App = () =>
   const paddingTop = '0px';
   return (
     <Router basename={baseHref}>
-      <div className='app-container' style={{paddingTop}}>
-        <ToastContainer position={toast.POSITION.TOP_LEFT} className='toastify-container' toastClassName='toastify-toast' />
-        <ErrorBoundary>
-          <Header
-            isAuthenticated={isAuthenticated}
-            isAdmin={isAdmin}
-            currentLocale={currentLocale}
-            ribbonEnv={ribbonEnv}
-            isInProduction={isInProduction}
-            isOpenAPIEnabled={isOpenAPIEnabled}
-          />
-          {
-            isAuthenticated && hideComponent ?
-              <>
-                <LeftNav />
-                <RightChat />
-                <PopupChat />
-              </>
-              :
-              <></>
-          }
-        </ErrorBoundary>
-        <div id='app-view-container'>
-          <div className='jh-card' style={{paddingTop}}>
-            <ErrorBoundary>
-              <AppRoutes />
-            </ErrorBoundary>
+      <Switch>
+        <ErrorBoundaryRoute path='/demo' exact component={Demo} />
+        <div className='app-container' style={{paddingTop}}>
+          <ToastContainer position={toast.POSITION.TOP_LEFT} className='toastify-container' toastClassName='toastify-toast' />
+          <ErrorBoundary>
+            <Header isAuthenticated={isAuthenticated}
+                    isAdmin={isAdmin}
+                    currentLocale={currentLocale}
+                    ribbonEnv={ribbonEnv}
+                    isInProduction={isInProduction}
+                    isOpenAPIEnabled={isOpenAPIEnabled} />
+            {isAuthenticated && !hideComponent ? <><LeftNav /><RightChat /><PopupChat /></> : <></>}
+          </ErrorBoundary>
+          <div id='app-view-container'>
+            <div className='jh-card' style={{paddingTop}}>
+              <ErrorBoundary>
+                <AppRoutes />
+              </ErrorBoundary>
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </div>
-      </div>
+      </Switch>
     </Router>
   );
 };

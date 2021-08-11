@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  minhshop-dev-ffmpeg:
+    image: yuvytung/ffmpeg:latest
+    volumes:
+      - T:/data/minh-shop/ffmpeg/original-dev:/data/minh-shop/ffmpeg/original
+      - T:/data/minh-shop/ffmpeg/processed-dev:/data/minh-shop/ffmpeg/processed
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 10
+      resources:
+        limits:
+          cpus: '4'
+          memory: 512MB
+    ports:
+      - "10022:22"

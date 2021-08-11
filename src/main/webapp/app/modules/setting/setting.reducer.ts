@@ -16,16 +16,15 @@ const initialState = {
 // slice
 
 export const SettingsSlice = createSlice({
-    name: 'album',
-    initialState,
-    reducers: {
-      hideComponent: (state) =>
-      {
-        state.hideComponent = !state.hideComponent;
-      }
-    },
-  }
-);
+  name: 'album',
+  initialState,
+  reducers: {
+    hideComponent(state)
+    {
+      state.hideComponent = !state.hideComponent;
+    }
+  },
+});
 export const {hideComponent} = SettingsSlice.actions;
 
 // Reducer

@@ -21,50 +21,64 @@ services:
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 10080:8080
+      - "10080:8080"
+    volumes:
+      - /data/volumes/jhipster/catiny-dev/app/:/data/app/
+    restart: always
+  catiny-dev-ffmpeg:
+    image: yuvytung/ffmpeg:latest
+    #    volumes:
+    #      - T:/data/minh-shop/ffmpeg/original-dev:/data/minh-shop/ffmpeg/original
+    #      - T:/data/minh-shop/ffmpeg/processed-dev:/data/minh-shop/ffmpeg/processed
+    ports:
+      - "18022:22"
     restart: always
   catiny-dev-mariadb:
     image: mariadb:10.6.1
-    # volumes:
-    #   - ~/volumes/jhipster/catiny/mysql/:/var/lib/mysql/
+    volumes:
+      - /data/volumes/jhipster/catiny-dev/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=catiny
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 13306:3306
+      - "13306:3306"
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    restart: always
   catiny-dev-redis:
     image: redis:6.2.4
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 16379:6379
+      - "16379:6379"
+    restart: always
   catiny-dev-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
-    # volumes:
-    #   - ~/volumes/jhipster/catiny/elasticsearch/:/usr/share/elasticsearch/data/
+    volumes:
+      - /data/volumes/jhipster/catiny-dev/elasticsearch/:/usr/share/elasticsearch/data/
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 19200:9200
-      - 19300:9300
+      - "19200:9200"
+      - "19300:9300"
     environment:
       - 'ES_JAVA_OPTS=-Xms1024m -Xmx1024m'
       - 'discovery.type=single-node'
+    restart: always
   catiny-dev-kibana:
     image: docker.elastic.co/kibana/kibana:7.9.3
     ports:
-      - 127.0.0.1:15601:5601
+      - "15601:5601"
     environment:
       - "ELASTICSEARCH_HOSTS=http://catiny-elasticsearch:9200"
+    restart: always
   catiny-dev-kafka:
     image: confluentinc/cp-kafka:5.5.4
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 19092:19092
+      - "19092:19092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: catiny-dev-zookeeper:2181
@@ -73,11 +87,13 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_ADVERTISED_HOST_NAME: kafka
+    restart: always
   catiny-dev-zookeeper:
     image: confluentinc/cp-zookeeper:5.5.4
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    restart: always
   catiny-dev-jhipster-registry:
     image: jhipster/jhipster-registry:v6.8.0
     volumes:
@@ -99,4 +115,5 @@ services:
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 18761:8761
+      - "18761:8761"
+    restart: always

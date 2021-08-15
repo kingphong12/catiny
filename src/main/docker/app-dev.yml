@@ -21,7 +21,7 @@ services:
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - "10080:8080"
+      - "18080:8080"
     volumes:
       - /data/volumes/jhipster/catiny-dev/app/:/data/app/
     restart: always

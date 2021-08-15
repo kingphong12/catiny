@@ -12,7 +12,7 @@ import MenuItem from 'app/shared/layout/menus/menu-item';
 
 export const BrandIcon = props => (
   <div {...props} className='brand-icon'>
-    <img src='content/images/logo/Catiny-logo2.svg' alt='Logo' />
+    <img src='content/images/logo/Catiny-logo.svg' alt='Logo' />
   </div>
 );
 

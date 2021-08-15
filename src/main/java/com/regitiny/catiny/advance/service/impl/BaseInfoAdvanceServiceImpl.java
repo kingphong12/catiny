@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 
 @Log4j2
@@ -61,12 +60,11 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
 
   public Option<BaseInfo> findOne(BaseInfo baseInfo)
   {
-    return Option
-      .when(Objects.nonNull(baseInfo),
-        findById(baseInfo.getId())
-          .orElse(findByUuid(baseInfo.getUuid()))
-          .onEmpty(() -> log.warn("not found this BaseInfo : {}", baseInfo)))
-      .onEmpty(() -> log.warn("BaseInfo input is empty")).get();
+    return Option.of(baseInfo).map(bi -> findById(bi.getId())
+        .orElse(findByUuid(baseInfo.getUuid()))
+        .onEmpty(() -> log.warn("not found this BaseInfo : {}", baseInfo)))
+      .onEmpty(() -> log.warn("BaseInfo input is empty"))
+      .get();
   }
 
   public BaseInfo createForOwner()
@@ -112,7 +110,7 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
       .countUse(0L);
     baseInfo = baseInfoAdvanceRepository.save(baseInfo);
 
-    var historyUpdate = historyUpdateAdvanceService.createFirstVersion(baseInfo);
+    historyUpdateAdvanceService.createFirstVersion(baseInfo);
     return baseInfo;
   }
 

@@ -23,10 +23,4 @@ public class GroupProfileAdvanceServiceImpl extends AdvanceService<GroupProfile,
   private final GroupProfileAdvanceSearch groupProfileAdvanceSearch;
 
   private final GroupProfileAdvanceMapper groupProfileAdvanceMapper;
-
-  public void a()
-  {
-    var a = groupProfileAdvanceRepository.findById(1L).get();
-    log.debug(a.getInfo());
-  }
 }

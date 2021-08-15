@@ -16,7 +16,7 @@ const initialState = {
 // slice
 
 export const SettingsSlice = createSlice({
-  name: 'album',
+  name: 'hideComponent',
   initialState,
   reducers: {
     hideComponent(state)

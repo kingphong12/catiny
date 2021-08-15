@@ -24,13 +24,5 @@ public class TestHelloWorld
   @GetMapping("/test/hello")
   public void helloWorld()
   {
-//    var a = accountStatusAdvanceService.publicLocal().advanceRepository.findById(1L).get();
-////    a=accountStatusAdvanceService.publicLocal().advanceMapper.cleanEntity(a);
-//    var json = new JSONObject();
-//    json.put("hihi" ,new Gson().toJson(a));
-//    log.debug(json.toString());
-    postAdvanceServiceImpl.a();
-
-
   }
 }

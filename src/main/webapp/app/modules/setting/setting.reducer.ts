@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   hideComponent: false,
-
+  rightChatActive: true,
 };
 
 
@@ -16,16 +16,20 @@ const initialState = {
 // slice
 
 export const SettingsSlice = createSlice({
-  name: 'album',
+  name: 'hideComponent',
   initialState,
   reducers: {
     hideComponent(state)
     {
       state.hideComponent = !state.hideComponent;
+    },
+    rightChatActive(state)
+    {
+      state.rightChatActive = !state.rightChatActive;
     }
   },
 });
-export const {hideComponent} = SettingsSlice.actions;
+export const {hideComponent, rightChatActive} = SettingsSlice.actions;
 
 // Reducer
 export default SettingsSlice.reducer;

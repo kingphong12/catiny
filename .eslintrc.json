@@ -30,7 +30,8 @@
     "window": true,
     "console": true,
     "JSX": true,
-    "localStorage": true
+    "localStorage": true,
+    "setTimeout": true
   },
   "rules": {
     "@typescript-eslint/member-ordering": [

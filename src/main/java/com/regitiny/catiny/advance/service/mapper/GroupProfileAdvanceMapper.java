@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.GroupProfile;
 import com.regitiny.catiny.service.dto.GroupProfileDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface GroupProfileAdvanceMapper extends EntityAdvanceMapper<GroupProfileModel, GroupProfileDTO, GroupProfile>
 {
-  GroupProfileDTO request2d(GroupProfileModel.Request request);
-
-
-  List<GroupProfileDTO> request2d(List<GroupProfileModel.Request> request);
-
-
-  GroupProfileModel.Response d2Response(GroupProfileDTO dto);
-
-
-  List<GroupProfileModel.Response> d2Response(List<GroupProfileDTO> dto);
 }

@@ -23,15 +23,4 @@ public class PostAdvanceServiceImpl extends AdvanceService<Post, PostService, Po
   private final PostAdvanceSearch postAdvanceSearch;
 
   private final PostAdvanceMapper postAdvanceMapper;
-
-  public void a()
-  {
-//    var p = postAdvanceRepository.findById(1L).get();
-    var p = new Post().content("dsadasdasdasdasdsadadas");
-    p = postAdvanceRepository.save(p.searchField("1234"));
-    p = postAdvanceRepository.save(p.searchField("12fdfds"));
-    p = postAdvanceRepository.save(p.searchField("dsadsadas"));
-    p = postAdvanceRepository.save(p.searchField("dsadassafsđcvdfdsfsdfds"));
-
-  }
 }

@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.FileInfo;
 import com.regitiny.catiny.service.dto.FileInfoDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface FileInfoAdvanceMapper extends EntityAdvanceMapper<FileInfoModel, FileInfoDTO, FileInfo>
 {
-  FileInfoDTO request2d(FileInfoModel.Request request);
-
-
-  List<FileInfoDTO> request2d(List<FileInfoModel.Request> request);
-
-
-  FileInfoModel.Response d2Response(FileInfoDTO dto);
-
-
-  List<FileInfoModel.Response> d2Response(List<FileInfoDTO> dto);
 }

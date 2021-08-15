@@ -16,14 +16,14 @@ import java.security.Principal;
 
 @Log4j2
 @Controller
-public class MessageWS implements ApplicationListener<SessionDisconnectEvent>
+public class MessageWebSocket implements ApplicationListener<SessionDisconnectEvent>
 {
 
   private final SimpMessageSendingOperations messagingTemplate;
   private final MessageContentAdvanceService messageContentAdvanceService;
   private final MessageGroupAdvanceService messageGroupAdvanceService;
 
-  public MessageWS(SimpMessageSendingOperations messagingTemplate, MessageContentAdvanceService messageContentService, MessageGroupAdvanceService messageGroupService)
+  public MessageWebSocket(SimpMessageSendingOperations messagingTemplate, MessageContentAdvanceService messageContentService, MessageGroupAdvanceService messageGroupService)
   {
     this.messagingTemplate = messagingTemplate;
     this.messageContentAdvanceService = messageContentService;

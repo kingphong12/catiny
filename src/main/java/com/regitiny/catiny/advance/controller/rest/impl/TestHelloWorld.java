@@ -1,10 +1,12 @@
 package com.regitiny.catiny.advance.controller.rest.impl;
 
+import com.regitiny.catiny.advance.repository.search.BaseInfoAdvanceSearch;
 import com.regitiny.catiny.advance.service.impl.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,16 +22,12 @@ public class TestHelloWorld
   private final AccountStatusAdvanceServiceImpl accountStatusAdvanceService;
   private final GroupProfileAdvanceServiceImpl groupProfileAdvanceService;
   private final PostAdvanceServiceImpl postAdvanceServiceImpl;
+  private final BaseInfoAdvanceSearch baseInfoAdvanceSearch;
 
-  @GetMapping("/test/hello")
-  public void helloWorld()
+
+  @GetMapping("/test/hello/{x}")
+  public void helloWorld(@PathVariable String x)
   {
-//    var a = accountStatusAdvanceService.publicLocal().advanceRepository.findById(1L).get();
-////    a=accountStatusAdvanceService.publicLocal().advanceMapper.cleanEntity(a);
-//    var json = new JSONObject();
-//    json.put("hihi" ,new Gson().toJson(a));
-//    log.debug(json.toString());
-    postAdvanceServiceImpl.a();
 
 
   }

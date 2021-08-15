@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.Event;
 import com.regitiny.catiny.service.dto.EventDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface EventAdvanceMapper extends EntityAdvanceMapper<EventModel, EventDTO, Event>
 {
-  EventDTO request2d(EventModel.Request request);
-
-
-  List<EventDTO> request2d(List<EventModel.Request> request);
-
-
-  EventModel.Response d2Response(EventDTO dto);
-
-
-  List<EventModel.Response> d2Response(List<EventDTO> dto);
 }

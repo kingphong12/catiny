@@ -107,7 +107,7 @@
     "babel-loader": "8.2.2",
     "babel-plugin-named-asset-import": "^0.3.7",
     "babel-preset-react-app": "^10.0.0",
-    "bootstrap": "5.0.2",
+    "bootstrap": "5.1.0",
     "bootstrap-icons": "^1.5.0",
     "bootswatch": "^5.0.2",
     "camelcase": "^6.2.0",

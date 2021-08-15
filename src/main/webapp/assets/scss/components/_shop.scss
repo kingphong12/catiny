@@ -1,16 +1,91 @@
 
 .cart-wrapper .table tbody td {
-    border-top: 0;
-    vertical-align: middle;
-    padding-top: 10px;
+  border-top: 0;
+  vertical-align: middle;
+  padding-top: 10px;
 }
 
 .input-code {
-    width: 200px;
-    height: 60px;
-    line-height: 60px; 
-    @include media-breakpoint-down(md) {
-        width: 165px; 
-    }
+  width: 200px;
+  height: 60px;
+  line-height: 60px;
+  @include media-breakpoint-down(md) {
+    width: 165px;
+  }
 }
 
+
+.pointer {
+  cursor: pointer;
+}
+
+.shop-slider {
+  .slick-arrow:focus, .slick-arrow:hover {
+    background-color: #fff;
+  }
+
+  .slick-prev {
+    left: 20px;
+    background-color: #fff;
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+    z-index: 1;
+  }
+
+  .slick-next {
+    right: 20px;
+    background-color: #fff;
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;;
+    z-index: 1;
+  }
+
+  .slick-prev:before {
+    content: "\e64a";
+    font-family: 'themify';
+    color: #000;
+    opacity: 1;
+  }
+
+  .slick-next:before {
+    content: "\e649";
+    font-family: 'themify';
+    color: #000;
+    opacity: 1;
+  }
+
+  .slick-dots {
+    bottom: 20px;
+
+    .slick-active button {
+      border: 2px #333 solid;
+      border-radius: 20px;
+    }
+  }
+}
+
+.video-react {
+  .video-react-poster {
+    background-size: cover !important;
+  }
+
+  .video-react-big-play-button {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 80px !important;
+    margin-left: -40px !important;
+    margin-top: -40px !important;
+    top: 50% !important;
+    left: 50% !important;
+    border: 0 !important;
+    line-height: 80px !important;
+  }
+}
+
+.center-menu-icon.active i {
+  color: #1E74FD !important;
+  background-color: #d2e3ff !important;
+  border-color: #bcd5fe !important;
+}

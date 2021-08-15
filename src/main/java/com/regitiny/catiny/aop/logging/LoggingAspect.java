@@ -31,8 +31,7 @@ public class LoggingAspect {
   /**
    * Pointcut that matches all repositories, services and Web REST endpoints.
    */
-  @Pointcut(
-    "within(@org.springframework.stereotype.Repository *)" +
+  @Pointcut("within(@org.springframework.stereotype.Repository *)" +
     " || within(@org.springframework.stereotype.Service *)" +
     " || within(@org.springframework.web.bind.annotation.RestController *)"
   )
@@ -43,10 +42,13 @@ public class LoggingAspect {
   /**
    * Pointcut that matches all Spring beans in the application's main packages.
    */
-  @Pointcut(
-    "within(com.regitiny.catiny.repository..*)" +
+  @Pointcut("within(com.regitiny.catiny.repository..*)" +
     " || within(com.regitiny.catiny.service..*)" +
-    " || within(com.regitiny.catiny.web.rest..*)"
+    " || within(com.regitiny.catiny.web.rest..*)" +
+    // add by yuvytung . log advance
+    " || within(com.regitiny.catiny.advance.repository..*)" +
+    " || within(com.regitiny.catiny.advance.service..*)" +
+    " || within(com.regitiny.catiny.advance.controller..*)"
   )
   public void applicationPackagePointcut() {
     // Method is empty as this is just a Pointcut, the implementations are in the advices.

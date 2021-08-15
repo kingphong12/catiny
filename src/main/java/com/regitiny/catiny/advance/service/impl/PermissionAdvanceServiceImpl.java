@@ -4,6 +4,8 @@ import com.regitiny.catiny.advance.repository.PermissionAdvanceRepository;
 import com.regitiny.catiny.advance.repository.search.PermissionAdvanceSearch;
 import com.regitiny.catiny.advance.service.PermissionAdvanceService;
 import com.regitiny.catiny.advance.service.mapper.PermissionAdvanceMapper;
+import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.service.PermissionQueryService;
 import com.regitiny.catiny.service.PermissionService;
@@ -68,7 +70,7 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
       .add(false)
       .delete(false)
       .level(Integer.MAX_VALUE);
-    MasterUserUtil.anonymousMasterUser().forEach(permission::owner);
+    MasterUserUtil.getAnonymousMasterUser().forEach(permission::owner);
     return permissionAdvanceRepository.save(permission);
   }
 
@@ -78,14 +80,22 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
    * .share(false)
    * .add(false)
    * .delete(false)
-   * .level(Integer.MAX_VALUE))
+   * .level(Integer.MAX_VALUE)
+   * .owner(inputOwner)
    *
    * @return permission
    */
-  public Permission createReadOnly()
+  public Permission addUserReadOnly(BaseInfo baseInfoSource, MasterUser owner)
   {
     return permissionAdvanceRepository.save(createForAnonymous().uuid(UUID.randomUUID())
-      .read(true));
+      .read(true)
+      .write(false)
+      .share(false)
+      .add(false)
+      .delete(false)
+      .level(Integer.MAX_VALUE)
+      .owner(owner)
+      .baseInfo(baseInfoSource));
   }
 
 

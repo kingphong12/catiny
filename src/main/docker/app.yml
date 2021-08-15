@@ -72,6 +72,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_ADVERTISED_HOST_NAME: kafka
+    restart: always
   zookeeper:
     image: confluentinc/cp-zookeeper:5.5.4
     environment:

@@ -1,5 +1,6 @@
 pluginManagement {
   repositories {
+//    maven { url 'https://repo.spring.io/release' }
     maven { url 'https://repo.spring.io/milestone' }
     gradlePluginPortal()
   }
@@ -14,6 +15,9 @@ pluginManagement {
     id "io.spring.nohttp" version "${noHttpPluginVersion}"
 //   add by yuvytung
     id "org.hidetake.ssh" version "${hidetakeVersion}"
+//    native-image (graalVM)
+    id 'org.springframework.experimental.aot' version '0.10.3'
+    id 'org.graalvm.buildtools.native' version '0.9.3'
   }
 }
 

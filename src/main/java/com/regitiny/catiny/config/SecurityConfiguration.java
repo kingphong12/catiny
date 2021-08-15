@@ -109,14 +109,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .antMatchers("/api/account/reset-password/init").permitAll()
       .antMatchers("/api/account/reset-password/finish").permitAll()
       .antMatchers("/api/account").authenticated()
-      .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-
-      .antMatchers(HttpMethod.GET, "/api/open/**").permitAll()
       .antMatchers("/api/open/**").permitAll()
-      .antMatchers("/api/management/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+//    /api/admin/**/_management
+//    /api/admin/**
+      .antMatchers(HttpMethod.GET, "/api/admin/**/_management").hasAnyAuthority(AuthoritiesConstants.MANAGEMENT, AuthoritiesConstants.ADMIN)
+      .antMatchers(HttpMethod.GET, "/api/admin/**").hasAnyAuthority(AuthoritiesConstants.MANAGEMENT, AuthoritiesConstants.ADMIN)
+      .antMatchers("/api/admin/**/_management").hasAuthority(AuthoritiesConstants.ADMIN)
+      .antMatchers("/api/admin/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
+//    /api/o/**
+      .antMatchers(HttpMethod.GET, "/api/o/images/**").permitAll()
+      .antMatchers(HttpMethod.GET, "/api/o/videos/**").permitAll()
+      .antMatchers("/api/o/images/**").authenticated()
+      .antMatchers("/api/o/videos/**").authenticated()
       .antMatchers("/api/o/**").authenticated()
-
-      .antMatchers("/api/**").authenticated()
+//    /api/**
+      .antMatchers("/api/**").hasAnyAuthority(AuthoritiesConstants.MANAGEMENT, AuthoritiesConstants.ADMIN)
       .antMatchers("/websocket/**").authenticated()
       .antMatchers("/management/health").permitAll()
       .antMatchers("/management/health/**").permitAll()

@@ -1,4 +1,4 @@
-package com.regitiny.catiny.tools.utils;
+package com.regitiny.catiny.common.utils;
 
 import java.nio.charset.Charset;
 
@@ -190,8 +190,12 @@ public class StringPool {
 
   public static final String DOT_IN_REGEX = "\\.";
 
-  static {
-    for (int i = 0; i < 128; i++) {
+  public static final String UUID_REGEX = "[a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8}";
+
+  static
+  {
+    for (int i = 0; i < 128; i++)
+    {
       ASCII_TABLE[i] = String.valueOf((char) i);
     }
   }

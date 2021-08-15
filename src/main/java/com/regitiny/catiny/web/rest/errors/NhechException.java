@@ -1,12 +1,13 @@
-package com.regitiny.catiny.tools.exception;
+package com.regitiny.catiny.web.rest.errors;
 
-import java.net.URI;
-import java.time.Instant;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 import org.zalando.problem.StatusType;
+
+import java.net.URI;
+import java.time.Instant;
 
 /**
  * author: @yuvytung

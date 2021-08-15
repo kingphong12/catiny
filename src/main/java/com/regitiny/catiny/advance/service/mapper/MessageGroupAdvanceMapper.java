@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.MessageGroup;
 import com.regitiny.catiny.service.dto.MessageGroupDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface MessageGroupAdvanceMapper extends EntityAdvanceMapper<MessageGroupModel, MessageGroupDTO, MessageGroup>
 {
-  MessageGroupDTO request2d(MessageGroupModel.Request request);
-
-
-  List<MessageGroupDTO> request2d(List<MessageGroupModel.Request> request);
-
-
-  MessageGroupModel.Response d2Response(MessageGroupDTO dto);
-
-
-  List<MessageGroupModel.Response> d2Response(List<MessageGroupDTO> dto);
 }

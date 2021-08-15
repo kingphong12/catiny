@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.TopicInterest;
 import com.regitiny.catiny.service.dto.TopicInterestDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface TopicInterestAdvanceMapper extends EntityAdvanceMapper<TopicInterestModel, TopicInterestDTO, TopicInterest>
 {
-  TopicInterestDTO request2d(TopicInterestModel.Request request);
-
-
-  List<TopicInterestDTO> request2d(List<TopicInterestModel.Request> request);
-
-
-  TopicInterestModel.Response d2Response(TopicInterestDTO dto);
-
-
-  List<TopicInterestModel.Response> d2Response(List<TopicInterestDTO> dto);
 }

@@ -60,7 +60,7 @@ public interface ImageManagement
    * @param option    dữ liệu dạng json (độ phân giải , dung lượng , chất lượng)
    * @return dữ liệu file để người dùng tải ảnh về
    */
-  @GetMapping("/{uuid}")
+  @GetMapping("/id/{uuid}")
   default ResponseEntity<byte[]> getImage(@PathVariable(required = false) UUID uuid, @RequestParam(required = false) String imageName, @RequestParam(required = false) String option)
   {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();

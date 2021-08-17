@@ -21,6 +21,17 @@ public class ImageManagementImpl implements ImageManagement
   public ResponseEntity<Object> uploadImages(List<MultipartFile> imageDatas, String desiredName)
   {
     log.debug("REST request to save Image : {}", imageDatas.size());
-    imageDatas.stream().map(multipartFile -> imageAdvanceService.upload(multipartFile, desiredName)).map()
+    for (int i = 0; i < imageDatas.size(); i++)
+    {
+      var multipartFile = imageDatas.get(i);
+      log.info(multipartFile.getSize());
+      imageAdvanceService.upload(multipartFile, desiredName);
+    }
+    var a = imageDatas.stream().map(multipartFile ->
+    {
+      log.info(multipartFile.getSize());
+      return imageAdvanceService.upload(multipartFile, desiredName);
+    });
+    return null;
   }
 }

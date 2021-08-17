@@ -106,7 +106,7 @@ public class AdvanceRepositoryAspectService
           .map(uuid -> advanceRepositoryBeanInvoker.methodInvoke("findOneByUuid", uuid).getOrNull()));
       //kiểm tra quyền ghi
 
-      if (entityOld.isEmpty())
+      if (entityOld.isDefined() || entityOld.isEmpty())
       {
         if (advanceRepositoryName.get(0).toLowerCase().contains("MasterUser".toLowerCase()))
           return joinPoint.proceed();

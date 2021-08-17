@@ -2,6 +2,7 @@ package com.regitiny.catiny.advance.service.mapper;
 
 import com.regitiny.catiny.service.mapper.EntityMapper;
 import com.regitiny.catiny.util.ApplicationContextUtil;
+import io.vavr.control.Option;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
@@ -32,6 +33,12 @@ public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
   default D e2d(E entity)
   {
     return baseMapper().toDto(entity);
+  }
+
+
+  default Option<D> e2o_d(E entity)
+  {
+    return Option.of(e2d(entity));
   }
 
 

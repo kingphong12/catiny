@@ -36,5 +36,5 @@ public interface ImageAdvanceService extends BaseSrvice<Image, ImageService, Ima
    * @param uuidOrName
    * @return
    */
-  Tuple2<ImageDTO, Byte[]> fetchImage(String uuidOrName);
+  Tuple2<ImageDTO, byte[]> fetchImage(String uuidOrName);
 }

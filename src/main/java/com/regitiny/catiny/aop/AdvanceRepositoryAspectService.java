@@ -64,9 +64,9 @@ public class AdvanceRepositoryAspectService
   /**
    * quản lý tự động kiểm tra phân quyền thao tác với dữ liệu
    *
-   * @param joinPoint
-   * @return
-   * @throws Throwable
+   * @param joinPoint join point
+   * @return result of joinPoint.proceed
+   * @throws Throwable err
    */
   @Around(" execution(* com.regitiny.catiny.advance.repository.*AdvanceRepository.save(..)) && " +
     " !(" +
@@ -77,12 +77,12 @@ public class AdvanceRepositoryAspectService
     ")")
   public Object aroundPermissionCheck(ProceedingJoinPoint joinPoint) throws Throwable
   {
-    Logger log = logger(joinPoint);
+    var log = logger(joinPoint);
     var permissionNeedCheck = env.getProperty("catiny.permission.need-check", Boolean.class, true);
-    if (!permissionNeedCheck)
+    if (Boolean.FALSE.equals(permissionNeedCheck))
       return joinPoint.proceed();
 
-    log.debug("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+    log.debug("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getName(), joinPoint.getArgs());
     try
     {
       var advanceRepositoryName = Arrays.stream(joinPoint.getTarget().getClass().getInterfaces()).map(Class::getName)
@@ -96,8 +96,9 @@ public class AdvanceRepositoryAspectService
       var entity = joinPoint.getArgs()[0];
       log.debug("entity original. entity : {}", entity);
 
-      var advanceRepositoryBean = joinPoint.getTarget();// applicationContext.getBean(advanceRepositoryName.get(0));
-      var advanceMapperBean = (EntityAdvanceMapper) applicationContext.getBean(advanceRepositoryName.get(0).replace("AdvanceRepository", "AdvanceMapperImpl"));
+      var advanceRepositoryBean = joinPoint.getTarget();
+      @SuppressWarnings("unchecked")
+      var advanceMapperBean = (EntityAdvanceMapper<?, ?, Object>) applicationContext.getBean(advanceRepositoryName.get(0).replace("AdvanceRepository", "AdvanceMapperImpl"));
       var advanceRepositoryBeanInvoker = new ReflectUtil(advanceRepositoryBean);
 
       var entityOld = ReflectUtil.methodInvoke(entity, "getId")
@@ -115,7 +116,7 @@ public class AdvanceRepositoryAspectService
       else
       {
         var baseInfoOption = ReflectUtil.methodInvoke(entityOld.get(), "getInfo")
-          .map(o -> (BaseInfo) o);
+          .map(BaseInfo.class::cast);
         var canUpdate = baseInfoOption
           .map(baseInfo -> Option.of(baseInfo.getOwner())
             .map(MasterUser::getId)
@@ -125,7 +126,7 @@ public class AdvanceRepositoryAspectService
               .map(Permission::getWrite))
             .get())
           .getOrElse(false);
-        if (canUpdate)
+        if (Boolean.TRUE.equals(canUpdate))
         {
           var baseInfo = baseInfoOption.get();
           historyUpdateAdvanceService.updateChangeLog(baseInfo, new JSONObject()

@@ -14,5 +14,5 @@ import io.vavr.control.Option;
  */
 public interface ImageBaseRepository extends BaseRepository<Image>, CommonRepository<Image>, ImageRepository
 {
-  Option<Image> findOneByNameAndAndOriginalIsNull(String name);
+  Option<Image> findOneByNameAndOriginalIsNull(String name);
 }

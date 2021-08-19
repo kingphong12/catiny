@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,8 +23,10 @@ public class ImageManagementImpl implements ImageManagement
   private final ImageAdvanceService imageAdvanceService;
 
   @Override
-  public ResponseEntity<Object> uploadImages(List<MultipartFile> imageData, String desiredName)
+  public ResponseEntity<Object> uploadImages(HttpServletRequest httpServletRequest, List<MultipartFile> imageData, String desiredName)
   {
+    //http://localhost:80
+    var serverLink = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
     log.debug("REST request to save Image : {}", imageData.size());
     var result = new JSONObject();
     var imagesSavedJSONArray = new JSONArray();
@@ -37,20 +40,36 @@ public class ImageManagementImpl implements ImageManagement
       {
         imagesSavedJSONArray.put(new JSONObject()
           .put("imageName", imageDTO.getName())
-          .put("link", ImageManagement.BASE_PATH + ImageManagement.IMAGE_PATH_UUID.replace("{uuid}", imageDTO.getUuid().toString()))
-          .put("linkByName", ImageManagement.BASE_PATH + ImageManagement.IMAGE_PATH_NAME.replace("{name}", imageDTO.getName()))
-          .put("staticLink", "https://catiny.com" + ImageManagement.BASE_PATH + ImageManagement.IMAGE_PATH_UUID.replace("{uuid}", imageDTO.getName()))
-          .put("staticLinkByName", "https://catiny.com" + ImageManagement.BASE_PATH + ImageManagement.IMAGE_PATH_NAME.replace("{name}", imageDTO.getName()))
+          .put("linkByUuid", ImageManagement.BASE_PATH + ImageManagement.PATH_UUID.replace("{uuid}", imageDTO.getUuid().toString()))
+          .put("link", ImageManagement.BASE_PATH + ImageManagement.PATH_NAME.replace("{name}", imageDTO.getName()))
+          .put("fullLinkByUuid", serverLink +
+            ImageManagement.BASE_PATH +
+            ImageManagement.PATH_UUID
+              .replace("{uuid}", imageDTO.getUuid().toString()))
+          .put("fullLink", serverLink +
+            ImageManagement.BASE_PATH +
+            ImageManagement.PATH_NAME
+              .replace("{name}", imageDTO.getName()))
           .put("option", "")
           .put("image", new JSONObject(imageDTO)));
       })).count();
-    result.put("imagesSaved", imagesSavedJSONArray);
-    result.put("total", totalSaved);
+    result.put("imagesSaved", imagesSavedJSONArray)
+      .put("totalSaved", totalSaved)
+      .put("totalReceived", imageData.size());
+
     return ResponseEntity.ok(result.toString());
   }
 
+//  @Override
+//  public ResponseEntity<Object> downloadImages(UUID uuid, String imageName, String option)
+//  {
+//    log.debug("request get image whit uuid is :{} and option is : {}", uuid, option);
+//    var result = imageAdvanceService.fetchImage(uuid.toString());
+//    return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, result._1.getFileInfo().getTypeFile()).body(result._2());
+//  }
+
   @Override
-  public ResponseEntity<byte[]> getImage(UUID uuid, String option)
+  public ResponseEntity<byte[]> fetchImageByUuid(UUID uuid, String option)
   {
     log.debug("request get image whit uuid is :{} and option is : {}", uuid, option);
     var result = imageAdvanceService.fetchImage(uuid.toString());
@@ -58,7 +77,7 @@ public class ImageManagementImpl implements ImageManagement
   }
 
   @Override
-  public ResponseEntity<byte[]> getImageByName(String name, String option)
+  public ResponseEntity<byte[]> fetchImage(String name, String option)
   {
     log.debug("request get image whit name is :{} and option is : {}", name, option);
     var result = imageAdvanceService.fetchImage(name);

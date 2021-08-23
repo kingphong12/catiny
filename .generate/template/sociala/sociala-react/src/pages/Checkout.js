@@ -1,15 +1,17 @@
-import React, {Component, Fragment} from "react";
+import React, { Component , Fragment } from "react";
+import Header from '../components/Header';
+import Leftnav from '../components/Leftnav';
+import Rightchat from '../components/Rightchat';
+import Appfooter from '../components/Appfooter';
+import Popupchat from '../components/Popupchat';
 
-
-class Checkout extends Component
-{
-  render()
-  {
-    return (
-      <Fragment>
-        <Header />
-        <Leftnav />
-        <Rightchat />
+class Checkout extends Component {
+    render() {
+        return (
+            <Fragment> 
+                <Header />
+                <Leftnav />
+                <Rightchat />
 
 
                 <div className="main-content right-chat-active bg-white">

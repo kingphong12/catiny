@@ -54,7 +54,7 @@ import AuthorPage from "app-js/pages/AuthorPage";
 import ComingSoon from "app-js/pages/ComingSoon";
 import HotelSingle from "app-js/pages/HotelSingle";
 import Account2 from "app-js/pages/Account";
-import Chat from 'app-js/pages/Chat';
+import Chat from 'app/modules/message/chat/chat';
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),

@@ -19,8 +19,7 @@ import AppRoutes from 'app/routes';
 
 import '../assets/scss/main.scss';
 import LeftNav from "app/shared/layout/left-nav/left-nav";
-import RightChat from "app-js/components/RightChat";
-import PopupChat from "app-js/components/PopupChat";
+import RightChat from "app/shared/layout/right-chat/right-chat";
 import ErrorBoundaryRoute from "app/shared/error/error-boundary-route";
 import Demo from "app-js/demo/Demo";
 
@@ -60,7 +59,7 @@ export const App = () =>
                     ribbonEnv={ribbonEnv}
                     isInProduction={isInProduction}
                     isOpenAPIEnabled={isOpenAPIEnabled} />
-            {isAuthenticated && !hideComponent ? <><LeftNav /><RightChat /><PopupChat /></> : <></>}
+            {isAuthenticated && !hideComponent ? <><LeftNav /><RightChat /></> : <></>}
           </ErrorBoundary>
           <div id='app-view-container'>
             <div className='jh-card' style={{paddingTop}}>

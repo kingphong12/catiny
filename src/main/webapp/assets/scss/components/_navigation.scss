@@ -1,27 +1,28 @@
 .right-chat {
-    position: fixed;
-    top: 0;
-    right:-290px;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    width: $chat-width;
-    height: calc(100vh - 15px);
-    overflow: hidden;
-    background: transparent;
-    transition: all .25s ease;
-    padding-top: calc(#{$nav-logo-height} + 6px); 
-    padding-right: 15px; 
-    padding-left: 15px; 
-    
-    @include media-breakpoint-down(lg) {
-        padding-top: 66px !important;
-        padding-bottom: 66px;
-        z-index: 10;    
-    }
+  position: fixed;
+  top: 0;
+  right: -290px;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: $chat-width;
+  height: calc(100vh - 15px);
+  overflow: hidden;
+  background: transparent;
+  transition: all .25s ease;
+  padding-top: calc(#{$nav-logo-height} + 6px);
+  padding-right: 15px;
+  padding-left: 15px;
+  z-index: 1;
 
-    &.active-sidebar {
-        right:0px ;
-    }
+  @include media-breakpoint-down(lg) {
+    padding-top: 66px !important;
+    padding-bottom: 66px;
+    z-index: 10;
+  }
+
+  &.active-sidebar {
+    right: 0px;
+  }
 }
 
 .nav-header {

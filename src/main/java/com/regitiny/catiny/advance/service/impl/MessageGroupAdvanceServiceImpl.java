@@ -7,8 +7,12 @@ import com.regitiny.catiny.advance.service.mapper.MessageGroupAdvanceMapper;
 import com.regitiny.catiny.domain.MessageGroup;
 import com.regitiny.catiny.service.MessageGroupQueryService;
 import com.regitiny.catiny.service.MessageGroupService;
+import com.regitiny.catiny.service.dto.MessageGroupDTO;
+import com.regitiny.catiny.util.MasterUserUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,4 +27,13 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
   private final MessageGroupAdvanceSearch messageGroupAdvanceSearch;
 
   private final MessageGroupAdvanceMapper messageGroupAdvanceMapper;
+
+  @Override
+  public Page<MessageGroupDTO> getAllMessageGroupsJoined(Pageable pageable)
+  {
+    return MasterUserUtil.getCurrentMasterUser()
+      .map(masterUser -> messageGroupAdvanceRepository.findAllByInfoPermissionsOwnerAndInfoPermissionsReadIsTrueAndInfoDeletedIsFalse(masterUser, pageable)
+        .map(messageGroupAdvanceMapper::e2d))
+      .getOrElse(Page.empty());
+  }
 }

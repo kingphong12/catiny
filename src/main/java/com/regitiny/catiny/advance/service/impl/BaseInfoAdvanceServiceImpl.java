@@ -83,7 +83,7 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
         .addPermission(permissionAdvanceService.createForOwner())
         .createdBy(masterUser)
         .modifiedBy(masterUser));
-    MasterUserUtil.anonymousMasterUser()
+    MasterUserUtil.getAnonymousMasterUser()
       .map(masterUser -> permissionAdvanceService.createForAnonymous())
       .forEach(baseInfo::addPermission);
 

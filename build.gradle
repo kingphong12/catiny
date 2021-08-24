@@ -24,6 +24,7 @@ plugins {
   id "io.spring.nohttp"
   //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
   id "org.hidetake.ssh"
+//  id 'org.graalvm.buildtools.native'
 }
 
 group = "com.regitiny.catiny"
@@ -391,3 +392,28 @@ task generateAdvaneService(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = "com.regitiny.tools.generator.GeneratorMain"
 }
+
+// // graalVM
+//bootBuildImage {
+//  builder = "paketobuildpacks/builder:tiny"
+//  environment = [
+//    "BP_NATIVE_IMAGE" : "true",
+//    "BP_NATIVE_IMAGE_BUILD_ARGUMENTS":"-H:+ReportExceptionStackTraces --trace-class-initialization=org.springframework.util.unit.DataSize " +
+//      " --initialize-at-build-time=org.springframework.util.unit.DataSize," +
+//      "ch.qos.logback.core.spi.AppenderAttachableImpl," +
+//      "ch.qos.logback.classic.Logger," +
+//      "org.slf4j.impl.StaticLoggerBinder," +
+//      "ch.qos.logback.core.util.Loader," +
+//      "ch.qos.logback.core.CoreConstants," +
+//      "org.slf4j.LoggerFactory," +
+//      "org.slf4j.MDC," +
+//      "ch.qos.logback.core.util.StatusPrinter," +
+//      "ch.qos.logback.core.status.InfoStatus," +
+//      "ch.qos.logback.classic.Level," +
+//      "ch.qos.logback.core.status.StatusBase"
+//  ]
+//}
+//
+//nativeBuild {
+//  classpath "$buildDir/resources/aot", "$buildDir/classes/java/aot"
+//}

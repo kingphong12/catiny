@@ -6,7 +6,7 @@ import com.regitiny.catiny.advance.repository.search.base.BaseSearch;
 import com.regitiny.catiny.advance.service.BaseSrvice;
 import com.regitiny.catiny.advance.service.impl.AdvanceService;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
-import com.regitiny.catiny.tools.utils.StringPool;
+import com.regitiny.catiny.common.utils.StringPool;
 import com.squareup.javapoet.*;
 import io.vavr.Function1;
 import io.vavr.Function2;

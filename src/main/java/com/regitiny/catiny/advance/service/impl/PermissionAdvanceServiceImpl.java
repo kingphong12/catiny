@@ -68,7 +68,7 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
       .add(false)
       .delete(false)
       .level(Integer.MAX_VALUE);
-    MasterUserUtil.anonymousMasterUser().forEach(permission::owner);
+    MasterUserUtil.getAnonymousMasterUser().forEach(permission::owner);
     return permissionAdvanceRepository.save(permission);
   }
 

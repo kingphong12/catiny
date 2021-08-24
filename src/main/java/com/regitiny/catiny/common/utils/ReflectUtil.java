@@ -1,4 +1,4 @@
-package com.regitiny.catiny.util;
+package com.regitiny.catiny.common.utils;
 
 import io.vavr.control.Option;
 import io.vavr.control.Try;

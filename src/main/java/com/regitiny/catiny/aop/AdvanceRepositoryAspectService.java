@@ -6,11 +6,11 @@ import com.regitiny.catiny.advance.service.impl.HistoryUpdateAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.MasterUserAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.PermissionAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
+import com.regitiny.catiny.common.utils.ReflectUtil;
 import com.regitiny.catiny.domain.BaseInfo;
 import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.util.MasterUserUtil;
-import com.regitiny.catiny.util.ReflectUtil;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -122,7 +122,7 @@ public class AdvanceRepositoryAspectService
             .map(MasterUser::getId)
             .map(id -> id.equals(MasterUserUtil.getCurrentMasterUser().map(MasterUser::getId).get()))
             .orElse(permissionAdvanceService.publicLocal().advanceRepository
-              .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtil.getCurrentMasterUser().getOrElse(MasterUserUtil.anonymousMasterUser().get()))
+              .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtil.getCurrentMasterUser().getOrElse(MasterUserUtil.getAnonymousMasterUser().get()))
               .map(Permission::getWrite))
             .get())
           .getOrElse(false);

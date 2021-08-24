@@ -1,4 +1,4 @@
-package com.regitiny.catiny.tools.utils;
+package com.regitiny.catiny.common.utils;
 
 import org.jsoup.Jsoup;
 

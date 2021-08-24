@@ -8,7 +8,7 @@ import com.regitiny.catiny.domain.Video;
 import com.regitiny.catiny.service.VideoQueryService;
 import com.regitiny.catiny.service.VideoService;
 import com.regitiny.catiny.service.dto.VideoDTO;
-import com.regitiny.catiny.tools.exception.NhechException;
+import com.regitiny.catiny.web.rest.errors.NhechException;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Option;

@@ -1,20 +1,24 @@
 package com.regitiny.catiny.security;
 
-import com.regitiny.catiny.tools.exception.NhechException;
-import java.util.Optional;
-import java.util.stream.Stream;
+import com.regitiny.catiny.web.rest.errors.NhechException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 /**
  * Utility class for Spring Security.
  */
-public final class SecurityUtils {
+public final class SecurityUtils
+{
 
-  private SecurityUtils() {}
+  private SecurityUtils()
+  {
+  }
 
   /**
    * Get the login of the current user.

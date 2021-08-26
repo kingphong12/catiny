@@ -1,7 +1,9 @@
 package com.regitiny.catiny.advance.controller.rest.impl;
 
+import com.regitiny.catiny.advance.controller.rest.ImageManagement;
 import com.regitiny.catiny.advance.controller.rest.VideoManagement;
 import com.regitiny.catiny.advance.service.VideoAdvanceService;
+import com.regitiny.catiny.common.utils.StringPool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
@@ -15,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.UUID;
 
 @Log4j2
 @RestController
@@ -41,37 +42,19 @@ public class VideoManagementImpl implements VideoManagement
       .peek(videoDTOOption -> videoDTOOption.forEach(videoDTO ->
       {
         videoSavedJSONArray.put(new JSONObject()
-          .put("videoName", videoDTO.getName())
-          .put("linkByUuid", VideoManagement.BASE_PATH + VideoManagement.PATH_UUID.replace("{uuid}", videoDTO.getUuid().toString()))
-          .put("link", VideoManagement.BASE_PATH + VideoManagement.PATH_NAME.replace("{name}", videoDTO.getName()))
-          .put("fullLinkByUuid", serverLink +
-            VideoManagement.BASE_PATH +
-            VideoManagement.PATH_UUID
-              .replace("{uuid}", videoDTO.getUuid().toString()))
-          .put("fullLink", serverLink +
-            VideoManagement.BASE_PATH +
-            VideoManagement.PATH_NAME
-              .replace("{name}", videoDTO.getName()))
-          .put("option", "")
-          .put("video", new JSONObject(videoDTO)));
+          .put("name", videoDTO.getName())
+          .put("link", ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getName())
+          .put("backupLink", ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getUuid().toString())
+          .put("url", serverLink + ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getName())
+          .put("backupUrl", serverLink + ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getUuid().toString())
+//          .put("details", new JSONObject(videoDTO))
+          .put("option", ""));
       })).count();
     result.put("videoSaved", videoSavedJSONArray)
       .put("totalSaved", totalSaved)
       .put("totalReceived", videoData.size());
 
     return ResponseEntity.ok(result.toString());
-  }
-
-  @Override
-  public ResponseEntity<ResourceRegion> fetchVideoByUuid(UUID uuid, Boolean download, String option, String range)
-  {
-    if (Boolean.FALSE.equals(download))
-      return videoAdvanceService.getResourceRegion(uuid.toString(), range)
-        .apply((resourceRegion, fileType) ->
-          ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).contentType(MediaType.parseMediaType(fileType)).body(resourceRegion));
-    else
-      return videoAdvanceService.getResourceRegion(uuid.toString(), null)
-        .apply((resourceRegion, fileType) -> ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).contentType(MediaType.parseMediaType(fileType)).body(resourceRegion));
   }
 
   @Override

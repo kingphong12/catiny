@@ -1,6 +1,7 @@
 package com.regitiny.catiny.aop;
 
 
+import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -82,13 +83,12 @@ public class AdvanceSearchAspectService
       var entity = args[0];
       var repoResult = joinPoint.proceed();
       var entityName = entity.getClass().getSimpleName();
-      var mapper = applicationContext.getBean(StringUtils.uncapitalize(entityName) + "MapperImpl");// entityNameMapperImpl
-      var entityDTO = mapper.getClass().getMethod("toDto", Class.forName("com.regitiny.catiny.domain." + entityName)).invoke(mapper, repoResult);
-      var entityResult = mapper.getClass().getMethod("toEntity", Class.forName("com.regitiny.catiny.service.dto." + entityName + "DTO")).invoke(mapper, entityDTO);
-
+      //noinspection unchecked
+      var mapper = (EntityAdvanceMapper<?, ?, Object>) applicationContext.getBean(StringUtils.uncapitalize(entityName) + "AdvanceMapperImpl");// entityNameMapperImpl
+      var entityResult = mapper.cleanEntity(repoResult);
       log.debug("original data : {} = ", entity);
       log.debug("processed data : {} = ", entityResult);
-      applicationContext.getBean(this.getClass()).saveToElasticsearch(entityName, repoResult, log);
+      applicationContext.getBean(this.getClass()).saveToElasticsearch(entityName, entityResult, log);
       return repoResult;
     }
     catch (IllegalArgumentException e)

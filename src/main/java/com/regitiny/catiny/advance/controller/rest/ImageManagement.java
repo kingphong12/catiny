@@ -8,14 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.UUID;
 
 @RequestMapping(ImageManagement.BASE_PATH)
 public interface ImageManagement
 {
   String BASE_PATH = "/api/o/images";
-  String PATH_UUID = "/uuid/{uuid}";
-  String PATH_NAME = "/name/{name}";
 
 
   /**
@@ -37,36 +34,20 @@ public interface ImageManagement
 
 
   /**
-   * GET /api/o/images/uuid/{uuid}
+   * GET /api/o/images/{uuidOrName}
    * <p>
-   * Todo : người dùng cung cấp id ảnh hoặc tên để lấy ảnh về  (đây là api người dùng load ảnh trực tiếp trên web)
-   * nhớ trả ra cả dataType
+   * người dùng cung cấp id ảnh hoặc tên để lấy ảnh về
    * Todo v-2 : có tùy chọn kích thước ,dung lượng ,chất lượng
    *
-   * @param uuid   uuid của ảnh nếu có
-   * @param option dữ liệu dạng json (độ phân giải , dung lượng , chất lượng)
+   * @param uuidOrName không có uuid của ảnh thì phải cung cấp tên ảnh
+   * @param option     dữ liệu dạng json (độ phân giải , dung lượng , chất lượng)
+   * @param byUuid     true(path lấy theo uuid), false(path lấy theo name)
    * @return dữ liệu file để người dùng tải ảnh về
    */
-  @GetMapping(PATH_UUID)
-  default ResponseEntity<byte[]> fetchImageByUuid(@PathVariable(required = false) UUID uuid, @RequestParam(required = false) String option)
-  {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-  }
-
-
-  /**
-   * GET /api/o/images/name/{name}
-   * <p>
-   * Todo : người dùng cung cấp id ảnh hoặc tên để lấy ảnh về  (đây là api người dùng load ảnh trực tiếp trên web)
-   * nhớ trả ra cả dataType
-   * Todo v-2 : có tùy chọn kích thước ,dung lượng ,chất lượng
-   *
-   * @param name không có uuid của ảnh thì phải cung cấp tên ảnh
-   * @param option    dữ liệu dạng json (độ phân giải , dung lượng , chất lượng)
-   * @return dữ liệu file để người dùng tải ảnh về
-   */
-  @GetMapping(PATH_NAME)
-  default ResponseEntity<byte[]> fetchImage(@PathVariable(required = false) String name, @RequestParam(required = false) String option)
+  @GetMapping("/{uuidOrName}")
+  default ResponseEntity<byte[]> fetchImage(@PathVariable(required = false) String uuidOrName,
+    @RequestParam(required = false) String option,
+    @RequestParam(required = false) Boolean byUuid)
   {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
   }

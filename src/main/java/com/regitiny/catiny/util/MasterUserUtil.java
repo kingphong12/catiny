@@ -11,6 +11,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 
 @Component
 @Log4j2
@@ -43,6 +45,11 @@ public class MasterUserUtil
   public static Option<MasterUser> getMasterUserById(Long id)
   {
     return Option.ofOptional(masterUserAdvanceRepository.findById(id));
+  }
+
+  public static Option<MasterUser> getMasterUserByUuid(UUID uuid)
+  {
+    return masterUserAdvanceRepository.findOneByUuid(uuid);
   }
 
   public static Option<MasterUser> getMasterUserByUserLogin(String login)

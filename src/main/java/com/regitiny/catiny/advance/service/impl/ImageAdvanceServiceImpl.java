@@ -101,6 +101,6 @@ public class ImageAdvanceServiceImpl extends AdvanceService<Image, ImageService,
           log.warn("err when read file in disk:", e);
           return null;
         }
-      }).get();
+      }).getOrNull();
   }
 }

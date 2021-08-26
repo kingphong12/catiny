@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * các api quản lý video
@@ -17,8 +16,6 @@ import java.util.UUID;
 public interface VideoManagement
 {
   String BASE_PATH = "/api/o/videos";
-  String PATH_UUID = "/uuid/{uuid}";
-  String PATH_NAME = "/name/{name}";
 
 
   /**
@@ -36,43 +33,19 @@ public interface VideoManagement
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
   }
 
-
   /**
-   * GET /api/o/videos/uuid/{uuid}
+   * GET /api/o/videos/{uuidOrName}
    * <p>
-   * Todo : người dùng cung cấp id ảnh hoặc tên để lấy ảnh về  (đây là api người dùng load ảnh trực tiếp trên web)
-   * nhớ trả ra cả dataType
+   * người dùng cung cấp id ảnh hoặc tên để lấy ảnh về
    * Todo v-2 : có tùy chọn kích thước ,dung lượng ,chất lượng
    *
-   * @param uuid     uuid của ảnh nếu có
-   * @param download (default : false) có download toàn bộ file video về không . mặc định = false là chỉ để tải 1 phần video để xem trực tiếp
-   * @param option   dữ liệu dạng json (độ phân giải , dung lượng , chất lượng)
+   * @param uuidOrName không có uuid của ảnh thì phải cung cấp tên video
+   * @param download   (default : false) có download toàn bộ file video về không . mặc định = false là chỉ để tải 1 phần video để xem trực tiếp
+   * @param option     dữ liệu dạng json (độ phân giải , dung lượng , chất lượng)
    * @return (dữ liệu 1 phần hoặc toàn bộ video)
    */
-  @GetMapping(PATH_UUID)
-  default ResponseEntity<ResourceRegion> fetchVideoByUuid(@PathVariable(required = false) UUID uuid
-    , @RequestParam(required = false, defaultValue = "false") Boolean download,
-    @RequestParam(required = false) String option,
-    @RequestHeader(value = "Range", required = false) String range)
-  {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-  }
-
-
-  /**
-   * GET /api/o/videos/name/{name}
-   * <p>
-   * Todo : người dùng cung cấp id ảnh hoặc tên để lấy ảnh về  (đây là api người dùng load ảnh trực tiếp trên web)
-   * nhớ trả ra cả dataType
-   * Todo v-2 : có tùy chọn kích thước ,dung lượng ,chất lượng
-   *
-   * @param name     không có uuid của ảnh thì phải cung cấp tên ảnh
-   * @param download (default : false) có download toàn bộ file video về không . mặc định = false là chỉ để tải 1 phần video để xem trực tiếp
-   * @param option   dữ liệu dạng json (độ phân giải , dung lượng , chất lượng)
-   * @return (dữ liệu 1 phần hoặc toàn bộ video)
-   */
-  @GetMapping(PATH_NAME)
-  default ResponseEntity<ResourceRegion> fetchVideo(@PathVariable(required = false) String name,
+  @GetMapping("/{uuidOrName}")
+  default ResponseEntity<ResourceRegion> fetchVideo(@PathVariable(required = false) String uuidOrName,
     @RequestParam(required = false, defaultValue = "false") Boolean download,
     @RequestParam(required = false) String option,
     @RequestHeader(value = "Range", required = false) String range)

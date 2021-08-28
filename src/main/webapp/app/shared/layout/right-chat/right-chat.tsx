@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "app/config/store";
 import {getAllMessageGroupsJoined, getMessageContentByMessageGroupId} from "app/shared/layout/right-chat/right-chat.reducer";
+import {imageUrl} from "app/shared/util/json-util";
+import {defaultValue as defaultValueMessageGroup, IMessageGroup} from "app/shared/model/message-group.model";
 
 const chatMember = [
   {
@@ -47,12 +49,11 @@ const chatMember = [
 
 const RightChat = () =>
 {
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [width, setWidth] = useState(800);
   const [height, setHeight] = useState(182);
-  const dispatch = useAppDispatch();
-
-
+  const [currentMessageGroup, setCurrentMessageGroup] = useState(defaultValueMessageGroup);
   /**
    * Calculate & Update state of new dimensions
    */
@@ -87,13 +88,13 @@ const RightChat = () =>
   }, [])
 
 
-  const toggleOpen = (uuidMessageGroups: string) =>
+  const toggleOpen = (messageGroup: IMessageGroup) =>
   {
     if (!isOpen)
-      dispatch(getMessageContentByMessageGroupId(
-        {
-          uuidMessageGroups
-        }));
+    {
+      setCurrentMessageGroup(messageGroup);
+      dispatch(getMessageContentByMessageGroupId({uuidMessageGroups: messageGroup.uuid}));
+    }
     setIsOpen(!isOpen);
   }
   const menuClass = `${isOpen ? " d-block " : ""}`;
@@ -107,12 +108,14 @@ const RightChat = () =>
           <div className='modal-popup-header w-100 border-bottom'>
             <div className='card p-3 d-block border-0 d-block'>
               <figure className='avatar mb-0 float-left me-2'>
-                <img src='assets/images/user-12.png' alt='avater' className='w35 me-1' />
+                <img src={imageUrl(currentMessageGroup.avatar)} alt='avater' className='w35 me-1' />
               </figure>
-              <h5 className='fw-700 text-primary font-xssss mt-1 mb-1'>Hendrix Stamp </h5>
+              <h5 className='fw-700 text-primary font-xssss mt-1 mb-1'>
+                {currentMessageGroup.groupName ? currentMessageGroup.groupName : <del>No Name</del>}
+              </h5>
               <h4 className='text-grey-500 font-xsssss mt-0 mb-0'><span className='d-inline-block bg-success btn-round-xss m-0' /> Available
               </h4>
-              <div className='font-xssss position-absolute right-0 top-0 mt-3 me-4 pointer' onClick={() => toggleOpen}>
+              <div className='font-xssss position-absolute right-0 top-0 mt-3 me-4 pointer' onClick={() => toggleOpen(null)}>
                 <i className='ti-close text-grey-900 mt-2 d-inline-block' /></div>
             </div>
           </div>
@@ -148,6 +151,15 @@ const RightChat = () =>
     <div id='main-content-wrap' className={`right-chat nav-wrap mt-2 right-scroll-bar ${width > 1500 ? "active-sidebar" : " "}`}>
       <div className='middle-sidebar-right-content bg-white shadow-xss rounded-xxl'>
 
+        <h4 className='font-xsssss text-grey-500 text-uppercase fw-700 ls-3'>
+          <form action='#' className='float-left ms-3'>
+            <div className='form-group mb-0 icon-input'>
+              <i className='feather-search font-sm text-grey-400' />
+              <input type='text' placeholder='Start typing to search..'
+                     className='bg-grey border-0 lh-28 ps-5 pe-3 font-xssss fw-500 rounded-xl theme-dark-bg' />
+            </div>
+          </form>
+        </h4>
         <div className='section full pe-3 ps-4 pt-4 position-relative feed-body'>
           <h4 className='font-xsssss text-grey-500 text-uppercase fw-700 ls-3'>CONTACTS</h4>
           <ul className='list-group list-group-flush'>
@@ -155,11 +167,12 @@ const RightChat = () =>
               // Start Single Demo
               <li key={messageGroup.id} className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
                 <figure className='avatar float-left mb-0 me-2'>
-                  <img src={JSON.parse(messageGroup.avatar).url} alt='avater' className='w35' />
+                  <img src={imageUrl(messageGroup.avatar)} alt='avater' className='w35' />
                 </figure>
                 <h3 className='fw-700 mb-0 mt-0'>
                   <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer'
-                        onClick={() => toggleOpen(messageGroup.uuid)}>{messageGroup.groupName}</span>
+                        onClick={() => toggleOpen(messageGroup)}>{messageGroup && messageGroup.groupName ? messageGroup.groupName :
+                    <del>No Name</del>}</span>
                 </h3>
                 <span className={`${ /*value.status*/"bg-success"} ms-auto btn-round-xss`} />
               </li>

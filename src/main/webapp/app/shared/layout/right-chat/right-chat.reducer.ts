@@ -46,16 +46,12 @@ export const getAllMessageGroupsJoined = createAsyncThunk('rightChat/get_all_mes
 /**
  * get all message-contents by group id
  */
-export const getMessageContentByMessageGroupId = createAsyncThunk('rightChat/get_message_content_by_message_group_id', async ({
-                                                                                                                                page,
-                                                                                                                                size,
-                                                                                                                                sort,
-                                                                                                                                uuidMessageGroups
-                                                                                                                              }: IQueryParams & { uuidMessageGroups: string }) =>
-{
-  const requestUrl = `${apiUrlMessageGroups}/${uuidMessageGroups}/contents/${sort ? `?page=${page}&size=${size}&sort=${sort}&` : '?'}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IMessageContent[]>(requestUrl);
-});
+export const getMessageContentByMessageGroupId = createAsyncThunk('rightChat/get_message_content_by_message_group_id',
+  async ({page, size, sort, uuidMessageGroups}: IQueryParams & { uuidMessageGroups: string }) =>
+  {
+    const requestUrl = `${apiUrlMessageGroups}/${uuidMessageGroups}/contents/${sort ? `?page=${page}&size=${size}&sort=${sort}&` : '?'}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IMessageContent[]>(requestUrl);
+  });
 //
 // export const getEntity = createAsyncThunk(
 //   'messageGroup/fetch_entity',

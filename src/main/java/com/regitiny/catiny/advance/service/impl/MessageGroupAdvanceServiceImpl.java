@@ -5,9 +5,13 @@ import com.regitiny.catiny.advance.repository.search.MessageGroupAdvanceSearch;
 import com.regitiny.catiny.advance.service.MessageGroupAdvanceService;
 import com.regitiny.catiny.advance.service.mapper.MessageGroupAdvanceMapper;
 import com.regitiny.catiny.common.utils.StringPool;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.MessageGroup;
+import com.regitiny.catiny.domain.Permission;
+import com.regitiny.catiny.domain.User;
 import com.regitiny.catiny.service.MessageGroupQueryService;
 import com.regitiny.catiny.service.MessageGroupService;
+import com.regitiny.catiny.service.dto.MasterUserDTO;
 import com.regitiny.catiny.service.dto.MessageGroupDTO;
 import com.regitiny.catiny.util.MasterUserUtil;
 import io.vavr.collection.List;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -36,13 +41,20 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
   private final MessageGroupAdvanceMapper messageGroupAdvanceMapper;
 
   private final PermissionAdvanceServiceImpl permissionAdvanceService;
+  private final MasterUserAdvanceServiceImpl masterUserAdvanceService;
 
   @Override
   public Page<MessageGroupDTO> getAllMessageGroupsJoined(Pageable pageable)
   {
-
     return MasterUserUtil.getCurrentMasterUser()
       .map(masterUser -> messageGroupAdvanceRepository.findAllByInfoPermissionsOwner(masterUser, pageable)
+        .map(messageGroup ->
+        {
+          var owner = messageGroup.getInfo().getPermissions().stream().map(Permission::getOwner).collect(Collectors.toList());
+          if (owner.size() == 2)
+            owner.stream().filter(muTemp -> muTemp.equals(masterUser)).forEach(muTemp -> messageGroup.groupName(muTemp.getFullName()));
+          return messageGroup;
+        })
         .map(messageGroupAdvanceMapper::e2d))
       .getOrElse(Page.empty());
   }
@@ -61,8 +73,9 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
 
     UUID groupId;
     if (userIds.size() == 1 && !currentUser.getUuid().equals(userIds.get(0)))
-      groupId = MasterUserUtil.getMasterUserByUuid(userIds.get(0))
-        .map(masterUser ->
+    {
+      var thatUser = MasterUserUtil.getMasterUserByUuid(userIds.get(0));
+      groupId = thatUser.map(masterUser ->
         {
           var sumLoginSorted = (masterUser.getUuid().compareTo(currentUser.getUuid()) < 0)
             ? masterUser.getUuid() + StringPool.SPACE + currentUser.getUuid()
@@ -70,10 +83,29 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
           return UUID.nameUUIDFromBytes(DigestUtils.md5Hex(sumLoginSorted).getBytes());
         })
         .getOrNull();
+      desiredName = null;
+    }
     else if (userIds.size() == 1 && currentUser.getUuid().equals(userIds.get(0)))
+    {
       groupId = currentUser.getUuid();
+      desiredName = currentUser.getFullName();
+    }
     else
+    {
+      if (Objects.isNull(desiredName))
+      {
+        var sb = new StringBuilder("Group: " + currentUser.getFullName());
+        for (var i = 0; i < 2; i++)
+          MasterUserUtil.getMasterUserByUuid(userIds.get(i))
+            .map(MasterUser::getUser)
+            .map(User::getFirstName)
+            .forEach(s -> sb.append(StringPool.COMMA).append(s));
+        if (userIds.size() > 2)
+          sb.append(StringPool.TRIPLE_PERIOD);
+        desiredName = sb.toString();
+      }
       groupId = UUID.randomUUID();
+    }
 
     var messageGroupExists = messageGroupAdvanceRepository.findOneByUuid(groupId)
       .peek(messageGroup1 -> log.info("this group actually existed . -> uuid = {} ", messageGroup1.getUuid()))
@@ -86,6 +118,19 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
       .filter(masterUsers -> messageGroupAdvanceRepository.findByUuidAndInfoPermissionsOwner(groupId, masterUsers.get()).isEmpty())
       .forEach(masterUser -> permissionAdvanceService.addUserReadOnly(messageGroup.getInfo(), masterUser.get()));
     return Option.of(messageGroupAdvanceMapper.e2d(messageGroup));
+  }
+
+  @Override
+  public List<MasterUserDTO> getMasterUserDetailsPublicByMessageGroupId(UUID messageGroupId)
+  {
+    var masterUserLocalService = masterUserAdvanceService.publicLocal();
+    var queryResult = masterUserLocalService.advanceRepository.findAllByMessageGroupUuid(messageGroupId)
+      .map(masterUserLocalService.advanceMapper::e2d);
+    if (queryResult.size() == 2)
+      return queryResult.filter(masterUserDTO -> MasterUserUtil.getCurrentMasterUser()
+          .map(currentUser -> masterUserDTO.getUuid().equals(currentUser.getUuid())).getOrElse(false))
+        .toList();
+    return queryResult;
   }
 
 //  @Override

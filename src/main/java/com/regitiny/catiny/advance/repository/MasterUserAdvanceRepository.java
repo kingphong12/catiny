@@ -1,7 +1,12 @@
 package com.regitiny.catiny.advance.repository;
 
 import com.regitiny.catiny.advance.repository.base.MasterUserBaseRepository;
+import com.regitiny.catiny.domain.MasterUser;
+import io.vavr.collection.List;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
 
 /**
  * Spring Data SQL repository for the {@link com.regitiny.catiny.domain.MasterUser} entity.
@@ -14,4 +19,8 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 public interface MasterUserAdvanceRepository extends MasterUserBaseRepository
 {
+  @Query("select mu " +
+    "from MasterUser mu left join mu.permissions permissions left join MessageGroup mg on mg.info=permissions.baseInfo " +
+    "where mg.uuid =?1")
+  List<MasterUser> findAllByMessageGroupUuid(UUID messageGroupUuid);
 }

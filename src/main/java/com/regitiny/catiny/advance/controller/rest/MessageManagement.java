@@ -39,10 +39,20 @@ public interface MessageManagement
 
 
   /**
-   * GET /api/o/messages/groups
+   * POST /api/o/messages/groups
    */
-  @PostMapping("/groups/")
+  @PostMapping("/groups")
   ResponseEntity<MessageGroupDTO> createMessageGroup(
     @RequestParam List<UUID> userIds,
     @RequestParam(required = false) String desiredName);
+
+
+  /**
+   * GET /api/o/messages/groups/{uuid}/master-users/_public
+   *
+   * @param messageGroupId (UUID)
+   * @return
+   */
+  @GetMapping("/groups/{messageGroupId}/master-users/_public")
+  ResponseEntity<List<?>> getMasterUsersDetailsPublicByMessageGroupId(@PathVariable UUID messageGroupId);
 }

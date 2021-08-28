@@ -1,6 +1,7 @@
 package com.regitiny.catiny.advance.controller.rest.impl;
 
 import com.regitiny.catiny.advance.controller.rest.MessageManagement;
+import com.regitiny.catiny.advance.service.MasterUserAdvanceService;
 import com.regitiny.catiny.advance.service.MessageContentAdvanceService;
 import com.regitiny.catiny.advance.service.MessageGroupAdvanceService;
 import com.regitiny.catiny.service.dto.MessageContentDTO;
@@ -24,6 +25,7 @@ public class MessageManagementImpl implements MessageManagement
 {
   private final MessageGroupAdvanceService messageGroupAdvanceService;
   private final MessageContentAdvanceService messageContentAdvanceService;
+  private final MasterUserAdvanceService masterUserAdvanceService;
 
   @Override
   public ResponseEntity<List<MessageGroupDTO>> getAllMessageGroupsJoined(Pageable pageable)
@@ -49,5 +51,11 @@ public class MessageManagementImpl implements MessageManagement
     return messageGroupAdvanceService.createMessageGroupAndAddUser(io.vavr.collection.List.ofAll(userIds), desiredName)
       .map(ResponseEntity::ok)
       .getOrElse(ResponseEntity.badRequest().build());
+  }
+
+  @Override
+  public ResponseEntity<List<?>> getMasterUsersDetailsPublicByMessageGroupId(UUID messageGroupId)
+  {
+    return ResponseEntity.ok(messageGroupAdvanceService.getMasterUserDetailsPublicByMessageGroupId(messageGroupId).toJavaList());
   }
 }

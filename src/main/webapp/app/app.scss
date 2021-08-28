@@ -324,3 +324,56 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+
+.image-collections {
+  position: absolute;
+
+  .collage-3-l {
+    background: no-repeat 50% center;
+    position: absolute;
+    width: auto;
+    height: 100%;
+    right: 25%
+  }
+
+  .collage-3-rt {
+    background: no-repeat center center;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    right: 0;
+    top: 0;
+  }
+
+  .collage-3-rb {
+    background: no-repeat center center;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    right: 0;
+    bottom: 0;
+  }
+
+  max-width: 500px;
+  max-height: 500px;
+  width: 100%;
+  height: 100%;
+}
+
+
+@mixin square($px) {
+  .square#{$px} {
+    width: #{$px}px !important;
+    height: #{$px}px !important;
+  }
+}
+
+@include square(25);
+@include square(50);
+@include square(75);
+@include square(100);
+@include square(150);
+@include square(200);
+@include square(500);
+@include square(1000);

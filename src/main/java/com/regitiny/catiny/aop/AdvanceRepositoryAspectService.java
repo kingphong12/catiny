@@ -216,7 +216,6 @@ public class AdvanceRepositoryAspectService
   public Object aroundPermissionCheckWhenRead(ProceedingJoinPoint joinPoint) throws Throwable
   {
     var logJP = logger(joinPoint);
-    logJP.debug("12345");
     Function1<java.util.List<?>, java.util.List<?>> checkPermissionList = (list) -> list.stream()
       .filter(o -> methodInvoke(o, "getInfo")
         .map(BaseInfo.class::cast)

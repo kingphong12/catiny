@@ -9,7 +9,6 @@ import com.regitiny.catiny.service.dto.MessageGroupDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,7 +31,7 @@ public class MessageManagementImpl implements MessageManagement
   {
     log.debug("request get all messages group user joined , pageable = {}", pageable);
     var page = messageGroupAdvanceService.getAllMessageGroupsJoined(pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+    var headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
     return ResponseEntity.ok().headers(headers).body(page.getContent());
   }
 
@@ -41,7 +40,7 @@ public class MessageManagementImpl implements MessageManagement
   {
     log.debug("request get messages content in message group id ={} , pageable = {}", uuid, pageable);
     var page = messageContentAdvanceService.getContentInGroup(uuid, pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+    var headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
     return ResponseEntity.ok().headers(headers).body(page.getContent());
   }
 
@@ -54,7 +53,7 @@ public class MessageManagementImpl implements MessageManagement
   }
 
   @Override
-  public ResponseEntity<List<?>> getMasterUsersDetailsPublicByMessageGroupId(UUID messageGroupId)
+  public ResponseEntity<Object> getMasterUsersDetailsPublicByMessageGroupId(UUID messageGroupId)
   {
     return ResponseEntity.ok(messageGroupAdvanceService.getMasterUserDetailsPublicByMessageGroupId(messageGroupId).toJavaList());
   }

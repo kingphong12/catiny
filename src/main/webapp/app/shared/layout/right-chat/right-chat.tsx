@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "app/config/store";
 import {getAllMessageGroupsJoined, getMessageContentByMessageGroupId} from "app/shared/layout/right-chat/right-chat.reducer";
-import {imageUrl} from "app/shared/util/json-util";
 import {defaultValue as defaultValueMessageGroup, IMessageGroup} from "app/shared/model/message-group.model";
+import {simpleCollage3} from 'app/component/simple-component';
+import {imageUrl} from "app/shared/util/image-tools-util";
+
 
 const chatMember = [
   {
@@ -108,7 +110,7 @@ const RightChat = () =>
           <div className='modal-popup-header w-100 border-bottom'>
             <div className='card p-3 d-block border-0 d-block'>
               <figure className='avatar mb-0 float-left me-2'>
-                <img src={imageUrl(currentMessageGroup.avatar)} alt='avater' className='w35 me-1' />
+                {avatar(currentMessageGroup.avatar)}
               </figure>
               <h5 className='fw-700 text-primary font-xssss mt-1 mb-1'>
                 {currentMessageGroup.groupName ? currentMessageGroup.groupName : <del>No Name</del>}
@@ -147,6 +149,19 @@ const RightChat = () =>
     )
   }
 
+  const avatar = messageGroupAvatar =>
+  {
+    if (messageGroupAvatar)
+    {
+      const avatarJsonParsed = JSON.parse(messageGroupAvatar)
+      if (avatarJsonParsed && avatarJsonParsed.links && avatarJsonParsed.links.length > 2)
+        return simpleCollage3(avatarJsonParsed.links);
+      if (avatarJsonParsed && avatarJsonParsed.urls && avatarJsonParsed.urls.length > 2)
+        return simpleCollage3(avatarJsonParsed.urls);
+    }
+    return <img src={imageUrl(messageGroupAvatar)} alt='avater' className='w35 me-1' />
+  }
+
   return (
     <div id='main-content-wrap' className={`right-chat nav-wrap mt-2 right-scroll-bar ${width > 1500 ? "active-sidebar" : " "}`}>
       <div className='middle-sidebar-right-content bg-white shadow-xss rounded-xxl'>
@@ -167,7 +182,7 @@ const RightChat = () =>
               // Start Single Demo
               <li key={messageGroup.id} className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
                 <figure className='avatar float-left mb-0 me-2'>
-                  <img src={imageUrl(messageGroup.avatar)} alt='avater' className='w35' />
+                  {avatar(messageGroup.avatar)}
                 </figure>
                 <h3 className='fw-700 mb-0 mt-0'>
                   <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer'

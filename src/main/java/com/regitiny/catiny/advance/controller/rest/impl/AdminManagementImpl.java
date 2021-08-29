@@ -25,7 +25,6 @@ public class AdminManagementImpl implements AdminManagement
   @SuppressWarnings("unchecked")
   public ResponseEntity<String> elasticsearchReindex(Boolean reindexAll)
   {
-
     final var packageAdvanceSearch = "com.regitiny.catiny.advance.repository.search";
     final var packageAdvanceRepository = "com.regitiny.catiny.advance.repository";
     var succeed = new JSONArray();

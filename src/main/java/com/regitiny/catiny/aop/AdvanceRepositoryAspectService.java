@@ -193,10 +193,9 @@ public class AdvanceRepositoryAspectService
     " execution(* com.regitiny.catiny..BaseInfo*Repository.*(..)) ||" +
     " execution(* com.regitiny.catiny..Permission*Repository.*(..)) ||" +
     " execution(* com.regitiny.catiny..HistoryUpdate*Repository.*(..)) ||" +
-    " execution(* com.regitiny.catiny..HistoryUpdate*Repository.*(..)) ||" +
     " execution(* com.regitiny.catiny..MasterUser*Repository.*(..)) ||" +
-    " execution(* com.regitiny.catiny..ClassInfo*Repository.*(..)) " +
-    " execution(* com.regitiny.catiny.advance.repository.base.BaseRepository.*(..)) " +
+    " execution(* com.regitiny.catiny..ClassInfo*Repository.*(..)) ||" +
+    " execution(* com.regitiny.catiny.advance.repository.base.BaseRepository.*(..)) ||" +
     " execution(* com.regitiny.catiny.advance.repository.CommonRepository.*(..)) "
   )
   public void excludePointcut()
@@ -212,11 +211,12 @@ public class AdvanceRepositoryAspectService
    * @return result of joinPoint.proceed
    * @throws Throwable err
    */
+  @SuppressWarnings("java:S3776")
   @Around("baseRepositoryPointcut() && !(repositoryPointcut() || excludePointcut())")
   public Object aroundPermissionCheckWhenRead(ProceedingJoinPoint joinPoint) throws Throwable
   {
     var logJP = logger(joinPoint);
-    Function1<java.util.List<?>, java.util.List<?>> checkPermissionList = (list) -> list.stream()
+    Function1<java.util.List<?>, java.util.List<?>> checkPermissionList = list -> list.stream()
       .filter(o -> methodInvoke(o, "getInfo")
         .map(BaseInfo.class::cast)
         .filter(baseInfo -> !baseInfo.getDeleted())

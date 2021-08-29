@@ -41,10 +41,10 @@ public class ImageManagementImpl implements ImageManagement
       {
         imagesSavedJSONArray.put(new JSONObject()
           .put("imageName", imageDTO.getName())
-          .put("link", ImageManagement.BASE_PATH + StringPool.SLASH + imageDTO.getName())
-          .put("backupLink", ImageManagement.BASE_PATH + StringPool.SLASH + imageDTO.getUuid().toString())
-          .put("url", serverLink + ImageManagement.BASE_PATH + StringPool.SLASH + imageDTO.getName())
-          .put("backupUrl", serverLink + ImageManagement.BASE_PATH + StringPool.SLASH + imageDTO.getUuid().toString())
+          .put("link", BASE_PATH + StringPool.SLASH + imageDTO.getName())
+          .put("backupLink", BASE_PATH + StringPool.SLASH + imageDTO.getUuid().toString())
+          .put("url", serverLink + BASE_PATH + StringPool.SLASH + imageDTO.getName())
+          .put("backupUrl", serverLink + BASE_PATH + StringPool.SLASH + imageDTO.getUuid().toString())
 //          .put("details", new JSONObject(imageDTO))
           .put("option", ""));
       })).count();

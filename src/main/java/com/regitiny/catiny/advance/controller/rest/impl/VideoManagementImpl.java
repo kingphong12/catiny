@@ -1,6 +1,5 @@
 package com.regitiny.catiny.advance.controller.rest.impl;
 
-import com.regitiny.catiny.advance.controller.rest.ImageManagement;
 import com.regitiny.catiny.advance.controller.rest.VideoManagement;
 import com.regitiny.catiny.advance.service.VideoAdvanceService;
 import com.regitiny.catiny.common.utils.StringPool;
@@ -43,10 +42,10 @@ public class VideoManagementImpl implements VideoManagement
       {
         videoSavedJSONArray.put(new JSONObject()
           .put("name", videoDTO.getName())
-          .put("link", ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getName())
-          .put("backupLink", ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getUuid().toString())
-          .put("url", serverLink + ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getName())
-          .put("backupUrl", serverLink + ImageManagement.BASE_PATH + StringPool.SLASH + videoDTO.getUuid().toString())
+          .put("link", BASE_PATH + StringPool.SLASH + videoDTO.getName())
+          .put("backupLink", BASE_PATH + StringPool.SLASH + videoDTO.getUuid().toString())
+          .put("url", serverLink + BASE_PATH + StringPool.SLASH + videoDTO.getName())
+          .put("backupUrl", serverLink + BASE_PATH + StringPool.SLASH + videoDTO.getUuid().toString())
 //          .put("details", new JSONObject(videoDTO))
           .put("option", ""));
       })).count();

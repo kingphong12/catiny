@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * các api quản lý message
+ * BASE_PATH: {@value BASE_PATH}
+ * <p>
+ * message management api
  */
 @RequestMapping(MessageManagement.BASE_PATH)
 public interface MessageManagement
 {
-  String BASE_PATH = "/api/o/messages";
+  String BASE_PATH = "/api/o/messages"; //NOSONAR
 
 
   /**
@@ -51,8 +53,8 @@ public interface MessageManagement
    * GET /api/o/messages/groups/{uuid}/master-users/_public
    *
    * @param messageGroupId (UUID)
-   * @return
+   * @return List<MasterUserDTO>
    */
   @GetMapping("/groups/{messageGroupId}/master-users/_public")
-  ResponseEntity<List<?>> getMasterUsersDetailsPublicByMessageGroupId(@PathVariable UUID messageGroupId);
+  ResponseEntity<Object> getMasterUsersDetailsPublicByMessageGroupId(@PathVariable UUID messageGroupId);
 }

@@ -9,10 +9,15 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * BASE_PATH: {@value BASE_PATH}
+ * <p>
+ * image management api
+ */
 @RequestMapping(ImageManagement.BASE_PATH)
 public interface ImageManagement
 {
-  String BASE_PATH = "/api/o/images";
+  String BASE_PATH = "/api/o/images"; //NOSONAR
 
 
   /**

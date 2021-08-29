@@ -13,9 +13,17 @@ import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@RequestMapping("/api/o/users")
+/**
+ * BASE_PATH: {@value BASE_PATH}
+ * <p>
+ * user manage api
+ */
+@RequestMapping(UserManagement.BASE_PATH)
 public interface UserManagement
 {
+  String BASE_PATH = "/api/o/users"; //NOSONAR
+
+
   /**
    * {@code POST  /message-groups} : Create a new messageGroup.
    * <p>
@@ -37,7 +45,6 @@ public interface UserManagement
    */
   @ApiOperation(value = "uploads an video or list video (original data)",
     nickname = "uploadVideosOriginalData",
-    notes = "",
     response = Object.class,
     authorizations = {@Authorization(value = "jwt")},
     tags = {"video",})

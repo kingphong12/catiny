@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * các api của admin để quản lý trang web
+ * BASE_PATH: {@value BASE_PATH}
+ * <p>
+ * admin apis to manage the site
  */
 @RequestMapping(AdminManagement.BASE_PATH)
 public interface AdminManagement
 {
-  String BASE_PATH = "/api/admin";
+  String BASE_PATH = "/api/admin"; //NOSONAR
 
 
   @PatchMapping("/elasticsearch/reindex/_management")

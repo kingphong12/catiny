@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * các api quản lý video
+ * BASE_PATH: {@value BASE_PATH}
+ * <p>
+ * video management api
  */
-@RequestMapping("/api/o/videos")
+@RequestMapping(VideoManagement.BASE_PATH)
 public interface VideoManagement
 {
-  String BASE_PATH = "/api/o/videos";
+  String BASE_PATH = "/api/o/videos"; //NOSONAR
 
 
   /**

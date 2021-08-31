@@ -88,7 +88,7 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
   public Permission addUserReadOnly(BaseInfo baseInfoSource, MasterUser owner)
   {
     return permissionAdvanceRepository.save(createForAnonymous().uuid(UUID.randomUUID())
-      .read(false)
+      .read(true)
       .write(false)
       .share(false)
       .add(false)

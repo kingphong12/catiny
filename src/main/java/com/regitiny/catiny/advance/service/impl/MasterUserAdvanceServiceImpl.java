@@ -17,9 +17,13 @@ import com.regitiny.catiny.security.SecurityUtils;
 import com.regitiny.catiny.service.MasterUserQueryService;
 import com.regitiny.catiny.service.MasterUserService;
 import com.regitiny.catiny.service.UserService;
+import com.regitiny.catiny.service.dto.MasterUserDTO;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +55,13 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
         log.warn("current user login not exists");
         return Option.none();
       });
+  }
+
+  public Option<MasterUserDTO> getCurrentMasterUserDTO()
+  {
+    return Option.ofOptional(SecurityUtils.getCurrentUserLogin())
+      .flatMap(masterUserAdvanceRepository::findOneByUserLogin)
+      .map(masterUserAdvanceMapper::e2d);
   }
 
   public Option<MasterUser> getAnonymousMasterUser()
@@ -123,5 +134,11 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
         log.warn("user not exist");
         return Option.none();
       });
+  }
+
+  @Override
+  public Page<MasterUserDTO> searchMasterUser(String query, Pageable pageable)
+  {
+    return masterUserAdvanceSearch.search(QueryBuilders.queryStringQuery(query), pageable).map(masterUserAdvanceMapper::e2d);
   }
 }

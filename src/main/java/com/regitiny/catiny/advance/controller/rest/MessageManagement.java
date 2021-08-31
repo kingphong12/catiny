@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -57,4 +58,14 @@ public interface MessageManagement
    */
   @GetMapping("/groups/{messageGroupId}/master-users/_public")
   ResponseEntity<Object> getMasterUsersDetailsPublicByMessageGroupId(@PathVariable UUID messageGroupId);
+
+
+  @PostMapping("/groups/{messageGroupId}/contents")
+  ResponseEntity<MessageContentDTO> sendContentToGroup(
+    @PathVariable UUID messageGroupId,
+    @RequestParam String content,
+    @RequestPart(required = false) List<MultipartFile> images,
+    @RequestPart(required = false) List<MultipartFile> videos,
+    @RequestPart(required = false) List<MultipartFile> files);
+
 }

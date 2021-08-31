@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "app/config/store";
-import {getAllMessageGroupsJoined, getMessageContentByMessageGroupId} from "app/shared/layout/right-chat/right-chat.reducer";
+import {getAllMessageGroupsJoined, getMessageContentByMessageGroupId, sendContentToGroup} from "app/shared/layout/right-chat/right-chat.reducer";
 import {defaultValue as defaultValueMessageGroup, IMessageGroup} from "app/shared/model/message-group.model";
 import {simpleCollage3} from 'app/component/simple-component';
 import {imageUrl} from "app/shared/util/image-tools-util";
@@ -52,10 +52,14 @@ const chatMember = [
 const RightChat = () =>
 {
   const dispatch = useAppDispatch();
+  const masterUser = useAppSelector(state => state.authentication.masterUser);
   const [isOpen, setIsOpen] = useState(false);
   const [width, setWidth] = useState(800);
   const [height, setHeight] = useState(182);
   const [currentMessageGroup, setCurrentMessageGroup] = useState(defaultValueMessageGroup);
+  const [currentMessageContents, setCurrentMessageContents] = useState([]);
+  const [keywordSearchUsers, setKeywordSearchUsers] = useState("");
+  const [messageContentTyping, setMessageContentTyping] = useState("");
   /**
    * Calculate & Update state of new dimensions
    */
@@ -95,22 +99,84 @@ const RightChat = () =>
     if (!isOpen)
     {
       setCurrentMessageGroup(messageGroup);
-      dispatch(getMessageContentByMessageGroupId({uuidMessageGroups: messageGroup.uuid}));
+      dispatch(getMessageContentByMessageGroupId({uuidMessageGroups: messageGroup.uuid})).unwrap().then(action =>
+      {
+        setCurrentMessageContents(action.data)
+      });
     }
     setIsOpen(!isOpen);
   }
   const menuClass = `${isOpen ? " d-block " : ""}`;
 
 
+  const typingSearchUsers = async (event) =>
+  {
+    const a = event.target.value;
+    await new Promise(executor => setTimeout(executor, 2500));
+    if (a === event.target.value)
+      console.log(a)
+  }
+
+  const sendMessageContent = () =>
+  {
+    if (!messageContentTyping && !(messageContentTyping.replace(" ", "").length > 0))
+      return;
+    dispatch(sendContentToGroup({groupId: currentMessageGroup.uuid, content: messageContentTyping}));
+    setMessageContentTyping("");
+  }
+
+
+  const avatarLoader = (messageGroupAvatar, css) =>
+  {
+    if (!css || css.contains("square"))
+      css = "square35";
+    if (messageGroupAvatar)
+    {
+      const avatarJsonParsed = JSON.parse(messageGroupAvatar)
+      if (avatarJsonParsed && avatarJsonParsed.links && avatarJsonParsed.links.length > 2)
+        return simpleCollage3(avatarJsonParsed.links, css);
+      if (avatarJsonParsed && avatarJsonParsed.urls && avatarJsonParsed.urls.length > 2)
+        return simpleCollage3(avatarJsonParsed.urls, css);
+    }
+    return <img src={imageUrl(messageGroupAvatar)} alt='avater' className={`${css} border border-secondary rounded-circle  me-1`} />
+  }
+
+
   const popupChat = () =>
   {
+    const message = (messageContent) =>
+    {
+      if (messageContent && messageContent.info && messageContent.info.owner)
+      {
+        const owner = messageContent.info.owner;
+        if (owner.uuid === masterUser.uuid)
+          return (
+            <>
+              <div className='message self text-right mt-2'>
+                <div className='message-content font-xssss lh-24 fw-500'>{messageContent.content}</div>
+              </div>
+            </>
+          );
+        else
+          return (
+            <>
+              <div className='message'>
+                <div className='message-content font-xssss lh-24 fw-500'>{messageContent.content}</div>
+              </div>
+              <div className='date-break font-xsssss lh-24 fw-500 text-grey-500 mt-2 mb-2'>Mon 10:20am</div>
+            </>
+          );
+      }
+      else return <></>
+    }
+
     return (
       <div className={`modal-popup-chat ${menuClass}`}>
         <div className='modal-popup-wrap bg-white p-0 shadow-lg rounded-3'>
           <div className='modal-popup-header w-100 border-bottom'>
             <div className='card p-3 d-block border-0 d-block'>
               <figure className='avatar mb-0 float-left me-2'>
-                {avatar(currentMessageGroup.avatar)}
+                {avatarLoader(currentMessageGroup.avatar, "")}
               </figure>
               <h5 className='fw-700 text-primary font-xssss mt-1 mb-1'>
                 {currentMessageGroup.groupName ? currentMessageGroup.groupName : <del>No Name</del>}
@@ -122,13 +188,7 @@ const RightChat = () =>
             </div>
           </div>
           <div className='modal-popup-body w-100 p-3 h-auto'>
-            <div className='message'>
-              <div className='message-content font-xssss lh-24 fw-500'>Hi, how can I help you?</div>
-            </div>
-            <div className='date-break font-xsssss lh-24 fw-500 text-grey-500 mt-2 mb-2'>Mon 10:20am</div>
-            <div className='message self text-right mt-2'>
-              <div className='message-content font-xssss lh-24 fw-500'>I want those files for you. I want you to send 1 PDF and 1 image file.</div>
-            </div>
+            {currentMessageContents.map(message)}
             <div className='snippet pt-3 ps-4 pb-2 pe-3 mt-2 bg-grey rounded-xl float-right' data-title='.dot-typing'>
               <div className='stage'>
                 <div className='dot-typing' />
@@ -139,8 +199,10 @@ const RightChat = () =>
           <div className='modal-popup-footer w-100 border-top'>
             <div className='card p-3 d-block border-0 d-block'>
               <div className='form-group icon-right-input style1-input mb-0'>
-                <input type='text' placeholder='Start typing..' className='form-control rounded-xl bg-greylight border-0 font-xssss fw-500 ps-3' />
-                <i className='feather-send text-grey-500 font-md' />
+                <input type='text' placeholder='Start typing..' className='form-control rounded-xl bg-greylight border-0 font-xssss fw-500 ps-3'
+                       onChange={e => setMessageContentTyping(e.target.value)} onKeyUp={e => e.key === "Enter" ? sendMessageContent() : null}
+                       value={messageContentTyping} />
+                <i className='feather-send text-grey-500 font-md' onClick={sendMessageContent} />
               </div>
             </div>
           </div>
@@ -149,44 +211,33 @@ const RightChat = () =>
     )
   }
 
-  const avatar = messageGroupAvatar =>
-  {
-    if (messageGroupAvatar)
-    {
-      const avatarJsonParsed = JSON.parse(messageGroupAvatar)
-      if (avatarJsonParsed && avatarJsonParsed.links && avatarJsonParsed.links.length > 2)
-        return simpleCollage3(avatarJsonParsed.links);
-      if (avatarJsonParsed && avatarJsonParsed.urls && avatarJsonParsed.urls.length > 2)
-        return simpleCollage3(avatarJsonParsed.urls);
-    }
-    return <img src={imageUrl(messageGroupAvatar)} alt='avater' className='w35 me-1' />
-  }
-
   return (
     <div id='main-content-wrap' className={`right-chat nav-wrap mt-2 right-scroll-bar ${width > 1500 ? "active-sidebar" : " "}`}>
       <div className='middle-sidebar-right-content bg-white shadow-xss rounded-xxl'>
 
-        <h4 className='font-xsssss text-grey-500 text-uppercase fw-700 ls-3'>
-          <form action='#' className='float-left ms-3'>
+        <div className='section full pe-3 ps-4 pt-2 position-relative feed-body'>
+          <h4 className='font-xsssss text-grey-500 text-uppercase fw-700 ls-3'>
             <div className='form-group mb-0 icon-input'>
               <i className='feather-search font-sm text-grey-400' />
-              <input type='text' placeholder='Start typing to search..'
-                     className='bg-grey border-0 lh-28 ps-5 pe-3 font-xssss fw-500 rounded-xl theme-dark-bg' />
+              <input type='text' className='bg-grey border-0 lh-28 ps-5 pe-3 font-xssss fw-500 rounded-xl theme-dark-bg'
+                     placeholder='Search user ...' onChange={typingSearchUsers} />
             </div>
-          </form>
-        </h4>
-        <div className='section full pe-3 ps-4 pt-4 position-relative feed-body'>
+          </h4>
+        </div>
+
+        <div className='section full pe-3 ps-4 pt-1 position-relative feed-body'>
           <h4 className='font-xsssss text-grey-500 text-uppercase fw-700 ls-3'>CONTACTS</h4>
           <ul className='list-group list-group-flush'>
             {allMessageGroupsJoined.map(messageGroup => (
               // Start Single Demo
               <li key={messageGroup.id} className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
                 <figure className='avatar float-left mb-0 me-2'>
-                  {avatar(messageGroup.avatar)}
+                  {avatarLoader(messageGroup.avatar, "")}
                 </figure>
                 <h3 className='fw-700 mb-0 mt-0'>
                   <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer'
-                        onClick={() => toggleOpen(messageGroup)}>{messageGroup && messageGroup.groupName ? messageGroup.groupName :
+                        onClick={() => toggleOpen(messageGroup)}>{messageGroup && messageGroup.groupName ?
+                    (messageGroup.groupName.length > 20 ? messageGroup.groupName.substring(0, 18) + " ..." : messageGroup.groupName) :
                     <del>No Name</del>}</span>
                 </h3>
                 <span className={`${ /*value.status*/"bg-success"} ms-auto btn-round-xss`} />

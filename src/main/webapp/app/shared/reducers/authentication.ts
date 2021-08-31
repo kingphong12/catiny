@@ -1,10 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
-import { Storage } from 'react-jhipster';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { serializeAxiosError } from './reducer.utils';
+import axios, {AxiosResponse} from 'axios';
+import {Storage} from 'react-jhipster';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {serializeAxiosError} from './reducer.utils';
 
-import { AppThunk } from 'app/config/store';
-import { setLocale } from 'app/shared/reducers/locale';
+import {AppThunk} from 'app/config/store';
+import {setLocale} from 'app/shared/reducers/locale';
+import {defaultValue as masterUserDefaultValue, IMasterUser} from '../model/master-user.model';
 
 const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
 
@@ -20,17 +21,21 @@ export const initialState = {
   sessionHasBeenFetched: false,
   idToken: null as unknown as string,
   logoutUrl: null as unknown as string,
+  masterUser: masterUserDefaultValue as IMasterUser,
 };
 
 export type AuthenticationState = Readonly<typeof initialState>;
 
 // Actions
 
-export const getSession = (): AppThunk => async (dispatch, getState) => {
+export const getSession = (): AppThunk => async (dispatch, getState) =>
+{
   await dispatch(getAccount());
+  await dispatch(getCurrentMasterUser());
 
-  const { account } = getState().authentication;
-  if (account && account.langKey) {
+  const {account} = getState().authentication;
+  if (account && account.langKey)
+  {
     const langKey = Storage.session.get('locale', account.langKey);
     dispatch(setLocale(langKey));
   }
@@ -40,7 +45,12 @@ export const getAccount = createAsyncThunk('authentication/get_account', async (
   serializeError: serializeAxiosError,
 });
 
-interface IAuthParams {
+export const getCurrentMasterUser = createAsyncThunk('masterUser/get_current_master_user', async () => axios.get<any>('api/o/users'),
+  {serializeError: serializeAxiosError}
+);
+
+interface IAuthParams
+{
   username: string;
   password: string;
   rememberMe?: boolean;
@@ -140,7 +150,8 @@ export const AuthenticationSlice = createSlice({
         showModalLogin: true,
         errorMessage: action.error.message,
       }))
-      .addCase(getAccount.fulfilled, (state, action) => {
+      .addCase(getAccount.fulfilled, (state, action) =>
+      {
         const isAuthenticated = action.payload && action.payload.data && action.payload.data.activated;
         return {
           ...state,
@@ -150,10 +161,33 @@ export const AuthenticationSlice = createSlice({
           account: action.payload.data,
         };
       })
-      .addCase(authenticate.pending, state => {
+      .addCase(getCurrentMasterUser.rejected, (state, action) => ({
+        ...state,
+        loading: false,
+        isAuthenticated: false,
+        sessionHasBeenFetched: true,
+        showModalLogin: true,
+        errorMessage: action.error.message,
+      }))
+      .addCase(getCurrentMasterUser.fulfilled, (state, action) =>
+      {
+        const masterUser = action.payload && action.payload.data ? action.payload.data : state.masterUser;
+        return {
+          ...state,
+          masterUser,
+          loading: false,
+        };
+      })
+      .addCase(authenticate.pending, state =>
+      {
         state.loading = true;
       })
-      .addCase(getAccount.pending, state => {
+      .addCase(getAccount.pending, state =>
+      {
+        state.loading = true;
+      })
+      .addCase(getCurrentMasterUser.pending, state =>
+      {
         state.loading = true;
       });
   },

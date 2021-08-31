@@ -17,10 +17,22 @@ import java.util.List;
 
 public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
 {
-  // dto <-> entity
+  // dto -> entity
   default E d2e(D dto)
   {
     return baseMapper().toEntity(dto);
+  }
+
+
+  default Option<E> d2e(Option<D> dto)
+  {
+    return dto.map(this::d2e);
+  }
+
+
+  default io.vavr.collection.List<E> d2e(io.vavr.collection.List<D> dto)
+  {
+    return io.vavr.collection.List.ofAll(d2e(dto.toJavaList()));
   }
 
 
@@ -30,21 +42,34 @@ public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
   }
 
 
+  // entity -> dto
   default D e2d(E entity)
   {
     return baseMapper().toDto(entity);
   }
 
 
-  default Option<D> e2o_d(E entity)
+  default Option<D> e2d(Option<E> entity)
   {
-    return Option.of(e2d(entity));
+    return entity.map(this::e2d);
+  }
+
+
+  default io.vavr.collection.List<D> e2d(io.vavr.collection.List<E> entity)
+  {
+    return io.vavr.collection.List.ofAll(e2d(entity.toJavaList()));
   }
 
 
   default List<D> e2d(List<E> entityList)
   {
     return baseMapper().toDto(entityList);
+  }
+
+
+  default Option<D> e2o_d(E entity)
+  {
+    return Option.of(e2d(entity));
   }
 
 

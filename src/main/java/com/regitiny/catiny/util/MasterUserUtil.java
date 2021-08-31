@@ -6,6 +6,7 @@ import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.User;
 import com.regitiny.catiny.repository.UserRepository;
 import com.regitiny.catiny.security.SecurityUtils;
+import com.regitiny.catiny.service.dto.MasterUserDTO;
 import io.vavr.control.Option;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class MasterUserUtil
   public static Option<MasterUser> getCurrentMasterUser()
   {
     return masterUserAdvanceService.getCurrentMasterUser();
+  }
+
+  public static Option<MasterUserDTO> getCurrentMasterUserDTO()
+  {
+    return masterUserAdvanceService.getCurrentMasterUserDTO();
   }
 
   public static Option<User> getCurrentUser()

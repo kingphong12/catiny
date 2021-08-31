@@ -17,8 +17,8 @@ const initialState: EntityState<IMasterUser> = {
   updateSuccess: false,
 };
 
-const apiUrl = 'api/o/master-users';
-const apiSearchUrl = 'api/o/master-users/_search';
+const apiUrl = 'api/o/users';
+const apiSearchUrl = 'api/o/users/_search';
 
 // Actions
 
@@ -26,6 +26,13 @@ export const getMasterUsersDetailsPublic = createAsyncThunk("masterUser/get_mast
 {
   //  api/o/master-users/{uuid}/_public
   return axios.get(`${apiUrl}/${uuid}/_public`);
+});
+
+export const searchMasterUser = createAsyncThunk("masterUser/search_master_user", async ({query, page, size, sort}: IQueryParams) =>
+{
+  //  api/o/master-users/{uuid}/_public
+  const requestUrl = `${apiSearchUrl}?query=${query}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`;
+  return axios.get<IMasterUser[]>(requestUrl);
 });
 
 export const searchEntities = createAsyncThunk('masterUser/search_entity', async ({query, page, size, sort}: IQueryParams) =>

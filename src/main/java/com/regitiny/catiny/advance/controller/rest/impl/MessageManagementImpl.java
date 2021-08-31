@@ -9,8 +9,10 @@ import com.regitiny.catiny.service.dto.MessageGroupDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
 
@@ -56,5 +58,13 @@ public class MessageManagementImpl implements MessageManagement
   public ResponseEntity<Object> getMasterUsersDetailsPublicByMessageGroupId(UUID messageGroupId)
   {
     return ResponseEntity.ok(messageGroupAdvanceService.getMasterUserDetailsPublicByMessageGroupId(messageGroupId).toJavaList());
+  }
+
+  @Override
+  public ResponseEntity<MessageContentDTO> sendContentToGroup(UUID messageGroupId, String content, List<MultipartFile> images, List<MultipartFile> videos, List<MultipartFile> files)
+  {
+    return messageContentAdvanceService.sendContentToGroup(messageGroupId, content, images, videos, files)
+      .map(messageContentDTO -> ResponseEntity.status(HttpStatus.CREATED).body(messageContentDTO))
+      .getOrElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
   }
 }

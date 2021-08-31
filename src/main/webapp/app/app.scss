@@ -378,3 +378,11 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 @include square(200);
 @include square(500);
 @include square(1000);
+
+
+.right-chat {
+  .form-group.icon-input i {
+    top: 4px;
+    left: 15px;
+  }
+}

@@ -39,7 +39,7 @@ public class FileInfoAdvanceServiceImpl extends AdvanceService<FileInfo, FileInf
   {
     var uuid = UUID.randomUUID();
     var nameFile = Option.of(desiredName)
-      .map(StringUtils::clean)
+      .map(StringUtils::cleanFileName)
       .orElse(Option.of(uuid.toString()))
       .map(s ->
       {

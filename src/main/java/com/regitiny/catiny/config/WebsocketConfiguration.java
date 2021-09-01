@@ -1,6 +1,8 @@
 package com.regitiny.catiny.config;
 
 import com.regitiny.catiny.security.AuthoritiesConstants;
+import com.regitiny.catiny.util.MasterUserUtil;
+import io.vavr.control.Option;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -59,19 +61,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
       .withSockJS()
       .setInterceptors(httpSessionHandshakeInterceptor());
     registry
-      .addEndpoint("/websocket/message")
-      .setHandshakeHandler(defaultHandshakeHandler())
-      .setAllowedOrigins(allowedOrigins)
-      .withSockJS()
-      .setInterceptors(httpSessionHandshakeInterceptor());
-    registry
-      .addEndpoint("/websocket/live-streaming")
-      .setHandshakeHandler(defaultHandshakeHandler())
-      .setAllowedOrigins(allowedOrigins)
-      .withSockJS()
-      .setInterceptors(httpSessionHandshakeInterceptor());
-    registry
-      .addEndpoint("/websocket/video-call")
+      .addEndpoint("/websocket/main")
       .setHandshakeHandler(defaultHandshakeHandler())
       .setAllowedOrigins(allowedOrigins)
       .withSockJS()
@@ -112,21 +102,32 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
          * @return
          */
         @Override
-        public Message<?> preSend(@Nonnull Message<?> message, @Nonnull MessageChannel channel) {
+        public Message<?> preSend(@Nonnull Message<?> message, @Nonnull MessageChannel channel)
+        {
           var accessor = StompHeaderAccessor.wrap(message);
           var username = Objects.requireNonNull(accessor.getUser()).getName();
+          var command = accessor.getCommand();
 
-
-          var commandSubscribeCheck = StompCommand.SUBSCRIBE.equals(accessor.getCommand());
-          if (commandSubscribeCheck) {
-            var destination = Objects.requireNonNull(accessor.getDestination());
-            if (destination.contains("/" + username + "/")) return ChannelInterceptor.super.preSend(message, channel);
+          if (StompCommand.SUBSCRIBE.equals(command))
+          {
             // don't subscribe /topic/**
-            var destinationRegex = "/topic/[[\\w-]+/]*[*]{1,2}";
+            var destinationRegex = "[[\\w-]+/]*[*]{1,2}";
             var destinationRegexCheck = Pattern.matches(destinationRegex, accessor.getDestination());
             if (destinationRegexCheck) return null;
-          }
 
+            var destination = Objects.requireNonNull(accessor.getDestination());
+            var pathNewMessage = "/topic/users/${uuid}/messages/new";
+            var checkNewMessage = MasterUserUtil.getCurrentMasterUser()
+              .map(masterUser -> pathNewMessage.replace("${uuid}", masterUser.getUuid().toString()))
+              .filter(s -> s.equals(destination))
+              .map(a -> true)
+              .orElse(Option.of("/topic/tracker".equals(destination)))
+              .getOrElse(false);
+            if (checkNewMessage)
+              return ChannelInterceptor.super.preSend(message, channel);
+            else
+              return null;
+          }
           return ChannelInterceptor.super.preSend(message, channel);
         }
       }

@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessageManagementImpl implements MessageManagement
 {
+  private final SimpMessageSendingOperations messagingTemplate;
   private final MessageGroupAdvanceService messageGroupAdvanceService;
   private final MessageContentAdvanceService messageContentAdvanceService;
   private final MasterUserAdvanceService masterUserAdvanceService;
@@ -64,6 +66,12 @@ public class MessageManagementImpl implements MessageManagement
   public ResponseEntity<MessageContentDTO> sendContentToGroup(UUID messageGroupId, String content, List<MultipartFile> images, List<MultipartFile> videos, List<MultipartFile> files)
   {
     return messageContentAdvanceService.sendContentToGroup(messageGroupId, content, images, videos, files)
+      .peek(messageContentDTO ->
+      {
+        var topic = "/topic/users/${userId}/messages/new";
+        messageGroupAdvanceService.getMasterUserDetailsPublicByMessageGroupId(messageContentDTO.getGroup().getUuid()).forEach(masterUserDTO ->
+          messagingTemplate.convertAndSend(topic.replace("${userId}", masterUserDTO.getUuid().toString()), messageContentDTO));
+      })
       .map(messageContentDTO -> ResponseEntity.status(HttpStatus.CREATED).body(messageContentDTO))
       .getOrElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
   }

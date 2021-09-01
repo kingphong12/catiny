@@ -63,6 +63,13 @@ public class MessageContentAdvanceServiceImpl extends AdvanceService<MessageCont
           .group(messageGroup)
           .content(content)
           .searchField(StringUtils.cleanCharVI(content)).status("SENT")))
-      .map(messageContentAdvanceMapper::e2d);
+      .map(messageContent ->
+      {
+        var dto = messageContentAdvanceMapper.e2d(messageContent);
+        var owner = new MasterUserDTO();
+        owner.setUuid(messageContent.getInfo().getOwner().getUuid());
+        dto.getInfo().setOwner(owner);
+        return dto;
+      });
   }
 }

@@ -4,50 +4,7 @@ import {getAllMessageGroupsJoined, getMessageContentByMessageGroupId, sendConten
 import {defaultValue as defaultValueMessageGroup, IMessageGroup} from "app/shared/model/message-group.model";
 import {simpleCollage3} from 'app/component/simple-component';
 import {imageUrl} from "app/shared/util/image-tools-util";
-
-
-const chatMember = [
-  {
-    imageUrl: 'user.png',
-    name: 'Hurin Seary',
-    status: 'bg-success'
-  },
-  {
-    imageUrl: 'user.png',
-    name: 'Victor Exrixon',
-    status: 'bg-success'
-  },
-  {
-    imageUrl: 'user.png',
-    name: 'Surfiya Zakir',
-    status: 'bg-warning'
-  },
-  {
-    imageUrl: 'user.png',
-    name: 'Goria Coast',
-    status: 'bg-danger'
-  },
-  {
-    imageUrl: 'user.png',
-    name: 'Hurin Seary',
-    status: 'bg-success'
-  },
-  {
-    imageUrl: 'user.png',
-    name: 'David Goria',
-    status: 'bg-success'
-  },
-  {
-    imageUrl: 'user.png',
-    name: 'Seary Victor',
-    status: 'bg-success'
-  },
-  {
-    imageUrl: 'user.png',
-    name: 'Ana Seary',
-    status: 'bg-success'
-  },
-]
+import Websocket from "app/config/Websocket"
 
 const RightChat = () =>
 {
@@ -60,6 +17,7 @@ const RightChat = () =>
   const [currentMessageContents, setCurrentMessageContents] = useState([]);
   const [keywordSearchUsers, setKeywordSearchUsers] = useState("");
   const [messageContentTyping, setMessageContentTyping] = useState("");
+  const websocket = new Websocket();
   /**
    * Calculate & Update state of new dimensions
    */
@@ -91,7 +49,25 @@ const RightChat = () =>
   useEffect(() =>
   {
     dispatch(getAllMessageGroupsJoined({}));
-  }, [])
+  }, []);
+  useEffect(() =>
+  {
+    websocket.connect("/websocket/main");
+    websocket.subscribe(`/users/${masterUser.uuid}/messages/new`, data =>
+    {
+
+      const body = JSON.parse(data.body);
+      console.log(body);
+      console.log(currentMessageGroup);
+      console.log(body.group.uuid);
+      if (body && body.group && body.group.uuid && body.group.uuid === currentMessageGroup.uuid)
+        setCurrentMessageContents(prev => prev.concat(body))
+    });
+    return () =>
+    {
+      websocket.unsubscribe()
+    }
+  }, [masterUser.uuid, currentMessageGroup]);
 
 
   const toggleOpen = (messageGroup: IMessageGroup) =>
@@ -113,8 +89,8 @@ const RightChat = () =>
   {
     const a = event.target.value;
     await new Promise(executor => setTimeout(executor, 2500));
-    if (a === event.target.value)
-      console.log(a)
+    // if (a === event.target.value)
+    // console.log(a)
   }
 
   const sendMessageContent = () =>
@@ -230,7 +206,7 @@ const RightChat = () =>
           <ul className='list-group list-group-flush'>
             {allMessageGroupsJoined.map(messageGroup => (
               // Start Single Demo
-              <li key={messageGroup.id} className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
+              <li key={messageGroup.uuid} className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
                 <figure className='avatar float-left mb-0 me-2'>
                   {avatarLoader(messageGroup.avatar, "")}
                 </figure>

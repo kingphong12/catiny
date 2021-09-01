@@ -57,9 +57,6 @@ const RightChat = () =>
     {
 
       const body = JSON.parse(data.body);
-      console.log(body);
-      console.log(currentMessageGroup);
-      console.log(body.group.uuid);
       if (body && body.group && body.group.uuid && body.group.uuid === currentMessageGroup.uuid)
         setCurrentMessageContents(prev => prev.concat(body))
     });

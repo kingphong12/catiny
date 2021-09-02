@@ -1,4 +1,4 @@
-const DEFAULT_IMAGE: string = "content/images/logo/Catiny-logo.svg";
+const DEFAULT_IMAGE = "content/images/logo/Catiny-logo.svg";
 const DEFAULT_IMAGE_X3 = [DEFAULT_IMAGE, DEFAULT_IMAGE, DEFAULT_IMAGE];
 
 

@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.RankGroup;
 import com.regitiny.catiny.service.dto.RankGroupDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface RankGroupAdvanceMapper extends EntityAdvanceMapper<RankGroupModel, RankGroupDTO, RankGroup>
 {
-  RankGroupDTO request2d(RankGroupModel.Request request);
-
-
-  List<RankGroupDTO> request2d(List<RankGroupModel.Request> request);
-
-
-  RankGroupModel.Response d2Response(RankGroupDTO dto);
-
-
-  List<RankGroupModel.Response> d2Response(List<RankGroupDTO> dto);
 }

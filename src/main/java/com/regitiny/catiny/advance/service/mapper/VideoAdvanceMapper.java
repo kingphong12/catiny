@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.Video;
 import com.regitiny.catiny.service.dto.VideoDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface VideoAdvanceMapper extends EntityAdvanceMapper<VideoModel, VideoDTO, Video>
 {
-  VideoDTO request2d(VideoModel.Request request);
-
-
-  List<VideoDTO> request2d(List<VideoModel.Request> request);
-
-
-  VideoModel.Response d2Response(VideoDTO dto);
-
-
-  List<VideoModel.Response> d2Response(List<VideoDTO> dto);
 }

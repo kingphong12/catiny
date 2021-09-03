@@ -37,14 +37,14 @@ public class GenerateEntityAdvanceUtils
   private static final String DOMAIN_PACKAGE = BASE_PACKAGE + ".domain";
   private static final String ENTITY_NAME = "${entityName}";
 
-  private static String entityName(String entityName)
-  {
-    return BASE_PACKAGE + ".domain." + entityName;
-  }
-
   private GenerateEntityAdvanceUtils()
   {
     throw new IllegalStateException("GenerateEntityAdvanceUtils Class");
+  }
+
+  private static String entityName(String entityName)
+  {
+    return BASE_PACKAGE + ".domain." + entityName;
   }
 
   public static Tuple2<List<JavaFile>, List<JavaFile>> Generate(String entityName, String projectPath)
@@ -71,8 +71,9 @@ public class GenerateEntityAdvanceUtils
       genSearchRepoAdvance(entityName),
       genMapper(entityName),
       genService(entityName),
-      genServiceImpl(entityName),
-      genModel(entityName));
+//      genModel(entityName),
+      genServiceImpl(entityName)
+    );
 //    kiểm tra nếu đã tồn tại thì bỏ qua nếu chưa tồn tại thì bắt đầu generate.
     var result = javaFiles.stream()
       .filter(javaFile ->
@@ -312,25 +313,25 @@ public class GenerateEntityAdvanceUtils
           ClassName.get(EntityAdvanceMapper.class),
           ClassName.get(packageModel, entityName + "Model"),
           ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"),
-          ClassName.get(BASE_PACKAGE + ".domain", entityName)))
-//    EntityDTO request2d(EntityModel.Request request)
-      .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .addParameter(ParameterSpec.builder(ClassName.get(packageModel, entityName + "Model").nestedClass("Request"), "request").build())
-        .returns(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")).build())
-//    List<EntityDTO> request2d(List<EntityModel.Request> request)
-      .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .addParameter(ParameterSpec.builder(
-          ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Request")), "request").build())
-        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"))).build())
-//    EntityModel.Response d2Response(EntityDTO dto)
-      .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .addParameter(ParameterSpec.builder(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"), "dto").build())
-        .returns(ClassName.get(packageModel, entityName + "Model").nestedClass("Response")).build())
+          ClassName.get(BASE_PACKAGE + ".domain", entityName)));
+////    EntityDTO request2d(EntityModel.Request request)
+//      .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+//        .addParameter(ParameterSpec.builder(ClassName.get(packageModel, entityName + "Model").nestedClass("Request"), "request").build())
+//        .returns(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")).build())
+////    List<EntityDTO> request2d(List<EntityModel.Request> request)
+//      .addMethod(MethodSpec.methodBuilder("request2d").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+//        .addParameter(ParameterSpec.builder(
+//          ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Request")), "request").build())
+//        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"))).build())
+////    EntityModel.Response d2Response(EntityDTO dto)
+//      .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+//        .addParameter(ParameterSpec.builder(ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO"), "dto").build())
+//        .returns(ClassName.get(packageModel, entityName + "Model").nestedClass("Response")).build())
 //    List<EntityModel.Response> d2Response(List<EntityDTO> dto)
-      .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .addParameter(ParameterSpec.builder(
-          ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")), "dto").build())
-        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Response"))).build());
+//      .addMethod(MethodSpec.methodBuilder("d2Response").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+//        .addParameter(ParameterSpec.builder(
+//          ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(BASE_PACKAGE + ".service.dto", entityName + "DTO")), "dto").build())
+//        .returns(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(packageModel, entityName + "Model").nestedClass("Response"))).build());
 
     var javaFile = JavaFile.builder(packageAdvanceOutput, advanceMapper.build()).build();
     log.debug("...Mapper after generated : \n {}", javaFile.toString());

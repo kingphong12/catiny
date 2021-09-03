@@ -15,7 +15,7 @@ import java.util.List;
  * @param <E> - Entity type parameter.
  */
 
-public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
+public interface EntityAdvanceMapper<M, D, E> extends VavrMapper<M, D, E> // ModelMapper<M, D, E>
 {
   // dto -> entity
   default E d2e(D dto)
@@ -24,12 +24,14 @@ public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
   }
 
 
+  @Override
   default Option<E> d2e(Option<D> dto)
   {
     return dto.map(this::d2e);
   }
 
 
+  @Override
   default io.vavr.collection.List<E> d2e(io.vavr.collection.List<D> dto)
   {
     return io.vavr.collection.List.ofAll(d2e(dto.toJavaList()));
@@ -49,12 +51,14 @@ public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
   }
 
 
+  @Override
   default Option<D> e2d(Option<E> entity)
   {
     return entity.map(this::e2d);
   }
 
 
+  @Override
   default io.vavr.collection.List<D> e2d(io.vavr.collection.List<E> entity)
   {
     return io.vavr.collection.List.ofAll(e2d(entity.toJavaList()));
@@ -73,18 +77,18 @@ public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
   }
 
 
-  @Override
-  default M e2m(E entity)
-  {
-    return thisMapper().d2m(baseMapper().toDto(entity));
-  }
-
-
-  @Override
-  default List<M> e2m(List<E> entityList)
-  {
-    return thisMapper().d2m(baseMapper().toDto(entityList));
-  }
+//  @Override
+//  default M e2m(E entity)
+//  {
+//    return thisMapper().d2m(baseMapper().toDto(entity));
+//  }
+//
+//
+//  @Override
+//  default List<M> e2m(List<E> entityList)
+//  {
+//    return thisMapper().d2m(baseMapper().toDto(entityList));
+//  }
 
 
   default void partialUpdate(E entity, D dto)

@@ -269,7 +269,7 @@ dependencies {
   implementation "org.springframework.boot:spring-boot-starter-mail"
   implementation "org.springframework.boot:spring-boot-starter-logging"
   implementation "org.springframework.boot:spring-boot-starter-actuator"
-  implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+  implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
   implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch"
   testImplementation "org.testcontainers:mariadb"
   implementation "org.apache.kafka:kafka-clients"
@@ -394,27 +394,65 @@ task generateAdvaneService(type: JavaExec) {
   main = "com.regitiny.tools.generator.GeneratorMain"
 }
 
-// // graalVM
-//bootBuildImage {
-//  builder = "paketobuildpacks/builder:tiny"
-//  environment = [
-//    "BP_NATIVE_IMAGE" : "true",
-//    "BP_NATIVE_IMAGE_BUILD_ARGUMENTS":"-H:+ReportExceptionStackTraces --trace-class-initialization=org.springframework.util.unit.DataSize " +
-//      " --initialize-at-build-time=org.springframework.util.unit.DataSize," +
-//      "ch.qos.logback.core.spi.AppenderAttachableImpl," +
-//      "ch.qos.logback.classic.Logger," +
-//      "org.slf4j.impl.StaticLoggerBinder," +
-//      "ch.qos.logback.core.util.Loader," +
-//      "ch.qos.logback.core.CoreConstants," +
-//      "org.slf4j.LoggerFactory," +
-//      "org.slf4j.MDC," +
-//      "ch.qos.logback.core.util.StatusPrinter," +
-//      "ch.qos.logback.core.status.InfoStatus," +
-//      "ch.qos.logback.classic.Level," +
-//      "ch.qos.logback.core.status.StatusBase"
-//  ]
-//}
+// graalVM
+bootBuildImage {
+  builder = "paketobuildpacks/builder:tiny"
+  environment = [
+    "BP_NATIVE_IMAGE" : "true",
+    "BP_NATIVE_IMAGE_BUILD_ARGUMENTS":"-H:+ReportExceptionStackTraces " +
+      " --no-fallback " +
+      " --allow-incomplete-classpath " +
+      " " +
+      " --no-fallback " +
+      " --allow-incomplete-classpath " +
+      " --initialize-at-build-time=org.springframework.util.unit.DataSize," +
+      "ch.qos.logback.core.spi.AppenderAttachableImpl," +
+      "ch.qos.logback.classic.Logger," +
+      "org.slf4j.impl.StaticLoggerBinder," +
+      "ch.qos.logback.core.util.Loader," +
+      "ch.qos.logback.core.CoreConstants," +
+      "org.slf4j.LoggerFactory," +
+      "org.slf4j.MDC," +
+      "ch.qos.logback.core.util.StatusPrinter," +
+      "ch.qos.logback.core.status.InfoStatus," +
+      "ch.qos.logback.classic.Level," +
+      "org.springframework.beans.BeanUtils," +
+      "org.springframework.util.ConcurrentReferenceHashMap," +
+      "org.springframework.core.LocalVariableTableParameterNameDiscoverer," +
+
+      "org.apache.commons.logging.LogAdapter\$Slf4jLocationAwareLog," +
+      "org.springframework.core.KotlinDetector," +
+      "org.springframework.util.ClassUtils," +
+      "org.apache.commons.logging.LogAdapter\$1," +
+      "org.apache.commons.logging.LogAdapter," +
+
+      "ch.qos.logback.core.status.StatusBase" +
+      " " +
+      " --initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger," +
+      "org.springframework.beans.BeanUtils\$KotlinDelegate" +
+      " " +
+
+      "   " +
+//      " --allow-incomplete-classpath "+
 //
+//      " _JAVA_OPTIONS=-Xmx512m -Xms256m " +
+//      " spring.profiles.active=prod,api-docs " +
+//      "      - management.metrics.export.prometheus.enabled=true " +
+//      "      - eureka.client.service.url.defaultzone=http://admin:\${jhipster.registry.password}@catiny-dev-jhipster-registry:8761/eureka " +
+//      "      - spring.cloud.config.uri=http://admin:\${jhipster.registry.password}@catiny-dev-jhipster-registry:8761/config " +
+//      "      - spring.datasource.url=jdbc:mariadb://catiny-dev-mariadb:3306/catiny?useLegacyDatetimeCode=false&serverTimezone=UTC " +
+//      "      - spring.liquibase.url=jdbc:mariadb://catiny-dev-mariadb:3306/catiny?useLegacyDatetimeCode=false&serverTimezone=UTC " +
+//      "      - jhipster.cache.redis.server=redis://catiny-dev-redis:6379 " +
+//      "      - jhipster.cache.redis.cluster=false " +
+//      "      # - JHIPSTER.CACHE.REDIS.SERVER=redis://catiny-redis:6379 " +
+//      "      # - JHIPSTER.CACHE.REDIS.CLUSTER=true " +
+//      "      - jhipster.sleep=20 # gives time for mariadb server to start " +
+//      "      - spring.elasticsearch.rest.uris=http://catiny-dev-elasticsearch:9200 " +
+//      "      - kafka.bootstrapservers=catiny-dev-kafka:19092"
+      ""
+  ]
+}
+
 //nativeBuild {
-//  classpath "$buildDir/resources/aot", "$buildDir/classes/java/aot"
+//  classpath "$buildDir/resources", "$buildDir/classes/java/main"
 //}

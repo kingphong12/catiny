@@ -84,6 +84,7 @@ import historyUpdate from 'app/entities/history-update/history-update.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 import setting from 'app/modules/setting/setting.reducer';
 import rightChat from 'app/shared/layout/right-chat/right-chat.reducer';
+import masterUserComponent from 'app/component/reducer/master-user.reducer';
 
 const rootReducer = {
   authentication,
@@ -135,6 +136,7 @@ const rootReducer = {
   loadingBar,
   setting,
   rightChat,
+  masterUserComponent
 };
 
 export default rootReducer;

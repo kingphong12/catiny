@@ -64,6 +64,18 @@ export const sendContentToGroup = createAsyncThunk('rightChat/send_content_to_gr
     formData.append("content", content);
     return axios.post<IMessageContent[]>(requestUrl, formData);
   });
+/**
+ * get all message-contents by group id
+ */
+export const createMessageGroup = createAsyncThunk('rightChat/create_message_group',
+  async ({userIds, desiredName}: { userIds: any[], desiredName: string }) =>
+  {
+    const requestUrl = `${apiUrlMessageGroups}`;
+    const formData = new FormData();
+    userIds.forEach(userId => formData.append("userIds", userId));
+    formData.append("desiredName", desiredName);
+    return axios.post<IMessageContent[]>(requestUrl, formData);
+  });
 //
 // export const getEntity = createAsyncThunk(
 //   'messageGroup/fetch_entity',

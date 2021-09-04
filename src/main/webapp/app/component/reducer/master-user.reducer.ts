@@ -3,10 +3,10 @@ import {createAsyncThunk, isFulfilled, isPending} from '@reduxjs/toolkit';
 import {loadMoreDataWhenScrolled, parseHeaderForLinks} from 'react-jhipster';
 
 import {cleanEntity} from 'app/shared/util/entity-utils';
-import {createEntitySlice, EntityState, IQueryParams, serializeAxiosError} from 'app/shared/reducers/reducer.utils';
+import {createEntitySlice, IQueryParams, serializeAxiosError} from 'app/shared/reducers/reducer.utils';
 import {defaultValue, IMasterUser} from 'app/shared/model/master-user.model';
 
-const initialState: EntityState<IMasterUser> = {
+const initialState = {
   loading: false,
   errorMessage: null,
   entities: [],
@@ -15,6 +15,7 @@ const initialState: EntityState<IMasterUser> = {
   updating: false,
   totalItems: 0,
   updateSuccess: false,
+  resultSearchUsers: [],
 };
 
 const apiUrl = 'api/o/users';
@@ -106,6 +107,11 @@ export const MasterUserSlice = createEntitySlice({
       {
         state.loading = false;
         state.entity = action.payload.data;
+      })
+      .addCase(searchMasterUser.fulfilled, (state: any, action) =>
+      {
+        state.loading = false;
+        state.resultSearchUsers = action.payload.data;
       })
       .addCase(deleteEntity.fulfilled, state =>
       {

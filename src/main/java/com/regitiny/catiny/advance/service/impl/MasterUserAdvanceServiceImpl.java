@@ -21,7 +21,7 @@ import com.regitiny.catiny.service.dto.MasterUserDTO;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Objects;
+
+import static org.elasticsearch.index.query.QueryBuilders.prefixQuery;
 
 @Log4j2
 @Service
@@ -139,6 +141,7 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
   @Override
   public Page<MasterUserDTO> searchMasterUser(String query, Pageable pageable)
   {
-    return masterUserAdvanceSearch.search(QueryBuilders.queryStringQuery(query), pageable).map(masterUserAdvanceMapper::e2d);
+    QueryBuilder queryBuilder = prefixQuery("fullName", query.toLowerCase());
+    return masterUserAdvanceSearch.search(queryBuilder, pageable).map(masterUserAdvanceMapper::e2d);
   }
 }

@@ -17,5 +17,5 @@ import java.util.UUID;
  */
 public interface MessageContentBaseRepository extends BaseRepository<MessageContent>, CommonRepository<MessageContent>, MessageContentRepository
 {
-  Page<MessageContent> findAllByGroupUuid(UUID uuid, Pageable pageable);
+  Page<MessageContent> findAllByGroupUuidOrderByIdDesc(UUID uuid, Pageable pageable);
 }

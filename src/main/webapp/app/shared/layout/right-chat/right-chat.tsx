@@ -1,23 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "app/config/store";
-import {getAllMessageGroupsJoined, getMessageContentByMessageGroupId, sendContentToGroup} from "app/shared/layout/right-chat/right-chat.reducer";
+import {
+  createMessageGroup,
+  getAllMessageGroupsJoined,
+  getMessageContentByMessageGroupId,
+  sendContentToGroup
+} from "app/shared/layout/right-chat/right-chat.reducer";
 import {defaultValue as defaultValueMessageGroup, IMessageGroup} from "app/shared/model/message-group.model";
 import {simpleCollage3} from 'app/component/simple-component';
 import {imageUrl} from "app/shared/util/image-tools-util";
 import Websocket from "app/config/Websocket"
+import {searchMasterUser} from "app/component/reducer/master-user.reducer";
+import {useSelector} from 'react-redux';
 
 const RightChat = () =>
 {
+  const websocket = new Websocket();
   const dispatch = useAppDispatch();
   const masterUser = useAppSelector(state => state.authentication.masterUser);
+  const resultSearchUsers = useSelector((state: any) => state.masterUserComponent.resultSearchUsers.filter(v => v.uuid !== masterUser.uuid));
+
   const [isOpen, setIsOpen] = useState(false);
   const [width, setWidth] = useState(800);
   const [height, setHeight] = useState(182);
   const [currentMessageGroup, setCurrentMessageGroup] = useState(defaultValueMessageGroup);
   const [currentMessageContents, setCurrentMessageContents] = useState([]);
-  const [keywordSearchUsers, setKeywordSearchUsers] = useState("");
   const [messageContentTyping, setMessageContentTyping] = useState("");
-  const websocket = new Websocket();
+
+  const [userToCreateMessageGroup, setUserToCreateMessageGroup] = useState([]);
+  const [groupNameToCreateMessageGroup, setGroupNameToCreateMessageGroup] = useState("");
+  const [groupNameIsCustom, setGroupNameIsCustom] = useState(false);
   /**
    * Calculate & Update state of new dimensions
    */
@@ -85,9 +97,9 @@ const RightChat = () =>
   const typingSearchUsers = async (event) =>
   {
     const a = event.target.value;
-    await new Promise(executor => setTimeout(executor, 2500));
-    // if (a === event.target.value)
-    // console.log(a)
+    await new Promise(executor => setTimeout(executor, 500));
+    if (a === event.target.value)
+      dispatch(searchMasterUser({query: a}))
   }
 
   const sendMessageContent = () =>
@@ -101,7 +113,7 @@ const RightChat = () =>
 
   const avatarLoader = (messageGroupAvatar, css) =>
   {
-    if (!css || css.contains("square"))
+    if (!css || css.includes("square"))
       css = "square35";
     if (messageGroupAvatar)
     {
@@ -144,9 +156,9 @@ const RightChat = () =>
     }
 
     return (
-      <div className={`modal-popup-chat ${menuClass}`}>
-        <div className='modal-popup-wrap bg-white p-0 shadow-lg rounded-3'>
-          <div className='modal-popup-header w-100 border-bottom'>
+      <div className={`modal-popup-chat  ${menuClass} `}>
+        <div className={`modal-popup-wrap bg-white p-0 shadow-lg rounded-3 ${width < 1000 ? "w250" : ""} `}>
+          <div className='modal-popup-header border-bottom'>
             <div className='card p-3 d-block border-0 d-block'>
               <figure className='avatar mb-0 float-left me-2'>
                 {avatarLoader(currentMessageGroup.avatar, "")}
@@ -160,7 +172,7 @@ const RightChat = () =>
                 <i className='ti-close text-grey-900 mt-2 d-inline-block' /></div>
             </div>
           </div>
-          <div className='modal-popup-body w-100 p-3 h-auto'>
+          <div className='modal-popup-body w-100 right-scroll-bar h300 p-3 '>
             {currentMessageContents.map(message)}
             <div className='snippet pt-3 ps-4 pb-2 pe-3 mt-2 bg-grey rounded-xl float-right' data-title='.dot-typing'>
               <div className='stage'>
@@ -184,18 +196,70 @@ const RightChat = () =>
     )
   }
 
+  const rightChatActive = useAppSelector(state => state.setting.rightChatActive)
+
   return (
-    <div id='main-content-wrap' className={`right-chat nav-wrap mt-2 right-scroll-bar ${width > 1500 ? "active-sidebar" : " "}`}>
+    <div id='main-content-wrap' className={`right-chat nav-wrap mt-2 right-scroll-bar ${rightChatActive ? "active-sidebar" : ""}`}>
       <div className='middle-sidebar-right-content bg-white shadow-xss rounded-xxl'>
 
         <div className='section full pe-3 ps-4 pt-2 position-relative feed-body'>
-          <h4 className='font-xsssss text-grey-500 text-uppercase fw-700 ls-3'>
+          <h4 className='font-xsssss text-grey-500 text-uppercase '>
             <div className='form-group mb-0 icon-input'>
               <i className='feather-search font-sm text-grey-400' />
               <input type='text' className='bg-grey border-0 lh-28 ps-5 pe-3 font-xssss fw-500 rounded-xl theme-dark-bg'
                      placeholder='Search user ...' onChange={typingSearchUsers} />
             </div>
           </h4>
+          <ul className='position-absolute border rounded-2 border-dark bg-grey theme-light-bg color-theme-cayan' style={{zIndex: 1080}}>
+            <div className={"d-flex"}>
+              <div>{userToCreateMessageGroup.length > 0 ?
+                <textarea className={"me-auto"}
+                          onKeyUp={() => setGroupNameIsCustom(true)}
+                          onChange={event => setGroupNameToCreateMessageGroup(event.target.value)}
+                          value={groupNameToCreateMessageGroup} /> : ""}
+              </div>
+
+              <div className={`ms-auto ${resultSearchUsers.length < 1 ? "d-none" : ""}`}>
+                <i className={`feather-x font-xl text-grey-600 d-block`} />
+                {userToCreateMessageGroup.length > 0 ?
+                  <i className={`feather-check font-xl text-grey-600 d-block`}
+                     onClick={() => dispatch(createMessageGroup({
+                       userIds: userToCreateMessageGroup.map(v => v.uuid),
+                       desiredName: groupNameToCreateMessageGroup
+                     }))} /> : ""}
+              </div>
+            </div>
+            {resultSearchUsers.map(user =>
+              <li key={user.uuid} className='m-1 d-flex rounded-3 bg-white theme-dark-bg' onClick={() =>
+              {
+                setUserToCreateMessageGroup(prev =>
+                {
+                  const result = prev.filter(v => v.uuid === user.uuid).length < 1 ? prev.concat(user) : prev.filter(v => v.uuid !== user.uuid);
+                  if (!groupNameIsCustom)
+                    setGroupNameToCreateMessageGroup(() =>
+                    {
+                      let name = "";
+                      result.map(u => name += u.fullName + ",");
+                      if (name.length > 0)
+                        return name.substring(0, name.length - 1);
+                      return "";
+                    });
+                  return result;
+                });
+              }}>
+                <div className='d-flex '>
+                  {avatarLoader(user.avatar, "square35")}
+                </div>
+                <div className='font-xsssss text-grey-500 fw-700 ls-3 justify-content-xxl-around'>
+                  <h4 className='font-xssss'>{user.fullName.substring(0, 20)}{user.fullName.length > 20 ? "..." : ""}</h4>
+                  <h5 className='font-xsssss m-0 '>{user.nickname.substring(0, 25)}</h5>
+                </div>
+                {userToCreateMessageGroup.filter(v => v.uuid === user.uuid).length > 0 ?
+                  <i className='feather-check-circle font-xsss text-grey-600 ms-auto ' /> :
+                  <i className='feather-x font-xsss text-grey-600 ms-auto' />}
+              </li>
+            )}
+          </ul>
         </div>
 
         <div className='section full pe-3 ps-4 pt-1 position-relative feed-body'>

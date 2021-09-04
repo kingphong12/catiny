@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './demo.css';
+import {Link} from 'react-router-dom';
 
 const newDemoList = [
   {
@@ -289,10 +290,10 @@ const Demo = () => (
           {newDemoList.map((value, index) => (
             // Start Single Demo
             <div key={index} className="col-lg-4 col-md-6 demo-item">
-              <a href={`/${value.url} `}>
-                <img src={`assets/images/demo/${value.imageUrl}`} alt="demo-i" className="w-100"/>
+              <Link to={`/${value.url}`}>
+                <img src={`assets/images/demo/${value.imageUrl}`} alt='demo-i' className='w-100' />
                 <span>{value.title}</span>
-              </a>
+              </Link>
             </div>
 
             // End Single Demo

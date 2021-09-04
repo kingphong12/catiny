@@ -16,6 +16,12 @@ public interface AdminManagement
   String BASE_PATH = "/api/admin"; //NOSONAR
 
 
+  /**
+   * PATCH : /api/admin/elasticsearch/reindex/_management
+   *
+   * @param reindexAll
+   * @return
+   */
   @PatchMapping("/elasticsearch/reindex/_management")
   ResponseEntity<String> elasticsearchReindex(@RequestParam(required = false, defaultValue = "true") Boolean reindexAll);
 

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class AdminManagementImpl implements AdminManagement
 {
   @Override
   @SuppressWarnings("unchecked")
+  @Transactional
   public ResponseEntity<String> elasticsearchReindex(Boolean reindexAll)
   {
     final var packageAdvanceSearch = "com.regitiny.catiny.advance.repository.search";

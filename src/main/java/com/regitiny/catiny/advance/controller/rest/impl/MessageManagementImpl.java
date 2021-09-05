@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +46,10 @@ public class MessageManagementImpl implements MessageManagement
     log.debug("request get messages content in message group id ={} , pageable = {}", uuid, pageable);
     var page = messageContentAdvanceService.getContentInGroup(uuid, pageable);
     var headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-    return ResponseEntity.ok().headers(headers).body(page.getContent());
+    var content = new ArrayList<MessageContentDTO>();
+    for (int i = page.getContent().size() - 1; i >= 0; i--)
+      content.add(page.getContent().get(i));
+    return ResponseEntity.ok().headers(headers).body(content);
   }
 
   @Override

@@ -6,16 +6,22 @@ import {Storage} from 'react-jhipster';
 
 export default class Websocket
 {
-  stompClient = null;
-  subscriber = null;
-  connection: Promise<any>;
-  connectedPromise: any = null;
-  listener: Observable<any>;
-  listenerObserver: any;
-  alreadyConnectedOnce = false;
+  private stompClient = null;
+  private subscriber = null;
+  private connection: Promise<any>;
+  private connectedPromise: any = null;
+  private listener: Observable<any>;
+  private listenerObserver: any;
+  private alreadyConnectedOnce = false;
+  private _logDebug = false;
 
 
-  sendActivity(topic: string, data: any)
+  set logDebug(value: boolean)
+  {
+    this._logDebug = value;
+  }
+
+  send(topic: string, data: any)
   {
     this.connection?.then(() =>
       this.stompClient?.send(
@@ -68,13 +74,17 @@ export default class Websocket
       url += '?access_token=' + authToken;
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket, {protocols: ['v12.stomp']});
+    if (!this._logDebug)
+      this.stompClient.debug = () =>
+      {
+      };// don't show debug console log
 
     this.stompClient.connect(headers, () =>
     {
       this.connectedPromise('success');
       this.connectedPromise = null;
       if (sendBeforeConnect && sendBeforeConnect.topic && sendBeforeConnect.data)
-        this.sendActivity(sendBeforeConnect.topic, sendBeforeConnect.data);
+        this.send(sendBeforeConnect.topic, sendBeforeConnect.data);
       this.alreadyConnectedOnce = true;
     });
   };

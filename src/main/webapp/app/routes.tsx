@@ -44,7 +44,6 @@ import ShopThree from "app-js/pages/ShopThree";
 import SingleProduct from "app-js/pages/SingleProduct";
 import Cart from "app-js/pages/Cart";
 import Checkout from "app-js/pages/Checkout";
-import Live from "app-js/pages/Live";
 import Job from "app-js/pages/Job";
 import Event from "app-js/pages/Event";
 import Hotel from "app-js/pages/Hotel";
@@ -55,6 +54,7 @@ import ComingSoon from "app-js/pages/ComingSoon";
 import HotelSingle from "app-js/pages/HotelSingle";
 import Account2 from "app-js/pages/Account";
 import Chat from 'app/modules/message/chat/chat';
+import LiveStream from "app/modules/video-stream/live-stream";
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -119,9 +119,9 @@ const Routes = () =>
         <ErrorBoundaryRoute exact path={`/singleproduct`} component={SingleProduct}/>
         <ErrorBoundaryRoute exact path={`/cart`} component={Cart}/>
         <ErrorBoundaryRoute exact path={`/checkout`} component={Checkout}/>
-        <ErrorBoundaryRoute exact path={`/defaultmessage`} component={Chat}/>
-        <ErrorBoundaryRoute exact path={`/defaultlive`} component={Live}/>
-        <ErrorBoundaryRoute exact path={`/defaultjob`} component={Job}/>
+        <ErrorBoundaryRoute exact path={`/defaultmessage`} component={Chat} />
+        <ErrorBoundaryRoute exact path={`/defaultlive`} component={LiveStream} />
+        <ErrorBoundaryRoute exact path={`/defaultjob`} component={Job} />
         <ErrorBoundaryRoute exact path={`/defaultevent`} component={Event}/>
         <ErrorBoundaryRoute exact path={`/defaulthotel`} component={Hotel}/>
         <ErrorBoundaryRoute exact path={`/grouppage`} component={GroupPage}/>

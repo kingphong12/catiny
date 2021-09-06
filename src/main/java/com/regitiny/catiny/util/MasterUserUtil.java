@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -36,6 +37,13 @@ public class MasterUserUtil
   public static Option<MasterUserDTO> getCurrentMasterUserDTO()
   {
     return masterUserAdvanceService.getCurrentMasterUserDTO();
+  }
+
+  public static Option<MasterUserDTO> getMasterUserDTOByLogin(String login)
+  {
+    if (Objects.isNull(login))
+      login = SecurityUtils.getCurrentUserLogin().orElse("");
+    return masterUserAdvanceService.getMasterUserDTOByLogin(login);
   }
 
   public static Option<User> getCurrentUser()

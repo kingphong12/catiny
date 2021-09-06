@@ -8,6 +8,7 @@ import com.regitiny.catiny.advance.repository.search.MasterUserAdvanceSearch;
 import com.regitiny.catiny.advance.service.MasterUserAdvanceService;
 import com.regitiny.catiny.advance.service.mapper.MasterUserAdvanceMapper;
 import com.regitiny.catiny.common.utils.StringPool;
+import com.regitiny.catiny.config.CacheConfiguration;
 import com.regitiny.catiny.domain.BaseInfo;
 import com.regitiny.catiny.domain.HistoryUpdate;
 import com.regitiny.catiny.domain.MasterUser;
@@ -22,6 +23,7 @@ import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,12 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
     return Option.ofOptional(SecurityUtils.getCurrentUserLogin())
       .flatMap(masterUserAdvanceRepository::findOneByUserLogin)
       .map(masterUserAdvanceMapper::e2d);
+  }
+
+  @Cacheable(key = "#login", cacheNames = CacheConfiguration.CacheNameConstants.MASTER_USER_BY_LOGIN)
+  public Option<MasterUserDTO> getMasterUserDTOByLogin(String login)
+  {
+    return getCurrentMasterUserDTO();
   }
 
   public Option<MasterUser> getAnonymousMasterUser()

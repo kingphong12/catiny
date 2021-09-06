@@ -47,6 +47,7 @@ public class MessageManagementImpl implements MessageManagement
     var page = messageContentAdvanceService.getContentInGroup(uuid, pageable);
     var headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
     var content = new ArrayList<MessageContentDTO>();
+//    9 8 7 ; 6 5 4 ; 3 2 1 ->  7 8 9 ; 4 5 6 ; 3 2 1
     for (int i = page.getContent().size() - 1; i >= 0; i--)
       content.add(page.getContent().get(i));
     return ResponseEntity.ok().headers(headers).body(content);
@@ -79,4 +80,5 @@ public class MessageManagementImpl implements MessageManagement
       .map(messageContentDTO -> ResponseEntity.status(HttpStatus.CREATED).body(messageContentDTO))
       .getOrElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
   }
+
 }

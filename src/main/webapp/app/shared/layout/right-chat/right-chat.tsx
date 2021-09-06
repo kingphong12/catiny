@@ -65,16 +65,17 @@ const RightChat = () =>
   useEffect(() =>
   {
     websocket.connect("/websocket/main");
+    if (!masterUser.uuid)
+      return;
     websocket.subscribe(`/users/${masterUser.uuid}/messages/new`, data =>
     {
-
       const body = JSON.parse(data.body);
       if (body && body.group && body.group.uuid && body.group.uuid === currentMessageGroup.uuid)
-        setCurrentMessageContents(prev => prev.concat(body))
+        setCurrentMessageContents(prev => prev.concat(body));
     });
     return () =>
     {
-      websocket.unsubscribe()
+      websocket.unsubscribe();
     }
   }, [masterUser.uuid, currentMessageGroup]);
 

@@ -23,6 +23,12 @@
             <column name="buffer_data_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="buffer_number" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="path" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="info_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_video_live_stream_buffer__info_id" />
             </column>
@@ -52,6 +58,8 @@
             <column name="uuid" type="string"/>
             <column name="buffer_data" type="blob"/>
             <column name="buffer_data_content_type" type="string"/>
+            <column name="buffer_number" type="numeric"/>
+            <column name="path" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

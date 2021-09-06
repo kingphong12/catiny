@@ -31,6 +31,9 @@
     "console": true,
     "JSX": true,
     "localStorage": true,
+    "MediaRecorder": true,
+    "navigator": true,
+    "atob": true,
     "setTimeout": true
   },
   "rules": {

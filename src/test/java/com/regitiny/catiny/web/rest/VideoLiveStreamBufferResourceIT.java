@@ -56,6 +56,13 @@ class VideoLiveStreamBufferResourceIT {
   private static final String DEFAULT_BUFFER_DATA_CONTENT_TYPE = "image/jpg";
   private static final String UPDATED_BUFFER_DATA_CONTENT_TYPE = "image/png";
 
+  private static final Integer DEFAULT_BUFFER_NUMBER = 1;
+  private static final Integer UPDATED_BUFFER_NUMBER = 2;
+  private static final Integer SMALLER_BUFFER_NUMBER = 1 - 1;
+
+  private static final String DEFAULT_PATH = "AAAAAAAAAA";
+  private static final String UPDATED_PATH = "BBBBBBBBBB";
+
   private static final String ENTITY_API_URL = "/api/video-live-stream-buffers";
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/video-live-stream-buffers";
@@ -95,7 +102,9 @@ class VideoLiveStreamBufferResourceIT {
     VideoLiveStreamBuffer videoLiveStreamBuffer = new VideoLiveStreamBuffer()
       .uuid(DEFAULT_UUID)
       .bufferData(DEFAULT_BUFFER_DATA)
-      .bufferDataContentType(DEFAULT_BUFFER_DATA_CONTENT_TYPE);
+      .bufferDataContentType(DEFAULT_BUFFER_DATA_CONTENT_TYPE)
+      .bufferNumber(DEFAULT_BUFFER_NUMBER)
+      .path(DEFAULT_PATH);
     return videoLiveStreamBuffer;
   }
 
@@ -109,7 +118,9 @@ class VideoLiveStreamBufferResourceIT {
     VideoLiveStreamBuffer videoLiveStreamBuffer = new VideoLiveStreamBuffer()
       .uuid(UPDATED_UUID)
       .bufferData(UPDATED_BUFFER_DATA)
-      .bufferDataContentType(UPDATED_BUFFER_DATA_CONTENT_TYPE);
+      .bufferDataContentType(UPDATED_BUFFER_DATA_CONTENT_TYPE)
+      .bufferNumber(UPDATED_BUFFER_NUMBER)
+      .path(UPDATED_PATH);
     return videoLiveStreamBuffer;
   }
 
@@ -137,6 +148,8 @@ class VideoLiveStreamBufferResourceIT {
     assertThat(testVideoLiveStreamBuffer.getUuid()).isEqualTo(DEFAULT_UUID);
     assertThat(testVideoLiveStreamBuffer.getBufferData()).isEqualTo(DEFAULT_BUFFER_DATA);
     assertThat(testVideoLiveStreamBuffer.getBufferDataContentType()).isEqualTo(DEFAULT_BUFFER_DATA_CONTENT_TYPE);
+    assertThat(testVideoLiveStreamBuffer.getBufferNumber()).isEqualTo(DEFAULT_BUFFER_NUMBER);
+    assertThat(testVideoLiveStreamBuffer.getPath()).isEqualTo(DEFAULT_PATH);
 
     // Validate the VideoLiveStreamBuffer in Elasticsearch
     verify(mockVideoLiveStreamBufferSearchRepository, times(1)).save(testVideoLiveStreamBuffer);
@@ -200,7 +213,9 @@ class VideoLiveStreamBufferResourceIT {
       .andExpect(jsonPath("$.[*].id").value(hasItem(videoLiveStreamBuffer.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].bufferDataContentType").value(hasItem(DEFAULT_BUFFER_DATA_CONTENT_TYPE)))
-      .andExpect(jsonPath("$.[*].bufferData").value(hasItem(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA))));
+      .andExpect(jsonPath("$.[*].bufferData").value(hasItem(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA))))
+      .andExpect(jsonPath("$.[*].bufferNumber").value(hasItem(DEFAULT_BUFFER_NUMBER)))
+      .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
   }
 
   @Test
@@ -217,7 +232,9 @@ class VideoLiveStreamBufferResourceIT {
       .andExpect(jsonPath("$.id").value(videoLiveStreamBuffer.getId().intValue()))
       .andExpect(jsonPath("$.uuid").value(DEFAULT_UUID.toString()))
       .andExpect(jsonPath("$.bufferDataContentType").value(DEFAULT_BUFFER_DATA_CONTENT_TYPE))
-      .andExpect(jsonPath("$.bufferData").value(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA)));
+      .andExpect(jsonPath("$.bufferData").value(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA)))
+      .andExpect(jsonPath("$.bufferNumber").value(DEFAULT_BUFFER_NUMBER))
+      .andExpect(jsonPath("$.path").value(DEFAULT_PATH));
   }
 
   @Test
@@ -292,6 +309,188 @@ class VideoLiveStreamBufferResourceIT {
 
   @Test
   @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsEqualToSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber equals to DEFAULT_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.equals=" + DEFAULT_BUFFER_NUMBER);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber equals to UPDATED_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.equals=" + UPDATED_BUFFER_NUMBER);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsNotEqualToSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber not equals to DEFAULT_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.notEquals=" + DEFAULT_BUFFER_NUMBER);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber not equals to UPDATED_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.notEquals=" + UPDATED_BUFFER_NUMBER);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsInShouldWork() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber in DEFAULT_BUFFER_NUMBER or UPDATED_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.in=" + DEFAULT_BUFFER_NUMBER + "," + UPDATED_BUFFER_NUMBER);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber equals to UPDATED_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.in=" + UPDATED_BUFFER_NUMBER);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsNullOrNotNull() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is not null
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.specified=true");
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is null
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.specified=false");
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsGreaterThanOrEqualToSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is greater than or equal to DEFAULT_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.greaterThanOrEqual=" + DEFAULT_BUFFER_NUMBER);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is greater than or equal to UPDATED_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.greaterThanOrEqual=" + UPDATED_BUFFER_NUMBER);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsLessThanOrEqualToSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is less than or equal to DEFAULT_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.lessThanOrEqual=" + DEFAULT_BUFFER_NUMBER);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is less than or equal to SMALLER_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.lessThanOrEqual=" + SMALLER_BUFFER_NUMBER);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsLessThanSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is less than DEFAULT_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.lessThan=" + DEFAULT_BUFFER_NUMBER);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is less than UPDATED_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.lessThan=" + UPDATED_BUFFER_NUMBER);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByBufferNumberIsGreaterThanSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is greater than DEFAULT_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldNotBeFound("bufferNumber.greaterThan=" + DEFAULT_BUFFER_NUMBER);
+
+    // Get all the videoLiveStreamBufferList where bufferNumber is greater than SMALLER_BUFFER_NUMBER
+    defaultVideoLiveStreamBufferShouldBeFound("bufferNumber.greaterThan=" + SMALLER_BUFFER_NUMBER);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByPathIsEqualToSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where path equals to DEFAULT_PATH
+    defaultVideoLiveStreamBufferShouldBeFound("path.equals=" + DEFAULT_PATH);
+
+    // Get all the videoLiveStreamBufferList where path equals to UPDATED_PATH
+    defaultVideoLiveStreamBufferShouldNotBeFound("path.equals=" + UPDATED_PATH);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByPathIsNotEqualToSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where path not equals to DEFAULT_PATH
+    defaultVideoLiveStreamBufferShouldNotBeFound("path.notEquals=" + DEFAULT_PATH);
+
+    // Get all the videoLiveStreamBufferList where path not equals to UPDATED_PATH
+    defaultVideoLiveStreamBufferShouldBeFound("path.notEquals=" + UPDATED_PATH);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByPathIsInShouldWork() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where path in DEFAULT_PATH or UPDATED_PATH
+    defaultVideoLiveStreamBufferShouldBeFound("path.in=" + DEFAULT_PATH + "," + UPDATED_PATH);
+
+    // Get all the videoLiveStreamBufferList where path equals to UPDATED_PATH
+    defaultVideoLiveStreamBufferShouldNotBeFound("path.in=" + UPDATED_PATH);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByPathIsNullOrNotNull() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where path is not null
+    defaultVideoLiveStreamBufferShouldBeFound("path.specified=true");
+
+    // Get all the videoLiveStreamBufferList where path is null
+    defaultVideoLiveStreamBufferShouldNotBeFound("path.specified=false");
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByPathContainsSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where path contains DEFAULT_PATH
+    defaultVideoLiveStreamBufferShouldBeFound("path.contains=" + DEFAULT_PATH);
+
+    // Get all the videoLiveStreamBufferList where path contains UPDATED_PATH
+    defaultVideoLiveStreamBufferShouldNotBeFound("path.contains=" + UPDATED_PATH);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoLiveStreamBuffersByPathNotContainsSomething() throws Exception {
+    // Initialize the database
+    videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
+
+    // Get all the videoLiveStreamBufferList where path does not contain DEFAULT_PATH
+    defaultVideoLiveStreamBufferShouldNotBeFound("path.doesNotContain=" + DEFAULT_PATH);
+
+    // Get all the videoLiveStreamBufferList where path does not contain UPDATED_PATH
+    defaultVideoLiveStreamBufferShouldBeFound("path.doesNotContain=" + UPDATED_PATH);
+  }
+
+  @Test
+  @Transactional
   void getAllVideoLiveStreamBuffersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
@@ -339,7 +538,9 @@ class VideoLiveStreamBufferResourceIT {
       .andExpect(jsonPath("$.[*].id").value(hasItem(videoLiveStreamBuffer.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].bufferDataContentType").value(hasItem(DEFAULT_BUFFER_DATA_CONTENT_TYPE)))
-      .andExpect(jsonPath("$.[*].bufferData").value(hasItem(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA))));
+      .andExpect(jsonPath("$.[*].bufferData").value(hasItem(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA))))
+      .andExpect(jsonPath("$.[*].bufferNumber").value(hasItem(DEFAULT_BUFFER_NUMBER)))
+      .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
 
     // Check, that the count call also returns 1
     restVideoLiveStreamBufferMockMvc
@@ -387,7 +588,12 @@ class VideoLiveStreamBufferResourceIT {
     VideoLiveStreamBuffer updatedVideoLiveStreamBuffer = videoLiveStreamBufferRepository.findById(videoLiveStreamBuffer.getId()).get();
     // Disconnect from session so that the updates on updatedVideoLiveStreamBuffer are not directly saved in db
     em.detach(updatedVideoLiveStreamBuffer);
-    updatedVideoLiveStreamBuffer.uuid(UPDATED_UUID).bufferData(UPDATED_BUFFER_DATA).bufferDataContentType(UPDATED_BUFFER_DATA_CONTENT_TYPE);
+    updatedVideoLiveStreamBuffer
+      .uuid(UPDATED_UUID)
+      .bufferData(UPDATED_BUFFER_DATA)
+      .bufferDataContentType(UPDATED_BUFFER_DATA_CONTENT_TYPE)
+      .bufferNumber(UPDATED_BUFFER_NUMBER)
+      .path(UPDATED_PATH);
     VideoLiveStreamBufferDTO videoLiveStreamBufferDTO = videoLiveStreamBufferMapper.toDto(updatedVideoLiveStreamBuffer);
 
     restVideoLiveStreamBufferMockMvc
@@ -405,6 +611,8 @@ class VideoLiveStreamBufferResourceIT {
     assertThat(testVideoLiveStreamBuffer.getUuid()).isEqualTo(UPDATED_UUID);
     assertThat(testVideoLiveStreamBuffer.getBufferData()).isEqualTo(UPDATED_BUFFER_DATA);
     assertThat(testVideoLiveStreamBuffer.getBufferDataContentType()).isEqualTo(UPDATED_BUFFER_DATA_CONTENT_TYPE);
+    assertThat(testVideoLiveStreamBuffer.getBufferNumber()).isEqualTo(UPDATED_BUFFER_NUMBER);
+    assertThat(testVideoLiveStreamBuffer.getPath()).isEqualTo(UPDATED_PATH);
 
     // Validate the VideoLiveStreamBuffer in Elasticsearch
     verify(mockVideoLiveStreamBufferSearchRepository).save(testVideoLiveStreamBuffer);
@@ -498,6 +706,8 @@ class VideoLiveStreamBufferResourceIT {
     VideoLiveStreamBuffer partialUpdatedVideoLiveStreamBuffer = new VideoLiveStreamBuffer();
     partialUpdatedVideoLiveStreamBuffer.setId(videoLiveStreamBuffer.getId());
 
+    partialUpdatedVideoLiveStreamBuffer.bufferNumber(UPDATED_BUFFER_NUMBER).path(UPDATED_PATH);
+
     restVideoLiveStreamBufferMockMvc
       .perform(
         patch(ENTITY_API_URL_ID, partialUpdatedVideoLiveStreamBuffer.getId())
@@ -513,6 +723,8 @@ class VideoLiveStreamBufferResourceIT {
     assertThat(testVideoLiveStreamBuffer.getUuid()).isEqualTo(DEFAULT_UUID);
     assertThat(testVideoLiveStreamBuffer.getBufferData()).isEqualTo(DEFAULT_BUFFER_DATA);
     assertThat(testVideoLiveStreamBuffer.getBufferDataContentType()).isEqualTo(DEFAULT_BUFFER_DATA_CONTENT_TYPE);
+    assertThat(testVideoLiveStreamBuffer.getBufferNumber()).isEqualTo(UPDATED_BUFFER_NUMBER);
+    assertThat(testVideoLiveStreamBuffer.getPath()).isEqualTo(UPDATED_PATH);
   }
 
   @Test
@@ -530,7 +742,9 @@ class VideoLiveStreamBufferResourceIT {
     partialUpdatedVideoLiveStreamBuffer
       .uuid(UPDATED_UUID)
       .bufferData(UPDATED_BUFFER_DATA)
-      .bufferDataContentType(UPDATED_BUFFER_DATA_CONTENT_TYPE);
+      .bufferDataContentType(UPDATED_BUFFER_DATA_CONTENT_TYPE)
+      .bufferNumber(UPDATED_BUFFER_NUMBER)
+      .path(UPDATED_PATH);
 
     restVideoLiveStreamBufferMockMvc
       .perform(
@@ -547,6 +761,8 @@ class VideoLiveStreamBufferResourceIT {
     assertThat(testVideoLiveStreamBuffer.getUuid()).isEqualTo(UPDATED_UUID);
     assertThat(testVideoLiveStreamBuffer.getBufferData()).isEqualTo(UPDATED_BUFFER_DATA);
     assertThat(testVideoLiveStreamBuffer.getBufferDataContentType()).isEqualTo(UPDATED_BUFFER_DATA_CONTENT_TYPE);
+    assertThat(testVideoLiveStreamBuffer.getBufferNumber()).isEqualTo(UPDATED_BUFFER_NUMBER);
+    assertThat(testVideoLiveStreamBuffer.getPath()).isEqualTo(UPDATED_PATH);
   }
 
   @Test
@@ -665,6 +881,8 @@ class VideoLiveStreamBufferResourceIT {
       .andExpect(jsonPath("$.[*].id").value(hasItem(videoLiveStreamBuffer.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].bufferDataContentType").value(hasItem(DEFAULT_BUFFER_DATA_CONTENT_TYPE)))
-      .andExpect(jsonPath("$.[*].bufferData").value(hasItem(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA))));
+      .andExpect(jsonPath("$.[*].bufferData").value(hasItem(Base64Utils.encodeToString(DEFAULT_BUFFER_DATA))))
+      .andExpect(jsonPath("$.[*].bufferNumber").value(hasItem(DEFAULT_BUFFER_NUMBER)))
+      .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
   }
 }

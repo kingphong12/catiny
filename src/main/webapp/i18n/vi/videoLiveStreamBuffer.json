@@ -21,6 +21,8 @@
       "id": "ID",
       "uuid": "Uuid",
       "bufferData": "Buffer Data",
+      "bufferNumber": "Buffer Number",
+      "path": "Path",
       "info": "Info",
       "videoStream": "Video Stream",
       "help": {

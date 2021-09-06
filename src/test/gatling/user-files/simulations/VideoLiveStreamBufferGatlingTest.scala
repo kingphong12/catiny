@@ -73,6 +73,8 @@ class VideoLiveStreamBufferGatlingTest extends Simulation {
             .body(StringBody("""{
                 "uuid":null
                 , "bufferData":null
+                , "bufferNumber":"0"
+                , "path":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_videoLiveStreamBuffer_url"))).exitHereIfFailed

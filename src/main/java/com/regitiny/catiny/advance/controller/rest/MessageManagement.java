@@ -68,4 +68,7 @@ public interface MessageManagement
     @RequestPart(required = false) List<MultipartFile> videos,
     @RequestPart(required = false) List<MultipartFile> files);
 
+
+  @PostMapping("/videos/_call/incoming")
+  ResponseEntity<Object> producerVideoCallIncoming(@RequestParam List<UUID> userIds, @RequestParam(required = false) String message);
 }

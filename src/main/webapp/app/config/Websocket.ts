@@ -3,24 +3,59 @@ import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import {Observable} from 'rxjs';
 import {Storage} from 'react-jhipster';
+import {useAppSelector} from './store';
 
 export default class Websocket
 {
-  stompClient = null;
-  subscriber = null;
-  connection: Promise<any>;
-  connectedPromise: any = null;
-  listener: Observable<any>;
-  listenerObserver: any;
-  alreadyConnectedOnce = false;
+  public static readonly TOPIC_CONSUMER = "/topic.consumer";
+  public static readonly TOPIC_PRODUCER = "/topic.producer";
 
+  private stompClient = null;
+  private subscriber = null;
+  private connection: Promise<any>;
+  private connectedPromise: any = null;
+  private listener: Observable<any>;
+  private listenerObserver: any;
+  private alreadyConnectedOnce = false;
+  private masterUser = useAppSelector(state => state.authentication.masterUser)
+  public readonly TOPIC_USER_PRODUCER = `/user/${this.masterUser.uuid}/topic.producer`;
+  public readonly TOPIC_USER_CONSUMER = `/user/${this.masterUser.uuid}/topic.consumer`;
 
-  sendActivity(topic: string, data: any)
+  private _logDebug = false;
+
+  set logDebug(value: boolean)
+  {
+    this._logDebug = value;
+  }
+
+  send(topic: string, data: any)
   {
     this.connection?.then(() =>
       this.stompClient?.send(
         topic, // destination
-        JSON.stringify({data}), // body
+        JSON.stringify(data), // body
+        {} // header
+      ));
+  }
+
+  sendProducer(topic: string, data: any)
+  {
+    topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic;
+    this.connection?.then(() =>
+      this.stompClient?.send(
+        `${Websocket.TOPIC_PRODUCER}/${topic}`, // destination
+        JSON.stringify(data), // body
+        {} // header
+      ));
+  }
+
+  sendUserProducer(topic: string, data: any)
+  {
+    topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic;
+    this.connection?.then(() =>
+      this.stompClient?.send(
+        `${this.TOPIC_USER_PRODUCER}/${topic}`, // destination
+        JSON.stringify(data), // body
         {} // header
       ));
   }
@@ -37,6 +72,40 @@ export default class Websocket
     topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic
     this.connection.then(() =>
       this.subscriber = this.stompClient.subscribe(`/topic/${topic}`, data =>
+      {
+        process(data);
+        // this.listenerObserver.next( JSON.parse(data.body));
+      })
+    );
+  }
+
+  /**
+   *
+   * @param topic   topic name (/topic.consumer/{topic})
+   * @param process function process
+   */
+  subscribeConsumer(topic: string, process)
+  {
+    topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic
+    this.connection.then(() =>
+      this.subscriber = this.stompClient.subscribe(`/topic.consumer/${topic}`, data =>
+      {
+        process(data);
+        // this.listenerObserver.next( JSON.parse(data.body));
+      })
+    );
+  }
+
+  /**
+   *
+   * @param topic   topic name (/user/{uuid}/topic.consumer/{topic})
+   * @param process function process
+   */
+  subscribeUserConsumer(topic: string, process)
+  {
+    topic = topic.startsWith("/") ? topic.substring(1) : topic
+    this.connection.then(() =>
+      this.subscriber = this.stompClient.subscribe(`/user/${this.masterUser.uuid}/topic.consumer/${topic}`, data =>
       {
         process(data);
         // this.listenerObserver.next( JSON.parse(data.body));
@@ -68,13 +137,17 @@ export default class Websocket
       url += '?access_token=' + authToken;
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket, {protocols: ['v12.stomp']});
+    if (!this._logDebug)
+      this.stompClient.debug = () =>
+      {
+      };// don't show debug console log
 
     this.stompClient.connect(headers, () =>
     {
       this.connectedPromise('success');
       this.connectedPromise = null;
       if (sendBeforeConnect && sendBeforeConnect.topic && sendBeforeConnect.data)
-        this.sendActivity(sendBeforeConnect.topic, sendBeforeConnect.data);
+        this.send(sendBeforeConnect.topic, sendBeforeConnect.data);
       this.alreadyConnectedOnce = true;
     });
   };

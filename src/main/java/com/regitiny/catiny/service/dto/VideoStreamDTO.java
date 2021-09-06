@@ -29,6 +29,8 @@ public class VideoStreamDTO implements Serializable {
   )
   private UUID uuid;
 
+  private Boolean isLivestreaming;
+
   private VideoDTO video;
 
   private BaseInfoDTO info;
@@ -47,6 +49,14 @@ public class VideoStreamDTO implements Serializable {
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
+  }
+
+  public Boolean getIsLivestreaming() {
+    return isLivestreaming;
+  }
+
+  public void setIsLivestreaming(Boolean isLivestreaming) {
+    this.isLivestreaming = isLivestreaming;
   }
 
   public VideoDTO getVideo() {
@@ -92,6 +102,7 @@ public class VideoStreamDTO implements Serializable {
         return "VideoStreamDTO{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
+            ", isLivestreaming='" + getIsLivestreaming() + "'" +
             ", video=" + getVideo() +
             ", info=" + getInfo() +
             "}";

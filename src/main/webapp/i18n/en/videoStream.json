@@ -20,6 +20,7 @@
       },
       "id": "ID",
       "uuid": "Uuid",
+      "isLivestreaming": "Is Livestreaming",
       "video": "Video",
       "info": "Info",
       "videoLiveStreamBuffer": "Video Live Stream Buffer",

@@ -37,4 +37,7 @@ public interface VideoAdvanceService extends BaseSrvice<Video, VideoService, Vid
    * @return
    */
   Tuple2<ResourceRegion, String> getResourceRegion(String uuidOrName, String range);
+
+
+  Option<VideoDTO> createVideoLivestream();
 }

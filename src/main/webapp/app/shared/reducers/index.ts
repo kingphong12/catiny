@@ -85,6 +85,7 @@ import historyUpdate from 'app/entities/history-update/history-update.reducer';
 import setting from 'app/modules/setting/setting.reducer';
 import rightChat from 'app/shared/layout/right-chat/right-chat.reducer';
 import masterUserComponent from 'app/component/reducer/master-user.reducer';
+import livestream from 'app/modules/livestream/livestream.reducer';
 
 const rootReducer = {
   authentication,
@@ -136,7 +137,8 @@ const rootReducer = {
   loadingBar,
   setting,
   rightChat,
-  masterUserComponent
+  masterUserComponent,
+  livestream,
 };
 
 export default rootReducer;

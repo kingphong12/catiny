@@ -8,6 +8,7 @@ export default class VideoStreamUpdatePage {
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#video-stream-uuid'));
+  isLivestreamingInput: ElementFinder = element(by.css('input#video-stream-isLivestreaming'));
   videoSelect: ElementFinder = element(by.css('select#video-stream-video'));
   infoSelect: ElementFinder = element(by.css('select#video-stream-info'));
 
@@ -23,6 +24,9 @@ export default class VideoStreamUpdatePage {
     return this.uuidInput.getAttribute('value');
   }
 
+  getIsLivestreamingInput() {
+    return this.isLivestreamingInput;
+  }
   async videoSelectLastOption() {
     await this.videoSelect.all(by.tagName('option')).last().click();
   }
@@ -70,6 +74,13 @@ export default class VideoStreamUpdatePage {
   async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
+    await waitUntilDisplayed(this.saveButton);
+    const selectedIsLivestreaming = await this.getIsLivestreamingInput().isSelected();
+    if (selectedIsLivestreaming) {
+      await this.getIsLivestreamingInput().click();
+    } else {
+      await this.getIsLivestreamingInput().click();
+    }
     await this.videoSelectLastOption();
     await this.infoSelectLastOption();
     await this.save();

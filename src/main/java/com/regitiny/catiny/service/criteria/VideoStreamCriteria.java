@@ -31,6 +31,8 @@ public class VideoStreamCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
+  private BooleanFilter isLivestreaming;
+
   private LongFilter videoId;
 
   private LongFilter infoId;
@@ -42,6 +44,7 @@ public class VideoStreamCriteria implements Serializable, Criteria {
   public VideoStreamCriteria(VideoStreamCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
+    this.isLivestreaming = other.isLivestreaming == null ? null : other.isLivestreaming.copy();
     this.videoId = other.videoId == null ? null : other.videoId.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.videoLiveStreamBufferId = other.videoLiveStreamBufferId == null ? null : other.videoLiveStreamBufferId.copy();
@@ -80,6 +83,21 @@ public class VideoStreamCriteria implements Serializable, Criteria {
 
   public void setUuid(UUIDFilter uuid) {
     this.uuid = uuid;
+  }
+
+  public BooleanFilter getIsLivestreaming() {
+    return isLivestreaming;
+  }
+
+  public BooleanFilter isLivestreaming() {
+    if (isLivestreaming == null) {
+      isLivestreaming = new BooleanFilter();
+    }
+    return isLivestreaming;
+  }
+
+  public void setIsLivestreaming(BooleanFilter isLivestreaming) {
+    this.isLivestreaming = isLivestreaming;
   }
 
   public LongFilter getVideoId() {
@@ -139,6 +157,7 @@ public class VideoStreamCriteria implements Serializable, Criteria {
     return (
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
+      Objects.equals(isLivestreaming, that.isLivestreaming) &&
       Objects.equals(videoId, that.videoId) &&
       Objects.equals(infoId, that.infoId) &&
       Objects.equals(videoLiveStreamBufferId, that.videoLiveStreamBufferId)
@@ -147,7 +166,7 @@ public class VideoStreamCriteria implements Serializable, Criteria {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, videoId, infoId, videoLiveStreamBufferId);
+    return Objects.hash(id, uuid, isLivestreaming, videoId, infoId, videoLiveStreamBufferId);
   }
 
   // prettier-ignore
@@ -156,6 +175,7 @@ public class VideoStreamCriteria implements Serializable, Criteria {
         return "VideoStreamCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
+            (isLivestreaming != null ? "isLivestreaming=" + isLivestreaming + ", " : "") +
             (videoId != null ? "videoId=" + videoId + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (videoLiveStreamBufferId != null ? "videoLiveStreamBufferId=" + videoLiveStreamBufferId + ", " : "") +

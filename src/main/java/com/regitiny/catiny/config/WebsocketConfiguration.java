@@ -1,8 +1,9 @@
 package com.regitiny.catiny.config;
 
+import com.regitiny.catiny.common.utils.StringPool;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.security.AuthoritiesConstants;
 import com.regitiny.catiny.util.MasterUserUtil;
-import io.vavr.control.Option;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -29,7 +30,6 @@ import tech.jhipster.config.JHipsterProperties;
 import javax.annotation.Nonnull;
 import java.security.Principal;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -44,8 +44,12 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
   }
 
   @Override
-  public void configureMessageBroker(MessageBrokerRegistry config) {
-    config.enableSimpleBroker("/topic");
+  public void configureMessageBroker(MessageBrokerRegistry config)
+  {
+    config.enableSimpleBroker("/topic"
+      , "/user",
+      "/topic.consumer",
+      "/topic.producer");
   }
 
   @Override
@@ -108,25 +112,29 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
           var username = Objects.requireNonNull(accessor.getUser()).getName();
           var command = accessor.getCommand();
 
-          if (StompCommand.SUBSCRIBE.equals(command))
+          if (StompCommand.SUBSCRIBE.equals(command) && Objects.nonNull(accessor.getDestination()))
           {
-            // don't subscribe /topic/**
-            var destinationRegex = "[[\\w-]+/]*[*]{1,2}";
-            var destinationRegexCheck = Pattern.matches(destinationRegex, accessor.getDestination());
-            if (destinationRegexCheck) return null;
-
-            var destination = Objects.requireNonNull(accessor.getDestination());
-            var pathNewMessage = "/topic/users/${uuid}/messages/new";
-            var checkNewMessage = MasterUserUtil.getCurrentMasterUser()
-              .map(masterUser -> pathNewMessage.replace("${uuid}", masterUser.getUuid().toString()))
-              .filter(s -> s.equals(destination))
-              .map(a -> true)
-              .orElse(Option.of("/topic/tracker".equals(destination)))
-              .getOrElse(false);
-            if (checkNewMessage)
-              return ChannelInterceptor.super.preSend(message, channel);
-            else
-              return null;
+            var masterUserUuid = MasterUserUtil.getCurrentMasterUser().map(MasterUser::getUuid).map(UUID::toString).getOrElse("");
+            var matchesMap = io.vavr.collection.HashMap
+              .of("/user/" + masterUserUuid + "/[[\\w-.]+/]*[*]{1,2}", true)                   // -> /user/{uuid}/example/e/**
+              .put("/user/" + masterUserUuid + "/topic.producer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.producer/e/**
+              .put("/user/" + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.consumer/e/*
+              .put("/user/" + masterUserUuid + "/topic.producer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.producer/e/e2...
+              .put("/user/" + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .put("/user/" + StringPool.UUID_REGEX + "[/[\\w-.*]+]*", false)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .put("/topic.producer/[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic.consumer/[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic.producer/[[\\w-]+/]*", true)
+              .put("/topic.consumer/[[\\w-]+/]*", true)
+              .put("[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic/tracker", true)
+              .put("/topic/users/" + masterUserUuid + "[/[\\w-]+]*", true);
+            for (var matches : matchesMap)
+              if (accessor.getDestination().matches(matches._1()))
+                if (Boolean.TRUE.equals(matches._2))
+                  return ChannelInterceptor.super.preSend(message, channel);
+                else
+                  return null;
           }
           return ChannelInterceptor.super.preSend(message, channel);
         }

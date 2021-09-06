@@ -31,6 +31,10 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
 
   private UUIDFilter uuid;
 
+  private IntegerFilter bufferNumber;
+
+  private StringFilter path;
+
   private LongFilter infoId;
 
   private LongFilter videoStreamId;
@@ -40,6 +44,8 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
   public VideoLiveStreamBufferCriteria(VideoLiveStreamBufferCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
+    this.bufferNumber = other.bufferNumber == null ? null : other.bufferNumber.copy();
+    this.path = other.path == null ? null : other.path.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.videoStreamId = other.videoStreamId == null ? null : other.videoStreamId.copy();
   }
@@ -77,6 +83,36 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
 
   public void setUuid(UUIDFilter uuid) {
     this.uuid = uuid;
+  }
+
+  public IntegerFilter getBufferNumber() {
+    return bufferNumber;
+  }
+
+  public IntegerFilter bufferNumber() {
+    if (bufferNumber == null) {
+      bufferNumber = new IntegerFilter();
+    }
+    return bufferNumber;
+  }
+
+  public void setBufferNumber(IntegerFilter bufferNumber) {
+    this.bufferNumber = bufferNumber;
+  }
+
+  public StringFilter getPath() {
+    return path;
+  }
+
+  public StringFilter path() {
+    if (path == null) {
+      path = new StringFilter();
+    }
+    return path;
+  }
+
+  public void setPath(StringFilter path) {
+    this.path = path;
   }
 
   public LongFilter getInfoId() {
@@ -121,6 +157,8 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
     return (
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
+      Objects.equals(bufferNumber, that.bufferNumber) &&
+      Objects.equals(path, that.path) &&
       Objects.equals(infoId, that.infoId) &&
       Objects.equals(videoStreamId, that.videoStreamId)
     );
@@ -128,7 +166,7 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId, videoStreamId);
+    return Objects.hash(id, uuid, bufferNumber, path, infoId, videoStreamId);
   }
 
   // prettier-ignore
@@ -137,6 +175,8 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
         return "VideoLiveStreamBufferCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
+            (bufferNumber != null ? "bufferNumber=" + bufferNumber + ", " : "") +
+            (path != null ? "path=" + path + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (videoStreamId != null ? "videoStreamId=" + videoStreamId + ", " : "") +
             "}";

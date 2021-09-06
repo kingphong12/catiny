@@ -38,6 +38,9 @@ public class VideoStream implements Serializable {
   @Column(name = "uuid", length = 36, nullable = false, unique = true)
   private UUID uuid;
 
+  @Column(name = "is_livestreaming")
+  private Boolean isLivestreaming;
+
   @JsonIgnoreProperties(value = { "fileInfo", "info", "processeds", "videoStream", "original" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
@@ -78,6 +81,19 @@ public class VideoStream implements Serializable {
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
+  }
+
+  public Boolean getIsLivestreaming() {
+    return this.isLivestreaming;
+  }
+
+  public VideoStream isLivestreaming(Boolean isLivestreaming) {
+    this.isLivestreaming = isLivestreaming;
+    return this;
+  }
+
+  public void setIsLivestreaming(Boolean isLivestreaming) {
+    this.isLivestreaming = isLivestreaming;
   }
 
   public Video getVideo() {
@@ -162,6 +178,7 @@ public class VideoStream implements Serializable {
         return "VideoStream{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
+            ", isLivestreaming='" + getIsLivestreaming() + "'" +
             "}";
     }
 }

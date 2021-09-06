@@ -5,6 +5,7 @@ import com.regitiny.catiny.advance.repository.search.VideoAdvanceSearch;
 import com.regitiny.catiny.advance.service.VideoAdvanceService;
 import com.regitiny.catiny.advance.service.mapper.VideoAdvanceMapper;
 import com.regitiny.catiny.domain.Video;
+import com.regitiny.catiny.domain.VideoStream;
 import com.regitiny.catiny.service.VideoQueryService;
 import com.regitiny.catiny.service.VideoService;
 import com.regitiny.catiny.service.dto.VideoDTO;
@@ -38,10 +39,12 @@ public class VideoAdvanceServiceImpl extends AdvanceService<Video, VideoService,
 {
   private static final Integer RANGE_DEFAULT = 5 * 1024 * 1024;
   private final VideoAdvanceRepository videoAdvanceRepository;
-
   private final VideoAdvanceSearch videoAdvanceSearch;
-
   private final VideoAdvanceMapper videoAdvanceMapper;
+  @Autowired
+  private VideoStreamAdvanceServiceImpl videoStreamAdvanceService;
+  @Autowired
+  private VideoLiveStreamBufferAdvanceServiceImpl videoLiveStreamBufferAdvanceService;
 
   @Autowired
   private FileInfoAdvanceServiceImpl fileInfoAdvanceService;
@@ -119,5 +122,14 @@ public class VideoAdvanceServiceImpl extends AdvanceService<Video, VideoService,
 
         return Tuple.of(resourceRegion, video.getFileInfo().getTypeFile());
       }).getOrElse(Tuple.of(null, null));
+  }
+
+  @Override
+  public Option<VideoDTO> createVideoLivestream()
+  {
+    var video = videoAdvanceRepository.save(new Video());
+    videoStreamAdvanceService.local().advanceRepository.save(new VideoStream()
+      .isLivestreaming(false).video(video));
+    return Option.of(video).map(videoAdvanceMapper::e2d);
   }
 }

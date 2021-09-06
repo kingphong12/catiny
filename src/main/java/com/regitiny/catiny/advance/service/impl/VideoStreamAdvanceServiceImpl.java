@@ -23,4 +23,9 @@ public class VideoStreamAdvanceServiceImpl extends AdvanceService<VideoStream, V
   private final VideoStreamAdvanceSearch videoStreamAdvanceSearch;
 
   private final VideoStreamAdvanceMapper videoStreamAdvanceMapper;
+
+  protected VideoStream createLivestream()
+  {
+    return videoStreamAdvanceRepository.save(new VideoStream());
+  }
 }

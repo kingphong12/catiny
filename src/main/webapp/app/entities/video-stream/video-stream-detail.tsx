@@ -39,6 +39,12 @@ export const VideoStreamDetail = (props: RouteComponentProps<{ id: string }>) =>
           </dt>
           <dd>{videoStreamEntity.uuid}</dd>
           <dt>
+            <span id="isLivestreaming">
+              <Translate contentKey="catinyApp.videoStream.isLivestreaming">Is Livestreaming</Translate>
+            </span>
+          </dt>
+          <dd>{videoStreamEntity.isLivestreaming ? 'true' : 'false'}</dd>
+          <dt>
             <Translate contentKey="catinyApp.videoStream.video">Video</Translate>
           </dt>
           <dd>{videoStreamEntity.video ? videoStreamEntity.video.id : ''}</dd>

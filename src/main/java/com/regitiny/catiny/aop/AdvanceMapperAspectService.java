@@ -4,6 +4,7 @@ import com.regitiny.catiny.advance.service.impl.BaseInfoAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.HistoryUpdateAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.MasterUserAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.PermissionAdvanceServiceImpl;
+import com.regitiny.catiny.service.dto.UserDTO;
 import io.vavr.Function2;
 import io.vavr.collection.List;
 import lombok.RequiredArgsConstructor;
@@ -99,7 +100,12 @@ public class AdvanceMapperAspectService
     var resultDTOMethod = List.of(resultDTO.getClass().getMethods());
 
     resultDTOMethod.filter(method -> method.getName().matches("get[A-Z][\\w]+"))
-      .filter(method -> method.getGenericReturnType().getTypeName().matches("com.regitiny.catiny.service.dto.[A-Z]+[A-z0-9]+DTO"))
+      .filter(method ->
+      {
+        var typeName = method.getGenericReturnType().getTypeName();
+        return typeName.matches("com.regitiny.catiny.service.dto.[A-Z]+[A-z0-9]+DTO") &&
+          !UserDTO.class.equals(method.getGenericReturnType());
+      })
       .forEach(method ->
       {
         var objectInEntity = methodInvoke(entityOriginal, method.getName()).getOrNull();

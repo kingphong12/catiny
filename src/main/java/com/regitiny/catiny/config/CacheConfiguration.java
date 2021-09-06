@@ -1,6 +1,11 @@
 package com.regitiny.catiny.config;
 
 import com.regitiny.catiny.GeneratedByJHipster;
+import java.net.URI;
+import java.util.concurrent.TimeUnit;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.expiry.CreatedExpiryPolicy;
+import javax.cache.expiry.Duration;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.redisson.Redisson;
 import org.redisson.config.ClusterServersConfig;
@@ -19,18 +24,10 @@ import org.springframework.context.annotation.Configuration;
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.config.cache.PrefixedKeyGenerator;
 
-import javax.cache.configuration.MutableConfiguration;
-import javax.cache.expiry.CreatedExpiryPolicy;
-import javax.cache.expiry.Duration;
-import java.net.URI;
-import java.util.concurrent.TimeUnit;
-
 @Configuration
 @EnableCaching
 @GeneratedByJHipster
-public class CacheConfiguration
-{
-
+public class CacheConfiguration {
 
   private GitProperties gitProperties;
   private BuildProperties buildProperties;
@@ -212,19 +209,16 @@ public class CacheConfiguration
   }
 
   @Autowired(required = false)
-  public void setBuildProperties(BuildProperties buildProperties)
-  {
+  public void setBuildProperties(BuildProperties buildProperties) {
     this.buildProperties = buildProperties;
   }
 
   @Bean
-  public KeyGenerator keyGenerator()
-  {
+  public KeyGenerator keyGenerator() {
     return new PrefixedKeyGenerator(this.gitProperties, this.buildProperties);
   }
 
-  public interface CacheNameConstants
-  {
+  public interface CacheNameConstants {
     String MASTER_USER_BY_LOGIN = "MASTER_USER_BY_LOGIN";
     String MASTER_USER_BY_ID = "MASTER_USER_BY_ID";
   }

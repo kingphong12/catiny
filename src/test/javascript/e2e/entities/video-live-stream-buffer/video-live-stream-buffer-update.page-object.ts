@@ -13,6 +13,8 @@ export default class VideoLiveStreamBufferUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   uuidInput: ElementFinder = element(by.css('input#video-live-stream-buffer-uuid'));
   bufferDataInput: ElementFinder = element(by.css('input#video-live-stream-buffer-bufferData'));
+  bufferNumberInput: ElementFinder = element(by.css('input#video-live-stream-buffer-bufferNumber'));
+  pathInput: ElementFinder = element(by.css('input#video-live-stream-buffer-path'));
   infoSelect: ElementFinder = element(by.css('select#video-live-stream-buffer-info'));
   videoStreamSelect: ElementFinder = element(by.css('select#video-live-stream-buffer-videoStream'));
 
@@ -34,6 +36,22 @@ export default class VideoLiveStreamBufferUpdatePage {
 
   async getBufferDataInput() {
     return this.bufferDataInput.getAttribute('value');
+  }
+
+  async setBufferNumberInput(bufferNumber) {
+    await this.bufferNumberInput.sendKeys(bufferNumber);
+  }
+
+  async getBufferNumberInput() {
+    return this.bufferNumberInput.getAttribute('value');
+  }
+
+  async setPathInput(path) {
+    await this.pathInput.sendKeys(path);
+  }
+
+  async getPathInput() {
+    return this.pathInput.getAttribute('value');
   }
 
   async infoSelectLastOption() {
@@ -85,6 +103,10 @@ export default class VideoLiveStreamBufferUpdatePage {
     await this.setUuidInput('64c99148-3908-465d-8c4a-e510e3ade974');
     await waitUntilDisplayed(this.saveButton);
     await this.setBufferDataInput(absolutePath);
+    await waitUntilDisplayed(this.saveButton);
+    await this.setBufferNumberInput('5');
+    await waitUntilDisplayed(this.saveButton);
+    await this.setPathInput('path');
     await this.infoSelectLastOption();
     await this.videoStreamSelectLastOption();
     await this.save();

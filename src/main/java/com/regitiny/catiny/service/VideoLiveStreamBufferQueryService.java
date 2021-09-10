@@ -99,6 +99,12 @@ public class VideoLiveStreamBufferQueryService extends QueryService<VideoLiveStr
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), VideoLiveStreamBuffer_.uuid));
       }
+      if (criteria.getBufferNumber() != null) {
+        specification = specification.and(buildRangeSpecification(criteria.getBufferNumber(), VideoLiveStreamBuffer_.bufferNumber));
+      }
+      if (criteria.getPath() != null) {
+        specification = specification.and(buildStringSpecification(criteria.getPath(), VideoLiveStreamBuffer_.path));
+      }
       if (criteria.getInfoId() != null) {
         specification =
           specification.and(

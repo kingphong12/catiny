@@ -1,5 +1,6 @@
 package com.regitiny.catiny.config;
 
+import com.regitiny.catiny.common.utils.StringPool;
 import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.security.AuthoritiesConstants;
 import com.regitiny.catiny.util.MasterUserUtil;
@@ -43,8 +44,12 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
   }
 
   @Override
-  public void configureMessageBroker(MessageBrokerRegistry config) {
-    config.enableSimpleBroker("/topic");
+  public void configureMessageBroker(MessageBrokerRegistry config)
+  {
+    config.enableSimpleBroker("/topic"
+      , "/user",
+      "/topic.consumer",
+      "/topic.producer");
   }
 
   @Override
@@ -111,7 +116,16 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
           {
             var masterUserUuid = MasterUserUtil.getCurrentMasterUser().map(MasterUser::getUuid).map(UUID::toString).getOrElse("");
             var matchesMap = io.vavr.collection.HashMap
-              .of("/topic/users/" + masterUserUuid + "/[[\\w-]+/]*[*]{1,2}", true)
+              .of("/user/" + masterUserUuid + "/[[\\w-.]+/]*[*]{1,2}", true)                   // -> /user/{uuid}/example/e/**
+              .put("/user/" + masterUserUuid + "/topic.producer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.producer/e/**
+              .put("/user/" + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.consumer/e/*
+              .put("/user/" + masterUserUuid + "/topic.producer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.producer/e/e2...
+              .put("/user/" + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .put("/user/" + StringPool.UUID_REGEX + "[/[\\w-.*]+]*", false)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .put("/topic.producer/[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic.consumer/[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic.producer/[[\\w-]+/]*", true)
+              .put("/topic.consumer/[[\\w-]+/]*", true)
               .put("[[\\w-]+/]*[*]{1,2}", false)
               .put("/topic/tracker", true)
               .put("/topic/users/" + masterUserUuid + "[/[\\w-]+]*", true);

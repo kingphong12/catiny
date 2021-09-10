@@ -1,33 +1,37 @@
 import Websocket from "app/config/Websocket";
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {useAppSelector} from "app/config/store";
+import {useAppDispatch, useAppSelector} from "app/config/store";
+import {initVideoLivestream} from "app/modules/livestream/livestream.reducer";
 
 let sourceBuffer = null;
 let mediaSource = new MediaSource();
-
-const LiveStream = () =>
+let currentVideoLivestream = null;
+const Livestream = () =>
 {
   const masterUser = useAppSelector(state => state.authentication.masterUser);
   const websocket = new Websocket();
+  const dispatch = useAppDispatch();
+  currentVideoLivestream = useAppSelector(state => state.livestream.currentVideoLivestream);
 
   const webcamRef = useRef(null);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [capturing, setCapturing] = useState(false);
 
+
   const videoConstraints = {
     video: {
       width: {
         max: 1920,
         // ideal:960,
-        ideal: 320,
-        // min:640
+        // ideal: 320,
+        min:640
       },
       height: {
         max: 1080,
         // ideal:540,
-        ideal: 180,
-        // min:360
+        // ideal: 180,
+        min:360
       },
       facingMode: {exact: 'user'},
       frameRate: 30,
@@ -59,39 +63,37 @@ const LiveStream = () =>
     videoRef.current.src = window.URL.createObjectURL(mediaSource);
   }, [setCapturing]);
 
-  const handleStartCaptureClick = useCallback(
-    async type =>
+  const handleStartCaptureClick = useCallback(async type =>
+  {
+    setCapturing(true);
+    mediaSource = new MediaSource();
+    if (type === 'camera')
     {
-      setCapturing(true);
-
-      mediaSource = new MediaSource();
-      if (type === 'camera')
-      {
-        mediaRecorderRef.current = new MediaRecorder(await navigator.mediaDevices.getUserMedia(videoConstraints), {
-          mimeType: 'video/webm;codecs=vp8,opus',
-        });
-        mediaSource.addEventListener('sourceopen', () => (sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8,opus')));
-      }
-      else
-      {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        mediaRecorderRef.current = new MediaRecorder(await navigator.mediaDevices.getDisplayMedia(displayConstraints), {
-          audioBitsPerSecond: 128000,
-          videoBitsPerSecond: 50000,
-          mimeType: 'video/webm;codecs=vp8',
-        });
-        mediaSource.addEventListener('sourceopen', () => (sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8')));
-      }
-      webcamRef.current.srcObject = mediaRecorderRef.current.stream;
-      // mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {mimeType: "video/webm"});
-      // videoRef.current.srcObject=webcamRef.current.stream;
-      mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-      mediaRecorderRef.current.start(200);
-      videoRef.current.src = window.URL.createObjectURL(mediaSource);
-    },
-    [webcamRef, setCapturing, mediaRecorderRef]
-  );
+      mediaRecorderRef.current = new MediaRecorder(await navigator.mediaDevices.getUserMedia(videoConstraints), {
+        mimeType: 'video/webm;codecs=vp8,opus',
+        audioBitsPerSecond: 12800,
+        videoBitsPerSecond: 50000,
+      });
+      mediaSource.addEventListener('sourceopen', () => (sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8,opus')));
+    }
+    else
+    {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      mediaRecorderRef.current = new MediaRecorder(await navigator.mediaDevices.getDisplayMedia(displayConstraints), {
+        audioBitsPerSecond: 128000,
+        videoBitsPerSecond: 500000,
+        mimeType: 'video/webm;codecs=vp8',
+      });
+      mediaSource.addEventListener('sourceopen', () => (sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8')));
+    }
+    webcamRef.current.srcObject = mediaRecorderRef.current.stream;
+    // mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {mimeType: "video/webm"});
+    // videoRef.current.srcObject=webcamRef.current.stream;
+    mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+    mediaRecorderRef.current.start(1);
+    videoRef.current.src = window.URL.createObjectURL(mediaSource);
+  }, [webcamRef, setCapturing, mediaRecorderRef]);
 
   const handleDataAvailable = useCallback(({data}) =>
   {
@@ -99,18 +101,16 @@ const LiveStream = () =>
     {
       const reader = new FileReader();
       reader.readAsDataURL(data);
-      reader.onloadend = () => websocket.send("/topic/video-call", reader.result);
+      reader.onloadend = () => websocket.sendProducer(`/livestream.data/${currentVideoLivestream.info.uuid}`, {data: reader.result});
     }
   }, []);
 
-
   useEffect(() =>
   {
-
     websocket.connect("/websocket/main");
-    if (!masterUser.uuid)
+    if (!masterUser.uuid || !currentVideoLivestream || !currentVideoLivestream.info.uuid)
       return;
-    websocket.subscribe(`/users/${masterUser.uuid}/video-call`, data =>
+    websocket.subscribeUserConsumer(`/livestream.data/${currentVideoLivestream.info.uuid}`, data =>
     {
       const result = JSON.parse(data.body);
       let videoBase64 = result.data.split(',');
@@ -118,12 +118,17 @@ const LiveStream = () =>
       const videoData = Uint8Array.from(atob(videoBase64), c => c.charCodeAt(0));
       sourceBuffer.appendBuffer(new Uint8Array(videoData));
     });
-  }, [masterUser.uuid]);
+  }, [masterUser.uuid, currentVideoLivestream]);
+
 
   const phone = () =>
   {
     if (!capturing)
-      return <div className='btn-round-xxl bg-success z-index-1' onClick={() => handleStartCaptureClick("camera")}>
+      return <div className='btn-round-xxl bg-success z-index-1' onClick={() =>
+      {
+        handleStartCaptureClick("camera");
+        dispatch(initVideoLivestream());
+      }}>
         <i className='feather-phone-call text-white font-md' /></div>
     else
       return <>
@@ -278,4 +283,4 @@ const LiveStream = () =>
 }
 
 
-export default LiveStream;
+export default Livestream;

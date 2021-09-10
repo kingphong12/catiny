@@ -67,7 +67,7 @@ const RightChat = () =>
     websocket.connect("/websocket/main");
     if (!masterUser.uuid)
       return;
-    websocket.subscribe(`/users/${masterUser.uuid}/messages/new`, data =>
+    websocket.subscribeUserConsumer(`/messages`, data =>
     {
       const body = JSON.parse(data.body);
       if (body && body.group && body.group.uuid && body.group.uuid === currentMessageGroup.uuid)

@@ -66,6 +66,11 @@ public class MasterUserUtil
     return masterUserAdvanceRepository.findOneByUuid(uuid);
   }
 
+  public static Option<MasterUserDTO> getMasterUserDTOByUuid(UUID uuid)
+  {
+    return masterUserAdvanceService.getMasterUserDTOByUuid(uuid);
+  }
+
   public static Option<MasterUser> getMasterUserByUserLogin(String login)
   {
     return masterUserAdvanceRepository.findOneByUserLogin(login);

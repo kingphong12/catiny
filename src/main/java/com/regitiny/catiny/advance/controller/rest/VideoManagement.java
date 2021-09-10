@@ -54,4 +54,8 @@ public interface VideoManagement
   {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
   }
+
+
+  @PostMapping("/livestream")
+  ResponseEntity<Object> initVideoLivestream();
 }

@@ -1,4 +1,4 @@
-package com.regitiny.catiny.advance.controller.rest.impl;
+package com.regitiny.catiny.advance.controller.impl;
 
 import com.regitiny.catiny.advance.controller.rest.AdminManagement;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;

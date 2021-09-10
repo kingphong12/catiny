@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.elasticsearch.index.query.QueryBuilders.prefixQuery;
 
@@ -72,6 +73,12 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
   public Option<MasterUserDTO> getMasterUserDTOByLogin(String login)
   {
     return getCurrentMasterUserDTO();
+  }
+
+  @Cacheable(key = "#uuid", cacheNames = CacheConfiguration.CacheNameConstants.MASTER_USER_BY_LOGIN)
+  public Option<MasterUserDTO> getMasterUserDTOByUuid(UUID uuid)
+  {
+    return masterUserAdvanceRepository.findOneByUuid(uuid).map(masterUserAdvanceMapper::e2d);
   }
 
   public Option<MasterUser> getAnonymousMasterUser()

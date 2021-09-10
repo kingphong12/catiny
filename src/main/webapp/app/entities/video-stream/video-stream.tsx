@@ -194,6 +194,10 @@ export const VideoStream = (props: RouteComponentProps<{ url: string }>) => {
                   <th className="hand" onClick={sort('uuid')}>
                     <Translate contentKey="catinyApp.videoStream.uuid">Uuid</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th className="hand" onClick={sort('isLivestreaming')}>
+                    <Translate contentKey="catinyApp.videoStream.isLivestreaming">Is Livestreaming</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th>
                     <Translate contentKey="catinyApp.videoStream.video">Video</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
@@ -212,6 +216,7 @@ export const VideoStream = (props: RouteComponentProps<{ url: string }>) => {
                       </Button>
                     </td>
                     <td>{videoStream.uuid}</td>
+                    <td>{videoStream.isLivestreaming ? 'true' : 'false'}</td>
                     <td>{videoStream.video ? <Link to={`video/${videoStream.video.id}`}>{videoStream.video.id}</Link> : ''}</td>
                     <td>{videoStream.info ? <Link to={`base-info/${videoStream.info.id}`}>{videoStream.info.id}</Link> : ''}</td>
                     <td className="text-right">

@@ -108,6 +108,14 @@ export const VideoStreamUpdate = (props: RouteComponentProps<{ id: string }>) =>
                 <Translate contentKey="catinyApp.videoStream.help.uuid" />
               </UncontrolledTooltip>
               <ValidatedField
+                label={translate('catinyApp.videoStream.isLivestreaming')}
+                id="video-stream-isLivestreaming"
+                name="isLivestreaming"
+                data-cy="isLivestreaming"
+                check
+                type="checkbox"
+              />
+              <ValidatedField
                 id="video-stream-video"
                 name="videoId"
                 data-cy="video"

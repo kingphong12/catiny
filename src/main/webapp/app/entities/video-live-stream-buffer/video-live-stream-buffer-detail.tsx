@@ -58,6 +58,18 @@ export const VideoLiveStreamBufferDetail = (props: RouteComponentProps<{ id: str
             ) : null}
           </dd>
           <dt>
+            <span id="bufferNumber">
+              <Translate contentKey="catinyApp.videoLiveStreamBuffer.bufferNumber">Buffer Number</Translate>
+            </span>
+          </dt>
+          <dd>{videoLiveStreamBufferEntity.bufferNumber}</dd>
+          <dt>
+            <span id="path">
+              <Translate contentKey="catinyApp.videoLiveStreamBuffer.path">Path</Translate>
+            </span>
+          </dt>
+          <dd>{videoLiveStreamBufferEntity.path}</dd>
+          <dt>
             <Translate contentKey="catinyApp.videoLiveStreamBuffer.info">Info</Translate>
           </dt>
           <dd>{videoLiveStreamBufferEntity.info ? videoLiveStreamBufferEntity.info.id : ''}</dd>

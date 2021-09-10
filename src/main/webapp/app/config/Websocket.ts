@@ -3,9 +3,13 @@ import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import {Observable} from 'rxjs';
 import {Storage} from 'react-jhipster';
+import {useAppSelector} from './store';
 
 export default class Websocket
 {
+  public static readonly TOPIC_CONSUMER = "/topic.consumer";
+  public static readonly TOPIC_PRODUCER = "/topic.producer";
+
   private stompClient = null;
   private subscriber = null;
   private connection: Promise<any>;
@@ -13,8 +17,11 @@ export default class Websocket
   private listener: Observable<any>;
   private listenerObserver: any;
   private alreadyConnectedOnce = false;
-  private _logDebug = false;
+  private masterUser = useAppSelector(state => state.authentication.masterUser)
+  public readonly TOPIC_USER_PRODUCER = `/user/${this.masterUser.uuid}/topic.producer`;
+  public readonly TOPIC_USER_CONSUMER = `/user/${this.masterUser.uuid}/topic.consumer`;
 
+  private _logDebug = true;
 
   set logDebug(value: boolean)
   {
@@ -26,7 +33,29 @@ export default class Websocket
     this.connection?.then(() =>
       this.stompClient?.send(
         topic, // destination
-        JSON.stringify({data}), // body
+        JSON.stringify(data), // body
+        {} // header
+      ));
+  }
+
+  sendProducer(topic: string, data: any)
+  {
+    topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic;
+    this.connection?.then(() =>
+      this.stompClient?.send(
+        `${Websocket.TOPIC_PRODUCER}/${topic}`, // destination
+        JSON.stringify(data), // body
+        {} // header
+      ));
+  }
+
+  sendUserProducer(topic: string, data: any)
+  {
+    topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic;
+    this.connection?.then(() =>
+      this.stompClient?.send(
+        `${this.TOPIC_USER_PRODUCER}/${topic}`, // destination
+        JSON.stringify(data), // body
         {} // header
       ));
   }
@@ -43,6 +72,40 @@ export default class Websocket
     topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic
     this.connection.then(() =>
       this.subscriber = this.stompClient.subscribe(`/topic/${topic}`, data =>
+      {
+        process(data);
+        // this.listenerObserver.next( JSON.parse(data.body));
+      })
+    );
+  }
+
+  /**
+   *
+   * @param topic   topic name (/topic.consumer/{topic})
+   * @param process function process
+   */
+  subscribeConsumer(topic: string, process)
+  {
+    topic = topic.indexOf("/") === 0 ? topic.substring(1) : topic
+    this.connection.then(() =>
+      this.subscriber = this.stompClient.subscribe(`/topic.consumer/${topic}`, data =>
+      {
+        process(data);
+        // this.listenerObserver.next( JSON.parse(data.body));
+      })
+    );
+  }
+
+  /**
+   *
+   * @param topic   topic name (/user/{uuid}/topic.consumer/{topic})
+   * @param process function process
+   */
+  subscribeUserConsumer(topic: string, process)
+  {
+    topic = topic.startsWith("/") ? topic.substring(1) : topic
+    this.connection.then(() =>
+      this.subscriber = this.stompClient.subscribe(`/user/${this.masterUser.uuid}/topic.consumer/${topic}`, data =>
       {
         process(data);
         // this.listenerObserver.next( JSON.parse(data.body));

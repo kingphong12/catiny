@@ -99,6 +99,9 @@ public class VideoStreamQueryService extends QueryService<VideoStream> {
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), VideoStream_.uuid));
       }
+      if (criteria.getIsLivestreaming() != null) {
+        specification = specification.and(buildSpecification(criteria.getIsLivestreaming(), VideoStream_.isLivestreaming));
+      }
       if (criteria.getVideoId() != null) {
         specification =
           specification.and(buildSpecification(criteria.getVideoId(), root -> root.join(VideoStream_.video, JoinType.LEFT).get(Video_.id)));

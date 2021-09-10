@@ -43,6 +43,12 @@ public class VideoLiveStreamBuffer implements Serializable {
   @Column(name = "buffer_data_content_type")
   private String bufferDataContentType;
 
+  @Column(name = "buffer_number")
+  private Integer bufferNumber;
+
+  @Column(name = "path")
+  private String path;
+
   @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
@@ -105,6 +111,32 @@ public class VideoLiveStreamBuffer implements Serializable {
     this.bufferDataContentType = bufferDataContentType;
   }
 
+  public Integer getBufferNumber() {
+    return this.bufferNumber;
+  }
+
+  public VideoLiveStreamBuffer bufferNumber(Integer bufferNumber) {
+    this.bufferNumber = bufferNumber;
+    return this;
+  }
+
+  public void setBufferNumber(Integer bufferNumber) {
+    this.bufferNumber = bufferNumber;
+  }
+
+  public String getPath() {
+    return this.path;
+  }
+
+  public VideoLiveStreamBuffer path(String path) {
+    this.path = path;
+    return this;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
+
   public BaseInfo getInfo() {
     return this.info;
   }
@@ -158,6 +190,8 @@ public class VideoLiveStreamBuffer implements Serializable {
             ", uuid='" + getUuid() + "'" +
             ", bufferData='" + getBufferData() + "'" +
             ", bufferDataContentType='" + getBufferDataContentType() + "'" +
+            ", bufferNumber=" + getBufferNumber() +
+            ", path='" + getPath() + "'" +
             "}";
     }
 }

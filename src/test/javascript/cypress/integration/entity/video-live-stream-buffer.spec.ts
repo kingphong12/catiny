@@ -104,6 +104,10 @@ describe('VideoLiveStreamBuffer e2e test', () => {
 
     cy.setFieldImageAsBytesOfEntity('bufferData', 'integration-test.png', 'image/png');
 
+    cy.get(`[data-cy="bufferNumber"]`).type('71576').should('have.value', '71576');
+
+    cy.get(`[data-cy="path"]`).type('olive copy morph').should('have.value', 'olive copy morph');
+
     cy.setFieldSelectToLastOfEntity('info');
 
     cy.setFieldSelectToLastOfEntity('videoStream');

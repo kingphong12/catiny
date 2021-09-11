@@ -48,8 +48,9 @@ module.exports = options =>
       proxy: [
         {
           context: [
-            '/api',
             '/api/open',
+            '/api/o',
+            '/api',
             '/services',
             '/management',
             '/swagger-resources',
@@ -59,14 +60,14 @@ module.exports = options =>
             '/auth',
           ],
           target: `http${options.tls ? 's' : ''}://localhost:8080`, //local
-          // target: `http${options.tls ? 's' : ''}://dev.catiny.com:10080`, //server dev
+          // target: `http${options.tls ? 's' : ''}://dev.catiny.com:18080`, //server dev
           secure: false,
           changeOrigin: options.tls,
         },
         {
           context: ['/websocket'],
           target: 'ws://127.0.0.1:8080', //local
-          // target: 'ws://dev.catiny.com:10080', //server dev
+          // target: 'ws://dev.catiny.com:18080', //server dev
           ws: true,
         },
       ],

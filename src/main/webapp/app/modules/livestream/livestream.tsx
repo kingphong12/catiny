@@ -2,15 +2,17 @@ import Websocket from "app/config/Websocket";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from "app/config/store";
 import {initVideoLivestream} from "app/modules/livestream/livestream.reducer";
+import {RouteComponentProps} from "react-router-dom";
 
 let sourceBuffer = null;
 let mediaSource = new MediaSource();
 let currentVideoLivestream = null;
-const Livestream = () =>
+const Livestream = (props: RouteComponentProps<{ id: string }>) =>
 {
   const masterUser = useAppSelector(state => state.authentication.masterUser);
   const websocket = new Websocket();
   const dispatch = useAppDispatch();
+  const id = props.match.params.id;
   currentVideoLivestream = useAppSelector(state => state.livestream.currentVideoLivestream);
 
   const webcamRef = useRef(null);
@@ -22,16 +24,16 @@ const Livestream = () =>
   const videoConstraints = {
     video: {
       width: {
-        max: 1920,
+        // max: 1920,
         // ideal:960,
-        // ideal: 320,
-        min:640
+        ideal: 320,
+        // min:640
       },
       height: {
-        max: 1080,
+        // max: 1080,
         // ideal:540,
-        // ideal: 180,
-        min:360
+        ideal: 180,
+        // min:360
       },
       facingMode: {exact: 'user'},
       frameRate: 30,
@@ -72,7 +74,7 @@ const Livestream = () =>
       mediaRecorderRef.current = new MediaRecorder(await navigator.mediaDevices.getUserMedia(videoConstraints), {
         mimeType: 'video/webm;codecs=vp8,opus',
         audioBitsPerSecond: 12800,
-        videoBitsPerSecond: 50000,
+        videoBitsPerSecond: 5000,
       });
       mediaSource.addEventListener('sourceopen', () => (sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8,opus')));
     }
@@ -91,7 +93,7 @@ const Livestream = () =>
     // mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {mimeType: "video/webm"});
     // videoRef.current.srcObject=webcamRef.current.stream;
     mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-    mediaRecorderRef.current.start(1);
+    mediaRecorderRef.current.start(10);
     videoRef.current.src = window.URL.createObjectURL(mediaSource);
   }, [webcamRef, setCapturing, mediaRecorderRef]);
 
@@ -108,17 +110,26 @@ const Livestream = () =>
   useEffect(() =>
   {
     websocket.connect("/websocket/main");
-    if (!masterUser.uuid || !currentVideoLivestream || !currentVideoLivestream.info.uuid)
-      return;
-    websocket.subscribeUserConsumer(`/livestream.data/${currentVideoLivestream.info.uuid}`, data =>
+    if (id && masterUser.uuid)
     {
-      const result = JSON.parse(data.body);
-      let videoBase64 = result.data.split(',');
-      videoBase64 = videoBase64[videoBase64.length - 1];
-      const videoData = Uint8Array.from(atob(videoBase64), c => c.charCodeAt(0));
-      sourceBuffer.appendBuffer(new Uint8Array(videoData));
-    });
+      mediaSource = new MediaSource();
+      mediaSource.addEventListener('sourceopen', () => (sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8,opus')));
+      videoRef.current.src = window.URL.createObjectURL(mediaSource);
+
+      websocket.subscribeUserConsumer(`/livestream.data/${id}`, processData);
+    }
+    if (masterUser.uuid && currentVideoLivestream && currentVideoLivestream.info.uuid)
+      websocket.subscribeUserConsumer(`/livestream.data/${currentVideoLivestream.info.uuid}`, processData);
   }, [masterUser.uuid, currentVideoLivestream]);
+
+  const processData = useCallback(data =>
+  {
+    const result = JSON.parse(data.body);
+    let videoBase64 = result.data.split(',');
+    videoBase64 = videoBase64[videoBase64.length - 1];
+    const videoData = Uint8Array.from(atob(videoBase64), c => c.charCodeAt(0));
+    sourceBuffer.appendBuffer(new Uint8Array(videoData));
+  }, []);
 
 
   const phone = () =>
@@ -126,8 +137,9 @@ const Livestream = () =>
     if (!capturing)
       return <div className='btn-round-xxl bg-success z-index-1' onClick={() =>
       {
-        handleStartCaptureClick("camera");
         dispatch(initVideoLivestream());
+
+        handleStartCaptureClick("camera");
       }}>
         <i className='feather-phone-call text-white font-md' /></div>
     else
@@ -167,7 +179,7 @@ const Livestream = () =>
                 </div>
                 <div className='position-absolute'>
                   <video className='card border-0 mb-0 rounded-3 overflow-hidden chat-wrapper bg-image-center bg-image-cover'
-                         autoPlay playsInline muted preload={'none'} ref={videoRef} />
+                         autoPlay controls playsInline muted preload={'none'} ref={videoRef} />
                 </div>
               </div>
             </div>

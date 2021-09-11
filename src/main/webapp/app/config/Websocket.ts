@@ -21,7 +21,7 @@ export default class Websocket
   public readonly TOPIC_USER_PRODUCER = `/user/${this.masterUser.uuid}/topic.producer`;
   public readonly TOPIC_USER_CONSUMER = `/user/${this.masterUser.uuid}/topic.consumer`;
 
-  private _logDebug = true;
+  private _logDebug = false;
 
   set logDebug(value: boolean)
   {

@@ -145,7 +145,8 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
       .mapTry(base64Data ->
       {
 //        new Video().setVideoStream();
-        var bytes = Base64Utils.decodeFromString(base64Data.split(",")[2]);
+        var base64DataSplit = base64Data.split(",");
+        var bytes = Base64Utils.decodeFromString(base64DataSplit[base64DataSplit.length - 1]);
 //        var outputStream = new FileOutputStream("D:/catinyx/aaa-Stream.webm", true);
 //        outputStream.write(bytes);
 //        outputStream.flush();

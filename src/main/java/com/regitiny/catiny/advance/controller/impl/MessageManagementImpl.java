@@ -1,7 +1,6 @@
 package com.regitiny.catiny.advance.controller.impl;
 
 import com.regitiny.catiny.advance.controller.rest.MessageManagement;
-import com.regitiny.catiny.advance.service.MasterUserAdvanceService;
 import com.regitiny.catiny.advance.service.MessageContentAdvanceService;
 import com.regitiny.catiny.advance.service.MessageGroupAdvanceService;
 import com.regitiny.catiny.service.dto.MessageContentDTO;
@@ -36,7 +35,6 @@ public class MessageManagementImpl implements MessageManagement
   private final SimpMessageSendingOperations messagingTemplate;
   private final MessageGroupAdvanceService messageGroupAdvanceService;
   private final MessageContentAdvanceService messageContentAdvanceService;
-  private final MasterUserAdvanceService masterUserAdvanceService;
   private final SimpMessagingTemplate simpMessagingTemplate;
 
   @Override
@@ -80,10 +78,8 @@ public class MessageManagementImpl implements MessageManagement
   {
     return messageContentAdvanceService.sendContentToGroup(messageGroupId, content, images, videos, files)
       .peek(messageContentDTO ->
-      {
         messageGroupAdvanceService.getMasterUserDetailsPublicByMessageGroupId(messageContentDTO.getGroup().getUuid()).forEach(masterUserDTO ->
-          messagingTemplate.convertAndSendToUser(masterUserDTO.getUuid().toString(), WebSocketUtils.topicConsumer("/messages"), messageContentDTO));
-      })
+          messagingTemplate.convertAndSendToUser(masterUserDTO.getUuid().toString(), WebSocketUtils.topicConsumer("/messages"), messageContentDTO)))
       .map(messageContentDTO -> ResponseEntity.status(HttpStatus.CREATED).body(messageContentDTO))
       .getOrElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
   }
@@ -103,7 +99,6 @@ public class MessageManagementImpl implements MessageManagement
     simpMessagingTemplate.convertAndSendToUser("00000000-0000-0000-0000-000000000001", message, "hihi");
     simpMessagingTemplate.convertAndSend(message, "hihi");
     simpMessagingTemplate.convertAndSendToUser("admin", "/topic/users/00000000-0000-0000-0000-000000000001/test", "hihi");
-//    simpMessagingTemplate.convertAndSend("/topic/users/00000000-0000-0000-0000-000000000001/test","hihi");
     return null;
   }
 

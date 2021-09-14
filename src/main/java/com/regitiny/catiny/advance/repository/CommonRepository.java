@@ -13,9 +13,9 @@ public interface CommonRepository<E>
   void deleteOneByUuid(UUID uuid);
 
 
-  void deleteAllByUuid(UUID... uuid);
+  void deleteAllByUuidIn(UUID... uuid);
 
 
-  void deleteAllByUuid(List<UUID> uuid);
+  void deleteAllByUuidIn(List<UUID> uuid);
 
 }

@@ -1,6 +1,5 @@
 import React, {Fragment, useEffect, useRef, useState} from "react";
-import {connect as wsConnect, sendData as wsSendData, subscribe as wsSubscribe} from "app/component/chat/process/websocket-util";
-import {Storage} from 'react-jhipster';
+import Websocket from "app/config/Websocket";
 
 const Chat = (props) =>
 {
@@ -12,18 +11,14 @@ const Chat = (props) =>
   const [pageCurrent, setPageCurrent] = useState(0);
   const messageContentRef = useRef(null);
   const [messageContentScrollCurrent, setMessageContentScrollCurrent] = useState(Number.MAX_SAFE_INTEGER);
-  const authToken = Storage.local.get('jhi-authenticationToken') || Storage.session.get('jhi-authenticationToken');
+  const websocket = new Websocket();
 
 
-  useEffect(() =>
-  {
-    wsConnect();
-    wsSubscribe("message/user/admin/group/new-message", data =>
-    {
-      props.messageUserNewMessage(data);
-      messageContentRef.current.scrollTo(0, Number.MAX_SAFE_INTEGER);
-    });
-  }, []);
+  // useEffect(() =>
+  // {
+  //   websocket.connect();
+  //   websocket.subscribe()
+  // }, []);
 
   useEffect(() =>
   {
@@ -65,12 +60,12 @@ const Chat = (props) =>
 
   const handleSend = () =>
   {
-    const body = {content: contentTyping, groupId: groupIdCurrent};
-    if (contentTyping && /[^ ]+/.exec(contentTyping))
-      wsSendData("message/send", body, {});
-    else
-      window.console.log("nhếch nhêch");
-    setContentTyping("");
+    // const body = {content: contentTyping, groupId: groupIdCurrent};
+    // if (contentTyping && /[^ ]+/.exec(contentTyping))
+    //   wsSendData("message/send", body, {});
+    // else
+    //   window.console.log("nhếch nhêch");
+    // setContentTyping("");
   }
 // Component TSX
 

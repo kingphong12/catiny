@@ -1,9 +1,5 @@
 package com.regitiny.catiny.aop;
 
-import com.regitiny.catiny.advance.service.impl.BaseInfoAdvanceServiceImpl;
-import com.regitiny.catiny.advance.service.impl.HistoryUpdateAdvanceServiceImpl;
-import com.regitiny.catiny.advance.service.impl.MasterUserAdvanceServiceImpl;
-import com.regitiny.catiny.advance.service.impl.PermissionAdvanceServiceImpl;
 import com.regitiny.catiny.service.dto.UserDTO;
 import io.vavr.Function2;
 import io.vavr.collection.List;
@@ -15,7 +11,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,11 +32,6 @@ import static com.regitiny.catiny.common.utils.ReflectUtil.methodInvoke;
 public class AdvanceMapperAspectService
 {
   private final Environment env;
-  private final ApplicationContext applicationContext;
-  private final BaseInfoAdvanceServiceImpl baseInfoAdvanceService;
-  private final PermissionAdvanceServiceImpl permissionAdvanceService;
-  private final MasterUserAdvanceServiceImpl masterUserAdvanceService;
-  private final HistoryUpdateAdvanceServiceImpl historyUpdateAdvanceService;
 
   /**
    * Retrieves the {@link Logger} associated to the given {@link JoinPoint}.
@@ -62,20 +52,13 @@ public class AdvanceMapperAspectService
    * @return result of joinPoint.proceed()
    * @throws Throwable err
    */
-  @Around(" execution(* com.regitiny.catiny.advance.service.mapper.*AdvanceMapper.e2d(..))  "
-//    " && !(" +
-//    " execution(* com.regitiny.catiny..BaseInfo*Repository.save(..)) ||" +
-//    " execution(* com.regitiny.catiny..Permission*Repository.save(..)) ||" +
-//    " execution(* com.regitiny.catiny..HistoryUpdate*Repository.save(..)) ||" +
-//    " execution(* com.regitiny.catiny..ClassInfo*Repository.save(..)) " +
-//    ")"
-  )
+  @Around(" execution(* com.regitiny.catiny.advance.service.mapper.*AdvanceMapper.e2d(..)) ")
   public Object aroundCleanIdAddUuid(ProceedingJoinPoint joinPoint) throws Throwable
   {
     var logJP = logger(joinPoint);
-//    var permissionNeedCheck = env.getProperty("catiny.permission.need-check", Boolean.class, true);
-//    if (Boolean.FALSE.equals(permissionNeedCheck))
-//      return joinPoint.proceed();
+    var permissionNeedCheck = env.getProperty("catiny.dto.only-uuid", Boolean.class, true);
+    if (Boolean.FALSE.equals(permissionNeedCheck))
+      return joinPoint.proceed();
     if (joinPoint.getArgs().length != 1)
       return joinPoint.proceed();
     var entityOriginal = joinPoint.getArgs()[0];

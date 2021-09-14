@@ -31,14 +31,13 @@ public class ImageManagementImpl implements ImageManagement
     log.debug("REST request to save Image : {}", imageData.size());
     var result = new JSONObject();
     var imagesSavedJSONArray = new JSONArray();
-    var totalSaved = imageData.stream().map(multipartFile ->
+    imageData.stream().map(multipartFile ->
       {
         log.info(multipartFile.getSize());
         return imageAdvanceService.upload(multipartFile, desiredName);
       })
       .filter(imageDTOOption -> imageDTOOption.isDefined() || !imageDTOOption.isEmpty())
-      .peek(imageDTOOption -> imageDTOOption.forEach(imageDTO ->
-      {
+      .forEach(imageDTOOption -> imageDTOOption.forEach(imageDTO ->
         imagesSavedJSONArray.put(new JSONObject()
           .put("imageName", imageDTO.getName())
           .put("link", BASE_PATH + StringPool.SLASH + imageDTO.getName())
@@ -46,10 +45,9 @@ public class ImageManagementImpl implements ImageManagement
           .put("url", serverLink + BASE_PATH + StringPool.SLASH + imageDTO.getName())
           .put("backupUrl", serverLink + BASE_PATH + StringPool.SLASH + imageDTO.getUuid().toString())
 //          .put("details", new JSONObject(imageDTO))
-          .put("option", ""));
-      })).count();
+          .put("option", ""))));
     result.put("imagesSaved", imagesSavedJSONArray)
-      .put("totalSaved", totalSaved)
+      .put("totalSaved", imagesSavedJSONArray.length())
       .put("totalReceived", imageData.size());
     return ResponseEntity.ok(result.toString());
   }

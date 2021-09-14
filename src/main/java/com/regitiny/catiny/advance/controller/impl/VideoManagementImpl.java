@@ -47,14 +47,13 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
     log.debug("REST request to save video : {}", videoData.size());
     var result = new JSONObject();
     var videoSavedJSONArray = new JSONArray();
-    var totalSaved = videoData.stream().map(multipartFile ->
+    videoData.stream().map(multipartFile ->
       {
         log.info(multipartFile.getSize());
         return videoAdvanceService.upload(multipartFile, desiredName);
       })
       .filter(videoDTOOption -> videoDTOOption.isDefined() || !videoDTOOption.isEmpty())
-      .peek(videoDTOOption -> videoDTOOption.forEach(videoDTO ->
-      {
+      .forEach(videoDTOOption -> videoDTOOption.forEach(videoDTO ->
         videoSavedJSONArray.put(new JSONObject()
           .put("name", videoDTO.getName())
           .put("link", BASE_PATH + StringPool.SLASH + videoDTO.getName())
@@ -62,10 +61,9 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
           .put("url", serverLink + BASE_PATH + StringPool.SLASH + videoDTO.getName())
           .put("backupUrl", serverLink + BASE_PATH + StringPool.SLASH + videoDTO.getUuid().toString())
 //          .put("details", new JSONObject(videoDTO))
-          .put("option", ""));
-      })).count();
+          .put("option", ""))));
     result.put("videoSaved", videoSavedJSONArray)
-      .put("totalSaved", totalSaved)
+      .put("totalSaved", videoSavedJSONArray.length())
       .put("totalReceived", videoData.size());
 
     return ResponseEntity.ok(result.toString());

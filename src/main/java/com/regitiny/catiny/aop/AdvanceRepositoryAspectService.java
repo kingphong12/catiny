@@ -235,7 +235,6 @@ public class AdvanceRepositoryAspectService
       if (resultAfterCheck.size() == resultPage.getContent().size())
         return result;
       logJP.warn("exist problem with permission check . -> total-result = {} \n-> total-pass-check {}", resultPage.getContent().size(), resultAfterCheck.size());
-//        new PageImpl<>(resultAfterCheck, ((Page<?>) result).getPageable(), resultPage.getSize());
       return new PageImpl<>(resultAfterCheck, ((Page<?>) result).getPageable(), resultAfterCheck.size());
     }
     else if (resultTypeName.contains(List.class.getTypeName()))

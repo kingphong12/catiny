@@ -36,6 +36,7 @@ import java.util.*;
 public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
   public static final String IP_ADDRESS = "IP_ADDRESS";
+  private static final String USER = "/user/";
 
   private final JHipsterProperties jHipsterProperties;
 
@@ -109,19 +110,19 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
         public Message<?> preSend(@Nonnull Message<?> message, @Nonnull MessageChannel channel)
         {
           var accessor = StompHeaderAccessor.wrap(message);
-          var username = Objects.requireNonNull(accessor.getUser()).getName();
           var command = accessor.getCommand();
 
           if (StompCommand.SUBSCRIBE.equals(command) && Objects.nonNull(accessor.getDestination()))
           {
+
             var masterUserUuid = MasterUserUtil.getCurrentMasterUser().map(MasterUser::getUuid).map(UUID::toString).getOrElse("");
             var matchesMap = io.vavr.collection.HashMap
-              .of("/user/" + masterUserUuid + "/[[\\w-.]+/]*[*]{1,2}", true)                   // -> /user/{uuid}/example/e/**
-              .put("/user/" + masterUserUuid + "/topic.producer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.producer/e/**
-              .put("/user/" + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.consumer/e/*
-              .put("/user/" + masterUserUuid + "/topic.producer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.producer/e/e2...
-              .put("/user/" + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.consumer/e/e2...
-              .put("/user/" + StringPool.UUID_REGEX + "[/[\\w-.*]+]*", false)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .of(USER + masterUserUuid + "/[[\\w-.]+/]*[*]{1,2}", true)                   // -> /user/{uuid}/example/e/**
+              .put(USER + masterUserUuid + "/topic.producer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.producer/e/**
+              .put(USER + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.consumer/e/*
+              .put(USER + masterUserUuid + "/topic.producer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.producer/e/e2...
+              .put(USER + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .put(USER + StringPool.UUID_REGEX + "[/[\\w-.*]+]*", false)           // -> /user/{uuid}/topic.consumer/e/e2...
               .put("/topic.producer/[[\\w-]+/]*[*]{1,2}", false)
               .put("/topic.consumer/[[\\w-]+/]*[*]{1,2}", false)
               .put("/topic.producer/[[\\w-]+/]*", true)
@@ -130,7 +131,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
               .put("/topic/tracker", true)
               .put("/topic/users/" + masterUserUuid + "[/[\\w-]+]*", true);
             for (var matches : matchesMap)
-              if (accessor.getDestination().matches(matches._1()))
+              if (Objects.requireNonNull(accessor.getDestination()).matches(matches._1()))
                 if (Boolean.TRUE.equals(matches._2))
                   return ChannelInterceptor.super.preSend(message, channel);
                 else

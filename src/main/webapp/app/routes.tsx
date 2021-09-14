@@ -16,7 +16,6 @@ import PageNotFound from 'app/shared/error/page-not-found';
 import {AUTHORITIES} from 'app/config/constants';
 import {sendActivity} from 'app/config/websocket-middleware';
 
-import ChatOld from 'app/component/chat';
 
 //Sociala
 import Demo from "app-js/demo/Demo";
@@ -90,7 +89,6 @@ const Routes = () =>
         <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
         <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
         <ErrorBoundaryRoute path='/' exact component={Home} />
-        <PrivateRoute path='/chat' component={ChatOld} hasAnyAuthorities={[AUTHORITIES.USER]} />
 
         <ErrorBoundaryRoute exact path={`/demo`} component={Demo}/>
         <ErrorBoundaryRoute exact path={`/home`} component={HomeSociala}/>

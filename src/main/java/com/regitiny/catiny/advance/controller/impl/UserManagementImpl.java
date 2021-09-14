@@ -7,7 +7,6 @@ import com.regitiny.catiny.util.MasterUserUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,7 +33,7 @@ public class UserManagementImpl implements UserManagement
   public ResponseEntity<List<MasterUserDTO>> searchMasterUser(String query, Pageable pageable)
   {
     var page = masterUserService.searchMasterUser(query, pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+    var headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
     return ResponseEntity.ok().headers(headers).body(page.getContent());
   }
 }

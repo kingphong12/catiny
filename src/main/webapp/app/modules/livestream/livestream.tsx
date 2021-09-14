@@ -140,7 +140,7 @@ const Livestream = (props: RouteComponentProps<{ id: string }>) =>
     }
   }, [masterUser.uuid, currentVideoLivestream]);
 
-  const processData = useCallback(async data =>
+  const processData = useCallback(data =>
   {
     const result = JSON.parse(data.body);
     let videoBase64 = result.data.split(',');

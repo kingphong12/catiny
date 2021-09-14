@@ -5,6 +5,7 @@ import com.regitiny.catiny.domain.HanhChinhVN;
 import com.regitiny.catiny.repository.HanhChinhVNRepository;
 import io.vavr.control.Option;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,5 +21,23 @@ public interface HanhChinhVNBaseRepository extends BaseRepository<HanhChinhVN>, 
   default Option<HanhChinhVN> findOneByUuid(UUID uuid)
   {
     return Option.none();
+  }
+
+
+  @Override
+  default void deleteOneByUuid(UUID uuid)
+  {
+  }
+
+
+  @Override
+  default void deleteAllByUuidIn(UUID... uuid)
+  {
+  }
+
+
+  @Override
+  default void deleteAllByUuidIn(List<UUID> uuid)
+  {
   }
 }

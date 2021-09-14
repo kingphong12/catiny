@@ -116,8 +116,6 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
           .map(MasterUser::getUser)
           .map(User::getFirstName)
           .map(s -> sb.append(StringPool.COMMA).append(s));
-//        if (temp3UserIds.size() > 2)
-//          sb.append(StringPool.TRIPLE_PERIOD);
         desiredName = sb.toString();
       }
       if (avatarLinks.length() < 3 && avatarUrls.length() < 3)

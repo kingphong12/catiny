@@ -135,7 +135,6 @@ public class MasterUserAdvanceServiceImpl extends AdvanceService<MasterUser, Mas
               .fullName(Option.when(Objects.nonNull(user.getLastName()) && Objects.nonNull(user.getFirstName()),
                 user.getLastName() + StringPool.SPACE + user.getFirstName()).getOrElse("No Name"))
               .user(user));
-//              .addMyPermission(permission));
 
           masterUser = masterUserAdvanceRepository.save(masterUser.addPermission(permission));
 

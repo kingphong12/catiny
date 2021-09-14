@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "app/config/store";
 import {
   createMessageGroup,
@@ -7,11 +7,11 @@ import {
   sendContentToGroup
 } from "app/shared/layout/right-chat/right-chat.reducer";
 import {defaultValue as defaultValueMessageGroup, IMessageGroup} from "app/shared/model/message-group.model";
-import {simpleCollage3} from 'app/component/simple-component';
+import {simpleCollage3} from "app/component/simple-component";
 import {imageUrl} from "app/shared/util/image-tools-util";
-import Websocket from "app/config/Websocket"
+import Websocket from "app/config/Websocket";
 import {searchMasterUser} from "app/component/reducer/master-user.reducer";
-import {useSelector} from 'react-redux';
+import {useSelector} from "react-redux";
 
 const RightChat = () =>
 {
@@ -105,7 +105,7 @@ const RightChat = () =>
 
   const sendMessageContent = () =>
   {
-    if (!messageContentTyping && !(messageContentTyping.replace(" ", "").length > 0))
+    if (!messageContentTyping && messageContentTyping.replace(" ", "").length <= 0)
       return;
     dispatch(sendContentToGroup({groupId: currentMessageGroup.uuid, content: messageContentTyping}));
     setMessageContentTyping("");
@@ -240,7 +240,7 @@ const RightChat = () =>
                     setGroupNameToCreateMessageGroup(() =>
                     {
                       let name = "";
-                      result.map(u => name += u.fullName + ",");
+                      result.forEach(u => name += u.fullName + ",");
                       if (name.length > 0)
                         return name.substring(0, name.length - 1);
                       return "";

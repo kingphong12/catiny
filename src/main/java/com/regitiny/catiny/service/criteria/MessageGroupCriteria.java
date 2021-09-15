@@ -52,6 +52,8 @@ public class MessageGroupCriteria implements Serializable, Criteria {
 
     private StringFilter comment;
 
+    private Boolean distinct;
+
     public MessageGroupCriteria() {}
 
     public MessageGroupCriteria(MessageGroupCriteria other) {
@@ -67,6 +69,7 @@ public class MessageGroupCriteria implements Serializable, Criteria {
         this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
         this.modifiedBy = other.modifiedBy == null ? null : other.modifiedBy.copy();
         this.comment = other.comment == null ? null : other.comment.copy();
+        this.distinct = other.distinct;
     }
 
     @Override
@@ -254,6 +257,14 @@ public class MessageGroupCriteria implements Serializable, Criteria {
         this.comment = comment;
     }
 
+    public Boolean getDistinct() {
+        return distinct;
+    }
+
+    public void setDistinct(Boolean distinct) {
+        this.distinct = distinct;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -275,13 +286,28 @@ public class MessageGroupCriteria implements Serializable, Criteria {
             Objects.equals(modifiedDate, that.modifiedDate) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
-            Objects.equals(comment, that.comment)
+            Objects.equals(comment, that.comment) &&
+            Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, uuid, userId, groupId, groupName, addBy, role, createdDate, modifiedDate, createdBy, modifiedBy, comment);
+        return Objects.hash(
+            id,
+            uuid,
+            userId,
+            groupId,
+            groupName,
+            addBy,
+            role,
+            createdDate,
+            modifiedDate,
+            createdBy,
+            modifiedBy,
+            comment,
+            distinct
+        );
     }
 
     // prettier-ignore
@@ -300,6 +326,7 @@ public class MessageGroupCriteria implements Serializable, Criteria {
             (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
             (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
             (comment != null ? "comment=" + comment + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

@@ -8,7 +8,6 @@ import com.regitiny.catiny.service.MailService;
 import com.regitiny.catiny.service.UserService;
 import com.regitiny.catiny.service.dto.AdminUserDTO;
 import com.regitiny.catiny.service.dto.PasswordChangeDTO;
-import com.regitiny.catiny.service.dto.UserDTO;
 import com.regitiny.catiny.web.rest.errors.*;
 import com.regitiny.catiny.web.rest.vm.KeyAndPasswordVM;
 import com.regitiny.catiny.web.rest.vm.ManagedUserVM;

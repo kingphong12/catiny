@@ -128,7 +128,7 @@ public class MessageContentResource {
      * or with status {@code 500 (Internal Server Error)} if the messageContentDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/message-contents/{id}", consumes = "application/merge-patch+json")
+    @PatchMapping(value = "/message-contents/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<MessageContentDTO> partialUpdateMessageContent(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody MessageContentDTO messageContentDTO

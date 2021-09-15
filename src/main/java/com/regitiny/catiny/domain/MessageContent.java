@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * The PostDetails entity.\n@author A true hipster
@@ -26,6 +25,7 @@ public class MessageContent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     /**
@@ -94,17 +94,18 @@ public class MessageContent implements Serializable {
     private String comment;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public MessageContent id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public MessageContent id(Long id) {
-        this.id = id;
-        return this;
     }
 
     public UUID getUuid() {
@@ -112,7 +113,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent uuid(UUID uuid) {
-        this.uuid = uuid;
+        this.setUuid(uuid);
         return this;
     }
 
@@ -125,7 +126,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent groupId(String groupId) {
-        this.groupId = groupId;
+        this.setGroupId(groupId);
         return this;
     }
 
@@ -138,7 +139,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent content(String content) {
-        this.content = content;
+        this.setContent(content);
         return this;
     }
 
@@ -151,7 +152,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent sender(String sender) {
-        this.sender = sender;
+        this.setSender(sender);
         return this;
     }
 
@@ -164,7 +165,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent status(String status) {
-        this.status = status;
+        this.setStatus(status);
         return this;
     }
 
@@ -177,7 +178,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent searchField(String searchField) {
-        this.searchField = searchField;
+        this.setSearchField(searchField);
         return this;
     }
 
@@ -190,7 +191,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent role(String role) {
-        this.role = role;
+        this.setRole(role);
         return this;
     }
 
@@ -203,7 +204,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent createdDate(Instant createdDate) {
-        this.createdDate = createdDate;
+        this.setCreatedDate(createdDate);
         return this;
     }
 
@@ -216,7 +217,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent modifiedDate(Instant modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.setModifiedDate(modifiedDate);
         return this;
     }
 
@@ -229,7 +230,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent createdBy(String createdBy) {
-        this.createdBy = createdBy;
+        this.setCreatedBy(createdBy);
         return this;
     }
 
@@ -242,7 +243,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent modifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
+        this.setModifiedBy(modifiedBy);
         return this;
     }
 
@@ -255,7 +256,7 @@ public class MessageContent implements Serializable {
     }
 
     public MessageContent comment(String comment) {
-        this.comment = comment;
+        this.setComment(comment);
         return this;
     }
 

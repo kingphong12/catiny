@@ -68,13 +68,11 @@ public class UserMapper {
             authorities =
                 authoritiesAsString
                     .stream()
-                    .map(
-                        string -> {
-                            Authority auth = new Authority();
-                            auth.setName(string);
-                            return auth;
-                        }
-                    )
+                    .map(string -> {
+                        Authority auth = new Authority();
+                        auth.setName(string);
+                        return auth;
+                    })
                     .collect(Collectors.toSet());
         }
 

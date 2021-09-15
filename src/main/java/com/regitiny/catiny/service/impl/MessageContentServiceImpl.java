@@ -59,21 +59,17 @@ public class MessageContentServiceImpl implements MessageContentService {
 
         return messageContentRepository
             .findById(messageContentDTO.getId())
-            .map(
-                existingMessageContent -> {
-                    messageContentMapper.partialUpdate(existingMessageContent, messageContentDTO);
+            .map(existingMessageContent -> {
+                messageContentMapper.partialUpdate(existingMessageContent, messageContentDTO);
 
-                    return existingMessageContent;
-                }
-            )
+                return existingMessageContent;
+            })
             .map(messageContentRepository::save)
-            .map(
-                savedMessageContent -> {
-                    messageContentSearchRepository.save(savedMessageContent);
+            .map(savedMessageContent -> {
+                messageContentSearchRepository.save(savedMessageContent);
 
-                    return savedMessageContent;
-                }
-            )
+                return savedMessageContent;
+            })
             .map(messageContentMapper::toDto);
     }
 
@@ -102,6 +98,6 @@ public class MessageContentServiceImpl implements MessageContentService {
     @Transactional(readOnly = true)
     public Page<MessageContentDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of MessageContents for query {}", query);
-        return messageContentSearchRepository.search(queryStringQuery(query), pageable).map(messageContentMapper::toDto);
+        return messageContentSearchRepository.search(query, pageable).map(messageContentMapper::toDto);
     }
 }

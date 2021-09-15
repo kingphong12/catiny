@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -1563,7 +1562,7 @@ class MessageGroupResourceIT {
         // Configure the mock search repository
         // Initialize the database
         messageGroupRepository.saveAndFlush(messageGroup);
-        when(mockMessageGroupSearchRepository.search(queryStringQuery("id:" + messageGroup.getId()), PageRequest.of(0, 20)))
+        when(mockMessageGroupSearchRepository.search("id:" + messageGroup.getId(), PageRequest.of(0, 20)))
             .thenReturn(new PageImpl<>(Collections.singletonList(messageGroup), PageRequest.of(0, 1), 1));
 
         // Search the messageGroup

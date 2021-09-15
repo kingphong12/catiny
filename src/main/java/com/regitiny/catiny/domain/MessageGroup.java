@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * The PostDetails entity.\n@author A true hipster
@@ -26,6 +25,7 @@ public class MessageGroup implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     /**
@@ -98,17 +98,18 @@ public class MessageGroup implements Serializable {
     private String comment;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public MessageGroup id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public MessageGroup id(Long id) {
-        this.id = id;
-        return this;
     }
 
     public UUID getUuid() {
@@ -116,7 +117,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup uuid(UUID uuid) {
-        this.uuid = uuid;
+        this.setUuid(uuid);
         return this;
     }
 
@@ -129,7 +130,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup userId(Long userId) {
-        this.userId = userId;
+        this.setUserId(userId);
         return this;
     }
 
@@ -142,7 +143,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup groupId(String groupId) {
-        this.groupId = groupId;
+        this.setGroupId(groupId);
         return this;
     }
 
@@ -155,7 +156,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup groupName(String groupName) {
-        this.groupName = groupName;
+        this.setGroupName(groupName);
         return this;
     }
 
@@ -168,7 +169,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup addBy(String addBy) {
-        this.addBy = addBy;
+        this.setAddBy(addBy);
         return this;
     }
 
@@ -181,7 +182,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup lastContent(String lastContent) {
-        this.lastContent = lastContent;
+        this.setLastContent(lastContent);
         return this;
     }
 
@@ -194,7 +195,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup searchField(String searchField) {
-        this.searchField = searchField;
+        this.setSearchField(searchField);
         return this;
     }
 
@@ -207,7 +208,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup role(String role) {
-        this.role = role;
+        this.setRole(role);
         return this;
     }
 
@@ -220,7 +221,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup createdDate(Instant createdDate) {
-        this.createdDate = createdDate;
+        this.setCreatedDate(createdDate);
         return this;
     }
 
@@ -233,7 +234,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup modifiedDate(Instant modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.setModifiedDate(modifiedDate);
         return this;
     }
 
@@ -246,7 +247,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup createdBy(String createdBy) {
-        this.createdBy = createdBy;
+        this.setCreatedBy(createdBy);
         return this;
     }
 
@@ -259,7 +260,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup modifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
+        this.setModifiedBy(modifiedBy);
         return this;
     }
 
@@ -272,7 +273,7 @@ public class MessageGroup implements Serializable {
     }
 
     public MessageGroup comment(String comment) {
-        this.comment = comment;
+        this.setComment(comment);
         return this;
     }
 

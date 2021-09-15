@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import "./right-chat.scss"
 import {useAppDispatch, useAppSelector} from "app/config/store";
 import {
   createMessageGroup,

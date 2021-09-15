@@ -1,130 +1,54 @@
 import './home.scss';
 
-import React, {useEffect, useRef, useState} from 'react';
-import {Card, CardBody, CardHeader, CardText, CardTitle, Col, Progress, Row, Tooltip} from 'reactstrap';
-import {faAngleRight, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import React from 'react';
+import StorySlider from "app/component/story-slider";
+import CreatePost from "app/component/create-post";
+import PostView from "app/component/post-view";
+import MemberSlider from "app/component/member-slider";
+import FriendSilder from "app/component/friend-silder";
+import Load from "app/component/load";
+import Friends from "app/component/friends";
+import Contacts from "app/component/contacts";
+import Group from "app/component/group";
+import Events from "app/component/events";
+import ProfilePhoto from "app/component/profile-photo";
 
-import {useAppSelector} from 'app/config/store';
-import Demo from "app-js/demo/Demo";
-
-let prevScrollProp = window.pageYOffset;
-export const Home = () => {
-  const account = useAppSelector(state => state.authentication.account);
-
-  // return (
-  //   <Row>
-  //     <Col md="3" className="pad">
-  //       <span className="hipster rounded" />
-  //     </Col>
-  //     <Col md="9">
-  //       <h2>
-  //         <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
-  //       </h2>
-  //       <p className="lead">
-  //         <Translate contentKey="home.subtitle">This is your homepage</Translate>
-  //       </p>
-  //       {account && account.login ? (
-  //         <div>
-  //           <Alert color="success">
-  //             <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
-  //               You are logged in as user {account.login}.
-  //             </Translate>
-  //           </Alert>
-  //         </div>
-  //       ) : (
-  //         <div>
-  //           <Alert color="warning">
-  //             <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
-  //
-  //             <Link to="/login" className="alert-link">
-  //               <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
-  //             </Link>
-  //             <Translate contentKey="global.messages.info.authenticated.suffix">
-  //               , you can try the default accounts:
-  //               <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-  //               <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-  //             </Translate>
-  //           </Alert>
-  //
-  //           <Alert color="warning">
-  //             <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
-  //             <Link to="/account/register" className="alert-link">
-  //               <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
-  //             </Link>
-  //           </Alert>
-  //         </div>
-  //       )}
-  //       <p>
-  //         <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
-  //       </p>
-  //
-  //       <ul>
-  //         <li>
-  //           <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-  //             <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-  //             <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-  //             <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-  //             <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
-  //             <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate>
-  //           </a>
-  //         </li>
-  //       </ul>
-  //
-  //       <p>
-  //         <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-  //         <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-  //           GitHub
-  //         </a>
-  //         !
-  //       </p>
-  //     </Col>
-  //   </Row>
-  // );
-  const homeRightRef = useRef(null);
-  useEffect(() => {
-    window.onscroll = () => {
-      const currentScrollProp = window.pageYOffset;
-      log('c' + currentScrollProp);
-      log('p' + prevScrollProp);
-      if (currentScrollProp > prevScrollProp) {
-        // homeRightRef.current.style.visibility  = "hidden";
-
-        homeRightRef.current.style.height = '0px';
-      } else {
-        // homeRightRef.current.style.visibility = "visible";
-        homeRightRef.current.style.height = '150px';
-      }
-      // homeRightRef.current.style.display  = "none";
-      prevScrollProp = currentScrollProp;
-    };
-  }, []);
-
-  const log = x => window.console.log(x);
-
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const toggle = () => setTooltipOpen(!tooltipOpen);
-
+export const Home = () =>
+{
   return (
     <div>
-      <Demo/>
+      <div className='main-content right-chat-active'>
+        <div className='middle-sidebar-bottom'>
+          <div className='middle-sidebar-left'>
+            <div className='row feed-body'>
+              <div className='col-xl-8 col-xxl-9 col-lg-8'>
+                <StorySlider />
+                <CreatePost />
+                <PostView id='32' postvideo='' postimage='post.png' avater='user.png' user='Surfiya Zakir' time='22 min ago'
+                          des='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus.' />
+                <PostView id='31' postvideo='' postimage='post.png' avater='user.png' user='David Goria' time='22 min ago'
+                          des='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus.' />
+                <PostView id='33' postvideo='' postimage='post.png' avater='user.png' user='Anthony Daugloi' time='2 hour ago'
+                          des='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus.' />
+                <MemberSlider />
+                <PostView id='35' postvideo='' postimage='post.png' avater='user.png' user='Victor Exrixon' time='3 hour ago'
+                          des='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus.' />
+                <FriendSilder />
+                <PostView id='36' postvideo='' postimage='post.png' avater='user.png' user='Victor Exrixon' time='12 hour ago'
+                          des='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus.' />
+                <Load />
+              </div>
+              <div className='col-xl-4 col-xxl-3 col-lg-4 ps-lg-0'>
+                <Friends />
+                <Contacts />
+                <Group />
+                <Events />
+                <ProfilePhoto />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

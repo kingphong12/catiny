@@ -161,8 +161,9 @@ const Livestream = (props: RouteComponentProps<{ id: string }>) =>
       const dataTemp = prevDataQueue.get(lastSequenceNumberAdded);
       if (sourceBuffer.updating)
         break;
-      sourceBuffer.appendBuffer(new Uint8Array(dataTemp));
+      sourceBuffer.appendBuffer(dataTemp);
       prevDataQueue.delete(lastSequenceNumberAdded);
+
     }
     sequenceDataQueue.set(livestreamId,
       {

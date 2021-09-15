@@ -346,6 +346,7 @@ dependencies {
   implementation "com.squareup:javapoet:${javapoestVersion}"
   implementation "io.github.classgraph:classgraph:${classGraphVersion}"
   implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+  implementation "com.github.javadev:underscore:1.69"
 //  implementation "org.springframework.experimental:spring-native:0.10.2"
 
 //  implementation "com.speedment.jpastreamer:jpastreamer-core:1.0.2"

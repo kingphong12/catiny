@@ -1,15 +1,17 @@
 #!/usr/bin/env groovy
 
-node {
-  stage('checkout') {checkout scm}
-
+node
+{
+  currentBranch = scm.branches[0].name
   currentFolder = sh(script: 'pwd', , returnStdout: true).trim()
   timeSleepingBeforePrintLog = 120
   timeSleepingWaitMariadbReady = 120
 
+  stage('checkout') {checkout scm}
+
   stage('check')
   {
-    echo scm.branches[0].name
+
 
     parallel(
       'java' :
@@ -75,34 +77,34 @@ node {
 
   stage('deploy')
   {
-    parallel(
-      'dev' :
-      {
-        try
-    		{
-    			sh 'docker inspect docker_catiny-dev-mariadb_1'
-    // 			sh 'docker inspect docker_catiny-dev-ffmpeg_1'
-    			sh 'docker inspect docker_catiny-dev-redis_1'
-    			sh 'docker inspect docker_catiny-dev-elasticsearch_1'
-    // 			sh 'docker inspect docker_catiny-dev-kibana_1'
-    			sh 'docker inspect docker_catiny-dev-kafka_1'
-    			sh 'docker inspect docker_catiny-dev-zookeeper_1'
-    			sh 'docker inspect docker_catiny-dev-jhipster-registry_1'
-    		}
-    		catch (ignored)
-    		{
-    		  echo 'the necessary services (dev) are not running . try start it'
-    			sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml up -d"
-    			echo 'Sleep for ${timeSleepingWaitMariadbReady} seconds to wait for the mariadb to be ready'
-    			sleep(timeSleepingWaitMariadbReady)
-    		}
-
-        sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml down catiny-dev-app"
-        sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml up -d catiny-dev-app"
-        sleep(timeSleepingBeforePrintLog)
-        sh "docker logs docker_catiny-dev-app_1"
-      },
-      'prod' :
+    def stageParallel = [:]
+    stageParallel["dev"] =
+    {
+      try
+  		{
+  			sh 'docker inspect docker_catiny-dev-mariadb_1'
+  // 			sh 'docker inspect docker_catiny-dev-ffmpeg_1'
+  			sh 'docker inspect docker_catiny-dev-redis_1'
+  			sh 'docker inspect docker_catiny-dev-elasticsearch_1'
+  // 			sh 'docker inspect docker_catiny-dev-kibana_1'
+  			sh 'docker inspect docker_catiny-dev-kafka_1'
+  			sh 'docker inspect docker_catiny-dev-zookeeper_1'
+  			sh 'docker inspect docker_catiny-dev-jhipster-registry_1'
+  		}
+  		catch (ignored)
+  		{
+  		  echo 'the necessary services (dev) are not running . try start it'
+  			sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml up -d"
+  			echo 'Sleep for ${timeSleepingWaitMariadbReady} seconds to wait for the mariadb to be ready'
+  			sleep(timeSleepingWaitMariadbReady)
+  		}
+      sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml down catiny-dev-app"
+      sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml up -d catiny-dev-app"
+      sleep(timeSleepingBeforePrintLog)
+      sh "docker logs docker_catiny-dev-app_1"
+    }
+    if (currentBranch.equals("master"))
+      stageParallel["prod"] =
       {
         try
       	{
@@ -127,7 +129,7 @@ node {
         sleep(timeSleepingBeforePrintLog)
         sh "docker logs docker_catiny-app_1"
       }
-    )
+    parallel(stageParallel)
   }
 
   stage('publish and quality analysis ')

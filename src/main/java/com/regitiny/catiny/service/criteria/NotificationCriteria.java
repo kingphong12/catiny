@@ -56,6 +56,8 @@ public class NotificationCriteria implements Serializable, Criteria {
 
   private LongFilter infoId;
 
+  private Boolean distinct;
+
   public NotificationCriteria() {}
 
   public NotificationCriteria(NotificationCriteria other) {
@@ -64,6 +66,7 @@ public class NotificationCriteria implements Serializable, Criteria {
     this.notifyType = other.notifyType == null ? null : other.notifyType.copy();
     this.title = other.title == null ? null : other.title.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -146,6 +149,14 @@ public class NotificationCriteria implements Serializable, Criteria {
     this.infoId = infoId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -160,13 +171,14 @@ public class NotificationCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(notifyType, that.notifyType) &&
       Objects.equals(title, that.title) &&
-      Objects.equals(infoId, that.infoId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, notifyType, title, infoId);
+    return Objects.hash(id, uuid, notifyType, title, infoId, distinct);
   }
 
   // prettier-ignore
@@ -178,6 +190,7 @@ public class NotificationCriteria implements Serializable, Criteria {
             (notifyType != null ? "notifyType=" + notifyType + ", " : "") +
             (title != null ? "title=" + title + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

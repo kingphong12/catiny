@@ -5,7 +5,6 @@ import 'app/config/dayjs.ts';
 import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import {toast, ToastContainer} from 'react-toastify';
-import {hot} from 'react-hot-loader';
 
 import {useAppDispatch, useAppSelector} from 'app/config/store';
 import {getSession} from 'app/shared/reducers/authentication';
@@ -74,4 +73,4 @@ export const App = () =>
   );
 };
 
-export default hot(module)(App);
+export default App;

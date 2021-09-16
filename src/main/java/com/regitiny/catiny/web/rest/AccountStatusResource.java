@@ -128,7 +128,7 @@ public class AccountStatusResource {
    * or with status {@code 500 (Internal Server Error)} if the accountStatusDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/account-statuses/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/account-statuses/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<AccountStatusDTO> partialUpdateAccountStatus(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody AccountStatusDTO accountStatusDTO

@@ -91,6 +91,8 @@ public class PostCriteria implements Serializable, Criteria {
 
   private LongFilter topicInterestId;
 
+  private Boolean distinct;
+
   public PostCriteria() {}
 
   public PostCriteria(PostCriteria other) {
@@ -107,6 +109,7 @@ public class PostCriteria implements Serializable, Criteria {
     this.parentId = other.parentId == null ? null : other.parentId.copy();
     this.newsFeedId = other.newsFeedId == null ? null : other.newsFeedId.copy();
     this.topicInterestId = other.topicInterestId == null ? null : other.topicInterestId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -309,6 +312,14 @@ public class PostCriteria implements Serializable, Criteria {
     this.topicInterestId = topicInterestId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -331,7 +342,8 @@ public class PostCriteria implements Serializable, Criteria {
       Objects.equals(pageId, that.pageId) &&
       Objects.equals(parentId, that.parentId) &&
       Objects.equals(newsFeedId, that.newsFeedId) &&
-      Objects.equals(topicInterestId, that.topicInterestId)
+      Objects.equals(topicInterestId, that.topicInterestId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
@@ -350,7 +362,8 @@ public class PostCriteria implements Serializable, Criteria {
       pageId,
       parentId,
       newsFeedId,
-      topicInterestId
+      topicInterestId,
+      distinct
     );
   }
 
@@ -371,6 +384,7 @@ public class PostCriteria implements Serializable, Criteria {
             (parentId != null ? "parentId=" + parentId + ", " : "") +
             (newsFeedId != null ? "newsFeedId=" + newsFeedId + ", " : "") +
             (topicInterestId != null ? "topicInterestId=" + topicInterestId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

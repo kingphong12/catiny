@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The PagePost entity.\n@why?             ->\n@use-to           -> Lưu các Trang người dùng tạo ra\n@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\n\n@describe         ->
@@ -28,6 +27,7 @@ public class PagePost implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -88,17 +88,18 @@ public class PagePost implements Serializable {
   private Set<TopicInterest> topicInterests = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public PagePost id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public PagePost id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -106,7 +107,7 @@ public class PagePost implements Serializable {
   }
 
   public PagePost uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -119,7 +120,7 @@ public class PagePost implements Serializable {
   }
 
   public PagePost name(String name) {
-    this.name = name;
+    this.setName(name);
     return this;
   }
 
@@ -132,7 +133,7 @@ public class PagePost implements Serializable {
   }
 
   public PagePost avatar(String avatar) {
-    this.avatar = avatar;
+    this.setAvatar(avatar);
     return this;
   }
 
@@ -145,7 +146,7 @@ public class PagePost implements Serializable {
   }
 
   public PagePost quickInfo(String quickInfo) {
-    this.quickInfo = quickInfo;
+    this.setQuickInfo(quickInfo);
     return this;
   }
 
@@ -157,17 +158,21 @@ public class PagePost implements Serializable {
     return this.profile;
   }
 
+  public void setProfile(PageProfile pageProfile) {
+    this.profile = pageProfile;
+  }
+
   public PagePost profile(PageProfile pageProfile) {
     this.setProfile(pageProfile);
     return this;
   }
 
-  public void setProfile(PageProfile pageProfile) {
-    this.profile = pageProfile;
-  }
-
   public BaseInfo getInfo() {
     return this.info;
+  }
+
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public PagePost info(BaseInfo baseInfo) {
@@ -175,12 +180,18 @@ public class PagePost implements Serializable {
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<Post> getPosts() {
     return this.posts;
+  }
+
+  public void setPosts(Set<Post> posts) {
+    if (this.posts != null) {
+      this.posts.forEach(i -> i.setPage(null));
+    }
+    if (posts != null) {
+      posts.forEach(i -> i.setPage(this));
+    }
+    this.posts = posts;
   }
 
   public PagePost posts(Set<Post> posts) {
@@ -200,18 +211,18 @@ public class PagePost implements Serializable {
     return this;
   }
 
-  public void setPosts(Set<Post> posts) {
-    if (this.posts != null) {
-      this.posts.forEach(i -> i.setPage(null));
-    }
-    if (posts != null) {
-      posts.forEach(i -> i.setPage(this));
-    }
-    this.posts = posts;
-  }
-
   public Set<FollowPage> getFolloweds() {
     return this.followeds;
+  }
+
+  public void setFolloweds(Set<FollowPage> followPages) {
+    if (this.followeds != null) {
+      this.followeds.forEach(i -> i.setPageDetails(null));
+    }
+    if (followPages != null) {
+      followPages.forEach(i -> i.setPageDetails(this));
+    }
+    this.followeds = followPages;
   }
 
   public PagePost followeds(Set<FollowPage> followPages) {
@@ -231,18 +242,18 @@ public class PagePost implements Serializable {
     return this;
   }
 
-  public void setFolloweds(Set<FollowPage> followPages) {
-    if (this.followeds != null) {
-      this.followeds.forEach(i -> i.setPageDetails(null));
-    }
-    if (followPages != null) {
-      followPages.forEach(i -> i.setPageDetails(this));
-    }
-    this.followeds = followPages;
-  }
-
   public Set<TopicInterest> getTopicInterests() {
     return this.topicInterests;
+  }
+
+  public void setTopicInterests(Set<TopicInterest> topicInterests) {
+    if (this.topicInterests != null) {
+      this.topicInterests.forEach(i -> i.removePagePost(this));
+    }
+    if (topicInterests != null) {
+      topicInterests.forEach(i -> i.addPagePost(this));
+    }
+    this.topicInterests = topicInterests;
   }
 
   public PagePost topicInterests(Set<TopicInterest> topicInterests) {
@@ -260,16 +271,6 @@ public class PagePost implements Serializable {
     this.topicInterests.remove(topicInterest);
     topicInterest.getPagePosts().remove(this);
     return this;
-  }
-
-  public void setTopicInterests(Set<TopicInterest> topicInterests) {
-    if (this.topicInterests != null) {
-      this.topicInterests.forEach(i -> i.removePagePost(this));
-    }
-    if (topicInterests != null) {
-      topicInterests.forEach(i -> i.addPagePost(this));
-    }
-    this.topicInterests = topicInterests;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

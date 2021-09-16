@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The NewsFeed entity.\n@why?             -> người dùng mà xem trực tiếp các Post thì một số bài đăng sẽ không phù hợp dễ gây chán khi xem\n@use-to           -> Ở đây chứa thông tin của những Post hiển thị cho người dùng xem\n@commonly-used-in -> Được sử dụng trong phần hiển thị các bài đăng trên news feed\n\n@describe         -> trong phần bản tin thay vì hiển thị trực tiếp các Post cho người dùng xem\nta sẽ tính toán độ phù hợp và add vào bảng này sau đó cho người dùng xem
@@ -26,6 +25,7 @@ public class NewsFeed implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -55,17 +55,18 @@ public class NewsFeed implements Serializable {
   private Post post;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public NewsFeed id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public NewsFeed id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -73,7 +74,7 @@ public class NewsFeed implements Serializable {
   }
 
   public NewsFeed uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -86,7 +87,7 @@ public class NewsFeed implements Serializable {
   }
 
   public NewsFeed priorityIndex(Long priorityIndex) {
-    this.priorityIndex = priorityIndex;
+    this.setPriorityIndex(priorityIndex);
     return this;
   }
 
@@ -98,26 +99,26 @@ public class NewsFeed implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public NewsFeed info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   public Post getPost() {
     return this.post;
   }
 
+  public void setPost(Post post) {
+    this.post = post;
+  }
+
   public NewsFeed post(Post post) {
     this.setPost(post);
     return this;
-  }
-
-  public void setPost(Post post) {
-    this.post = post;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

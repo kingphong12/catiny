@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A Permission.
@@ -26,6 +25,7 @@ public class Permission implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -81,17 +81,18 @@ public class Permission implements Serializable {
   private MasterUser owner;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Permission id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Permission id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -99,7 +100,7 @@ public class Permission implements Serializable {
   }
 
   public Permission uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -112,7 +113,7 @@ public class Permission implements Serializable {
   }
 
   public Permission read(Boolean read) {
-    this.read = read;
+    this.setRead(read);
     return this;
   }
 
@@ -125,7 +126,7 @@ public class Permission implements Serializable {
   }
 
   public Permission write(Boolean write) {
-    this.write = write;
+    this.setWrite(write);
     return this;
   }
 
@@ -138,7 +139,7 @@ public class Permission implements Serializable {
   }
 
   public Permission share(Boolean share) {
-    this.share = share;
+    this.setShare(share);
     return this;
   }
 
@@ -151,7 +152,7 @@ public class Permission implements Serializable {
   }
 
   public Permission delete(Boolean delete) {
-    this.delete = delete;
+    this.setDelete(delete);
     return this;
   }
 
@@ -164,7 +165,7 @@ public class Permission implements Serializable {
   }
 
   public Permission add(Boolean add) {
-    this.add = add;
+    this.setAdd(add);
     return this;
   }
 
@@ -177,7 +178,7 @@ public class Permission implements Serializable {
   }
 
   public Permission level(Integer level) {
-    this.level = level;
+    this.setLevel(level);
     return this;
   }
 
@@ -189,26 +190,26 @@ public class Permission implements Serializable {
     return this.baseInfo;
   }
 
+  public void setBaseInfo(BaseInfo baseInfo) {
+    this.baseInfo = baseInfo;
+  }
+
   public Permission baseInfo(BaseInfo baseInfo) {
     this.setBaseInfo(baseInfo);
     return this;
-  }
-
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
   }
 
   public MasterUser getOwner() {
     return this.owner;
   }
 
+  public void setOwner(MasterUser masterUser) {
+    this.owner = masterUser;
+  }
+
   public Permission owner(MasterUser masterUser) {
     this.setOwner(masterUser);
     return this;
-  }
-
-  public void setOwner(MasterUser masterUser) {
-    this.owner = masterUser;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -35,6 +35,8 @@ public class FollowUserCriteria implements Serializable, Criteria {
 
   private LongFilter followId;
 
+  private Boolean distinct;
+
   public FollowUserCriteria() {}
 
   public FollowUserCriteria(FollowUserCriteria other) {
@@ -42,6 +44,7 @@ public class FollowUserCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.followId = other.followId == null ? null : other.followId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -109,6 +112,14 @@ public class FollowUserCriteria implements Serializable, Criteria {
     this.followId = followId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -122,13 +133,14 @@ public class FollowUserCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(followId, that.followId)
+      Objects.equals(followId, that.followId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId, followId);
+    return Objects.hash(id, uuid, infoId, followId, distinct);
   }
 
   // prettier-ignore
@@ -139,6 +151,7 @@ public class FollowUserCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (followId != null ? "followId=" + followId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

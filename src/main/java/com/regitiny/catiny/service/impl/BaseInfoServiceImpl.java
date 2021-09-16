@@ -59,21 +59,17 @@ public class BaseInfoServiceImpl implements BaseInfoService {
 
     return baseInfoRepository
       .findById(baseInfoDTO.getId())
-      .map(
-        existingBaseInfo -> {
-          baseInfoMapper.partialUpdate(existingBaseInfo, baseInfoDTO);
+      .map(existingBaseInfo -> {
+        baseInfoMapper.partialUpdate(existingBaseInfo, baseInfoDTO);
 
-          return existingBaseInfo;
-        }
-      )
+        return existingBaseInfo;
+      })
       .map(baseInfoRepository::save)
-      .map(
-        savedBaseInfo -> {
-          baseInfoSearchRepository.save(savedBaseInfo);
+      .map(savedBaseInfo -> {
+        baseInfoSearchRepository.save(savedBaseInfo);
 
-          return savedBaseInfo;
-        }
-      )
+        return savedBaseInfo;
+      })
       .map(baseInfoMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class BaseInfoServiceImpl implements BaseInfoService {
   @Transactional(readOnly = true)
   public Page<BaseInfoDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of BaseInfos for query {}", query);
-    return baseInfoSearchRepository.search(queryStringQuery(query), pageable).map(baseInfoMapper::toDto);
+    return baseInfoSearchRepository.search(query, pageable).map(baseInfoMapper::toDto);
   }
 }

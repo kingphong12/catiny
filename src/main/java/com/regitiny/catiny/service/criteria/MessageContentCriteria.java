@@ -37,6 +37,8 @@ public class MessageContentCriteria implements Serializable, Criteria {
 
   private LongFilter groupId;
 
+  private Boolean distinct;
+
   public MessageContentCriteria() {}
 
   public MessageContentCriteria(MessageContentCriteria other) {
@@ -45,6 +47,7 @@ public class MessageContentCriteria implements Serializable, Criteria {
     this.senderName = other.senderName == null ? null : other.senderName.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.groupId = other.groupId == null ? null : other.groupId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -127,6 +130,14 @@ public class MessageContentCriteria implements Serializable, Criteria {
     this.groupId = groupId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -141,13 +152,14 @@ public class MessageContentCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(senderName, that.senderName) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(groupId, that.groupId)
+      Objects.equals(groupId, that.groupId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, senderName, infoId, groupId);
+    return Objects.hash(id, uuid, senderName, infoId, groupId, distinct);
   }
 
   // prettier-ignore
@@ -159,6 +171,7 @@ public class MessageContentCriteria implements Serializable, Criteria {
             (senderName != null ? "senderName=" + senderName + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (groupId != null ? "groupId=" + groupId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

@@ -123,7 +123,7 @@ public class VideoResource {
    * or with status {@code 500 (Internal Server Error)} if the videoDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/videos/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/videos/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<VideoDTO> partialUpdateVideo(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody VideoDTO videoDTO

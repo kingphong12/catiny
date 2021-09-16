@@ -19,7 +19,6 @@ export const initialState = {
   errorMessage: null as unknown as string, // Errors returned from server side
   redirectMessage: null as unknown as string,
   sessionHasBeenFetched: false,
-  idToken: null as unknown as string,
   logoutUrl: null as unknown as string,
   masterUser: masterUserDefaultValue as IMasterUser,
 };

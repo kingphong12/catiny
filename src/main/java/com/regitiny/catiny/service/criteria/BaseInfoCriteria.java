@@ -77,6 +77,8 @@ public class BaseInfoCriteria implements Serializable, Criteria {
 
   private LongFilter permissionId;
 
+  private Boolean distinct;
+
   public BaseInfoCriteria() {}
 
   public BaseInfoCriteria(BaseInfoCriteria other) {
@@ -95,6 +97,7 @@ public class BaseInfoCriteria implements Serializable, Criteria {
     this.ownerId = other.ownerId == null ? null : other.ownerId.copy();
     this.classInfoId = other.classInfoId == null ? null : other.classInfoId.copy();
     this.permissionId = other.permissionId == null ? null : other.permissionId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -327,6 +330,14 @@ public class BaseInfoCriteria implements Serializable, Criteria {
     this.permissionId = permissionId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -351,7 +362,8 @@ public class BaseInfoCriteria implements Serializable, Criteria {
       Objects.equals(modifiedById, that.modifiedById) &&
       Objects.equals(ownerId, that.ownerId) &&
       Objects.equals(classInfoId, that.classInfoId) &&
-      Objects.equals(permissionId, that.permissionId)
+      Objects.equals(permissionId, that.permissionId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
@@ -372,7 +384,8 @@ public class BaseInfoCriteria implements Serializable, Criteria {
       modifiedById,
       ownerId,
       classInfoId,
-      permissionId
+      permissionId,
+      distinct
     );
   }
 
@@ -395,6 +408,7 @@ public class BaseInfoCriteria implements Serializable, Criteria {
             (ownerId != null ? "ownerId=" + ownerId + ", " : "") +
             (classInfoId != null ? "classInfoId=" + classInfoId + ", " : "") +
             (permissionId != null ? "permissionId=" + permissionId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

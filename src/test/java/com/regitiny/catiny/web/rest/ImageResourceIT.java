@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -1039,7 +1038,14 @@ class ImageResourceIT {
   void getAllImagesByFileInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    FileInfo fileInfo = FileInfoResourceIT.createEntity(em);
+    FileInfo fileInfo;
+    if (TestUtil.findAll(em, FileInfo.class).isEmpty()) {
+      fileInfo = FileInfoResourceIT.createEntity(em);
+      em.persist(fileInfo);
+      em.flush();
+    } else {
+      fileInfo = TestUtil.findAll(em, FileInfo.class).get(0);
+    }
     em.persist(fileInfo);
     em.flush();
     image.setFileInfo(fileInfo);
@@ -1058,7 +1064,14 @@ class ImageResourceIT {
   void getAllImagesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     image.setInfo(info);
@@ -1077,7 +1090,14 @@ class ImageResourceIT {
   void getAllImagesByProcessedIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    Image processed = ImageResourceIT.createEntity(em);
+    Image processed;
+    if (TestUtil.findAll(em, Image.class).isEmpty()) {
+      processed = ImageResourceIT.createEntity(em);
+      em.persist(processed);
+      em.flush();
+    } else {
+      processed = TestUtil.findAll(em, Image.class).get(0);
+    }
     em.persist(processed);
     em.flush();
     image.addProcessed(processed);
@@ -1096,7 +1116,14 @@ class ImageResourceIT {
   void getAllImagesByOriginalIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    Image original = ImageResourceIT.createEntity(em);
+    Image original;
+    if (TestUtil.findAll(em, Image.class).isEmpty()) {
+      original = ImageResourceIT.createEntity(em);
+      em.persist(original);
+      em.flush();
+    } else {
+      original = TestUtil.findAll(em, Image.class).get(0);
+    }
     em.persist(original);
     em.flush();
     image.setOriginal(original);
@@ -1115,7 +1142,14 @@ class ImageResourceIT {
   void getAllImagesByAlbumIsEqualToSomething() throws Exception {
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    Album album = AlbumResourceIT.createEntity(em);
+    Album album;
+    if (TestUtil.findAll(em, Album.class).isEmpty()) {
+      album = AlbumResourceIT.createEntity(em);
+      em.persist(album);
+      em.flush();
+    } else {
+      album = TestUtil.findAll(em, Album.class).get(0);
+    }
     em.persist(album);
     em.flush();
     image.addAlbum(album);
@@ -1488,7 +1522,7 @@ class ImageResourceIT {
     // Configure the mock search repository
     // Initialize the database
     imageRepository.saveAndFlush(image);
-    when(mockImageSearchRepository.search(queryStringQuery("id:" + image.getId()), PageRequest.of(0, 20)))
+    when(mockImageSearchRepository.search("id:" + image.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(image), PageRequest.of(0, 1), 1));
 
     // Search the image

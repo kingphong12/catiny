@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -272,7 +271,14 @@ class PostLikeResourceIT {
   void getAllPostLikesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     postLikeRepository.saveAndFlush(postLike);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     postLike.setInfo(info);
@@ -291,7 +297,14 @@ class PostLikeResourceIT {
   void getAllPostLikesByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     postLikeRepository.saveAndFlush(postLike);
-    Post post = PostResourceIT.createEntity(em);
+    Post post;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      post = PostResourceIT.createEntity(em);
+      em.persist(post);
+      em.flush();
+    } else {
+      post = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(post);
     em.flush();
     postLike.setPost(post);
@@ -310,7 +323,14 @@ class PostLikeResourceIT {
   void getAllPostLikesByCommentIsEqualToSomething() throws Exception {
     // Initialize the database
     postLikeRepository.saveAndFlush(postLike);
-    PostComment comment = PostCommentResourceIT.createEntity(em);
+    PostComment comment;
+    if (TestUtil.findAll(em, PostComment.class).isEmpty()) {
+      comment = PostCommentResourceIT.createEntity(em);
+      em.persist(comment);
+      em.flush();
+    } else {
+      comment = TestUtil.findAll(em, PostComment.class).get(0);
+    }
     em.persist(comment);
     em.flush();
     postLike.setComment(comment);
@@ -635,7 +655,7 @@ class PostLikeResourceIT {
     // Configure the mock search repository
     // Initialize the database
     postLikeRepository.saveAndFlush(postLike);
-    when(mockPostLikeSearchRepository.search(queryStringQuery("id:" + postLike.getId()), PageRequest.of(0, 20)))
+    when(mockPostLikeSearchRepository.search("id:" + postLike.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(postLike), PageRequest.of(0, 1), 1));
 
     // Search the postLike

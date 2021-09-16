@@ -30,6 +30,8 @@ export const HealthPage = () => {
     setHealthObject({ ...healthObj, name });
   };
 
+  const getBadgeType = (status: string) => (status !== 'UP' ? 'danger' : 'success');
+
   const handleClose = () => setShowModal(false);
 
   const renderModal = () => <HealthModal healthObject={healthObject} handleClose={handleClose} showModal={showModal} />;
@@ -54,30 +56,30 @@ export const HealthPage = () => {
         <Col md="12">
           <Table bordered aria-describedby="health-page-heading">
             <thead>
-            <tr>
-              <th>Service Name</th>
-              <th>Status</th>
-              <th>Details</th>
-            </tr>
+              <tr>
+                <th>Service Name</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
             </thead>
             <tbody>
-            {Object.keys(data).map((configPropKey, configPropIndex) =>
-              configPropKey !== 'status' ? (
-                <tr key={configPropIndex}>
-                  <td>{configPropKey}</td>
-                  <td>
-                    <Badge color={data[configPropKey].status !== 'UP' ? 'danger' : 'success'}>{data[configPropKey].status}</Badge>
-                  </td>
-                  <td>
-                    {data[configPropKey].details ? (
-                      <a onClick={getSystemHealthInfo(configPropKey, data[configPropKey])}>
-                        <FontAwesomeIcon icon="eye" />
-                      </a>
-                    ) : null}
-                  </td>
-                </tr>
-              ) : null
-            )}
+              {Object.keys(data).map((configPropKey, configPropIndex) =>
+                configPropKey !== 'status' ? (
+                  <tr key={configPropIndex}>
+                    <td>{configPropKey}</td>
+                    <td>
+                      <Badge color={getBadgeType(data[configPropKey].status)}>{data[configPropKey].status}</Badge>
+                    </td>
+                    <td>
+                      {data[configPropKey].details ? (
+                        <a onClick={getSystemHealthInfo(configPropKey, data[configPropKey])}>
+                          <FontAwesomeIcon icon="eye" />
+                        </a>
+                      ) : null}
+                    </td>
+                  </tr>
+                ) : null
+              )}
             </tbody>
           </Table>
         </Col>

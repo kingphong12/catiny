@@ -59,21 +59,17 @@ public class PagePostServiceImpl implements PagePostService {
 
     return pagePostRepository
       .findById(pagePostDTO.getId())
-      .map(
-        existingPagePost -> {
-          pagePostMapper.partialUpdate(existingPagePost, pagePostDTO);
+      .map(existingPagePost -> {
+        pagePostMapper.partialUpdate(existingPagePost, pagePostDTO);
 
-          return existingPagePost;
-        }
-      )
+        return existingPagePost;
+      })
       .map(pagePostRepository::save)
-      .map(
-        savedPagePost -> {
-          pagePostSearchRepository.save(savedPagePost);
+      .map(savedPagePost -> {
+        pagePostSearchRepository.save(savedPagePost);
 
-          return savedPagePost;
-        }
-      )
+        return savedPagePost;
+      })
       .map(pagePostMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class PagePostServiceImpl implements PagePostService {
   @Transactional(readOnly = true)
   public Page<PagePostDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of PagePosts for query {}", query);
-    return pagePostSearchRepository.search(queryStringQuery(query), pageable).map(pagePostMapper::toDto);
+    return pagePostSearchRepository.search(query, pageable).map(pagePostMapper::toDto);
   }
 }

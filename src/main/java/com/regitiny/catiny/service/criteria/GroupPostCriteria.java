@@ -43,6 +43,8 @@ public class GroupPostCriteria implements Serializable, Criteria {
 
   private LongFilter topicInterestId;
 
+  private Boolean distinct;
+
   public GroupPostCriteria() {}
 
   public GroupPostCriteria(GroupPostCriteria other) {
@@ -54,6 +56,7 @@ public class GroupPostCriteria implements Serializable, Criteria {
     this.postId = other.postId == null ? null : other.postId.copy();
     this.followedId = other.followedId == null ? null : other.followedId.copy();
     this.topicInterestId = other.topicInterestId == null ? null : other.topicInterestId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -181,6 +184,14 @@ public class GroupPostCriteria implements Serializable, Criteria {
     this.topicInterestId = topicInterestId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -198,13 +209,14 @@ public class GroupPostCriteria implements Serializable, Criteria {
       Objects.equals(infoId, that.infoId) &&
       Objects.equals(postId, that.postId) &&
       Objects.equals(followedId, that.followedId) &&
-      Objects.equals(topicInterestId, that.topicInterestId)
+      Objects.equals(topicInterestId, that.topicInterestId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, name, profileId, infoId, postId, followedId, topicInterestId);
+    return Objects.hash(id, uuid, name, profileId, infoId, postId, followedId, topicInterestId, distinct);
   }
 
   // prettier-ignore
@@ -219,6 +231,7 @@ public class GroupPostCriteria implements Serializable, Criteria {
             (postId != null ? "postId=" + postId + ", " : "") +
             (followedId != null ? "followedId=" + followedId + ", " : "") +
             (topicInterestId != null ? "topicInterestId=" + topicInterestId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

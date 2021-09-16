@@ -35,6 +35,8 @@ public class FollowGroupCriteria implements Serializable, Criteria {
 
   private LongFilter groupDetailsId;
 
+  private Boolean distinct;
+
   public FollowGroupCriteria() {}
 
   public FollowGroupCriteria(FollowGroupCriteria other) {
@@ -42,6 +44,7 @@ public class FollowGroupCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.groupDetailsId = other.groupDetailsId == null ? null : other.groupDetailsId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -109,6 +112,14 @@ public class FollowGroupCriteria implements Serializable, Criteria {
     this.groupDetailsId = groupDetailsId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -122,13 +133,14 @@ public class FollowGroupCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(groupDetailsId, that.groupDetailsId)
+      Objects.equals(groupDetailsId, that.groupDetailsId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId, groupDetailsId);
+    return Objects.hash(id, uuid, infoId, groupDetailsId, distinct);
   }
 
   // prettier-ignore
@@ -139,6 +151,7 @@ public class FollowGroupCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (groupDetailsId != null ? "groupDetailsId=" + groupDetailsId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

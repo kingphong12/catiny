@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The RankUser entity.\n@why?             ->\n@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\n@commonly-used-in -> thường thấy trong phần\n\n@describe         ->
@@ -26,6 +25,7 @@ public class RankUser implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -53,17 +53,18 @@ public class RankUser implements Serializable {
   private MasterUser owner;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public RankUser id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public RankUser id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -71,7 +72,7 @@ public class RankUser implements Serializable {
   }
 
   public RankUser uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -84,7 +85,7 @@ public class RankUser implements Serializable {
   }
 
   public RankUser ratingPoints(Float ratingPoints) {
-    this.ratingPoints = ratingPoints;
+    this.setRatingPoints(ratingPoints);
     return this;
   }
 
@@ -96,17 +97,21 @@ public class RankUser implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public RankUser info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public RankGroup getRankGroup() {
     return this.rankGroup;
+  }
+
+  public void setRankGroup(RankGroup rankGroup) {
+    this.rankGroup = rankGroup;
   }
 
   public RankUser rankGroup(RankGroup rankGroup) {
@@ -114,17 +119,8 @@ public class RankUser implements Serializable {
     return this;
   }
 
-  public void setRankGroup(RankGroup rankGroup) {
-    this.rankGroup = rankGroup;
-  }
-
   public MasterUser getOwner() {
     return this.owner;
-  }
-
-  public RankUser owner(MasterUser masterUser) {
-    this.setOwner(masterUser);
-    return this;
   }
 
   public void setOwner(MasterUser masterUser) {
@@ -135,6 +131,11 @@ public class RankUser implements Serializable {
       masterUser.setMyRank(this);
     }
     this.owner = masterUser;
+  }
+
+  public RankUser owner(MasterUser masterUser) {
+    this.setOwner(masterUser);
+    return this;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

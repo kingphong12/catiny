@@ -59,21 +59,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     return userProfileRepository
       .findById(userProfileDTO.getId())
-      .map(
-        existingUserProfile -> {
-          userProfileMapper.partialUpdate(existingUserProfile, userProfileDTO);
+      .map(existingUserProfile -> {
+        userProfileMapper.partialUpdate(existingUserProfile, userProfileDTO);
 
-          return existingUserProfile;
-        }
-      )
+        return existingUserProfile;
+      })
       .map(userProfileRepository::save)
-      .map(
-        savedUserProfile -> {
-          userProfileSearchRepository.save(savedUserProfile);
+      .map(savedUserProfile -> {
+        userProfileSearchRepository.save(savedUserProfile);
 
-          return savedUserProfile;
-        }
-      )
+        return savedUserProfile;
+      })
       .map(userProfileMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class UserProfileServiceImpl implements UserProfileService {
   @Transactional(readOnly = true)
   public Page<UserProfileDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of UserProfiles for query {}", query);
-    return userProfileSearchRepository.search(queryStringQuery(query), pageable).map(userProfileMapper::toDto);
+    return userProfileSearchRepository.search(query, pageable).map(userProfileMapper::toDto);
   }
 }

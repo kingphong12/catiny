@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The GroupPost entity\n@why?             -> mọi người cần tạo ra một nhóm riêng hoặc chung để có thể trao đổi\n@use-to           -> quản lý nhóm\n@commonly-used-in -> các nhóm\n\n@describe         ->
@@ -28,6 +27,7 @@ public class GroupPost implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -88,17 +88,18 @@ public class GroupPost implements Serializable {
   private Set<TopicInterest> topicInterests = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public GroupPost id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public GroupPost id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -106,7 +107,7 @@ public class GroupPost implements Serializable {
   }
 
   public GroupPost uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -119,7 +120,7 @@ public class GroupPost implements Serializable {
   }
 
   public GroupPost name(String name) {
-    this.name = name;
+    this.setName(name);
     return this;
   }
 
@@ -132,7 +133,7 @@ public class GroupPost implements Serializable {
   }
 
   public GroupPost avatar(String avatar) {
-    this.avatar = avatar;
+    this.setAvatar(avatar);
     return this;
   }
 
@@ -145,7 +146,7 @@ public class GroupPost implements Serializable {
   }
 
   public GroupPost quickInfo(String quickInfo) {
-    this.quickInfo = quickInfo;
+    this.setQuickInfo(quickInfo);
     return this;
   }
 
@@ -157,17 +158,21 @@ public class GroupPost implements Serializable {
     return this.profile;
   }
 
+  public void setProfile(GroupProfile groupProfile) {
+    this.profile = groupProfile;
+  }
+
   public GroupPost profile(GroupProfile groupProfile) {
     this.setProfile(groupProfile);
     return this;
   }
 
-  public void setProfile(GroupProfile groupProfile) {
-    this.profile = groupProfile;
-  }
-
   public BaseInfo getInfo() {
     return this.info;
+  }
+
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public GroupPost info(BaseInfo baseInfo) {
@@ -175,12 +180,18 @@ public class GroupPost implements Serializable {
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<Post> getPosts() {
     return this.posts;
+  }
+
+  public void setPosts(Set<Post> posts) {
+    if (this.posts != null) {
+      this.posts.forEach(i -> i.setGroup(null));
+    }
+    if (posts != null) {
+      posts.forEach(i -> i.setGroup(this));
+    }
+    this.posts = posts;
   }
 
   public GroupPost posts(Set<Post> posts) {
@@ -200,18 +211,18 @@ public class GroupPost implements Serializable {
     return this;
   }
 
-  public void setPosts(Set<Post> posts) {
-    if (this.posts != null) {
-      this.posts.forEach(i -> i.setGroup(null));
-    }
-    if (posts != null) {
-      posts.forEach(i -> i.setGroup(this));
-    }
-    this.posts = posts;
-  }
-
   public Set<FollowGroup> getFolloweds() {
     return this.followeds;
+  }
+
+  public void setFolloweds(Set<FollowGroup> followGroups) {
+    if (this.followeds != null) {
+      this.followeds.forEach(i -> i.setGroupDetails(null));
+    }
+    if (followGroups != null) {
+      followGroups.forEach(i -> i.setGroupDetails(this));
+    }
+    this.followeds = followGroups;
   }
 
   public GroupPost followeds(Set<FollowGroup> followGroups) {
@@ -231,18 +242,18 @@ public class GroupPost implements Serializable {
     return this;
   }
 
-  public void setFolloweds(Set<FollowGroup> followGroups) {
-    if (this.followeds != null) {
-      this.followeds.forEach(i -> i.setGroupDetails(null));
-    }
-    if (followGroups != null) {
-      followGroups.forEach(i -> i.setGroupDetails(this));
-    }
-    this.followeds = followGroups;
-  }
-
   public Set<TopicInterest> getTopicInterests() {
     return this.topicInterests;
+  }
+
+  public void setTopicInterests(Set<TopicInterest> topicInterests) {
+    if (this.topicInterests != null) {
+      this.topicInterests.forEach(i -> i.removeGroupPost(this));
+    }
+    if (topicInterests != null) {
+      topicInterests.forEach(i -> i.addGroupPost(this));
+    }
+    this.topicInterests = topicInterests;
   }
 
   public GroupPost topicInterests(Set<TopicInterest> topicInterests) {
@@ -260,16 +271,6 @@ public class GroupPost implements Serializable {
     this.topicInterests.remove(topicInterest);
     topicInterest.getGroupPosts().remove(this);
     return this;
-  }
-
-  public void setTopicInterests(Set<TopicInterest> topicInterests) {
-    if (this.topicInterests != null) {
-      this.topicInterests.forEach(i -> i.removeGroupPost(this));
-    }
-    if (topicInterests != null) {
-      topicInterests.forEach(i -> i.addGroupPost(this));
-    }
-    this.topicInterests = topicInterests;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

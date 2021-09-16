@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The TopicInterest entity.\n@why?             ->\n@use-to           -> Lưu những chủ đề mà người dùng quan tâm\n@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\n\n@describe         ->
@@ -28,6 +27,7 @@ public class TopicInterest implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -51,12 +51,12 @@ public class TopicInterest implements Serializable {
   private BaseInfo info;
 
   @ManyToMany
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JoinTable(
     name = "rel_topic_interest__post",
     joinColumns = @JoinColumn(name = "topic_interest_id"),
     inverseJoinColumns = @JoinColumn(name = "post_id")
   )
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(
     value = { "info", "comments", "likes", "children", "group", "page", "parent", "newsFeeds", "topicInterests" },
     allowSetters = true
@@ -64,22 +64,22 @@ public class TopicInterest implements Serializable {
   private Set<Post> posts = new HashSet<>();
 
   @ManyToMany
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JoinTable(
     name = "rel_topic_interest__page_post",
     joinColumns = @JoinColumn(name = "topic_interest_id"),
     inverseJoinColumns = @JoinColumn(name = "page_post_id")
   )
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(value = { "profile", "info", "posts", "followeds", "topicInterests" }, allowSetters = true)
   private Set<PagePost> pagePosts = new HashSet<>();
 
   @ManyToMany
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JoinTable(
     name = "rel_topic_interest__group_post",
     joinColumns = @JoinColumn(name = "topic_interest_id"),
     inverseJoinColumns = @JoinColumn(name = "group_post_id")
   )
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(value = { "profile", "info", "posts", "followeds", "topicInterests" }, allowSetters = true)
   private Set<GroupPost> groupPosts = new HashSet<>();
 
@@ -89,17 +89,18 @@ public class TopicInterest implements Serializable {
   private Set<MasterUser> masterUsers = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public TopicInterest id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public TopicInterest id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -107,7 +108,7 @@ public class TopicInterest implements Serializable {
   }
 
   public TopicInterest uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -120,7 +121,7 @@ public class TopicInterest implements Serializable {
   }
 
   public TopicInterest title(String title) {
-    this.title = title;
+    this.setTitle(title);
     return this;
   }
 
@@ -133,7 +134,7 @@ public class TopicInterest implements Serializable {
   }
 
   public TopicInterest content(String content) {
-    this.content = content;
+    this.setContent(content);
     return this;
   }
 
@@ -145,17 +146,21 @@ public class TopicInterest implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public TopicInterest info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<Post> getPosts() {
     return this.posts;
+  }
+
+  public void setPosts(Set<Post> posts) {
+    this.posts = posts;
   }
 
   public TopicInterest posts(Set<Post> posts) {
@@ -175,12 +180,12 @@ public class TopicInterest implements Serializable {
     return this;
   }
 
-  public void setPosts(Set<Post> posts) {
-    this.posts = posts;
-  }
-
   public Set<PagePost> getPagePosts() {
     return this.pagePosts;
+  }
+
+  public void setPagePosts(Set<PagePost> pagePosts) {
+    this.pagePosts = pagePosts;
   }
 
   public TopicInterest pagePosts(Set<PagePost> pagePosts) {
@@ -200,12 +205,12 @@ public class TopicInterest implements Serializable {
     return this;
   }
 
-  public void setPagePosts(Set<PagePost> pagePosts) {
-    this.pagePosts = pagePosts;
-  }
-
   public Set<GroupPost> getGroupPosts() {
     return this.groupPosts;
+  }
+
+  public void setGroupPosts(Set<GroupPost> groupPosts) {
+    this.groupPosts = groupPosts;
   }
 
   public TopicInterest groupPosts(Set<GroupPost> groupPosts) {
@@ -225,12 +230,18 @@ public class TopicInterest implements Serializable {
     return this;
   }
 
-  public void setGroupPosts(Set<GroupPost> groupPosts) {
-    this.groupPosts = groupPosts;
-  }
-
   public Set<MasterUser> getMasterUsers() {
     return this.masterUsers;
+  }
+
+  public void setMasterUsers(Set<MasterUser> masterUsers) {
+    if (this.masterUsers != null) {
+      this.masterUsers.forEach(i -> i.removeTopicInterest(this));
+    }
+    if (masterUsers != null) {
+      masterUsers.forEach(i -> i.addTopicInterest(this));
+    }
+    this.masterUsers = masterUsers;
   }
 
   public TopicInterest masterUsers(Set<MasterUser> masterUsers) {
@@ -248,16 +259,6 @@ public class TopicInterest implements Serializable {
     this.masterUsers.remove(masterUser);
     masterUser.getTopicInterests().remove(this);
     return this;
-  }
-
-  public void setMasterUsers(Set<MasterUser> masterUsers) {
-    if (this.masterUsers != null) {
-      this.masterUsers.forEach(i -> i.removeTopicInterest(this));
-    }
-    if (masterUsers != null) {
-      masterUsers.forEach(i -> i.addTopicInterest(this));
-    }
-    this.masterUsers = masterUsers;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

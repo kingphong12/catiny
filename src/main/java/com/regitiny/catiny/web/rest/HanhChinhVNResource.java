@@ -127,7 +127,7 @@ public class HanhChinhVNResource {
    * or with status {@code 500 (Internal Server Error)} if the hanhChinhVNDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/hanh-chinh-vns/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/hanh-chinh-vns/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<HanhChinhVNDTO> partialUpdateHanhChinhVN(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody HanhChinhVNDTO hanhChinhVNDTO

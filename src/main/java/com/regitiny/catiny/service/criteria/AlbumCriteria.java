@@ -39,6 +39,8 @@ public class AlbumCriteria implements Serializable, Criteria {
 
   private LongFilter imageId;
 
+  private Boolean distinct;
+
   public AlbumCriteria() {}
 
   public AlbumCriteria(AlbumCriteria other) {
@@ -48,6 +50,7 @@ public class AlbumCriteria implements Serializable, Criteria {
     this.note = other.note == null ? null : other.note.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.imageId = other.imageId == null ? null : other.imageId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -145,6 +148,14 @@ public class AlbumCriteria implements Serializable, Criteria {
     this.imageId = imageId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -160,13 +171,14 @@ public class AlbumCriteria implements Serializable, Criteria {
       Objects.equals(name, that.name) &&
       Objects.equals(note, that.note) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(imageId, that.imageId)
+      Objects.equals(imageId, that.imageId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, name, note, infoId, imageId);
+    return Objects.hash(id, uuid, name, note, infoId, imageId, distinct);
   }
 
   // prettier-ignore
@@ -179,6 +191,7 @@ public class AlbumCriteria implements Serializable, Criteria {
             (note != null ? "note=" + note + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (imageId != null ? "imageId=" + imageId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

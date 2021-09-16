@@ -56,6 +56,8 @@ public class FriendCriteria implements Serializable, Criteria {
 
   private LongFilter friendId;
 
+  private Boolean distinct;
+
   public FriendCriteria() {}
 
   public FriendCriteria(FriendCriteria other) {
@@ -64,6 +66,7 @@ public class FriendCriteria implements Serializable, Criteria {
     this.friendType = other.friendType == null ? null : other.friendType.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.friendId = other.friendId == null ? null : other.friendId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -146,6 +149,14 @@ public class FriendCriteria implements Serializable, Criteria {
     this.friendId = friendId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -160,13 +171,14 @@ public class FriendCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(friendType, that.friendType) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(friendId, that.friendId)
+      Objects.equals(friendId, that.friendId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, friendType, infoId, friendId);
+    return Objects.hash(id, uuid, friendType, infoId, friendId, distinct);
   }
 
   // prettier-ignore
@@ -178,6 +190,7 @@ public class FriendCriteria implements Serializable, Criteria {
             (friendType != null ? "friendType=" + friendType + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (friendId != null ? "friendId=" + friendId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

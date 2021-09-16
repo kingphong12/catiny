@@ -55,21 +55,17 @@ public class PostServiceImpl implements PostService {
 
     return postRepository
       .findById(postDTO.getId())
-      .map(
-        existingPost -> {
-          postMapper.partialUpdate(existingPost, postDTO);
+      .map(existingPost -> {
+        postMapper.partialUpdate(existingPost, postDTO);
 
-          return existingPost;
-        }
-      )
+        return existingPost;
+      })
       .map(postRepository::save)
-      .map(
-        savedPost -> {
-          postSearchRepository.save(savedPost);
+      .map(savedPost -> {
+        postSearchRepository.save(savedPost);
 
-          return savedPost;
-        }
-      )
+        return savedPost;
+      })
       .map(postMapper::toDto);
   }
 
@@ -98,6 +94,6 @@ public class PostServiceImpl implements PostService {
   @Transactional(readOnly = true)
   public Page<PostDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of Posts for query {}", query);
-    return postSearchRepository.search(queryStringQuery(query), pageable).map(postMapper::toDto);
+    return postSearchRepository.search(query, pageable).map(postMapper::toDto);
   }
 }

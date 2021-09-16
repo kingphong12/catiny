@@ -59,21 +59,17 @@ public class TodoListServiceImpl implements TodoListService {
 
     return todoListRepository
       .findById(todoListDTO.getId())
-      .map(
-        existingTodoList -> {
-          todoListMapper.partialUpdate(existingTodoList, todoListDTO);
+      .map(existingTodoList -> {
+        todoListMapper.partialUpdate(existingTodoList, todoListDTO);
 
-          return existingTodoList;
-        }
-      )
+        return existingTodoList;
+      })
       .map(todoListRepository::save)
-      .map(
-        savedTodoList -> {
-          todoListSearchRepository.save(savedTodoList);
+      .map(savedTodoList -> {
+        todoListSearchRepository.save(savedTodoList);
 
-          return savedTodoList;
-        }
-      )
+        return savedTodoList;
+      })
       .map(todoListMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class TodoListServiceImpl implements TodoListService {
   @Transactional(readOnly = true)
   public Page<TodoListDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of TodoLists for query {}", query);
-    return todoListSearchRepository.search(queryStringQuery(query), pageable).map(todoListMapper::toDto);
+    return todoListSearchRepository.search(query, pageable).map(todoListMapper::toDto);
   }
 }

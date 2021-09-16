@@ -59,21 +59,17 @@ public class TopicInterestServiceImpl implements TopicInterestService {
 
     return topicInterestRepository
       .findById(topicInterestDTO.getId())
-      .map(
-        existingTopicInterest -> {
-          topicInterestMapper.partialUpdate(existingTopicInterest, topicInterestDTO);
+      .map(existingTopicInterest -> {
+        topicInterestMapper.partialUpdate(existingTopicInterest, topicInterestDTO);
 
-          return existingTopicInterest;
-        }
-      )
+        return existingTopicInterest;
+      })
       .map(topicInterestRepository::save)
-      .map(
-        savedTopicInterest -> {
-          topicInterestSearchRepository.save(savedTopicInterest);
+      .map(savedTopicInterest -> {
+        topicInterestSearchRepository.save(savedTopicInterest);
 
-          return savedTopicInterest;
-        }
-      )
+        return savedTopicInterest;
+      })
       .map(topicInterestMapper::toDto);
   }
 
@@ -106,6 +102,6 @@ public class TopicInterestServiceImpl implements TopicInterestService {
   @Transactional(readOnly = true)
   public Page<TopicInterestDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of TopicInterests for query {}", query);
-    return topicInterestSearchRepository.search(queryStringQuery(query), pageable).map(topicInterestMapper::toDto);
+    return topicInterestSearchRepository.search(query, pageable).map(topicInterestMapper::toDto);
   }
 }

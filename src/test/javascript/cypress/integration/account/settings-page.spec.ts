@@ -1,14 +1,11 @@
 import {emailSettingsSelector, firstNameSettingsSelector, lastNameSettingsSelector, submitSettingsSelector} from '../../support/commands';
 
-describe('/account/settings', () =>
-{
+describe('/account/settings', () => {
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
 
-  before(() =>
-  {
-    cy.window().then(win =>
-    {
+  before(() => {
+    cy.window().then(win => {
       win.sessionStorage.clear();
     });
     cy.clearCookies();
@@ -26,7 +23,7 @@ describe('/account/settings', () =>
     // need to modify email because default email does not match regex in vue
     cy.get(emailSettingsSelector).clear().type('user@localhost.fr');
     cy.get(submitSettingsSelector).click({ force: true });
-    cy.wait('@settingsSave').then(({ request, response }) => expect(response.statusCode).to.equal(200));
+    cy.wait('@settingsSave').then(({ response }) => expect(response.statusCode).to.equal(200));
   });
 
   it("should be able to change 'user' lastname settings", () => {
@@ -34,13 +31,13 @@ describe('/account/settings', () =>
     // need to modify email because default email does not match regex in vue
     cy.get(emailSettingsSelector).clear().type('user@localhost.fr');
     cy.get(submitSettingsSelector).click({ force: true });
-    cy.wait('@settingsSave').then(({ request, response }) => expect(response.statusCode).to.equal(200));
+    cy.wait('@settingsSave').then(({ response }) => expect(response.statusCode).to.equal(200));
   });
 
   it("should be able to change 'user' email settings", () => {
     cy.get(emailSettingsSelector).clear().type('user@localhost.fr');
     cy.get(submitSettingsSelector).click({ force: true });
-    cy.wait('@settingsSave').then(({ request, response }) => expect(response.statusCode).to.equal(200));
+    cy.wait('@settingsSave').then(({ response }) => expect(response.statusCode).to.equal(200));
   });
 
   it("should not be able to change 'user' settings if email already exists", () => {
@@ -66,6 +63,6 @@ describe('/account/settings', () =>
     // Fix in future version of cypress
     // => https://glebbahmutov.com/blog/cypress-intercept-problems/#no-overwriting-interceptors
     // => https://github.com/cypress-io/cypress/issues/9302
-    // cy.wait('@settingsNotSave').then(({ request, response }) => expect(response.statusCode).to.equal(400));
+    // cy.wait('@settingsNotSave').then(({ response }) => expect(response.statusCode).to.equal(400));
   });
 });

@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The PostLike entity.\n@why?             ->\n@use-to           -> Lưu thông tin về những lượt like của bài đăng\n@commonly-used-in ->\n\n@describe         ->
@@ -26,6 +25,7 @@ public class PostLike implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -53,17 +53,18 @@ public class PostLike implements Serializable {
   private PostComment comment;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public PostLike id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public PostLike id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -71,7 +72,7 @@ public class PostLike implements Serializable {
   }
 
   public PostLike uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -83,17 +84,21 @@ public class PostLike implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public PostLike info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Post getPost() {
     return this.post;
+  }
+
+  public void setPost(Post post) {
+    this.post = post;
   }
 
   public PostLike post(Post post) {
@@ -101,21 +106,17 @@ public class PostLike implements Serializable {
     return this;
   }
 
-  public void setPost(Post post) {
-    this.post = post;
-  }
-
   public PostComment getComment() {
     return this.comment;
+  }
+
+  public void setComment(PostComment postComment) {
+    this.comment = postComment;
   }
 
   public PostLike comment(PostComment postComment) {
     this.setComment(postComment);
     return this;
-  }
-
-  public void setComment(PostComment postComment) {
-    this.comment = postComment;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

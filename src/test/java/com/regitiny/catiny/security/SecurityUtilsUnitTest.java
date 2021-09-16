@@ -20,13 +20,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Test class for the {@link SecurityUtils} utility class.
  */
 @GeneratedByJHipster
-class SecurityUtilsUnitTest
-{
+class SecurityUtilsUnitTest {
 
   @BeforeEach
   @AfterEach
-  void cleanup()
-  {
+  void cleanup() {
     SecurityContextHolder.clearContext();
   }
 
@@ -40,8 +38,7 @@ class SecurityUtilsUnitTest
   }
 
   @Test
-  void testGetCurrentUserJWT()
-  {
+  void testGetCurrentUserJWT() {
     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
     securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "token"));
     SecurityContextHolder.setContext(securityContext);
@@ -79,5 +76,29 @@ class SecurityUtilsUnitTest
 
     assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)).isTrue();
     assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)).isFalse();
+  }
+
+  @Test
+  void testHasCurrentUserAnyOfAuthorities() {
+    SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+    Collection<GrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+    securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
+    SecurityContextHolder.setContext(securityContext);
+
+    assertThat(SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN)).isTrue();
+    assertThat(SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ANONYMOUS, AuthoritiesConstants.ADMIN)).isFalse();
+  }
+
+  @Test
+  void testHasCurrentUserNoneOfAuthorities() {
+    SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+    Collection<GrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+    securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
+    SecurityContextHolder.setContext(securityContext);
+
+    assertThat(SecurityUtils.hasCurrentUserNoneOfAuthorities(AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN)).isFalse();
+    assertThat(SecurityUtils.hasCurrentUserNoneOfAuthorities(AuthoritiesConstants.ANONYMOUS, AuthoritiesConstants.ADMIN)).isTrue();
   }
 }

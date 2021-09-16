@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -494,7 +493,14 @@ class VideoLiveStreamBufferResourceIT {
   void getAllVideoLiveStreamBuffersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     videoLiveStreamBuffer.setInfo(info);
@@ -513,7 +519,14 @@ class VideoLiveStreamBufferResourceIT {
   void getAllVideoLiveStreamBuffersByVideoStreamIsEqualToSomething() throws Exception {
     // Initialize the database
     videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
-    VideoStream videoStream = VideoStreamResourceIT.createEntity(em);
+    VideoStream videoStream;
+    if (TestUtil.findAll(em, VideoStream.class).isEmpty()) {
+      videoStream = VideoStreamResourceIT.createEntity(em);
+      em.persist(videoStream);
+      em.flush();
+    } else {
+      videoStream = TestUtil.findAll(em, VideoStream.class).get(0);
+    }
     em.persist(videoStream);
     em.flush();
     videoLiveStreamBuffer.setVideoStream(videoStream);
@@ -870,7 +883,7 @@ class VideoLiveStreamBufferResourceIT {
     // Configure the mock search repository
     // Initialize the database
     videoLiveStreamBufferRepository.saveAndFlush(videoLiveStreamBuffer);
-    when(mockVideoLiveStreamBufferSearchRepository.search(queryStringQuery("id:" + videoLiveStreamBuffer.getId()), PageRequest.of(0, 20)))
+    when(mockVideoLiveStreamBufferSearchRepository.search("id:" + videoLiveStreamBuffer.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(videoLiveStreamBuffer), PageRequest.of(0, 1), 1));
 
     // Search the videoLiveStreamBuffer

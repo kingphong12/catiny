@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Friend entity.\n@why?             ->\n@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\n@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\n\n@describe         ->
@@ -27,6 +26,7 @@ public class Friend implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -51,17 +51,18 @@ public class Friend implements Serializable {
   private MasterUser friend;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Friend id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Friend id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -69,7 +70,7 @@ public class Friend implements Serializable {
   }
 
   public Friend uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -82,7 +83,7 @@ public class Friend implements Serializable {
   }
 
   public Friend friendType(FriendType friendType) {
-    this.friendType = friendType;
+    this.setFriendType(friendType);
     return this;
   }
 
@@ -94,26 +95,26 @@ public class Friend implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public Friend info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   public MasterUser getFriend() {
     return this.friend;
   }
 
+  public void setFriend(MasterUser masterUser) {
+    this.friend = masterUser;
+  }
+
   public Friend friend(MasterUser masterUser) {
     this.setFriend(masterUser);
     return this;
-  }
-
-  public void setFriend(MasterUser masterUser) {
-    this.friend = masterUser;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

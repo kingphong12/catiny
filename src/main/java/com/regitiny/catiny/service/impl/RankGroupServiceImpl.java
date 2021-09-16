@@ -59,21 +59,17 @@ public class RankGroupServiceImpl implements RankGroupService {
 
     return rankGroupRepository
       .findById(rankGroupDTO.getId())
-      .map(
-        existingRankGroup -> {
-          rankGroupMapper.partialUpdate(existingRankGroup, rankGroupDTO);
+      .map(existingRankGroup -> {
+        rankGroupMapper.partialUpdate(existingRankGroup, rankGroupDTO);
 
-          return existingRankGroup;
-        }
-      )
+        return existingRankGroup;
+      })
       .map(rankGroupRepository::save)
-      .map(
-        savedRankGroup -> {
-          rankGroupSearchRepository.save(savedRankGroup);
+      .map(savedRankGroup -> {
+        rankGroupSearchRepository.save(savedRankGroup);
 
-          return savedRankGroup;
-        }
-      )
+        return savedRankGroup;
+      })
       .map(rankGroupMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class RankGroupServiceImpl implements RankGroupService {
   @Transactional(readOnly = true)
   public Page<RankGroupDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of RankGroups for query {}", query);
-    return rankGroupSearchRepository.search(queryStringQuery(query), pageable).map(rankGroupMapper::toDto);
+    return rankGroupSearchRepository.search(query, pageable).map(rankGroupMapper::toDto);
   }
 }

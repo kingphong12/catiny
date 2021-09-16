@@ -123,7 +123,7 @@ public class AlbumResource {
    * or with status {@code 500 (Internal Server Error)} if the albumDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/albums/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/albums/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<AlbumDTO> partialUpdateAlbum(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody AlbumDTO albumDTO

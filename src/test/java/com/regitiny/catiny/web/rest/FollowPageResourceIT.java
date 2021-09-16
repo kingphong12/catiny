@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -271,7 +270,14 @@ class FollowPageResourceIT {
   void getAllFollowPagesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     followPageRepository.saveAndFlush(followPage);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     followPage.setInfo(info);
@@ -290,7 +296,14 @@ class FollowPageResourceIT {
   void getAllFollowPagesByPageDetailsIsEqualToSomething() throws Exception {
     // Initialize the database
     followPageRepository.saveAndFlush(followPage);
-    PagePost pageDetails = PagePostResourceIT.createEntity(em);
+    PagePost pageDetails;
+    if (TestUtil.findAll(em, PagePost.class).isEmpty()) {
+      pageDetails = PagePostResourceIT.createEntity(em);
+      em.persist(pageDetails);
+      em.flush();
+    } else {
+      pageDetails = TestUtil.findAll(em, PagePost.class).get(0);
+    }
     em.persist(pageDetails);
     em.flush();
     followPage.setPageDetails(pageDetails);
@@ -613,7 +626,7 @@ class FollowPageResourceIT {
     // Configure the mock search repository
     // Initialize the database
     followPageRepository.saveAndFlush(followPage);
-    when(mockFollowPageSearchRepository.search(queryStringQuery("id:" + followPage.getId()), PageRequest.of(0, 20)))
+    when(mockFollowPageSearchRepository.search("id:" + followPage.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(followPage), PageRequest.of(0, 1), 1));
 
     // Search the followPage

@@ -39,6 +39,8 @@ public class VideoStreamCriteria implements Serializable, Criteria {
 
   private LongFilter videoLiveStreamBufferId;
 
+  private Boolean distinct;
+
   public VideoStreamCriteria() {}
 
   public VideoStreamCriteria(VideoStreamCriteria other) {
@@ -48,6 +50,7 @@ public class VideoStreamCriteria implements Serializable, Criteria {
     this.videoId = other.videoId == null ? null : other.videoId.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.videoLiveStreamBufferId = other.videoLiveStreamBufferId == null ? null : other.videoLiveStreamBufferId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -145,6 +148,14 @@ public class VideoStreamCriteria implements Serializable, Criteria {
     this.videoLiveStreamBufferId = videoLiveStreamBufferId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -160,13 +171,14 @@ public class VideoStreamCriteria implements Serializable, Criteria {
       Objects.equals(isLivestreaming, that.isLivestreaming) &&
       Objects.equals(videoId, that.videoId) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(videoLiveStreamBufferId, that.videoLiveStreamBufferId)
+      Objects.equals(videoLiveStreamBufferId, that.videoLiveStreamBufferId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, isLivestreaming, videoId, infoId, videoLiveStreamBufferId);
+    return Objects.hash(id, uuid, isLivestreaming, videoId, infoId, videoLiveStreamBufferId, distinct);
   }
 
   // prettier-ignore
@@ -179,6 +191,7 @@ public class VideoStreamCriteria implements Serializable, Criteria {
             (videoId != null ? "videoId=" + videoId + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (videoLiveStreamBufferId != null ? "videoLiveStreamBufferId=" + videoLiveStreamBufferId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

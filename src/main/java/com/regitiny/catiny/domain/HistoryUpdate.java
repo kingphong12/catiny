@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A HistoryUpdate.
@@ -26,6 +25,7 @@ public class HistoryUpdate implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -54,17 +54,18 @@ public class HistoryUpdate implements Serializable {
   private BaseInfo baseInfo;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public HistoryUpdate id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public HistoryUpdate id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -72,7 +73,7 @@ public class HistoryUpdate implements Serializable {
   }
 
   public HistoryUpdate uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -85,7 +86,7 @@ public class HistoryUpdate implements Serializable {
   }
 
   public HistoryUpdate version(Integer version) {
-    this.version = version;
+    this.setVersion(version);
     return this;
   }
 
@@ -98,7 +99,7 @@ public class HistoryUpdate implements Serializable {
   }
 
   public HistoryUpdate content(String content) {
-    this.content = content;
+    this.setContent(content);
     return this;
   }
 
@@ -110,13 +111,13 @@ public class HistoryUpdate implements Serializable {
     return this.baseInfo;
   }
 
+  public void setBaseInfo(BaseInfo baseInfo) {
+    this.baseInfo = baseInfo;
+  }
+
   public HistoryUpdate baseInfo(BaseInfo baseInfo) {
     this.setBaseInfo(baseInfo);
     return this;
-  }
-
-  public void setBaseInfo(BaseInfo baseInfo) {
-    this.baseInfo = baseInfo;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

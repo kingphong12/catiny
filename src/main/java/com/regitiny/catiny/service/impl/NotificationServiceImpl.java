@@ -59,21 +59,17 @@ public class NotificationServiceImpl implements NotificationService {
 
     return notificationRepository
       .findById(notificationDTO.getId())
-      .map(
-        existingNotification -> {
-          notificationMapper.partialUpdate(existingNotification, notificationDTO);
+      .map(existingNotification -> {
+        notificationMapper.partialUpdate(existingNotification, notificationDTO);
 
-          return existingNotification;
-        }
-      )
+        return existingNotification;
+      })
       .map(notificationRepository::save)
-      .map(
-        savedNotification -> {
-          notificationSearchRepository.save(savedNotification);
+      .map(savedNotification -> {
+        notificationSearchRepository.save(savedNotification);
 
-          return savedNotification;
-        }
-      )
+        return savedNotification;
+      })
       .map(notificationMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class NotificationServiceImpl implements NotificationService {
   @Transactional(readOnly = true)
   public Page<NotificationDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of Notifications for query {}", query);
-    return notificationSearchRepository.search(queryStringQuery(query), pageable).map(notificationMapper::toDto);
+    return notificationSearchRepository.search(query, pageable).map(notificationMapper::toDto);
   }
 }

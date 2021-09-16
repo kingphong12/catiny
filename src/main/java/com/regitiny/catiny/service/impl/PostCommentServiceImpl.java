@@ -59,21 +59,17 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     return postCommentRepository
       .findById(postCommentDTO.getId())
-      .map(
-        existingPostComment -> {
-          postCommentMapper.partialUpdate(existingPostComment, postCommentDTO);
+      .map(existingPostComment -> {
+        postCommentMapper.partialUpdate(existingPostComment, postCommentDTO);
 
-          return existingPostComment;
-        }
-      )
+        return existingPostComment;
+      })
       .map(postCommentRepository::save)
-      .map(
-        savedPostComment -> {
-          postCommentSearchRepository.save(savedPostComment);
+      .map(savedPostComment -> {
+        postCommentSearchRepository.save(savedPostComment);
 
-          return savedPostComment;
-        }
-      )
+        return savedPostComment;
+      })
       .map(postCommentMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class PostCommentServiceImpl implements PostCommentService {
   @Transactional(readOnly = true)
   public Page<PostCommentDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of PostComments for query {}", query);
-    return postCommentSearchRepository.search(queryStringQuery(query), pageable).map(postCommentMapper::toDto);
+    return postCommentSearchRepository.search(query, pageable).map(postCommentMapper::toDto);
   }
 }

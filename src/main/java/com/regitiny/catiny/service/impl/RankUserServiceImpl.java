@@ -63,21 +63,17 @@ public class RankUserServiceImpl implements RankUserService {
 
     return rankUserRepository
       .findById(rankUserDTO.getId())
-      .map(
-        existingRankUser -> {
-          rankUserMapper.partialUpdate(existingRankUser, rankUserDTO);
+      .map(existingRankUser -> {
+        rankUserMapper.partialUpdate(existingRankUser, rankUserDTO);
 
-          return existingRankUser;
-        }
-      )
+        return existingRankUser;
+      })
       .map(rankUserRepository::save)
-      .map(
-        savedRankUser -> {
-          rankUserSearchRepository.save(savedRankUser);
+      .map(savedRankUser -> {
+        rankUserSearchRepository.save(savedRankUser);
 
-          return savedRankUser;
-        }
-      )
+        return savedRankUser;
+      })
       .map(rankUserMapper::toDto);
   }
 
@@ -120,6 +116,6 @@ public class RankUserServiceImpl implements RankUserService {
   @Transactional(readOnly = true)
   public Page<RankUserDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of RankUsers for query {}", query);
-    return rankUserSearchRepository.search(queryStringQuery(query), pageable).map(rankUserMapper::toDto);
+    return rankUserSearchRepository.search(query, pageable).map(rankUserMapper::toDto);
   }
 }

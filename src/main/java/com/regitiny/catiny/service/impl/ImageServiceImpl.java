@@ -55,21 +55,17 @@ public class ImageServiceImpl implements ImageService {
 
     return imageRepository
       .findById(imageDTO.getId())
-      .map(
-        existingImage -> {
-          imageMapper.partialUpdate(existingImage, imageDTO);
+      .map(existingImage -> {
+        imageMapper.partialUpdate(existingImage, imageDTO);
 
-          return existingImage;
-        }
-      )
+        return existingImage;
+      })
       .map(imageRepository::save)
-      .map(
-        savedImage -> {
-          imageSearchRepository.save(savedImage);
+      .map(savedImage -> {
+        imageSearchRepository.save(savedImage);
 
-          return savedImage;
-        }
-      )
+        return savedImage;
+      })
       .map(imageMapper::toDto);
   }
 
@@ -98,6 +94,6 @@ public class ImageServiceImpl implements ImageService {
   @Transactional(readOnly = true)
   public Page<ImageDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of Images for query {}", query);
-    return imageSearchRepository.search(queryStringQuery(query), pageable).map(imageMapper::toDto);
+    return imageSearchRepository.search(query, pageable).map(imageMapper::toDto);
   }
 }

@@ -77,9 +77,9 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
     isNew
       ? {}
       : {
-          ...postEntity,
           postInType: 'GROUP',
           postType: 'SIMPLE',
+          ...postEntity,
           infoId: postEntity?.info?.id,
           groupId: postEntity?.group?.id,
           pageId: postEntity?.page?.id,

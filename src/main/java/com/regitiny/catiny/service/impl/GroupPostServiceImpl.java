@@ -59,21 +59,17 @@ public class GroupPostServiceImpl implements GroupPostService {
 
     return groupPostRepository
       .findById(groupPostDTO.getId())
-      .map(
-        existingGroupPost -> {
-          groupPostMapper.partialUpdate(existingGroupPost, groupPostDTO);
+      .map(existingGroupPost -> {
+        groupPostMapper.partialUpdate(existingGroupPost, groupPostDTO);
 
-          return existingGroupPost;
-        }
-      )
+        return existingGroupPost;
+      })
       .map(groupPostRepository::save)
-      .map(
-        savedGroupPost -> {
-          groupPostSearchRepository.save(savedGroupPost);
+      .map(savedGroupPost -> {
+        groupPostSearchRepository.save(savedGroupPost);
 
-          return savedGroupPost;
-        }
-      )
+        return savedGroupPost;
+      })
       .map(groupPostMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class GroupPostServiceImpl implements GroupPostService {
   @Transactional(readOnly = true)
   public Page<GroupPostDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of GroupPosts for query {}", query);
-    return groupPostSearchRepository.search(queryStringQuery(query), pageable).map(groupPostMapper::toDto);
+    return groupPostSearchRepository.search(query, pageable).map(groupPostMapper::toDto);
   }
 }

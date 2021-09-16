@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -418,7 +417,14 @@ class PostResourceIT {
   void getAllPostsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     post.setInfo(info);
@@ -437,7 +443,14 @@ class PostResourceIT {
   void getAllPostsByCommentIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    PostComment comment = PostCommentResourceIT.createEntity(em);
+    PostComment comment;
+    if (TestUtil.findAll(em, PostComment.class).isEmpty()) {
+      comment = PostCommentResourceIT.createEntity(em);
+      em.persist(comment);
+      em.flush();
+    } else {
+      comment = TestUtil.findAll(em, PostComment.class).get(0);
+    }
     em.persist(comment);
     em.flush();
     post.addComment(comment);
@@ -456,7 +469,14 @@ class PostResourceIT {
   void getAllPostsByLikeIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    PostLike like = PostLikeResourceIT.createEntity(em);
+    PostLike like;
+    if (TestUtil.findAll(em, PostLike.class).isEmpty()) {
+      like = PostLikeResourceIT.createEntity(em);
+      em.persist(like);
+      em.flush();
+    } else {
+      like = TestUtil.findAll(em, PostLike.class).get(0);
+    }
     em.persist(like);
     em.flush();
     post.addLike(like);
@@ -475,7 +495,14 @@ class PostResourceIT {
   void getAllPostsByChildrenIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    Post children = PostResourceIT.createEntity(em);
+    Post children;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      children = PostResourceIT.createEntity(em);
+      em.persist(children);
+      em.flush();
+    } else {
+      children = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(children);
     em.flush();
     post.addChildren(children);
@@ -494,7 +521,14 @@ class PostResourceIT {
   void getAllPostsByGroupIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    GroupPost group = GroupPostResourceIT.createEntity(em);
+    GroupPost group;
+    if (TestUtil.findAll(em, GroupPost.class).isEmpty()) {
+      group = GroupPostResourceIT.createEntity(em);
+      em.persist(group);
+      em.flush();
+    } else {
+      group = TestUtil.findAll(em, GroupPost.class).get(0);
+    }
     em.persist(group);
     em.flush();
     post.setGroup(group);
@@ -513,7 +547,14 @@ class PostResourceIT {
   void getAllPostsByPageIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    PagePost page = PagePostResourceIT.createEntity(em);
+    PagePost page;
+    if (TestUtil.findAll(em, PagePost.class).isEmpty()) {
+      page = PagePostResourceIT.createEntity(em);
+      em.persist(page);
+      em.flush();
+    } else {
+      page = TestUtil.findAll(em, PagePost.class).get(0);
+    }
     em.persist(page);
     em.flush();
     post.setPage(page);
@@ -532,7 +573,14 @@ class PostResourceIT {
   void getAllPostsByParentIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    Post parent = PostResourceIT.createEntity(em);
+    Post parent;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      parent = PostResourceIT.createEntity(em);
+      em.persist(parent);
+      em.flush();
+    } else {
+      parent = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(parent);
     em.flush();
     post.setParent(parent);
@@ -551,7 +599,14 @@ class PostResourceIT {
   void getAllPostsByNewsFeedIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    NewsFeed newsFeed = NewsFeedResourceIT.createEntity(em);
+    NewsFeed newsFeed;
+    if (TestUtil.findAll(em, NewsFeed.class).isEmpty()) {
+      newsFeed = NewsFeedResourceIT.createEntity(em);
+      em.persist(newsFeed);
+      em.flush();
+    } else {
+      newsFeed = TestUtil.findAll(em, NewsFeed.class).get(0);
+    }
     em.persist(newsFeed);
     em.flush();
     post.addNewsFeed(newsFeed);
@@ -570,7 +625,14 @@ class PostResourceIT {
   void getAllPostsByTopicInterestIsEqualToSomething() throws Exception {
     // Initialize the database
     postRepository.saveAndFlush(post);
-    TopicInterest topicInterest = TopicInterestResourceIT.createEntity(em);
+    TopicInterest topicInterest;
+    if (TestUtil.findAll(em, TopicInterest.class).isEmpty()) {
+      topicInterest = TopicInterestResourceIT.createEntity(em);
+      em.persist(topicInterest);
+      em.flush();
+    } else {
+      topicInterest = TestUtil.findAll(em, TopicInterest.class).get(0);
+    }
     em.persist(topicInterest);
     em.flush();
     post.addTopicInterest(topicInterest);
@@ -915,7 +977,7 @@ class PostResourceIT {
     // Configure the mock search repository
     // Initialize the database
     postRepository.saveAndFlush(post);
-    when(mockPostSearchRepository.search(queryStringQuery("id:" + post.getId()), PageRequest.of(0, 20)))
+    when(mockPostSearchRepository.search("id:" + post.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(post), PageRequest.of(0, 1), 1));
 
     // Search the post

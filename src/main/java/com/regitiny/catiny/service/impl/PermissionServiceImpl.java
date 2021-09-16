@@ -59,21 +59,17 @@ public class PermissionServiceImpl implements PermissionService {
 
     return permissionRepository
       .findById(permissionDTO.getId())
-      .map(
-        existingPermission -> {
-          permissionMapper.partialUpdate(existingPermission, permissionDTO);
+      .map(existingPermission -> {
+        permissionMapper.partialUpdate(existingPermission, permissionDTO);
 
-          return existingPermission;
-        }
-      )
+        return existingPermission;
+      })
       .map(permissionRepository::save)
-      .map(
-        savedPermission -> {
-          permissionSearchRepository.save(savedPermission);
+      .map(savedPermission -> {
+        permissionSearchRepository.save(savedPermission);
 
-          return savedPermission;
-        }
-      )
+        return savedPermission;
+      })
       .map(permissionMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class PermissionServiceImpl implements PermissionService {
   @Transactional(readOnly = true)
   public Page<PermissionDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of Permissions for query {}", query);
-    return permissionSearchRepository.search(queryStringQuery(query), pageable).map(permissionMapper::toDto);
+    return permissionSearchRepository.search(query, pageable).map(permissionMapper::toDto);
   }
 }

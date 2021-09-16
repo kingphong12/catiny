@@ -68,9 +68,9 @@ export const DeviceStatusUpdate = (props: RouteComponentProps<{ id: string }>) =
           lastVisited: displayDefaultDateTime(),
         }
       : {
-          ...deviceStatusEntity,
           deviceType: 'MOBILE',
           deviceStatus: 'ONLINE',
+          ...deviceStatusEntity,
           lastVisited: convertDateTimeFromServer(deviceStatusEntity.lastVisited),
           infoId: deviceStatusEntity?.info?.id,
           accountStatusId: deviceStatusEntity?.accountStatus?.id,

@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Event entity.\n@why?             ->\n@use-to           -> Lưu những sự kiện\n@commonly-used-in -> Tạo Sự kiện\n\n@describe         ->
@@ -28,6 +27,7 @@ public class Event implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -110,17 +110,18 @@ public class Event implements Serializable {
   private BaseInfo info;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Event id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Event id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -128,7 +129,7 @@ public class Event implements Serializable {
   }
 
   public Event uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -141,7 +142,7 @@ public class Event implements Serializable {
   }
 
   public Event title(String title) {
-    this.title = title;
+    this.setTitle(title);
     return this;
   }
 
@@ -154,7 +155,7 @@ public class Event implements Serializable {
   }
 
   public Event avatar(String avatar) {
-    this.avatar = avatar;
+    this.setAvatar(avatar);
     return this;
   }
 
@@ -167,7 +168,7 @@ public class Event implements Serializable {
   }
 
   public Event content(String content) {
-    this.content = content;
+    this.setContent(content);
     return this;
   }
 
@@ -180,7 +181,7 @@ public class Event implements Serializable {
   }
 
   public Event type(EventType type) {
-    this.type = type;
+    this.setType(type);
     return this;
   }
 
@@ -193,7 +194,7 @@ public class Event implements Serializable {
   }
 
   public Event description(String description) {
-    this.description = description;
+    this.setDescription(description);
     return this;
   }
 
@@ -206,7 +207,7 @@ public class Event implements Serializable {
   }
 
   public Event startTime(Instant startTime) {
-    this.startTime = startTime;
+    this.setStartTime(startTime);
     return this;
   }
 
@@ -219,7 +220,7 @@ public class Event implements Serializable {
   }
 
   public Event endTime(Instant endTime) {
-    this.endTime = endTime;
+    this.setEndTime(endTime);
     return this;
   }
 
@@ -232,7 +233,7 @@ public class Event implements Serializable {
   }
 
   public Event tagLine(String tagLine) {
-    this.tagLine = tagLine;
+    this.setTagLine(tagLine);
     return this;
   }
 
@@ -245,7 +246,7 @@ public class Event implements Serializable {
   }
 
   public Event imageCollection(String imageCollection) {
-    this.imageCollection = imageCollection;
+    this.setImageCollection(imageCollection);
     return this;
   }
 
@@ -258,7 +259,7 @@ public class Event implements Serializable {
   }
 
   public Event videoCollection(String videoCollection) {
-    this.videoCollection = videoCollection;
+    this.setVideoCollection(videoCollection);
     return this;
   }
 
@@ -270,13 +271,13 @@ public class Event implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public Event info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

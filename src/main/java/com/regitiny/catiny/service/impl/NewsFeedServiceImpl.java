@@ -59,21 +59,17 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
     return newsFeedRepository
       .findById(newsFeedDTO.getId())
-      .map(
-        existingNewsFeed -> {
-          newsFeedMapper.partialUpdate(existingNewsFeed, newsFeedDTO);
+      .map(existingNewsFeed -> {
+        newsFeedMapper.partialUpdate(existingNewsFeed, newsFeedDTO);
 
-          return existingNewsFeed;
-        }
-      )
+        return existingNewsFeed;
+      })
       .map(newsFeedRepository::save)
-      .map(
-        savedNewsFeed -> {
-          newsFeedSearchRepository.save(savedNewsFeed);
+      .map(savedNewsFeed -> {
+        newsFeedSearchRepository.save(savedNewsFeed);
 
-          return savedNewsFeed;
-        }
-      )
+        return savedNewsFeed;
+      })
       .map(newsFeedMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class NewsFeedServiceImpl implements NewsFeedService {
   @Transactional(readOnly = true)
   public Page<NewsFeedDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of NewsFeeds for query {}", query);
-    return newsFeedSearchRepository.search(queryStringQuery(query), pageable).map(newsFeedMapper::toDto);
+    return newsFeedSearchRepository.search(query, pageable).map(newsFeedMapper::toDto);
   }
 }

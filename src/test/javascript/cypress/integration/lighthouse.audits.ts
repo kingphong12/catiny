@@ -1,12 +1,9 @@
-describe('Lighthoyse Audits', () =>
-{
-  beforeEach(() =>
-  {
+describe('Lighthouse Audits', () => {
+  beforeEach(() => {
     cy.visit('/');
   });
 
-  it('homepage', () =>
-  {
+  it('homepage', () => {
     const customThresholds = {
       performance: 80,
       accessibility: 90,
@@ -24,7 +21,7 @@ describe('Lighthoyse Audits', () =>
       throttling: {
         cpuSlowdownMultiplier: 1,
       },
-      screenEmulation: {disabled: true},
+      screenEmulation: { disabled: true },
     };
     cy.lighthouse(customThresholds, desktopConfig);
   });

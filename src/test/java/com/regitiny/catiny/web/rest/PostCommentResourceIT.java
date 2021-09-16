@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -280,7 +279,14 @@ class PostCommentResourceIT {
   void getAllPostCommentsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     postComment.setInfo(info);
@@ -299,7 +305,14 @@ class PostCommentResourceIT {
   void getAllPostCommentsByLikeIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    PostLike like = PostLikeResourceIT.createEntity(em);
+    PostLike like;
+    if (TestUtil.findAll(em, PostLike.class).isEmpty()) {
+      like = PostLikeResourceIT.createEntity(em);
+      em.persist(like);
+      em.flush();
+    } else {
+      like = TestUtil.findAll(em, PostLike.class).get(0);
+    }
     em.persist(like);
     em.flush();
     postComment.addLike(like);
@@ -318,7 +331,14 @@ class PostCommentResourceIT {
   void getAllPostCommentsByReplyIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    PostComment reply = PostCommentResourceIT.createEntity(em);
+    PostComment reply;
+    if (TestUtil.findAll(em, PostComment.class).isEmpty()) {
+      reply = PostCommentResourceIT.createEntity(em);
+      em.persist(reply);
+      em.flush();
+    } else {
+      reply = TestUtil.findAll(em, PostComment.class).get(0);
+    }
     em.persist(reply);
     em.flush();
     postComment.addReply(reply);
@@ -337,7 +357,14 @@ class PostCommentResourceIT {
   void getAllPostCommentsByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    Post post = PostResourceIT.createEntity(em);
+    Post post;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      post = PostResourceIT.createEntity(em);
+      em.persist(post);
+      em.flush();
+    } else {
+      post = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(post);
     em.flush();
     postComment.setPost(post);
@@ -356,7 +383,14 @@ class PostCommentResourceIT {
   void getAllPostCommentsByParentIsEqualToSomething() throws Exception {
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    PostComment parent = PostCommentResourceIT.createEntity(em);
+    PostComment parent;
+    if (TestUtil.findAll(em, PostComment.class).isEmpty()) {
+      parent = PostCommentResourceIT.createEntity(em);
+      em.persist(parent);
+      em.flush();
+    } else {
+      parent = TestUtil.findAll(em, PostComment.class).get(0);
+    }
     em.persist(parent);
     em.flush();
     postComment.setParent(parent);
@@ -685,7 +719,7 @@ class PostCommentResourceIT {
     // Configure the mock search repository
     // Initialize the database
     postCommentRepository.saveAndFlush(postComment);
-    when(mockPostCommentSearchRepository.search(queryStringQuery("id:" + postComment.getId()), PageRequest.of(0, 20)))
+    when(mockPostCommentSearchRepository.search("id:" + postComment.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(postComment), PageRequest.of(0, 1), 1));
 
     // Search the postComment

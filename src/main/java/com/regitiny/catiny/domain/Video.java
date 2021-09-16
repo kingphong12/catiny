@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Video entity.\n@why?             ->\n@use-to           -> Lưu thông tin video mà người dùng upload lên\n@commonly-used-in ->\n\n@describe         ->
@@ -28,6 +27,7 @@ public class Video implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -119,17 +119,18 @@ public class Video implements Serializable {
   private Video original;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Video id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Video id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -137,7 +138,7 @@ public class Video implements Serializable {
   }
 
   public Video uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -150,7 +151,7 @@ public class Video implements Serializable {
   }
 
   public Video name(String name) {
-    this.name = name;
+    this.setName(name);
     return this;
   }
 
@@ -163,7 +164,7 @@ public class Video implements Serializable {
   }
 
   public Video width(Integer width) {
-    this.width = width;
+    this.setWidth(width);
     return this;
   }
 
@@ -176,7 +177,7 @@ public class Video implements Serializable {
   }
 
   public Video height(Integer height) {
-    this.height = height;
+    this.setHeight(height);
     return this;
   }
 
@@ -189,7 +190,7 @@ public class Video implements Serializable {
   }
 
   public Video qualityImage(Float qualityImage) {
-    this.qualityImage = qualityImage;
+    this.setQualityImage(qualityImage);
     return this;
   }
 
@@ -202,7 +203,7 @@ public class Video implements Serializable {
   }
 
   public Video qualityAudio(Float qualityAudio) {
-    this.qualityAudio = qualityAudio;
+    this.setQualityAudio(qualityAudio);
     return this;
   }
 
@@ -215,7 +216,7 @@ public class Video implements Serializable {
   }
 
   public Video quality(Float quality) {
-    this.quality = quality;
+    this.setQuality(quality);
     return this;
   }
 
@@ -228,7 +229,7 @@ public class Video implements Serializable {
   }
 
   public Video pixelSize(Integer pixelSize) {
-    this.pixelSize = pixelSize;
+    this.setPixelSize(pixelSize);
     return this;
   }
 
@@ -241,7 +242,7 @@ public class Video implements Serializable {
   }
 
   public Video priorityIndex(Long priorityIndex) {
-    this.priorityIndex = priorityIndex;
+    this.setPriorityIndex(priorityIndex);
     return this;
   }
 
@@ -254,7 +255,7 @@ public class Video implements Serializable {
   }
 
   public Video dataSize(Long dataSize) {
-    this.dataSize = dataSize;
+    this.setDataSize(dataSize);
     return this;
   }
 
@@ -266,17 +267,21 @@ public class Video implements Serializable {
     return this.fileInfo;
   }
 
+  public void setFileInfo(FileInfo fileInfo) {
+    this.fileInfo = fileInfo;
+  }
+
   public Video fileInfo(FileInfo fileInfo) {
     this.setFileInfo(fileInfo);
     return this;
   }
 
-  public void setFileInfo(FileInfo fileInfo) {
-    this.fileInfo = fileInfo;
-  }
-
   public BaseInfo getInfo() {
     return this.info;
+  }
+
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public Video info(BaseInfo baseInfo) {
@@ -284,12 +289,18 @@ public class Video implements Serializable {
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<Video> getProcesseds() {
     return this.processeds;
+  }
+
+  public void setProcesseds(Set<Video> videos) {
+    if (this.processeds != null) {
+      this.processeds.forEach(i -> i.setOriginal(null));
+    }
+    if (videos != null) {
+      videos.forEach(i -> i.setOriginal(this));
+    }
+    this.processeds = videos;
   }
 
   public Video processeds(Set<Video> videos) {
@@ -309,23 +320,8 @@ public class Video implements Serializable {
     return this;
   }
 
-  public void setProcesseds(Set<Video> videos) {
-    if (this.processeds != null) {
-      this.processeds.forEach(i -> i.setOriginal(null));
-    }
-    if (videos != null) {
-      videos.forEach(i -> i.setOriginal(this));
-    }
-    this.processeds = videos;
-  }
-
   public VideoStream getVideoStream() {
     return this.videoStream;
-  }
-
-  public Video videoStream(VideoStream videoStream) {
-    this.setVideoStream(videoStream);
-    return this;
   }
 
   public void setVideoStream(VideoStream videoStream) {
@@ -338,17 +334,22 @@ public class Video implements Serializable {
     this.videoStream = videoStream;
   }
 
+  public Video videoStream(VideoStream videoStream) {
+    this.setVideoStream(videoStream);
+    return this;
+  }
+
   public Video getOriginal() {
     return this.original;
+  }
+
+  public void setOriginal(Video video) {
+    this.original = video;
   }
 
   public Video original(Video video) {
     this.setOriginal(video);
     return this;
-  }
-
-  public void setOriginal(Video video) {
-    this.original = video;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

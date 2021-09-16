@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The FileInfo entity.\n@why?             ->\n@use-to           -> Quản lý thông tin về file, vị trí file ...\n@commonly-used-in -> Những file mà người dùng upload (ảnh video ...)\n\n@describe         ->
@@ -26,6 +25,7 @@ public class FileInfo implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -67,17 +67,18 @@ public class FileInfo implements Serializable {
   private BaseInfo info;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public FileInfo id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public FileInfo id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -85,7 +86,7 @@ public class FileInfo implements Serializable {
   }
 
   public FileInfo uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -98,7 +99,7 @@ public class FileInfo implements Serializable {
   }
 
   public FileInfo nameFile(String nameFile) {
-    this.nameFile = nameFile;
+    this.setNameFile(nameFile);
     return this;
   }
 
@@ -111,7 +112,7 @@ public class FileInfo implements Serializable {
   }
 
   public FileInfo typeFile(String typeFile) {
-    this.typeFile = typeFile;
+    this.setTypeFile(typeFile);
     return this;
   }
 
@@ -124,7 +125,7 @@ public class FileInfo implements Serializable {
   }
 
   public FileInfo path(String path) {
-    this.path = path;
+    this.setPath(path);
     return this;
   }
 
@@ -137,7 +138,7 @@ public class FileInfo implements Serializable {
   }
 
   public FileInfo dataSize(Long dataSize) {
-    this.dataSize = dataSize;
+    this.setDataSize(dataSize);
     return this;
   }
 
@@ -149,13 +150,13 @@ public class FileInfo implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public FileInfo info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

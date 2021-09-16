@@ -59,21 +59,17 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
 
     return deviceStatusRepository
       .findById(deviceStatusDTO.getId())
-      .map(
-        existingDeviceStatus -> {
-          deviceStatusMapper.partialUpdate(existingDeviceStatus, deviceStatusDTO);
+      .map(existingDeviceStatus -> {
+        deviceStatusMapper.partialUpdate(existingDeviceStatus, deviceStatusDTO);
 
-          return existingDeviceStatus;
-        }
-      )
+        return existingDeviceStatus;
+      })
       .map(deviceStatusRepository::save)
-      .map(
-        savedDeviceStatus -> {
-          deviceStatusSearchRepository.save(savedDeviceStatus);
+      .map(savedDeviceStatus -> {
+        deviceStatusSearchRepository.save(savedDeviceStatus);
 
-          return savedDeviceStatus;
-        }
-      )
+        return savedDeviceStatus;
+      })
       .map(deviceStatusMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
   @Transactional(readOnly = true)
   public Page<DeviceStatusDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of DeviceStatuses for query {}", query);
-    return deviceStatusSearchRepository.search(queryStringQuery(query), pageable).map(deviceStatusMapper::toDto);
+    return deviceStatusSearchRepository.search(query, pageable).map(deviceStatusMapper::toDto);
   }
 }

@@ -9,7 +9,7 @@ node {
 
   stage('check')
   {
-    sh scm.branches[0].name
+    echo scm.branches[0].name
 
     parallel(
       'java' :

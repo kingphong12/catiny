@@ -6,7 +6,7 @@ import {imageUrl} from "app/shared/util/image-tools-util";
 import {useAppDispatch, useAppSelector} from "app/config/store";
 import {rightChatActive} from "app/modules/setting/setting.reducer";
 
-const Footer = props =>
+const Footer = () =>
 {
   const dispatch = useAppDispatch();
   const userAvatarUrl = useAppSelector(state => imageUrl(state.authentication.masterUser.avatar))

@@ -59,21 +59,17 @@ public class FollowUserServiceImpl implements FollowUserService {
 
     return followUserRepository
       .findById(followUserDTO.getId())
-      .map(
-        existingFollowUser -> {
-          followUserMapper.partialUpdate(existingFollowUser, followUserDTO);
+      .map(existingFollowUser -> {
+        followUserMapper.partialUpdate(existingFollowUser, followUserDTO);
 
-          return existingFollowUser;
-        }
-      )
+        return existingFollowUser;
+      })
       .map(followUserRepository::save)
-      .map(
-        savedFollowUser -> {
-          followUserSearchRepository.save(savedFollowUser);
+      .map(savedFollowUser -> {
+        followUserSearchRepository.save(savedFollowUser);
 
-          return savedFollowUser;
-        }
-      )
+        return savedFollowUser;
+      })
       .map(followUserMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class FollowUserServiceImpl implements FollowUserService {
   @Transactional(readOnly = true)
   public Page<FollowUserDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of FollowUsers for query {}", query);
-    return followUserSearchRepository.search(queryStringQuery(query), pageable).map(followUserMapper::toDto);
+    return followUserSearchRepository.search(query, pageable).map(followUserMapper::toDto);
   }
 }

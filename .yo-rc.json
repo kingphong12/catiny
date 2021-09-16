@@ -4,7 +4,7 @@
     "otherModules": [],
     "applicationType": "monolith",
     "baseName": "catiny",
-    "jhipsterVersion": "7.0.1",
+    "jhipsterVersion": "7.2.0",
     "skipClient": false,
     "skipServer": false,
     "skipUserManagement": false,
@@ -81,6 +81,8 @@
     ],
     "lastLiquibaseTimestamp": 1626624224000,
     "withGeneratedFlag": true,
-    "devServerPort": 9060
+    "incrementalChangelog": true,
+    "devServerPort": 9060,
+    "enableGradleEnterprise": false
   }
 }

@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Album entity\n@why?             ->\n@use-to           -> Lưu thông tin về một bộ album của người dùng\n@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album\n\n@describe         ->
@@ -28,6 +27,7 @@ public class Album implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -64,23 +64,24 @@ public class Album implements Serializable {
   private BaseInfo info;
 
   @ManyToMany
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JoinTable(name = "rel_album__image", joinColumns = @JoinColumn(name = "album_id"), inverseJoinColumns = @JoinColumn(name = "image_id"))
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(value = { "fileInfo", "info", "processeds", "original", "albums" }, allowSetters = true)
   private Set<Image> images = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Album id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Album id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -88,7 +89,7 @@ public class Album implements Serializable {
   }
 
   public Album uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -101,7 +102,7 @@ public class Album implements Serializable {
   }
 
   public Album name(String name) {
-    this.name = name;
+    this.setName(name);
     return this;
   }
 
@@ -114,7 +115,7 @@ public class Album implements Serializable {
   }
 
   public Album note(String note) {
-    this.note = note;
+    this.setNote(note);
     return this;
   }
 
@@ -127,7 +128,7 @@ public class Album implements Serializable {
   }
 
   public Album avatar(String avatar) {
-    this.avatar = avatar;
+    this.setAvatar(avatar);
     return this;
   }
 
@@ -139,17 +140,21 @@ public class Album implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public Album info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<Image> getImages() {
     return this.images;
+  }
+
+  public void setImages(Set<Image> images) {
+    this.images = images;
   }
 
   public Album images(Set<Image> images) {
@@ -167,10 +172,6 @@ public class Album implements Serializable {
     this.images.remove(image);
     image.getAlbums().remove(this);
     return this;
-  }
-
-  public void setImages(Set<Image> images) {
-    this.images = images;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

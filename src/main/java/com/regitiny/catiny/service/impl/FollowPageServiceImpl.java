@@ -59,21 +59,17 @@ public class FollowPageServiceImpl implements FollowPageService {
 
     return followPageRepository
       .findById(followPageDTO.getId())
-      .map(
-        existingFollowPage -> {
-          followPageMapper.partialUpdate(existingFollowPage, followPageDTO);
+      .map(existingFollowPage -> {
+        followPageMapper.partialUpdate(existingFollowPage, followPageDTO);
 
-          return existingFollowPage;
-        }
-      )
+        return existingFollowPage;
+      })
       .map(followPageRepository::save)
-      .map(
-        savedFollowPage -> {
-          followPageSearchRepository.save(savedFollowPage);
+      .map(savedFollowPage -> {
+        followPageSearchRepository.save(savedFollowPage);
 
-          return savedFollowPage;
-        }
-      )
+        return savedFollowPage;
+      })
       .map(followPageMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class FollowPageServiceImpl implements FollowPageService {
   @Transactional(readOnly = true)
   public Page<FollowPageDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of FollowPages for query {}", query);
-    return followPageSearchRepository.search(queryStringQuery(query), pageable).map(followPageMapper::toDto);
+    return followPageSearchRepository.search(query, pageable).map(followPageMapper::toDto);
   }
 }

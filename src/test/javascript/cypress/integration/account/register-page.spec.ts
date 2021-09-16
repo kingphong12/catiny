@@ -1,11 +1,11 @@
 import {
-  classInvalid,
-  classValid,
+  usernameRegisterSelector,
   emailRegisterSelector,
   firstPasswordRegisterSelector,
   secondPasswordRegisterSelector,
   submitRegisterSelector,
-  usernameRegisterSelector,
+  classInvalid,
+  classValid,
 } from '../../support/commands';
 
 describe('/account/register', () => {
@@ -26,54 +26,48 @@ describe('/account/register', () => {
     cy.get(submitRegisterSelector).should('be.visible');
   });
 
-  it('requires username', () =>
-  {
-    cy.get(submitRegisterSelector).click({force: true});
+  it('requires username', () => {
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(usernameRegisterSelector).should('have.class', classInvalid).type('test');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(usernameRegisterSelector).should('have.class', classValid).clear();
   });
 
-  it('requires email', () =>
-  {
+  it('requires email', () => {
     cy.get(emailRegisterSelector).should('have.class', classInvalid).type('testtest.fr');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(emailRegisterSelector).should('have.class', classInvalid).clear();
   });
 
-  it('requires email in correct format', () =>
-  {
+  it('requires email in correct format', () => {
     cy.get(emailRegisterSelector).should('have.class', classInvalid).type('test@test.fr');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(emailRegisterSelector).should('have.class', classValid).clear();
   });
 
-  it('requires first password', () =>
-  {
+  it('requires first password', () => {
     cy.get(firstPasswordRegisterSelector).should('have.class', classInvalid).type('test@test.fr');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(firstPasswordRegisterSelector).should('have.class', classValid).clear();
   });
 
-  it('requires password and confirm password to be same', () =>
-  {
+  it('requires password and confirm password to be same', () => {
     cy.get(firstPasswordRegisterSelector).should('have.class', classInvalid).type('test');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(firstPasswordRegisterSelector).should('have.class', classValid);
     cy.get(secondPasswordRegisterSelector).should('have.class', classInvalid).type('test');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(secondPasswordRegisterSelector).should('have.class', classValid);
     cy.get(firstPasswordRegisterSelector).clear();
     cy.get(secondPasswordRegisterSelector).clear();
   });
 
-  it('requires password and confirm password have not the same value', () =>
-  {
+  it('requires password and confirm password have not the same value', () => {
     cy.get(firstPasswordRegisterSelector).should('have.class', classInvalid).type('test');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(firstPasswordRegisterSelector).should('have.class', classValid);
     cy.get(secondPasswordRegisterSelector).should('have.class', classInvalid).type('otherPassword');
-    cy.get(submitRegisterSelector).click({force: true});
+    cy.get(submitRegisterSelector).click({ force: true });
     cy.get(secondPasswordRegisterSelector).should('have.class', classInvalid);
     cy.get(firstPasswordRegisterSelector).clear();
     cy.get(secondPasswordRegisterSelector).clear();
@@ -87,6 +81,6 @@ describe('/account/register', () => {
     cy.get(firstPasswordRegisterSelector).type('jondoe');
     cy.get(secondPasswordRegisterSelector).type('jondoe');
     cy.get(submitRegisterSelector).click({ force: true });
-    cy.wait('@registerSave').then(({ request, response }) => expect(response.statusCode).to.equal(201));
+    cy.wait('@registerSave').then(({ response }) => expect(response.statusCode).to.equal(201));
   });
 });

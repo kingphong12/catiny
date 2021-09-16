@@ -3,7 +3,7 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
@@ -73,13 +73,14 @@
         <loadData
                   file="config/liquibase/fake-data/base_info.csv"
                   separator=";"
-                  tableName="base_info">
+                  tableName="base_info"
+                  usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="uuid" type="string"/>
             <column name="process_status" type="string"/>
             <column name="modified_class" type="string"/>
-            <column name="created_date" type="${datetimeType}"/>
-            <column name="modified_date" type="${datetimeType}"/>
+            <column name="created_date" type="date"/>
+            <column name="modified_date" type="date"/>
             <column name="notes" type="clob"/>
             <column name="deleted" type="boolean"/>
             <column name="priority_index" type="numeric"/>

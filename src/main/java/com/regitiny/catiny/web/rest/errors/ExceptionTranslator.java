@@ -93,8 +93,7 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     List<FieldErrorVM> fieldErrors = result
       .getFieldErrors()
       .stream()
-      .map(
-        f ->
+      .map(f ->
           new FieldErrorVM(
             f.getObjectName().replaceFirst("DTO$", ""),
             f.getField(),

@@ -84,6 +84,8 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
 
   private LongFilter accountStatusId;
 
+  private Boolean distinct;
+
   public DeviceStatusCriteria() {}
 
   public DeviceStatusCriteria(DeviceStatusCriteria other) {
@@ -96,6 +98,7 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
     this.statusComment = other.statusComment == null ? null : other.statusComment.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.accountStatusId = other.accountStatusId == null ? null : other.accountStatusId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -238,6 +241,14 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
     this.accountStatusId = accountStatusId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -256,13 +267,14 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
       Objects.equals(lastVisited, that.lastVisited) &&
       Objects.equals(statusComment, that.statusComment) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(accountStatusId, that.accountStatusId)
+      Objects.equals(accountStatusId, that.accountStatusId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, deviceName, deviceType, deviceStatus, lastVisited, statusComment, infoId, accountStatusId);
+    return Objects.hash(id, uuid, deviceName, deviceType, deviceStatus, lastVisited, statusComment, infoId, accountStatusId, distinct);
   }
 
   // prettier-ignore
@@ -278,6 +290,7 @@ public class DeviceStatusCriteria implements Serializable, Criteria {
             (statusComment != null ? "statusComment=" + statusComment + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (accountStatusId != null ? "accountStatusId=" + accountStatusId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

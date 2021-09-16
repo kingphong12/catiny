@@ -55,21 +55,17 @@ public class FriendServiceImpl implements FriendService {
 
     return friendRepository
       .findById(friendDTO.getId())
-      .map(
-        existingFriend -> {
-          friendMapper.partialUpdate(existingFriend, friendDTO);
+      .map(existingFriend -> {
+        friendMapper.partialUpdate(existingFriend, friendDTO);
 
-          return existingFriend;
-        }
-      )
+        return existingFriend;
+      })
       .map(friendRepository::save)
-      .map(
-        savedFriend -> {
-          friendSearchRepository.save(savedFriend);
+      .map(savedFriend -> {
+        friendSearchRepository.save(savedFriend);
 
-          return savedFriend;
-        }
-      )
+        return savedFriend;
+      })
       .map(friendMapper::toDto);
   }
 
@@ -98,6 +94,6 @@ public class FriendServiceImpl implements FriendService {
   @Transactional(readOnly = true)
   public Page<FriendDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of Friends for query {}", query);
-    return friendSearchRepository.search(queryStringQuery(query), pageable).map(friendMapper::toDto);
+    return friendSearchRepository.search(query, pageable).map(friendMapper::toDto);
   }
 }

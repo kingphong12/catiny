@@ -81,8 +81,6 @@ const Livestream = (props: RouteComponentProps<{ id: string }>) =>
     }
     else
     {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       mediaRecorderRef.current = new MediaRecorder(await navigator.mediaDevices.getDisplayMedia(displayConstraints), {
         audioBitsPerSecond: 12800,
         videoBitsPerSecond: 5000,
@@ -91,8 +89,6 @@ const Livestream = (props: RouteComponentProps<{ id: string }>) =>
       mediaSource.addEventListener('sourceopen', () => (sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8')));
     }
     webcamRef.current.srcObject = mediaRecorderRef.current.stream;
-    // mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {mimeType: "video/webm"});
-    // videoRef.current.srcObject=webcamRef.current.stream;
     mediaRecorderRef.current.ondataavailable = handleDataAvailable;
     mediaRecorderRef.current.start(1);
     videoRef.current.src = window.URL.createObjectURL(mediaSource);

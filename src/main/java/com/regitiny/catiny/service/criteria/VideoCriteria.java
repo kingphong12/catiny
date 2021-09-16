@@ -59,6 +59,8 @@ public class VideoCriteria implements Serializable, Criteria {
 
   private LongFilter originalId;
 
+  private Boolean distinct;
+
   public VideoCriteria() {}
 
   public VideoCriteria(VideoCriteria other) {
@@ -78,6 +80,7 @@ public class VideoCriteria implements Serializable, Criteria {
     this.processedId = other.processedId == null ? null : other.processedId.copy();
     this.videoStreamId = other.videoStreamId == null ? null : other.videoStreamId.copy();
     this.originalId = other.originalId == null ? null : other.originalId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -325,6 +328,14 @@ public class VideoCriteria implements Serializable, Criteria {
     this.originalId = originalId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -350,7 +361,8 @@ public class VideoCriteria implements Serializable, Criteria {
       Objects.equals(infoId, that.infoId) &&
       Objects.equals(processedId, that.processedId) &&
       Objects.equals(videoStreamId, that.videoStreamId) &&
-      Objects.equals(originalId, that.originalId)
+      Objects.equals(originalId, that.originalId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
@@ -372,7 +384,8 @@ public class VideoCriteria implements Serializable, Criteria {
       infoId,
       processedId,
       videoStreamId,
-      originalId
+      originalId,
+      distinct
     );
   }
 
@@ -396,6 +409,7 @@ public class VideoCriteria implements Serializable, Criteria {
             (processedId != null ? "processedId=" + processedId + ", " : "") +
             (videoStreamId != null ? "videoStreamId=" + videoStreamId + ", " : "") +
             (originalId != null ? "originalId=" + originalId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

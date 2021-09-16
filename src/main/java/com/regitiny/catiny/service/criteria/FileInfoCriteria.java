@@ -41,6 +41,8 @@ public class FileInfoCriteria implements Serializable, Criteria {
 
   private LongFilter infoId;
 
+  private Boolean distinct;
+
   public FileInfoCriteria() {}
 
   public FileInfoCriteria(FileInfoCriteria other) {
@@ -51,6 +53,7 @@ public class FileInfoCriteria implements Serializable, Criteria {
     this.path = other.path == null ? null : other.path.copy();
     this.dataSize = other.dataSize == null ? null : other.dataSize.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -163,6 +166,14 @@ public class FileInfoCriteria implements Serializable, Criteria {
     this.infoId = infoId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -179,13 +190,14 @@ public class FileInfoCriteria implements Serializable, Criteria {
       Objects.equals(typeFile, that.typeFile) &&
       Objects.equals(path, that.path) &&
       Objects.equals(dataSize, that.dataSize) &&
-      Objects.equals(infoId, that.infoId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, nameFile, typeFile, path, dataSize, infoId);
+    return Objects.hash(id, uuid, nameFile, typeFile, path, dataSize, infoId, distinct);
   }
 
   // prettier-ignore
@@ -199,6 +211,7 @@ public class FileInfoCriteria implements Serializable, Criteria {
             (path != null ? "path=" + path + ", " : "") +
             (dataSize != null ? "dataSize=" + dataSize + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

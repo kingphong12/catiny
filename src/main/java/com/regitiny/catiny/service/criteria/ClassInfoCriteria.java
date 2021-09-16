@@ -39,6 +39,8 @@ public class ClassInfoCriteria implements Serializable, Criteria {
 
   private LongFilter baseInfoId;
 
+  private Boolean distinct;
+
   public ClassInfoCriteria() {}
 
   public ClassInfoCriteria(ClassInfoCriteria other) {
@@ -48,6 +50,7 @@ public class ClassInfoCriteria implements Serializable, Criteria {
     this.fullName = other.fullName == null ? null : other.fullName.copy();
     this.className = other.className == null ? null : other.className.copy();
     this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -145,6 +148,14 @@ public class ClassInfoCriteria implements Serializable, Criteria {
     this.baseInfoId = baseInfoId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -160,13 +171,14 @@ public class ClassInfoCriteria implements Serializable, Criteria {
       Objects.equals(namePackage, that.namePackage) &&
       Objects.equals(fullName, that.fullName) &&
       Objects.equals(className, that.className) &&
-      Objects.equals(baseInfoId, that.baseInfoId)
+      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, namePackage, fullName, className, baseInfoId);
+    return Objects.hash(id, uuid, namePackage, fullName, className, baseInfoId, distinct);
   }
 
   // prettier-ignore
@@ -179,6 +191,7 @@ public class ClassInfoCriteria implements Serializable, Criteria {
             (fullName != null ? "fullName=" + fullName + ", " : "") +
             (className != null ? "className=" + className + ", " : "") +
             (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

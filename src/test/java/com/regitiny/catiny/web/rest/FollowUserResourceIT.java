@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -271,7 +270,14 @@ class FollowUserResourceIT {
   void getAllFollowUsersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     followUserRepository.saveAndFlush(followUser);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     followUser.setInfo(info);
@@ -290,7 +296,14 @@ class FollowUserResourceIT {
   void getAllFollowUsersByFollowIsEqualToSomething() throws Exception {
     // Initialize the database
     followUserRepository.saveAndFlush(followUser);
-    MasterUser follow = MasterUserResourceIT.createEntity(em);
+    MasterUser follow;
+    if (TestUtil.findAll(em, MasterUser.class).isEmpty()) {
+      follow = MasterUserResourceIT.createEntity(em);
+      em.persist(follow);
+      em.flush();
+    } else {
+      follow = TestUtil.findAll(em, MasterUser.class).get(0);
+    }
     em.persist(follow);
     em.flush();
     followUser.setFollow(follow);
@@ -613,7 +626,7 @@ class FollowUserResourceIT {
     // Configure the mock search repository
     // Initialize the database
     followUserRepository.saveAndFlush(followUser);
-    when(mockFollowUserSearchRepository.search(queryStringQuery("id:" + followUser.getId()), PageRequest.of(0, 20)))
+    when(mockFollowUserSearchRepository.search("id:" + followUser.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(followUser), PageRequest.of(0, 1), 1));
 
     // Search the followUser

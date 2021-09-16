@@ -89,6 +89,10 @@ public class EventQueryService extends QueryService<Event> {
   protected Specification<Event> createSpecification(EventCriteria criteria) {
     Specification<Event> specification = Specification.where(null);
     if (criteria != null) {
+      // This has to be called first, because the distinct method returns null
+      if (criteria.getDistinct() != null) {
+        specification = specification.and(distinct(criteria.getDistinct()));
+      }
       if (criteria.getId() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getId(), Event_.id));
       }

@@ -59,21 +59,17 @@ public class ClassInfoServiceImpl implements ClassInfoService {
 
     return classInfoRepository
       .findById(classInfoDTO.getId())
-      .map(
-        existingClassInfo -> {
-          classInfoMapper.partialUpdate(existingClassInfo, classInfoDTO);
+      .map(existingClassInfo -> {
+        classInfoMapper.partialUpdate(existingClassInfo, classInfoDTO);
 
-          return existingClassInfo;
-        }
-      )
+        return existingClassInfo;
+      })
       .map(classInfoRepository::save)
-      .map(
-        savedClassInfo -> {
-          classInfoSearchRepository.save(savedClassInfo);
+      .map(savedClassInfo -> {
+        classInfoSearchRepository.save(savedClassInfo);
 
-          return savedClassInfo;
-        }
-      )
+        return savedClassInfo;
+      })
       .map(classInfoMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class ClassInfoServiceImpl implements ClassInfoService {
   @Transactional(readOnly = true)
   public Page<ClassInfoDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of ClassInfos for query {}", query);
-    return classInfoSearchRepository.search(queryStringQuery(query), pageable).map(classInfoMapper::toDto);
+    return classInfoSearchRepository.search(query, pageable).map(classInfoMapper::toDto);
   }
 }

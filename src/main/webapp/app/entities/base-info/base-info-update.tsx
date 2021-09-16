@@ -72,8 +72,8 @@ export const BaseInfoUpdate = (props: RouteComponentProps<{ id: string }>) => {
           modifiedDate: displayDefaultDateTime(),
         }
       : {
-          ...baseInfoEntity,
           processStatus: 'NOT_PROCESSED',
+          ...baseInfoEntity,
           createdDate: convertDateTimeFromServer(baseInfoEntity.createdDate),
           modifiedDate: convertDateTimeFromServer(baseInfoEntity.modifiedDate),
           createdById: baseInfoEntity?.createdBy?.id,

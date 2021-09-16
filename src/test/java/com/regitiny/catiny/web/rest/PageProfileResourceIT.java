@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -271,7 +270,14 @@ class PageProfileResourceIT {
   void getAllPageProfilesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     pageProfileRepository.saveAndFlush(pageProfile);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     pageProfile.setInfo(info);
@@ -290,7 +296,14 @@ class PageProfileResourceIT {
   void getAllPageProfilesByPageIsEqualToSomething() throws Exception {
     // Initialize the database
     pageProfileRepository.saveAndFlush(pageProfile);
-    PagePost page = PagePostResourceIT.createEntity(em);
+    PagePost page;
+    if (TestUtil.findAll(em, PagePost.class).isEmpty()) {
+      page = PagePostResourceIT.createEntity(em);
+      em.persist(page);
+      em.flush();
+    } else {
+      page = TestUtil.findAll(em, PagePost.class).get(0);
+    }
     em.persist(page);
     em.flush();
     pageProfile.setPage(page);
@@ -616,7 +629,7 @@ class PageProfileResourceIT {
     // Configure the mock search repository
     // Initialize the database
     pageProfileRepository.saveAndFlush(pageProfile);
-    when(mockPageProfileSearchRepository.search(queryStringQuery("id:" + pageProfile.getId()), PageRequest.of(0, 20)))
+    when(mockPageProfileSearchRepository.search("id:" + pageProfile.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(pageProfile), PageRequest.of(0, 1), 1));
 
     // Search the pageProfile

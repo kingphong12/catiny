@@ -1,10 +1,12 @@
 package com.regitiny.catiny.security.jwt;
 
 import com.regitiny.catiny.GeneratedByJHipster;
+import com.regitiny.catiny.service.dto.MasterUserDTO;
 import com.regitiny.catiny.util.MasterUserUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -66,7 +68,7 @@ public class TokenProvider
   public String createToken(Authentication authentication, boolean rememberMe)
   {
     String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
-    var masterUser = MasterUserUtil.getMasterUserDTOByLogin(authentication.getName()).get();
+    var masterUser = Try.of( ()->MasterUserUtil.getMasterUserDTOByLogin(authentication.getName()).get()).getOrElse(new MasterUserDTO());
 
     long now = (new Date()).getTime();
     Date validity;

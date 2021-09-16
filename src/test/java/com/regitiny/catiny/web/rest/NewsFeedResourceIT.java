@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -382,7 +381,14 @@ class NewsFeedResourceIT {
   void getAllNewsFeedsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     newsFeedRepository.saveAndFlush(newsFeed);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     newsFeed.setInfo(info);
@@ -401,7 +407,14 @@ class NewsFeedResourceIT {
   void getAllNewsFeedsByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     newsFeedRepository.saveAndFlush(newsFeed);
-    Post post = PostResourceIT.createEntity(em);
+    Post post;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      post = PostResourceIT.createEntity(em);
+      em.persist(post);
+      em.flush();
+    } else {
+      post = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(post);
     em.flush();
     newsFeed.setPost(post);
@@ -730,7 +743,7 @@ class NewsFeedResourceIT {
     // Configure the mock search repository
     // Initialize the database
     newsFeedRepository.saveAndFlush(newsFeed);
-    when(mockNewsFeedSearchRepository.search(queryStringQuery("id:" + newsFeed.getId()), PageRequest.of(0, 20)))
+    when(mockNewsFeedSearchRepository.search("id:" + newsFeed.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(newsFeed), PageRequest.of(0, 1), 1));
 
     // Search the newsFeed

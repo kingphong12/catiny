@@ -19,13 +19,13 @@ export default () => next => action => {
     let alert: string | null = null;
     let alertParams: string | null = null;
     headers &&
-    Object.entries<string>(headers).forEach(([k, v]) => {
-      if (k.toLowerCase().endsWith('app-alert')) {
-        alert = v;
-      } else if (k.toLowerCase().endsWith('app-params')) {
-        alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
-      }
-    });
+      Object.entries<string>(headers).forEach(([k, v]) => {
+        if (k.toLowerCase().endsWith('app-alert')) {
+          alert = v;
+        } else if (k.toLowerCase().endsWith('app-params')) {
+          alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
+        }
+      });
     if (alert) {
       const alertParam = alertParams;
       toast.success(translate(alert, { param: alertParam }));
@@ -42,7 +42,6 @@ export default () => next => action => {
           (error.message === '' || (data && data.path && (data.path.includes('/api/account') || data.path.includes('/api/authenticate'))))
         )
       ) {
-        let i;
         switch (response.status) {
           // connection refused, server not reachable
           case 0:
@@ -53,20 +52,19 @@ export default () => next => action => {
             let errorHeader: string | null = null;
             let entityKey: string | null = null;
             response?.headers &&
-            Object.entries<string>(response.headers).forEach(([k, v]) => {
-              if (k.toLowerCase().endsWith('app-error')) {
-                errorHeader = v;
-              } else if (k.toLowerCase().endsWith('app-params')) {
-                entityKey = v;
-              }
-            });
+              Object.entries<string>(response.headers).forEach(([k, v]) => {
+                if (k.toLowerCase().endsWith('app-error')) {
+                  errorHeader = v;
+                } else if (k.toLowerCase().endsWith('app-params')) {
+                  entityKey = v;
+                }
+              });
             if (errorHeader) {
               const entityName = translate('global.menu.entities.' + entityKey);
               addErrorAlert(errorHeader, errorHeader, { entityName });
             } else if (data?.fieldErrors) {
               const fieldErrors = data.fieldErrors;
-              for (i = 0; i < fieldErrors.length; i++) {
-                const fieldError = fieldErrors[i];
+              for (const fieldError of fieldErrors) {
                 if (['Min', 'Max', 'DecimalMin', 'DecimalMax'].includes(fieldError.message)) {
                   fieldError.message = 'Size';
                 }

@@ -35,6 +35,8 @@ public class FollowPageCriteria implements Serializable, Criteria {
 
   private LongFilter pageDetailsId;
 
+  private Boolean distinct;
+
   public FollowPageCriteria() {}
 
   public FollowPageCriteria(FollowPageCriteria other) {
@@ -42,6 +44,7 @@ public class FollowPageCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.pageDetailsId = other.pageDetailsId == null ? null : other.pageDetailsId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -109,6 +112,14 @@ public class FollowPageCriteria implements Serializable, Criteria {
     this.pageDetailsId = pageDetailsId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -122,13 +133,14 @@ public class FollowPageCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(pageDetailsId, that.pageDetailsId)
+      Objects.equals(pageDetailsId, that.pageDetailsId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId, pageDetailsId);
+    return Objects.hash(id, uuid, infoId, pageDetailsId, distinct);
   }
 
   // prettier-ignore
@@ -139,6 +151,7 @@ public class FollowPageCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (pageDetailsId != null ? "pageDetailsId=" + pageDetailsId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

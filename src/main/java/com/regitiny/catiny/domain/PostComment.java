@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The PostComment entity.\n@why?             ->\n@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\n@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\n\n@describe         ->
@@ -28,6 +27,7 @@ public class PostComment implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -69,17 +69,18 @@ public class PostComment implements Serializable {
   private PostComment parent;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public PostComment id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public PostComment id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -87,7 +88,7 @@ public class PostComment implements Serializable {
   }
 
   public PostComment uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -100,7 +101,7 @@ public class PostComment implements Serializable {
   }
 
   public PostComment content(String content) {
-    this.content = content;
+    this.setContent(content);
     return this;
   }
 
@@ -112,17 +113,27 @@ public class PostComment implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public PostComment info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<PostLike> getLikes() {
     return this.likes;
+  }
+
+  public void setLikes(Set<PostLike> postLikes) {
+    if (this.likes != null) {
+      this.likes.forEach(i -> i.setComment(null));
+    }
+    if (postLikes != null) {
+      postLikes.forEach(i -> i.setComment(this));
+    }
+    this.likes = postLikes;
   }
 
   public PostComment likes(Set<PostLike> postLikes) {
@@ -142,18 +153,18 @@ public class PostComment implements Serializable {
     return this;
   }
 
-  public void setLikes(Set<PostLike> postLikes) {
-    if (this.likes != null) {
-      this.likes.forEach(i -> i.setComment(null));
-    }
-    if (postLikes != null) {
-      postLikes.forEach(i -> i.setComment(this));
-    }
-    this.likes = postLikes;
-  }
-
   public Set<PostComment> getReplies() {
     return this.replies;
+  }
+
+  public void setReplies(Set<PostComment> postComments) {
+    if (this.replies != null) {
+      this.replies.forEach(i -> i.setParent(null));
+    }
+    if (postComments != null) {
+      postComments.forEach(i -> i.setParent(this));
+    }
+    this.replies = postComments;
   }
 
   public PostComment replies(Set<PostComment> postComments) {
@@ -173,18 +184,12 @@ public class PostComment implements Serializable {
     return this;
   }
 
-  public void setReplies(Set<PostComment> postComments) {
-    if (this.replies != null) {
-      this.replies.forEach(i -> i.setParent(null));
-    }
-    if (postComments != null) {
-      postComments.forEach(i -> i.setParent(this));
-    }
-    this.replies = postComments;
-  }
-
   public Post getPost() {
     return this.post;
+  }
+
+  public void setPost(Post post) {
+    this.post = post;
   }
 
   public PostComment post(Post post) {
@@ -192,21 +197,17 @@ public class PostComment implements Serializable {
     return this;
   }
 
-  public void setPost(Post post) {
-    this.post = post;
-  }
-
   public PostComment getParent() {
     return this.parent;
+  }
+
+  public void setParent(PostComment postComment) {
+    this.parent = postComment;
   }
 
   public PostComment parent(PostComment postComment) {
     this.setParent(postComment);
     return this;
-  }
-
-  public void setParent(PostComment postComment) {
-    this.parent = postComment;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

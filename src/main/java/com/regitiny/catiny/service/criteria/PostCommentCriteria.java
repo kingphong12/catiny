@@ -41,6 +41,8 @@ public class PostCommentCriteria implements Serializable, Criteria {
 
   private LongFilter parentId;
 
+  private Boolean distinct;
+
   public PostCommentCriteria() {}
 
   public PostCommentCriteria(PostCommentCriteria other) {
@@ -51,6 +53,7 @@ public class PostCommentCriteria implements Serializable, Criteria {
     this.replyId = other.replyId == null ? null : other.replyId.copy();
     this.postId = other.postId == null ? null : other.postId.copy();
     this.parentId = other.parentId == null ? null : other.parentId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -163,6 +166,14 @@ public class PostCommentCriteria implements Serializable, Criteria {
     this.parentId = parentId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -179,13 +190,14 @@ public class PostCommentCriteria implements Serializable, Criteria {
       Objects.equals(likeId, that.likeId) &&
       Objects.equals(replyId, that.replyId) &&
       Objects.equals(postId, that.postId) &&
-      Objects.equals(parentId, that.parentId)
+      Objects.equals(parentId, that.parentId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId, likeId, replyId, postId, parentId);
+    return Objects.hash(id, uuid, infoId, likeId, replyId, postId, parentId, distinct);
   }
 
   // prettier-ignore
@@ -199,6 +211,7 @@ public class PostCommentCriteria implements Serializable, Criteria {
             (replyId != null ? "replyId=" + replyId + ", " : "") +
             (postId != null ? "postId=" + postId + ", " : "") +
             (parentId != null ? "parentId=" + parentId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

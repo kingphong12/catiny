@@ -127,7 +127,7 @@ public class BaseInfoResource {
    * or with status {@code 500 (Internal Server Error)} if the baseInfoDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/base-infos/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/base-infos/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<BaseInfoDTO> partialUpdateBaseInfo(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody BaseInfoDTO baseInfoDTO

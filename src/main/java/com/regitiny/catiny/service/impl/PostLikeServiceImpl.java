@@ -59,21 +59,17 @@ public class PostLikeServiceImpl implements PostLikeService {
 
     return postLikeRepository
       .findById(postLikeDTO.getId())
-      .map(
-        existingPostLike -> {
-          postLikeMapper.partialUpdate(existingPostLike, postLikeDTO);
+      .map(existingPostLike -> {
+        postLikeMapper.partialUpdate(existingPostLike, postLikeDTO);
 
-          return existingPostLike;
-        }
-      )
+        return existingPostLike;
+      })
       .map(postLikeRepository::save)
-      .map(
-        savedPostLike -> {
-          postLikeSearchRepository.save(savedPostLike);
+      .map(savedPostLike -> {
+        postLikeSearchRepository.save(savedPostLike);
 
-          return savedPostLike;
-        }
-      )
+        return savedPostLike;
+      })
       .map(postLikeMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class PostLikeServiceImpl implements PostLikeService {
   @Transactional(readOnly = true)
   public Page<PostLikeDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of PostLikes for query {}", query);
-    return postLikeSearchRepository.search(queryStringQuery(query), pageable).map(postLikeMapper::toDto);
+    return postLikeSearchRepository.search(query, pageable).map(postLikeMapper::toDto);
   }
 }

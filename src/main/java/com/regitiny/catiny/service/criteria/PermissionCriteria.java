@@ -47,6 +47,8 @@ public class PermissionCriteria implements Serializable, Criteria {
 
   private LongFilter ownerId;
 
+  private Boolean distinct;
+
   public PermissionCriteria() {}
 
   public PermissionCriteria(PermissionCriteria other) {
@@ -60,6 +62,7 @@ public class PermissionCriteria implements Serializable, Criteria {
     this.level = other.level == null ? null : other.level.copy();
     this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
     this.ownerId = other.ownerId == null ? null : other.ownerId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -217,6 +220,14 @@ public class PermissionCriteria implements Serializable, Criteria {
     this.ownerId = ownerId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -236,13 +247,14 @@ public class PermissionCriteria implements Serializable, Criteria {
       Objects.equals(add, that.add) &&
       Objects.equals(level, that.level) &&
       Objects.equals(baseInfoId, that.baseInfoId) &&
-      Objects.equals(ownerId, that.ownerId)
+      Objects.equals(ownerId, that.ownerId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, read, write, share, delete, add, level, baseInfoId, ownerId);
+    return Objects.hash(id, uuid, read, write, share, delete, add, level, baseInfoId, ownerId, distinct);
   }
 
   // prettier-ignore
@@ -259,6 +271,7 @@ public class PermissionCriteria implements Serializable, Criteria {
             (level != null ? "level=" + level + ", " : "") +
             (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
             (ownerId != null ? "ownerId=" + ownerId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

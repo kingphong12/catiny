@@ -63,21 +63,17 @@ public class PageProfileServiceImpl implements PageProfileService {
 
     return pageProfileRepository
       .findById(pageProfileDTO.getId())
-      .map(
-        existingPageProfile -> {
-          pageProfileMapper.partialUpdate(existingPageProfile, pageProfileDTO);
+      .map(existingPageProfile -> {
+        pageProfileMapper.partialUpdate(existingPageProfile, pageProfileDTO);
 
-          return existingPageProfile;
-        }
-      )
+        return existingPageProfile;
+      })
       .map(pageProfileRepository::save)
-      .map(
-        savedPageProfile -> {
-          pageProfileSearchRepository.save(savedPageProfile);
+      .map(savedPageProfile -> {
+        pageProfileSearchRepository.save(savedPageProfile);
 
-          return savedPageProfile;
-        }
-      )
+        return savedPageProfile;
+      })
       .map(pageProfileMapper::toDto);
   }
 
@@ -120,6 +116,6 @@ public class PageProfileServiceImpl implements PageProfileService {
   @Transactional(readOnly = true)
   public Page<PageProfileDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of PageProfiles for query {}", query);
-    return pageProfileSearchRepository.search(queryStringQuery(query), pageable).map(pageProfileMapper::toDto);
+    return pageProfileSearchRepository.search(query, pageable).map(pageProfileMapper::toDto);
   }
 }

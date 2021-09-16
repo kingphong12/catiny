@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -686,7 +685,14 @@ class PermissionResourceIT {
   void getAllPermissionsByBaseInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
+    BaseInfo baseInfo;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      baseInfo = BaseInfoResourceIT.createEntity(em);
+      em.persist(baseInfo);
+      em.flush();
+    } else {
+      baseInfo = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(baseInfo);
     em.flush();
     permission.setBaseInfo(baseInfo);
@@ -705,7 +711,14 @@ class PermissionResourceIT {
   void getAllPermissionsByOwnerIsEqualToSomething() throws Exception {
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
-    MasterUser owner = MasterUserResourceIT.createEntity(em);
+    MasterUser owner;
+    if (TestUtil.findAll(em, MasterUser.class).isEmpty()) {
+      owner = MasterUserResourceIT.createEntity(em);
+      em.persist(owner);
+      em.flush();
+    } else {
+      owner = TestUtil.findAll(em, MasterUser.class).get(0);
+    }
     em.persist(owner);
     em.flush();
     permission.setOwner(owner);
@@ -1074,7 +1087,7 @@ class PermissionResourceIT {
     // Configure the mock search repository
     // Initialize the database
     permissionRepository.saveAndFlush(permission);
-    when(mockPermissionSearchRepository.search(queryStringQuery("id:" + permission.getId()), PageRequest.of(0, 20)))
+    when(mockPermissionSearchRepository.search("id:" + permission.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(permission), PageRequest.of(0, 1), 1));
 
     // Search the permission

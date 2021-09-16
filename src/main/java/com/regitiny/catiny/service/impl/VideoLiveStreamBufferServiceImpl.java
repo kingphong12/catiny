@@ -59,21 +59,17 @@ public class VideoLiveStreamBufferServiceImpl implements VideoLiveStreamBufferSe
 
     return videoLiveStreamBufferRepository
       .findById(videoLiveStreamBufferDTO.getId())
-      .map(
-        existingVideoLiveStreamBuffer -> {
-          videoLiveStreamBufferMapper.partialUpdate(existingVideoLiveStreamBuffer, videoLiveStreamBufferDTO);
+      .map(existingVideoLiveStreamBuffer -> {
+        videoLiveStreamBufferMapper.partialUpdate(existingVideoLiveStreamBuffer, videoLiveStreamBufferDTO);
 
-          return existingVideoLiveStreamBuffer;
-        }
-      )
+        return existingVideoLiveStreamBuffer;
+      })
       .map(videoLiveStreamBufferRepository::save)
-      .map(
-        savedVideoLiveStreamBuffer -> {
-          videoLiveStreamBufferSearchRepository.save(savedVideoLiveStreamBuffer);
+      .map(savedVideoLiveStreamBuffer -> {
+        videoLiveStreamBufferSearchRepository.save(savedVideoLiveStreamBuffer);
 
-          return savedVideoLiveStreamBuffer;
-        }
-      )
+        return savedVideoLiveStreamBuffer;
+      })
       .map(videoLiveStreamBufferMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class VideoLiveStreamBufferServiceImpl implements VideoLiveStreamBufferSe
   @Transactional(readOnly = true)
   public Page<VideoLiveStreamBufferDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of VideoLiveStreamBuffers for query {}", query);
-    return videoLiveStreamBufferSearchRepository.search(queryStringQuery(query), pageable).map(videoLiveStreamBufferMapper::toDto);
+    return videoLiveStreamBufferSearchRepository.search(query, pageable).map(videoLiveStreamBufferMapper::toDto);
   }
 }

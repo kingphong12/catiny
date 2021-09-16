@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The DeviceStatus entity.\n@why?             ->\n@use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...\n@commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị\n\n@describe         ->
@@ -29,6 +28,7 @@ public class DeviceStatus implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -81,17 +81,18 @@ public class DeviceStatus implements Serializable {
   private AccountStatus accountStatus;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public DeviceStatus id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public DeviceStatus id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -99,7 +100,7 @@ public class DeviceStatus implements Serializable {
   }
 
   public DeviceStatus uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -112,7 +113,7 @@ public class DeviceStatus implements Serializable {
   }
 
   public DeviceStatus deviceName(String deviceName) {
-    this.deviceName = deviceName;
+    this.setDeviceName(deviceName);
     return this;
   }
 
@@ -125,7 +126,7 @@ public class DeviceStatus implements Serializable {
   }
 
   public DeviceStatus deviceType(DeviceType deviceType) {
-    this.deviceType = deviceType;
+    this.setDeviceType(deviceType);
     return this;
   }
 
@@ -138,7 +139,7 @@ public class DeviceStatus implements Serializable {
   }
 
   public DeviceStatus deviceStatus(StatusName deviceStatus) {
-    this.deviceStatus = deviceStatus;
+    this.setDeviceStatus(deviceStatus);
     return this;
   }
 
@@ -151,7 +152,7 @@ public class DeviceStatus implements Serializable {
   }
 
   public DeviceStatus lastVisited(Instant lastVisited) {
-    this.lastVisited = lastVisited;
+    this.setLastVisited(lastVisited);
     return this;
   }
 
@@ -164,7 +165,7 @@ public class DeviceStatus implements Serializable {
   }
 
   public DeviceStatus statusComment(String statusComment) {
-    this.statusComment = statusComment;
+    this.setStatusComment(statusComment);
     return this;
   }
 
@@ -176,26 +177,26 @@ public class DeviceStatus implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public DeviceStatus info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   public AccountStatus getAccountStatus() {
     return this.accountStatus;
   }
 
+  public void setAccountStatus(AccountStatus accountStatus) {
+    this.accountStatus = accountStatus;
+  }
+
   public DeviceStatus accountStatus(AccountStatus accountStatus) {
     this.setAccountStatus(accountStatus);
     return this;
-  }
-
-  public void setAccountStatus(AccountStatus accountStatus) {
-    this.accountStatus = accountStatus;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

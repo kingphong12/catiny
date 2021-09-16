@@ -59,21 +59,17 @@ public class HanhChinhVNServiceImpl implements HanhChinhVNService {
 
     return hanhChinhVNRepository
       .findById(hanhChinhVNDTO.getId())
-      .map(
-        existingHanhChinhVN -> {
-          hanhChinhVNMapper.partialUpdate(existingHanhChinhVN, hanhChinhVNDTO);
+      .map(existingHanhChinhVN -> {
+        hanhChinhVNMapper.partialUpdate(existingHanhChinhVN, hanhChinhVNDTO);
 
-          return existingHanhChinhVN;
-        }
-      )
+        return existingHanhChinhVN;
+      })
       .map(hanhChinhVNRepository::save)
-      .map(
-        savedHanhChinhVN -> {
-          hanhChinhVNSearchRepository.save(savedHanhChinhVN);
+      .map(savedHanhChinhVN -> {
+        hanhChinhVNSearchRepository.save(savedHanhChinhVN);
 
-          return savedHanhChinhVN;
-        }
-      )
+        return savedHanhChinhVN;
+      })
       .map(hanhChinhVNMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class HanhChinhVNServiceImpl implements HanhChinhVNService {
   @Transactional(readOnly = true)
   public Page<HanhChinhVNDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of HanhChinhVNS for query {}", query);
-    return hanhChinhVNSearchRepository.search(queryStringQuery(query), pageable).map(hanhChinhVNMapper::toDto);
+    return hanhChinhVNSearchRepository.search(query, pageable).map(hanhChinhVNMapper::toDto);
   }
 }

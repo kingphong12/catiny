@@ -35,6 +35,8 @@ public class HistoryUpdateCriteria implements Serializable, Criteria {
 
   private LongFilter baseInfoId;
 
+  private Boolean distinct;
+
   public HistoryUpdateCriteria() {}
 
   public HistoryUpdateCriteria(HistoryUpdateCriteria other) {
@@ -42,6 +44,7 @@ public class HistoryUpdateCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.version = other.version == null ? null : other.version.copy();
     this.baseInfoId = other.baseInfoId == null ? null : other.baseInfoId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -109,6 +112,14 @@ public class HistoryUpdateCriteria implements Serializable, Criteria {
     this.baseInfoId = baseInfoId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -122,13 +133,14 @@ public class HistoryUpdateCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(version, that.version) &&
-      Objects.equals(baseInfoId, that.baseInfoId)
+      Objects.equals(baseInfoId, that.baseInfoId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, version, baseInfoId);
+    return Objects.hash(id, uuid, version, baseInfoId, distinct);
   }
 
   // prettier-ignore
@@ -139,6 +151,7 @@ public class HistoryUpdateCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (version != null ? "version=" + version + ", " : "") +
             (baseInfoId != null ? "baseInfoId=" + baseInfoId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

@@ -12,7 +12,7 @@ public class RedisTestContainerExtension implements BeforeAllCallback
 
   private static final AtomicBoolean started = new AtomicBoolean(false);
 
-  private static final GenericContainer redis = new GenericContainer("redis:6.2.4").withExposedPorts(6379);
+  private static final GenericContainer redis = new GenericContainer("redis:6.2.5").withExposedPorts(6379);
 
   @Override
   public void beforeAll(ExtensionContext extensionContext) throws Exception

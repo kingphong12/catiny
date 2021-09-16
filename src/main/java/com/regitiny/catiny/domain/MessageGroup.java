@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The MessageGroup entity.\n@why?             ->\n@use-to           -> Chứa thông tin các nhóm mà hiện tại người dùng đang ở trong đó (phần nhắn tin)\n@commonly-used-in -> Hiển thị các tin nhắn\n\n@describe         -> một nhóm tạo ra sẽ là một uuid . nếu nhắn tin cặp thì sẽ sắp xếp login sau đó hash md5 rồi chuyển thành định dạng uuid
@@ -28,6 +27,7 @@ public class MessageGroup implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -68,17 +68,18 @@ public class MessageGroup implements Serializable {
   private Set<MessageContent> contents = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public MessageGroup id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public MessageGroup id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -86,7 +87,7 @@ public class MessageGroup implements Serializable {
   }
 
   public MessageGroup uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -99,7 +100,7 @@ public class MessageGroup implements Serializable {
   }
 
   public MessageGroup groupName(String groupName) {
-    this.groupName = groupName;
+    this.setGroupName(groupName);
     return this;
   }
 
@@ -112,7 +113,7 @@ public class MessageGroup implements Serializable {
   }
 
   public MessageGroup avatar(String avatar) {
-    this.avatar = avatar;
+    this.setAvatar(avatar);
     return this;
   }
 
@@ -125,7 +126,7 @@ public class MessageGroup implements Serializable {
   }
 
   public MessageGroup addBy(String addBy) {
-    this.addBy = addBy;
+    this.setAddBy(addBy);
     return this;
   }
 
@@ -137,17 +138,27 @@ public class MessageGroup implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public MessageGroup info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<MessageContent> getContents() {
     return this.contents;
+  }
+
+  public void setContents(Set<MessageContent> messageContents) {
+    if (this.contents != null) {
+      this.contents.forEach(i -> i.setGroup(null));
+    }
+    if (messageContents != null) {
+      messageContents.forEach(i -> i.setGroup(this));
+    }
+    this.contents = messageContents;
   }
 
   public MessageGroup contents(Set<MessageContent> messageContents) {
@@ -165,16 +176,6 @@ public class MessageGroup implements Serializable {
     this.contents.remove(messageContent);
     messageContent.setGroup(null);
     return this;
-  }
-
-  public void setContents(Set<MessageContent> messageContents) {
-    if (this.contents != null) {
-      this.contents.forEach(i -> i.setGroup(null));
-    }
-    if (messageContents != null) {
-      messageContents.forEach(i -> i.setGroup(this));
-    }
-    this.contents = messageContents;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

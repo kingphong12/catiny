@@ -127,7 +127,7 @@ public class GroupPostResource {
    * or with status {@code 500 (Internal Server Error)} if the groupPostDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/group-posts/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/group-posts/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<GroupPostDTO> partialUpdateGroupPost(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody GroupPostDTO groupPostDTO

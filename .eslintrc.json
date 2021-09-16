@@ -34,7 +34,11 @@
     "MediaRecorder": true,
     "navigator": true,
     "atob": true,
-    "setTimeout": true
+    "setTimeout": true,
+    "I18N_HASH": true,
+    "SERVER_API_URL": true,
+    "DEVELOPMENT": true,
+    "VERSION": true
   },
   "rules": {
     "@typescript-eslint/member-ordering": [

@@ -55,21 +55,17 @@ public class EventServiceImpl implements EventService {
 
     return eventRepository
       .findById(eventDTO.getId())
-      .map(
-        existingEvent -> {
-          eventMapper.partialUpdate(existingEvent, eventDTO);
+      .map(existingEvent -> {
+        eventMapper.partialUpdate(existingEvent, eventDTO);
 
-          return existingEvent;
-        }
-      )
+        return existingEvent;
+      })
       .map(eventRepository::save)
-      .map(
-        savedEvent -> {
-          eventSearchRepository.save(savedEvent);
+      .map(savedEvent -> {
+        eventSearchRepository.save(savedEvent);
 
-          return savedEvent;
-        }
-      )
+        return savedEvent;
+      })
       .map(eventMapper::toDto);
   }
 
@@ -98,6 +94,6 @@ public class EventServiceImpl implements EventService {
   @Transactional(readOnly = true)
   public Page<EventDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of Events for query {}", query);
-    return eventSearchRepository.search(queryStringQuery(query), pageable).map(eventMapper::toDto);
+    return eventSearchRepository.search(query, pageable).map(eventMapper::toDto);
   }
 }

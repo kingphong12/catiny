@@ -64,8 +64,8 @@ export const FriendUpdate = (props: RouteComponentProps<{ id: string }>) => {
     isNew
       ? {}
       : {
-          ...friendEntity,
           friendType: 'FRIEND',
+          ...friendEntity,
           infoId: friendEntity?.info?.id,
           friendId: friendEntity?.friend?.id,
         };

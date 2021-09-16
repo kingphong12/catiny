@@ -93,6 +93,10 @@ public class RankUserQueryService extends QueryService<RankUser> {
   protected Specification<RankUser> createSpecification(RankUserCriteria criteria) {
     Specification<RankUser> specification = Specification.where(null);
     if (criteria != null) {
+      // This has to be called first, because the distinct method returns null
+      if (criteria.getDistinct() != null) {
+        specification = specification.and(distinct(criteria.getDistinct()));
+      }
       if (criteria.getId() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getId(), RankUser_.id));
       }

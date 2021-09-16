@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?         	-> The AccountStatus entity.\n@why?          	->\n@use-to:       	-> Lưu , quản lý trạng thái của tài khoản đang on hay off ...\n@commonly-used-in -> Những nghiệp vũ nhắn tin,thông báo cần biết trạng thái của tài khoản ...\n\n@describe      	->
@@ -30,6 +29,7 @@ public class AccountStatus implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -70,17 +70,18 @@ public class AccountStatus implements Serializable {
   private Set<DeviceStatus> deviceStatuses = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public AccountStatus id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public AccountStatus id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -88,7 +89,7 @@ public class AccountStatus implements Serializable {
   }
 
   public AccountStatus uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -101,7 +102,7 @@ public class AccountStatus implements Serializable {
   }
 
   public AccountStatus accountStatus(StatusName accountStatus) {
-    this.accountStatus = accountStatus;
+    this.setAccountStatus(accountStatus);
     return this;
   }
 
@@ -114,7 +115,7 @@ public class AccountStatus implements Serializable {
   }
 
   public AccountStatus lastVisited(Instant lastVisited) {
-    this.lastVisited = lastVisited;
+    this.setLastVisited(lastVisited);
     return this;
   }
 
@@ -127,7 +128,7 @@ public class AccountStatus implements Serializable {
   }
 
   public AccountStatus statusComment(String statusComment) {
-    this.statusComment = statusComment;
+    this.setStatusComment(statusComment);
     return this;
   }
 
@@ -139,17 +140,27 @@ public class AccountStatus implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public AccountStatus info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<DeviceStatus> getDeviceStatuses() {
     return this.deviceStatuses;
+  }
+
+  public void setDeviceStatuses(Set<DeviceStatus> deviceStatuses) {
+    if (this.deviceStatuses != null) {
+      this.deviceStatuses.forEach(i -> i.setAccountStatus(null));
+    }
+    if (deviceStatuses != null) {
+      deviceStatuses.forEach(i -> i.setAccountStatus(this));
+    }
+    this.deviceStatuses = deviceStatuses;
   }
 
   public AccountStatus deviceStatuses(Set<DeviceStatus> deviceStatuses) {
@@ -167,16 +178,6 @@ public class AccountStatus implements Serializable {
     this.deviceStatuses.remove(deviceStatus);
     deviceStatus.setAccountStatus(null);
     return this;
-  }
-
-  public void setDeviceStatuses(Set<DeviceStatus> deviceStatuses) {
-    if (this.deviceStatuses != null) {
-      this.deviceStatuses.forEach(i -> i.setAccountStatus(null));
-    }
-    if (deviceStatuses != null) {
-      deviceStatuses.forEach(i -> i.setAccountStatus(this));
-    }
-    this.deviceStatuses = deviceStatuses;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

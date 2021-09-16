@@ -39,6 +39,8 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
 
   private LongFilter videoStreamId;
 
+  private Boolean distinct;
+
   public VideoLiveStreamBufferCriteria() {}
 
   public VideoLiveStreamBufferCriteria(VideoLiveStreamBufferCriteria other) {
@@ -48,6 +50,7 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
     this.path = other.path == null ? null : other.path.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.videoStreamId = other.videoStreamId == null ? null : other.videoStreamId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -145,6 +148,14 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
     this.videoStreamId = videoStreamId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -160,13 +171,14 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
       Objects.equals(bufferNumber, that.bufferNumber) &&
       Objects.equals(path, that.path) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(videoStreamId, that.videoStreamId)
+      Objects.equals(videoStreamId, that.videoStreamId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, bufferNumber, path, infoId, videoStreamId);
+    return Objects.hash(id, uuid, bufferNumber, path, infoId, videoStreamId, distinct);
   }
 
   // prettier-ignore
@@ -179,6 +191,7 @@ public class VideoLiveStreamBufferCriteria implements Serializable, Criteria {
             (path != null ? "path=" + path + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (videoStreamId != null ? "videoStreamId=" + videoStreamId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -583,7 +582,14 @@ class MasterUserResourceIT {
   void getAllMasterUsersByMyRankIsEqualToSomething() throws Exception {
     // Initialize the database
     masterUserRepository.saveAndFlush(masterUser);
-    RankUser myRank = RankUserResourceIT.createEntity(em);
+    RankUser myRank;
+    if (TestUtil.findAll(em, RankUser.class).isEmpty()) {
+      myRank = RankUserResourceIT.createEntity(em);
+      em.persist(myRank);
+      em.flush();
+    } else {
+      myRank = TestUtil.findAll(em, RankUser.class).get(0);
+    }
     em.persist(myRank);
     em.flush();
     masterUser.setMyRank(myRank);
@@ -602,7 +608,14 @@ class MasterUserResourceIT {
   void getAllMasterUsersByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     masterUserRepository.saveAndFlush(masterUser);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     masterUser.setInfo(info);
@@ -621,7 +634,14 @@ class MasterUserResourceIT {
   void getAllMasterUsersByPermissionIsEqualToSomething() throws Exception {
     // Initialize the database
     masterUserRepository.saveAndFlush(masterUser);
-    Permission permission = PermissionResourceIT.createEntity(em);
+    Permission permission;
+    if (TestUtil.findAll(em, Permission.class).isEmpty()) {
+      permission = PermissionResourceIT.createEntity(em);
+      em.persist(permission);
+      em.flush();
+    } else {
+      permission = TestUtil.findAll(em, Permission.class).get(0);
+    }
     em.persist(permission);
     em.flush();
     masterUser.addPermission(permission);
@@ -640,7 +660,14 @@ class MasterUserResourceIT {
   void getAllMasterUsersByTopicInterestIsEqualToSomething() throws Exception {
     // Initialize the database
     masterUserRepository.saveAndFlush(masterUser);
-    TopicInterest topicInterest = TopicInterestResourceIT.createEntity(em);
+    TopicInterest topicInterest;
+    if (TestUtil.findAll(em, TopicInterest.class).isEmpty()) {
+      topicInterest = TopicInterestResourceIT.createEntity(em);
+      em.persist(topicInterest);
+      em.flush();
+    } else {
+      topicInterest = TestUtil.findAll(em, TopicInterest.class).get(0);
+    }
     em.persist(topicInterest);
     em.flush();
     masterUser.addTopicInterest(topicInterest);
@@ -659,7 +686,14 @@ class MasterUserResourceIT {
   void getAllMasterUsersByOwnedIsEqualToSomething() throws Exception {
     // Initialize the database
     masterUserRepository.saveAndFlush(masterUser);
-    BaseInfo owned = BaseInfoResourceIT.createEntity(em);
+    BaseInfo owned;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      owned = BaseInfoResourceIT.createEntity(em);
+      em.persist(owned);
+      em.flush();
+    } else {
+      owned = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(owned);
     em.flush();
     masterUser.addOwned(owned);
@@ -1015,7 +1049,7 @@ class MasterUserResourceIT {
     // Configure the mock search repository
     // Initialize the database
     masterUserRepository.saveAndFlush(masterUser);
-    when(mockMasterUserSearchRepository.search(queryStringQuery("id:" + masterUser.getId()), PageRequest.of(0, 20)))
+    when(mockMasterUserSearchRepository.search("id:" + masterUser.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(masterUser), PageRequest.of(0, 1), 1));
 
     // Search the masterUser

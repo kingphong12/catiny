@@ -63,6 +63,8 @@ public class EventCriteria implements Serializable, Criteria {
 
   private LongFilter infoId;
 
+  private Boolean distinct;
+
   public EventCriteria() {}
 
   public EventCriteria(EventCriteria other) {
@@ -74,6 +76,7 @@ public class EventCriteria implements Serializable, Criteria {
     this.endTime = other.endTime == null ? null : other.endTime.copy();
     this.tagLine = other.tagLine == null ? null : other.tagLine.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -201,6 +204,14 @@ public class EventCriteria implements Serializable, Criteria {
     this.infoId = infoId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -218,13 +229,14 @@ public class EventCriteria implements Serializable, Criteria {
       Objects.equals(startTime, that.startTime) &&
       Objects.equals(endTime, that.endTime) &&
       Objects.equals(tagLine, that.tagLine) &&
-      Objects.equals(infoId, that.infoId)
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, title, type, startTime, endTime, tagLine, infoId);
+    return Objects.hash(id, uuid, title, type, startTime, endTime, tagLine, infoId, distinct);
   }
 
   // prettier-ignore
@@ -239,6 +251,7 @@ public class EventCriteria implements Serializable, Criteria {
             (endTime != null ? "endTime=" + endTime + ", " : "") +
             (tagLine != null ? "tagLine=" + tagLine + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

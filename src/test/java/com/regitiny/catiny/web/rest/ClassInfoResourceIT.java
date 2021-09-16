@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -548,7 +547,14 @@ class ClassInfoResourceIT {
   void getAllClassInfosByBaseInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
+    BaseInfo baseInfo;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      baseInfo = BaseInfoResourceIT.createEntity(em);
+      em.persist(baseInfo);
+      em.flush();
+    } else {
+      baseInfo = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(baseInfo);
     em.flush();
     classInfo.addBaseInfo(baseInfo);
@@ -885,7 +891,7 @@ class ClassInfoResourceIT {
     // Configure the mock search repository
     // Initialize the database
     classInfoRepository.saveAndFlush(classInfo);
-    when(mockClassInfoSearchRepository.search(queryStringQuery("id:" + classInfo.getId()), PageRequest.of(0, 20)))
+    when(mockClassInfoSearchRepository.search("id:" + classInfo.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(classInfo), PageRequest.of(0, 1), 1));
 
     // Search the classInfo

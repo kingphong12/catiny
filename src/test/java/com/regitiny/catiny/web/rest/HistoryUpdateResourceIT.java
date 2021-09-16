@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -388,7 +387,14 @@ class HistoryUpdateResourceIT {
   void getAllHistoryUpdatesByBaseInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
-    BaseInfo baseInfo = BaseInfoResourceIT.createEntity(em);
+    BaseInfo baseInfo;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      baseInfo = BaseInfoResourceIT.createEntity(em);
+      em.persist(baseInfo);
+      em.flush();
+    } else {
+      baseInfo = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(baseInfo);
     em.flush();
     historyUpdate.setBaseInfo(baseInfo);
@@ -723,7 +729,7 @@ class HistoryUpdateResourceIT {
     // Configure the mock search repository
     // Initialize the database
     historyUpdateRepository.saveAndFlush(historyUpdate);
-    when(mockHistoryUpdateSearchRepository.search(queryStringQuery("id:" + historyUpdate.getId()), PageRequest.of(0, 20)))
+    when(mockHistoryUpdateSearchRepository.search("id:" + historyUpdate.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(historyUpdate), PageRequest.of(0, 1), 1));
 
     // Search the historyUpdate

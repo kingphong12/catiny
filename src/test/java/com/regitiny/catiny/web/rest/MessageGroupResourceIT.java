@@ -1,12 +1,5 @@
 package com.regitiny.catiny.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
@@ -14,19 +7,11 @@ import com.regitiny.catiny.domain.MessageContent;
 import com.regitiny.catiny.domain.MessageGroup;
 import com.regitiny.catiny.repository.MessageGroupRepository;
 import com.regitiny.catiny.repository.search.MessageGroupSearchRepository;
-import com.regitiny.catiny.service.criteria.MessageGroupCriteria;
 import com.regitiny.catiny.service.dto.MessageGroupDTO;
 import com.regitiny.catiny.service.mapper.MessageGroupMapper;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,7 +21,19 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
+
+import javax.persistence.EntityManager;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link MessageGroupResource} REST controller.
@@ -64,8 +61,8 @@ class MessageGroupResourceIT {
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/message-groups";
 
-  private static Random random = new Random();
-  private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+  private static final Random random = new Random();
+  private static final AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
   @Autowired
   private MessageGroupRepository messageGroupRepository;
@@ -201,7 +198,7 @@ class MessageGroupResourceIT {
       .andExpect(jsonPath("$.[*].id").value(hasItem(messageGroup.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].groupName").value(hasItem(DEFAULT_GROUP_NAME)))
-      .andExpect(jsonPath("$.[*].avatar").value(hasItem(DEFAULT_AVATAR.toString())))
+      .andExpect(jsonPath("$.[*].avatar").value(hasItem(DEFAULT_AVATAR)))
       .andExpect(jsonPath("$.[*].addBy").value(hasItem(DEFAULT_ADD_BY)));
   }
 
@@ -219,7 +216,7 @@ class MessageGroupResourceIT {
       .andExpect(jsonPath("$.id").value(messageGroup.getId().intValue()))
       .andExpect(jsonPath("$.uuid").value(DEFAULT_UUID.toString()))
       .andExpect(jsonPath("$.groupName").value(DEFAULT_GROUP_NAME))
-      .andExpect(jsonPath("$.avatar").value(DEFAULT_AVATAR.toString()))
+      .andExpect(jsonPath("$.avatar").value(DEFAULT_AVATAR))
       .andExpect(jsonPath("$.addBy").value(DEFAULT_ADD_BY));
   }
 
@@ -454,7 +451,14 @@ class MessageGroupResourceIT {
   void getAllMessageGroupsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     messageGroupRepository.saveAndFlush(messageGroup);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     messageGroup.setInfo(info);
@@ -473,7 +477,14 @@ class MessageGroupResourceIT {
   void getAllMessageGroupsByContentIsEqualToSomething() throws Exception {
     // Initialize the database
     messageGroupRepository.saveAndFlush(messageGroup);
-    MessageContent content = MessageContentResourceIT.createEntity(em);
+    MessageContent content;
+    if (TestUtil.findAll(em, MessageContent.class).isEmpty()) {
+      content = MessageContentResourceIT.createEntity(em);
+      em.persist(content);
+      em.flush();
+    } else {
+      content = TestUtil.findAll(em, MessageContent.class).get(0);
+    }
     em.persist(content);
     em.flush();
     messageGroup.addContent(content);
@@ -498,7 +509,7 @@ class MessageGroupResourceIT {
       .andExpect(jsonPath("$.[*].id").value(hasItem(messageGroup.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].groupName").value(hasItem(DEFAULT_GROUP_NAME)))
-      .andExpect(jsonPath("$.[*].avatar").value(hasItem(DEFAULT_AVATAR.toString())))
+      .andExpect(jsonPath("$.[*].avatar").value(hasItem(DEFAULT_AVATAR)))
       .andExpect(jsonPath("$.[*].addBy").value(hasItem(DEFAULT_ADD_BY)));
 
     // Check, that the count call also returns 1
@@ -812,7 +823,7 @@ class MessageGroupResourceIT {
     // Configure the mock search repository
     // Initialize the database
     messageGroupRepository.saveAndFlush(messageGroup);
-    when(mockMessageGroupSearchRepository.search(queryStringQuery("id:" + messageGroup.getId()), PageRequest.of(0, 20)))
+    when(mockMessageGroupSearchRepository.search("id:" + messageGroup.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(messageGroup), PageRequest.of(0, 1), 1));
 
     // Search the messageGroup
@@ -823,7 +834,7 @@ class MessageGroupResourceIT {
       .andExpect(jsonPath("$.[*].id").value(hasItem(messageGroup.getId().intValue())))
       .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
       .andExpect(jsonPath("$.[*].groupName").value(hasItem(DEFAULT_GROUP_NAME)))
-      .andExpect(jsonPath("$.[*].avatar").value(hasItem(DEFAULT_AVATAR.toString())))
+      .andExpect(jsonPath("$.[*].avatar").value(hasItem(DEFAULT_AVATAR)))
       .andExpect(jsonPath("$.[*].addBy").value(hasItem(DEFAULT_ADD_BY)));
   }
 }

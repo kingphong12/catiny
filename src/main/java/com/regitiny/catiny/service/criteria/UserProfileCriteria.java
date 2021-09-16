@@ -33,12 +33,15 @@ public class UserProfileCriteria implements Serializable, Criteria {
 
   private LongFilter infoId;
 
+  private Boolean distinct;
+
   public UserProfileCriteria() {}
 
   public UserProfileCriteria(UserProfileCriteria other) {
     this.id = other.id == null ? null : other.id.copy();
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -91,6 +94,14 @@ public class UserProfileCriteria implements Serializable, Criteria {
     this.infoId = infoId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -100,12 +111,17 @@ public class UserProfileCriteria implements Serializable, Criteria {
       return false;
     }
     final UserProfileCriteria that = (UserProfileCriteria) o;
-    return Objects.equals(id, that.id) && Objects.equals(uuid, that.uuid) && Objects.equals(infoId, that.infoId);
+    return (
+      Objects.equals(id, that.id) &&
+      Objects.equals(uuid, that.uuid) &&
+      Objects.equals(infoId, that.infoId) &&
+      Objects.equals(distinct, that.distinct)
+    );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId);
+    return Objects.hash(id, uuid, infoId, distinct);
   }
 
   // prettier-ignore
@@ -115,6 +131,7 @@ public class UserProfileCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

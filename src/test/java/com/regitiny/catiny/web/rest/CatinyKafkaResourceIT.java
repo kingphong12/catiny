@@ -1,7 +1,17 @@
 package com.regitiny.catiny.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.config.KafkaProperties;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -15,21 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testcontainers.containers.KafkaContainer;
-
-import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.testcontainers.utility.DockerImageName;
 
 @GeneratedByJHipster
-class CatinyKafkaResourceIT
-{
+class CatinyKafkaResourceIT {
 
   private static boolean started = false;
   private static KafkaContainer kafkaContainer;
@@ -37,10 +36,8 @@ class CatinyKafkaResourceIT
   private MockMvc restMockMvc;
 
   @BeforeAll
-  static void startServer()
-  {
-    if (!started)
-    {
+  static void startServer() {
+    if (!started) {
       startTestcontainer();
       started = true;
     }
@@ -49,7 +46,7 @@ class CatinyKafkaResourceIT
   private static void startTestcontainer() {
     // TODO: withNetwork will need to be removed soon
     // See discussion at https://github.com/jhipster/generator-jhipster/issues/11544#issuecomment-609065206
-    kafkaContainer = new KafkaContainer("5.5.4").withNetwork(null);
+    kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:5.5.5")).withNetwork(null);
     kafkaContainer.start();
   }
 

@@ -59,21 +59,17 @@ public class FollowGroupServiceImpl implements FollowGroupService {
 
     return followGroupRepository
       .findById(followGroupDTO.getId())
-      .map(
-        existingFollowGroup -> {
-          followGroupMapper.partialUpdate(existingFollowGroup, followGroupDTO);
+      .map(existingFollowGroup -> {
+        followGroupMapper.partialUpdate(existingFollowGroup, followGroupDTO);
 
-          return existingFollowGroup;
-        }
-      )
+        return existingFollowGroup;
+      })
       .map(followGroupRepository::save)
-      .map(
-        savedFollowGroup -> {
-          followGroupSearchRepository.save(savedFollowGroup);
+      .map(savedFollowGroup -> {
+        followGroupSearchRepository.save(savedFollowGroup);
 
-          return savedFollowGroup;
-        }
-      )
+        return savedFollowGroup;
+      })
       .map(followGroupMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class FollowGroupServiceImpl implements FollowGroupService {
   @Transactional(readOnly = true)
   public Page<FollowGroupDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of FollowGroups for query {}", query);
-    return followGroupSearchRepository.search(queryStringQuery(query), pageable).map(followGroupMapper::toDto);
+    return followGroupSearchRepository.search(query, pageable).map(followGroupMapper::toDto);
   }
 }

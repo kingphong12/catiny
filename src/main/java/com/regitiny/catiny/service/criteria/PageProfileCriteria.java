@@ -35,6 +35,8 @@ public class PageProfileCriteria implements Serializable, Criteria {
 
   private LongFilter pageId;
 
+  private Boolean distinct;
+
   public PageProfileCriteria() {}
 
   public PageProfileCriteria(PageProfileCriteria other) {
@@ -42,6 +44,7 @@ public class PageProfileCriteria implements Serializable, Criteria {
     this.uuid = other.uuid == null ? null : other.uuid.copy();
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.pageId = other.pageId == null ? null : other.pageId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -109,6 +112,14 @@ public class PageProfileCriteria implements Serializable, Criteria {
     this.pageId = pageId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -122,13 +133,14 @@ public class PageProfileCriteria implements Serializable, Criteria {
       Objects.equals(id, that.id) &&
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(infoId, that.infoId) &&
-      Objects.equals(pageId, that.pageId)
+      Objects.equals(pageId, that.pageId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId, pageId);
+    return Objects.hash(id, uuid, infoId, pageId, distinct);
   }
 
   // prettier-ignore
@@ -139,6 +151,7 @@ public class PageProfileCriteria implements Serializable, Criteria {
             (uuid != null ? "uuid=" + uuid + ", " : "") +
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (pageId != null ? "pageId=" + pageId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

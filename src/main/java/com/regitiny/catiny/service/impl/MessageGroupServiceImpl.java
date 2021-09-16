@@ -59,21 +59,17 @@ public class MessageGroupServiceImpl implements MessageGroupService {
 
     return messageGroupRepository
       .findById(messageGroupDTO.getId())
-      .map(
-        existingMessageGroup -> {
-          messageGroupMapper.partialUpdate(existingMessageGroup, messageGroupDTO);
+      .map(existingMessageGroup -> {
+        messageGroupMapper.partialUpdate(existingMessageGroup, messageGroupDTO);
 
-          return existingMessageGroup;
-        }
-      )
+        return existingMessageGroup;
+      })
       .map(messageGroupRepository::save)
-      .map(
-        savedMessageGroup -> {
-          messageGroupSearchRepository.save(savedMessageGroup);
+      .map(savedMessageGroup -> {
+        messageGroupSearchRepository.save(savedMessageGroup);
 
-          return savedMessageGroup;
-        }
-      )
+        return savedMessageGroup;
+      })
       .map(messageGroupMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class MessageGroupServiceImpl implements MessageGroupService {
   @Transactional(readOnly = true)
   public Page<MessageGroupDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of MessageGroups for query {}", query);
-    return messageGroupSearchRepository.search(queryStringQuery(query), pageable).map(messageGroupMapper::toDto);
+    return messageGroupSearchRepository.search(query, pageable).map(messageGroupMapper::toDto);
   }
 }

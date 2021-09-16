@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * BaseInfo
@@ -30,6 +29,7 @@ public class BaseInfo implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -117,17 +117,18 @@ public class BaseInfo implements Serializable {
   private Set<Permission> permissions = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public BaseInfo id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public BaseInfo id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -135,7 +136,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -148,7 +149,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo processStatus(ProcessStatus processStatus) {
-    this.processStatus = processStatus;
+    this.setProcessStatus(processStatus);
     return this;
   }
 
@@ -161,7 +162,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo modifiedClass(String modifiedClass) {
-    this.modifiedClass = modifiedClass;
+    this.setModifiedClass(modifiedClass);
     return this;
   }
 
@@ -174,7 +175,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo createdDate(Instant createdDate) {
-    this.createdDate = createdDate;
+    this.setCreatedDate(createdDate);
     return this;
   }
 
@@ -187,7 +188,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo modifiedDate(Instant modifiedDate) {
-    this.modifiedDate = modifiedDate;
+    this.setModifiedDate(modifiedDate);
     return this;
   }
 
@@ -200,7 +201,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo notes(String notes) {
-    this.notes = notes;
+    this.setNotes(notes);
     return this;
   }
 
@@ -213,7 +214,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo deleted(Boolean deleted) {
-    this.deleted = deleted;
+    this.setDeleted(deleted);
     return this;
   }
 
@@ -226,7 +227,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo priorityIndex(Long priorityIndex) {
-    this.priorityIndex = priorityIndex;
+    this.setPriorityIndex(priorityIndex);
     return this;
   }
 
@@ -239,7 +240,7 @@ public class BaseInfo implements Serializable {
   }
 
   public BaseInfo countUse(Long countUse) {
-    this.countUse = countUse;
+    this.setCountUse(countUse);
     return this;
   }
 
@@ -249,6 +250,16 @@ public class BaseInfo implements Serializable {
 
   public Set<HistoryUpdate> getHistories() {
     return this.histories;
+  }
+
+  public void setHistories(Set<HistoryUpdate> historyUpdates) {
+    if (this.histories != null) {
+      this.histories.forEach(i -> i.setBaseInfo(null));
+    }
+    if (historyUpdates != null) {
+      historyUpdates.forEach(i -> i.setBaseInfo(this));
+    }
+    this.histories = historyUpdates;
   }
 
   public BaseInfo histories(Set<HistoryUpdate> historyUpdates) {
@@ -268,18 +279,12 @@ public class BaseInfo implements Serializable {
     return this;
   }
 
-  public void setHistories(Set<HistoryUpdate> historyUpdates) {
-    if (this.histories != null) {
-      this.histories.forEach(i -> i.setBaseInfo(null));
-    }
-    if (historyUpdates != null) {
-      historyUpdates.forEach(i -> i.setBaseInfo(this));
-    }
-    this.histories = historyUpdates;
-  }
-
   public MasterUser getCreatedBy() {
     return this.createdBy;
+  }
+
+  public void setCreatedBy(MasterUser masterUser) {
+    this.createdBy = masterUser;
   }
 
   public BaseInfo createdBy(MasterUser masterUser) {
@@ -287,12 +292,12 @@ public class BaseInfo implements Serializable {
     return this;
   }
 
-  public void setCreatedBy(MasterUser masterUser) {
-    this.createdBy = masterUser;
-  }
-
   public MasterUser getModifiedBy() {
     return this.modifiedBy;
+  }
+
+  public void setModifiedBy(MasterUser masterUser) {
+    this.modifiedBy = masterUser;
   }
 
   public BaseInfo modifiedBy(MasterUser masterUser) {
@@ -300,12 +305,12 @@ public class BaseInfo implements Serializable {
     return this;
   }
 
-  public void setModifiedBy(MasterUser masterUser) {
-    this.modifiedBy = masterUser;
-  }
-
   public MasterUser getOwner() {
     return this.owner;
+  }
+
+  public void setOwner(MasterUser masterUser) {
+    this.owner = masterUser;
   }
 
   public BaseInfo owner(MasterUser masterUser) {
@@ -313,12 +318,12 @@ public class BaseInfo implements Serializable {
     return this;
   }
 
-  public void setOwner(MasterUser masterUser) {
-    this.owner = masterUser;
-  }
-
   public ClassInfo getClassInfo() {
     return this.classInfo;
+  }
+
+  public void setClassInfo(ClassInfo classInfo) {
+    this.classInfo = classInfo;
   }
 
   public BaseInfo classInfo(ClassInfo classInfo) {
@@ -326,12 +331,18 @@ public class BaseInfo implements Serializable {
     return this;
   }
 
-  public void setClassInfo(ClassInfo classInfo) {
-    this.classInfo = classInfo;
-  }
-
   public Set<Permission> getPermissions() {
     return this.permissions;
+  }
+
+  public void setPermissions(Set<Permission> permissions) {
+    if (this.permissions != null) {
+      this.permissions.forEach(i -> i.setBaseInfo(null));
+    }
+    if (permissions != null) {
+      permissions.forEach(i -> i.setBaseInfo(this));
+    }
+    this.permissions = permissions;
   }
 
   public BaseInfo permissions(Set<Permission> permissions) {
@@ -349,16 +360,6 @@ public class BaseInfo implements Serializable {
     this.permissions.remove(permission);
     permission.setBaseInfo(null);
     return this;
-  }
-
-  public void setPermissions(Set<Permission> permissions) {
-    if (this.permissions != null) {
-      this.permissions.forEach(i -> i.setBaseInfo(null));
-    }
-    if (permissions != null) {
-      permissions.forEach(i -> i.setBaseInfo(this));
-    }
-    this.permissions = permissions;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -330,7 +329,14 @@ class VideoStreamResourceIT {
   void getAllVideoStreamsByVideoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    Video video = VideoResourceIT.createEntity(em);
+    Video video;
+    if (TestUtil.findAll(em, Video.class).isEmpty()) {
+      video = VideoResourceIT.createEntity(em);
+      em.persist(video);
+      em.flush();
+    } else {
+      video = TestUtil.findAll(em, Video.class).get(0);
+    }
     em.persist(video);
     em.flush();
     videoStream.setVideo(video);
@@ -349,7 +355,14 @@ class VideoStreamResourceIT {
   void getAllVideoStreamsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     videoStream.setInfo(info);
@@ -368,7 +381,14 @@ class VideoStreamResourceIT {
   void getAllVideoStreamsByVideoLiveStreamBufferIsEqualToSomething() throws Exception {
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    VideoLiveStreamBuffer videoLiveStreamBuffer = VideoLiveStreamBufferResourceIT.createEntity(em);
+    VideoLiveStreamBuffer videoLiveStreamBuffer;
+    if (TestUtil.findAll(em, VideoLiveStreamBuffer.class).isEmpty()) {
+      videoLiveStreamBuffer = VideoLiveStreamBufferResourceIT.createEntity(em);
+      em.persist(videoLiveStreamBuffer);
+      em.flush();
+    } else {
+      videoLiveStreamBuffer = TestUtil.findAll(em, VideoLiveStreamBuffer.class).get(0);
+    }
     em.persist(videoLiveStreamBuffer);
     em.flush();
     videoStream.addVideoLiveStreamBuffer(videoLiveStreamBuffer);
@@ -697,7 +717,7 @@ class VideoStreamResourceIT {
     // Configure the mock search repository
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    when(mockVideoStreamSearchRepository.search(queryStringQuery("id:" + videoStream.getId()), PageRequest.of(0, 20)))
+    when(mockVideoStreamSearchRepository.search("id:" + videoStream.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(videoStream), PageRequest.of(0, 1), 1));
 
     // Search the videoStream

@@ -66,21 +66,17 @@ public class MasterUserServiceImpl implements MasterUserService {
 
     return masterUserRepository
       .findById(masterUserDTO.getId())
-      .map(
-        existingMasterUser -> {
-          masterUserMapper.partialUpdate(existingMasterUser, masterUserDTO);
+      .map(existingMasterUser -> {
+        masterUserMapper.partialUpdate(existingMasterUser, masterUserDTO);
 
-          return existingMasterUser;
-        }
-      )
+        return existingMasterUser;
+      })
       .map(masterUserRepository::save)
-      .map(
-        savedMasterUser -> {
-          masterUserSearchRepository.save(savedMasterUser);
+      .map(savedMasterUser -> {
+        masterUserSearchRepository.save(savedMasterUser);
 
-          return savedMasterUser;
-        }
-      )
+        return savedMasterUser;
+      })
       .map(masterUserMapper::toDto);
   }
 
@@ -113,6 +109,6 @@ public class MasterUserServiceImpl implements MasterUserService {
   @Transactional(readOnly = true)
   public Page<MasterUserDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of MasterUsers for query {}", query);
-    return masterUserSearchRepository.search(queryStringQuery(query), pageable).map(masterUserMapper::toDto);
+    return masterUserSearchRepository.search(query, pageable).map(masterUserMapper::toDto);
   }
 }

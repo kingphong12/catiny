@@ -127,7 +127,7 @@ public class UserProfileResource {
    * or with status {@code 500 (Internal Server Error)} if the userProfileDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/user-profiles/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/user-profiles/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<UserProfileDTO> partialUpdateUserProfile(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody UserProfileDTO userProfileDTO

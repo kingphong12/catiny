@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -428,7 +427,14 @@ class NotificationResourceIT {
   void getAllNotificationsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     notificationRepository.saveAndFlush(notification);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     notification.setInfo(info);
@@ -767,7 +773,7 @@ class NotificationResourceIT {
     // Configure the mock search repository
     // Initialize the database
     notificationRepository.saveAndFlush(notification);
-    when(mockNotificationSearchRepository.search(queryStringQuery("id:" + notification.getId()), PageRequest.of(0, 20)))
+    when(mockNotificationSearchRepository.search("id:" + notification.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(notification), PageRequest.of(0, 1), 1));
 
     // Search the notification

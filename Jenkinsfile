@@ -9,8 +9,7 @@ node {
 
   stage('check')
   {
-    parallel
-    (
+    parallel(
       'java' :
       {
         try {sh "java -version"}
@@ -74,8 +73,7 @@ node {
 
   stage('publish and  ')
   {
-    parallel
-    (
+    parallel(
       'publish' : { docker.withRegistry('','docker-hub') { docker.image('yuvytung/catiny:latest').push() } },
       'quality analysis' : { withSonarQubeEnv('sonar'){sh "./gradlew sonarqube -Pprod -PnodeInstall --no-daemon"} }
     )
@@ -84,8 +82,7 @@ node {
 
   stage('deploy')
   {
-    parallel
-    (
+    parallel(
       'dev' :
       {
         try

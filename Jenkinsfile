@@ -9,6 +9,8 @@ node {
 
   stage('check')
   {
+    sh scm.branches.first().name
+
     parallel(
       'java' :
       {
@@ -68,17 +70,8 @@ node {
 
   stage('build')
   {
-    sh "./gradlew bootJar jibDockerBuild -Pprod -PnodeInstall --no-daemon" // only build
+    sh "./gradlew bootJar jibDockerBuild -Pprod --no-daemon" // only build
   }
-
-  stage('publish and  ')
-  {
-    parallel(
-      'publish' : { docker.withRegistry('','docker-hub') { docker.image('yuvytung/catiny:latest').push() } },
-      'quality analysis' : { withSonarQubeEnv('sonar'){sh "./gradlew sonarqube -Pprod -PnodeInstall --no-daemon"} }
-    )
-  }
-
 
   stage('deploy')
   {
@@ -134,6 +127,14 @@ node {
         sleep(timeSleepingBeforePrintLog)
         sh "docker logs docker_catiny-app_1"
       }
+    )
+  }
+
+  stage('publish and quality analysis ')
+  {
+    parallel(
+      'publish' : { docker.withRegistry('','docker-hub') { docker.image('yuvytung/catiny:latest').push() } },
+      'quality analysis' : { withSonarQubeEnv('sonar'){sh "./gradlew sonarqube -Pprod -PnodeInstall --no-daemon"} }
     )
   }
 }

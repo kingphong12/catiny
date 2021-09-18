@@ -269,7 +269,8 @@
     "webpack-dev-server": "4.2.1",
     "webpack-merge": "5.8.0",
     "webpack-notifier": "1.13.0",
-    "workbox-webpack-plugin": "6.3.0"
+    "workbox-webpack-plugin": "6.3.0",
+    "clean-terminal-webpack-plugin": "^3.0.0"
   },
   "engines": {
     "node": ">=14.17.6"

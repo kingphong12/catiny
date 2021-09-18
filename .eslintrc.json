@@ -73,7 +73,6 @@
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/no-shadow": "error",
-    "spaced-comment": ["warn", "always"],
     "guard-for-in": "error",
     "no-labels": "error",
     "no-caller": "error",
@@ -92,7 +91,8 @@
     "no-invalid-this": "off",
     "react/prop-types": "off",
     "react/display-name": "off",
-    "react/no-unescaped-entities": "warn",
+    "spaced-comment": ["off", "always"],
+    "react/no-unescaped-entities": "off",
     "no-undef": "error"
   }
 }

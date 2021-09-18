@@ -35,6 +35,22 @@ node
     )
   }
 
+  if(currentBranch.equals("dev-deploy-only"))
+    {
+      stage('pull image')
+      {
+        sh "docker pull yuvytung/catiny:latest"
+      }
+      stage('deploy')
+      {
+        sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml down catiny-dev-app"
+        sh "docker-compose -f ${currentFolder}/src/main/docker/app-dev.yml up -d catiny-dev-app"
+        sleep(60)
+        sh "docker logs docker_catiny-dev-app_1"
+      }
+      return
+    }
+
   stage('clean and nohttp')
   {
     sh "chmod +x gradlew"

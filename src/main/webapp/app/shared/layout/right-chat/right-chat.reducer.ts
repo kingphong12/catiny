@@ -3,7 +3,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {loadMoreDataWhenScrolled, parseHeaderForLinks} from 'react-jhipster';
 import {IQueryParams} from 'app/shared/reducers/reducer.utils';
 import {defaultValue, IMessageGroup} from 'app/shared/model/message-group.model';
-import {IMessageContent} from "app/shared/model/message-content.model";
+import {IMessageContent} from 'app/shared/model/message-content.model';
 
 const initialState: any = {
   loading: false,
@@ -49,7 +49,7 @@ export const getAllMessageGroupsJoined = createAsyncThunk('rightChat/get_all_mes
 export const getMessageContentByMessageGroupId = createAsyncThunk('rightChat/get_message_content_by_message_group_id',
   async ({page, size, sort, uuidMessageGroups}: IQueryParams & { uuidMessageGroups: string }) =>
   {
-    const requestUrl = `${apiUrlMessageGroups}/${uuidMessageGroups}/contents/${sort ? `?page=${page}&size=${size}&sort=${sort}&` : '?'}cacheBuster=${new Date().getTime()}`;
+    const requestUrl = `${apiUrlMessageGroups}/${uuidMessageGroups}/contents/${`?page=${page}&size=${size}&`}cacheBuster=${new Date().getTime()}`;
     return axios.get<IMessageContent[]>(requestUrl);
   });
 
@@ -61,7 +61,7 @@ export const sendContentToGroup = createAsyncThunk('rightChat/send_content_to_gr
   {
     const requestUrl = `${apiUrlMessageGroups}/${groupId}/contents?cacheBuster=${new Date().getTime()}`;
     const formData = new FormData();
-    formData.append("content", content);
+    formData.append('content', content);
     return axios.post<IMessageContent[]>(requestUrl, formData);
   });
 /**
@@ -72,8 +72,8 @@ export const createMessageGroup = createAsyncThunk('rightChat/create_message_gro
   {
     const requestUrl = `${apiUrlMessageGroups}`;
     const formData = new FormData();
-    userIds.forEach(userId => formData.append("userIds", userId));
-    formData.append("desiredName", desiredName);
+    userIds.forEach(userId => formData.append('userIds', userId));
+    formData.append('desiredName', desiredName);
     return axios.post<IMessageContent[]>(requestUrl, formData);
   });
 //
@@ -137,16 +137,15 @@ export const RightChatSlice = createSlice({
   },
   extraReducers(builder)
   {
-    builder
-      .addCase(getAllMessageGroupsJoined.fulfilled, (state, action) =>
-      {
-        const links = parseHeaderForLinks(action.payload.headers.link);
-        return {
-          ...state,
-          loading: false,
-          messageGroups: loadMoreDataWhenScrolled(state.entities, action.payload.data, links)
-        }
-      })
+    builder.addCase(getAllMessageGroupsJoined.fulfilled, (state, action) =>
+    {
+      const links = parseHeaderForLinks(action.payload.headers.link);
+      return {
+        ...state,
+        loading: false,
+        messageGroups: loadMoreDataWhenScrolled(state.entities, action.payload.data, links),
+      };
+    });
     // .addCase(deleteEntity.fulfilled, state =>
     // {
     //   state.updating = false;
@@ -184,7 +183,6 @@ export const RightChatSlice = createSlice({
     //   state.updateSuccess = false;
     //   state.updating = true;
     // })
-    ;
   },
 });
 

@@ -342,3 +342,31 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 @include square(200);
 @include square(500);
 @include square(1000);
+
+@mixin bottom-top-left-right($px) {
+  .bottom#{$px} {
+    bottom: #{$px}px;
+  }
+  .top#{$px} {
+    top: #{$px}px;
+  }
+  .left#{$px} {
+    left: #{$px}px;
+  }
+  .right#{$px} {
+    right: #{$px}px;
+  }
+}
+
+@include bottom-top-left-right(5);
+@include bottom-top-left-right(10);
+@include bottom-top-left-right(15);
+@include bottom-top-left-right(20);
+@include bottom-top-left-right(25);
+@include bottom-top-left-right(30);
+@include bottom-top-left-right(35);
+@include bottom-top-left-right(40);
+@include bottom-top-left-right(50);
+@include bottom-top-left-right(75);
+@include bottom-top-left-right(100);
+

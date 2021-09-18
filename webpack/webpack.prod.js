@@ -4,6 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
+
 const sass = require('sass');
 
 const utils = require('./utils.js');
@@ -96,5 +98,6 @@ module.exports = async () =>
         skipWaiting: true,
         exclude: [/swagger-ui/],
       }),
+      new CleanTerminalPlugin(),
     ],
   });

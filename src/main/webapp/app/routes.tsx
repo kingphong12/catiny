@@ -74,9 +74,6 @@ const Routes = () =>
     sendActivity(location.pathname);
   }, [location]);
 
-  //yuvytung
-
-
   return (
     <div className='view-routes'>
       <Switch>

@@ -93,6 +93,10 @@ public class GroupPostQueryService extends QueryService<GroupPost> {
   protected Specification<GroupPost> createSpecification(GroupPostCriteria criteria) {
     Specification<GroupPost> specification = Specification.where(null);
     if (criteria != null) {
+      // This has to be called first, because the distinct method returns null
+      if (criteria.getDistinct() != null) {
+        specification = specification.and(distinct(criteria.getDistinct()));
+      }
       if (criteria.getId() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getId(), GroupPost_.id));
       }

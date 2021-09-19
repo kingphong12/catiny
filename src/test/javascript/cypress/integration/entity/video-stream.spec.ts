@@ -102,6 +102,9 @@ describe('VideoStream e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('44be9581-0e96-48cd-a1f0-f5c057238764'));
 
+    cy.get(`[data-cy="isLivestreaming"]`).should('not.be.checked');
+    cy.get(`[data-cy="isLivestreaming"]`).click().should('be.checked');
+
     cy.setFieldSelectToLastOfEntity('video');
 
     cy.setFieldSelectToLastOfEntity('info');

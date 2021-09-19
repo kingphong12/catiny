@@ -14,6 +14,9 @@ import java.util.Optional;
 @Log4j2
 public class GeneratorMain
 {
+  private static final String JSON_KEY_ENTITIES = "entities";
+  private static final String JSON_KEY_GENERATED = "generated";
+
   public static void main(String[] args)
   {
     var thisClassPath = GeneratorMain.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -37,16 +40,16 @@ public class GeneratorMain
       Optional.of(jsonJhipsterRoot)
         .filter(jsonObject -> jsonObject.has("generator-jhipster"))
         .map(jsonObject -> jsonObject.getJSONObject("generator-jhipster"))
-        .filter(jsonObject -> jsonObject.has("entities"))
-        .map(jsonObject -> jsonObject.getJSONArray("entities"))
+        .filter(jsonObject -> jsonObject.has(JSON_KEY_ENTITIES))
+        .map(jsonObject -> jsonObject.getJSONArray(JSON_KEY_ENTITIES))
         .ifPresent(objects ->
         {
-          for (int i = 0; i < objects.length(); i++)
+          for (var i = 0; i < objects.length(); i++)
             entityCanGenerate.add(objects.getString(i));
         });
       Optional.of(jsonGenRoot)
-        .filter(jsonObject -> jsonObject.has("entities") && !entityCanGenerate.isEmpty())
-        .map(jsonObject -> jsonObject.getJSONObject("entities"))
+        .filter(jsonObject -> jsonObject.has(JSON_KEY_ENTITIES) && !entityCanGenerate.isEmpty())
+        .map(jsonObject -> jsonObject.getJSONObject(JSON_KEY_ENTITIES))
         .ifPresent(objects ->
         {
           var entities = objects.keys();
@@ -61,27 +64,28 @@ public class GeneratorMain
       entityCanGenerate.forEach(entityName ->
       {
         var result = GenerateEntityAdvanceUtils.Generate(entityName, outputProjectPath);
-        var entities = jsonGenRoot.getJSONObject("entities");
+        var entities = jsonGenRoot.getJSONObject(JSON_KEY_ENTITIES);
         var json = entities.has(entityName)
-          ? jsonGenRoot.getJSONObject("entities").getJSONObject(entityName)
+          ? jsonGenRoot.getJSONObject(JSON_KEY_ENTITIES).getJSONObject(entityName)
           : new JSONObject();
 
-        var generated = json.has("generated")
-          ? json.getJSONObject("generated")
+        var generated = json.has(JSON_KEY_GENERATED)
+          ? json.getJSONObject(JSON_KEY_GENERATED)
           : new JSONObject();
         result._1().stream().map(JavaFile::toJavaFileObject)
           .forEach(javaFileObject -> generated.put(javaFileObject.getName(), true));
         result._2().stream().map(JavaFile::toJavaFileObject)
           .forEach(javaFileObject -> generated.put(javaFileObject.getName(), false));
 
-        json.put("generated", generated);
+        json.put(JSON_KEY_GENERATED, generated);
         entities.put(entityName, json);
-        jsonGenRoot.put("entities", entities);
+        jsonGenRoot.put(JSON_KEY_ENTITIES, entities);
       });
-      var fgWriter = new FileOutputStream(thisProjectPath + "/.generate/generate-advance.json");
-      fgWriter.write(jsonGenRoot.toString().getBytes());
-      fgWriter.flush();
-      fgWriter.close();
+      try (var fgWriter = new FileOutputStream(thisProjectPath + "/.generate/generate-advance.json"))
+      {
+        fgWriter.write(jsonGenRoot.toString().getBytes());
+        fgWriter.flush();
+      }
     }
     catch (IOException e)
     {

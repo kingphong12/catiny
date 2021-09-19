@@ -93,11 +93,18 @@ public class VideoStreamQueryService extends QueryService<VideoStream> {
   protected Specification<VideoStream> createSpecification(VideoStreamCriteria criteria) {
     Specification<VideoStream> specification = Specification.where(null);
     if (criteria != null) {
+      // This has to be called first, because the distinct method returns null
+      if (criteria.getDistinct() != null) {
+        specification = specification.and(distinct(criteria.getDistinct()));
+      }
       if (criteria.getId() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getId(), VideoStream_.id));
       }
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), VideoStream_.uuid));
+      }
+      if (criteria.getIsLivestreaming() != null) {
+        specification = specification.and(buildSpecification(criteria.getIsLivestreaming(), VideoStream_.isLivestreaming));
       }
       if (criteria.getVideoId() != null) {
         specification =

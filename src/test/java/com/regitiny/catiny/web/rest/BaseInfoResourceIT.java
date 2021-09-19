@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -839,7 +838,14 @@ class BaseInfoResourceIT {
   void getAllBaseInfosByHistoryIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    HistoryUpdate history = HistoryUpdateResourceIT.createEntity(em);
+    HistoryUpdate history;
+    if (TestUtil.findAll(em, HistoryUpdate.class).isEmpty()) {
+      history = HistoryUpdateResourceIT.createEntity(em);
+      em.persist(history);
+      em.flush();
+    } else {
+      history = TestUtil.findAll(em, HistoryUpdate.class).get(0);
+    }
     em.persist(history);
     em.flush();
     baseInfo.addHistory(history);
@@ -858,7 +864,14 @@ class BaseInfoResourceIT {
   void getAllBaseInfosByCreatedByIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    MasterUser createdBy = MasterUserResourceIT.createEntity(em);
+    MasterUser createdBy;
+    if (TestUtil.findAll(em, MasterUser.class).isEmpty()) {
+      createdBy = MasterUserResourceIT.createEntity(em);
+      em.persist(createdBy);
+      em.flush();
+    } else {
+      createdBy = TestUtil.findAll(em, MasterUser.class).get(0);
+    }
     em.persist(createdBy);
     em.flush();
     baseInfo.setCreatedBy(createdBy);
@@ -877,7 +890,14 @@ class BaseInfoResourceIT {
   void getAllBaseInfosByModifiedByIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    MasterUser modifiedBy = MasterUserResourceIT.createEntity(em);
+    MasterUser modifiedBy;
+    if (TestUtil.findAll(em, MasterUser.class).isEmpty()) {
+      modifiedBy = MasterUserResourceIT.createEntity(em);
+      em.persist(modifiedBy);
+      em.flush();
+    } else {
+      modifiedBy = TestUtil.findAll(em, MasterUser.class).get(0);
+    }
     em.persist(modifiedBy);
     em.flush();
     baseInfo.setModifiedBy(modifiedBy);
@@ -896,7 +916,14 @@ class BaseInfoResourceIT {
   void getAllBaseInfosByOwnerIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    MasterUser owner = MasterUserResourceIT.createEntity(em);
+    MasterUser owner;
+    if (TestUtil.findAll(em, MasterUser.class).isEmpty()) {
+      owner = MasterUserResourceIT.createEntity(em);
+      em.persist(owner);
+      em.flush();
+    } else {
+      owner = TestUtil.findAll(em, MasterUser.class).get(0);
+    }
     em.persist(owner);
     em.flush();
     baseInfo.setOwner(owner);
@@ -915,7 +942,14 @@ class BaseInfoResourceIT {
   void getAllBaseInfosByClassInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    ClassInfo classInfo = ClassInfoResourceIT.createEntity(em);
+    ClassInfo classInfo;
+    if (TestUtil.findAll(em, ClassInfo.class).isEmpty()) {
+      classInfo = ClassInfoResourceIT.createEntity(em);
+      em.persist(classInfo);
+      em.flush();
+    } else {
+      classInfo = TestUtil.findAll(em, ClassInfo.class).get(0);
+    }
     em.persist(classInfo);
     em.flush();
     baseInfo.setClassInfo(classInfo);
@@ -934,7 +968,14 @@ class BaseInfoResourceIT {
   void getAllBaseInfosByPermissionIsEqualToSomething() throws Exception {
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    Permission permission = PermissionResourceIT.createEntity(em);
+    Permission permission;
+    if (TestUtil.findAll(em, Permission.class).isEmpty()) {
+      permission = PermissionResourceIT.createEntity(em);
+      em.persist(permission);
+      em.flush();
+    } else {
+      permission = TestUtil.findAll(em, Permission.class).get(0);
+    }
     em.persist(permission);
     em.flush();
     baseInfo.addPermission(permission);
@@ -1315,7 +1356,7 @@ class BaseInfoResourceIT {
     // Configure the mock search repository
     // Initialize the database
     baseInfoRepository.saveAndFlush(baseInfo);
-    when(mockBaseInfoSearchRepository.search(queryStringQuery("id:" + baseInfo.getId()), PageRequest.of(0, 20)))
+    when(mockBaseInfoSearchRepository.search("id:" + baseInfo.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(baseInfo), PageRequest.of(0, 1), 1));
 
     // Search the baseInfo

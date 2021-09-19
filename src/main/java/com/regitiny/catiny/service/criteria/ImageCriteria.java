@@ -55,6 +55,8 @@ public class ImageCriteria implements Serializable, Criteria {
 
   private LongFilter albumId;
 
+  private Boolean distinct;
+
   public ImageCriteria() {}
 
   public ImageCriteria(ImageCriteria other) {
@@ -72,6 +74,7 @@ public class ImageCriteria implements Serializable, Criteria {
     this.processedId = other.processedId == null ? null : other.processedId.copy();
     this.originalId = other.originalId == null ? null : other.originalId.copy();
     this.albumId = other.albumId == null ? null : other.albumId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -289,6 +292,14 @@ public class ImageCriteria implements Serializable, Criteria {
     this.albumId = albumId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -312,7 +323,8 @@ public class ImageCriteria implements Serializable, Criteria {
       Objects.equals(infoId, that.infoId) &&
       Objects.equals(processedId, that.processedId) &&
       Objects.equals(originalId, that.originalId) &&
-      Objects.equals(albumId, that.albumId)
+      Objects.equals(albumId, that.albumId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
@@ -332,7 +344,8 @@ public class ImageCriteria implements Serializable, Criteria {
       infoId,
       processedId,
       originalId,
-      albumId
+      albumId,
+      distinct
     );
   }
 
@@ -354,6 +367,7 @@ public class ImageCriteria implements Serializable, Criteria {
             (processedId != null ? "processedId=" + processedId + ", " : "") +
             (originalId != null ? "originalId=" + originalId + ", " : "") +
             (albumId != null ? "albumId=" + albumId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

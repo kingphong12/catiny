@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Image entity.\n@why?             ->\n@use-to           -> Lưu thông tin Ảnh mà người dùng upload lên\n@commonly-used-in ->\n\n@describe         ->
@@ -28,6 +27,7 @@ public class Image implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -107,17 +107,18 @@ public class Image implements Serializable {
   private Set<Album> albums = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Image id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Image id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -125,7 +126,7 @@ public class Image implements Serializable {
   }
 
   public Image uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -138,7 +139,7 @@ public class Image implements Serializable {
   }
 
   public Image name(String name) {
-    this.name = name;
+    this.setName(name);
     return this;
   }
 
@@ -151,7 +152,7 @@ public class Image implements Serializable {
   }
 
   public Image width(Integer width) {
-    this.width = width;
+    this.setWidth(width);
     return this;
   }
 
@@ -164,7 +165,7 @@ public class Image implements Serializable {
   }
 
   public Image height(Integer height) {
-    this.height = height;
+    this.setHeight(height);
     return this;
   }
 
@@ -177,7 +178,7 @@ public class Image implements Serializable {
   }
 
   public Image quality(Float quality) {
-    this.quality = quality;
+    this.setQuality(quality);
     return this;
   }
 
@@ -190,7 +191,7 @@ public class Image implements Serializable {
   }
 
   public Image pixelSize(Integer pixelSize) {
-    this.pixelSize = pixelSize;
+    this.setPixelSize(pixelSize);
     return this;
   }
 
@@ -203,7 +204,7 @@ public class Image implements Serializable {
   }
 
   public Image priorityIndex(Long priorityIndex) {
-    this.priorityIndex = priorityIndex;
+    this.setPriorityIndex(priorityIndex);
     return this;
   }
 
@@ -216,7 +217,7 @@ public class Image implements Serializable {
   }
 
   public Image dataSize(Long dataSize) {
-    this.dataSize = dataSize;
+    this.setDataSize(dataSize);
     return this;
   }
 
@@ -228,17 +229,21 @@ public class Image implements Serializable {
     return this.fileInfo;
   }
 
+  public void setFileInfo(FileInfo fileInfo) {
+    this.fileInfo = fileInfo;
+  }
+
   public Image fileInfo(FileInfo fileInfo) {
     this.setFileInfo(fileInfo);
     return this;
   }
 
-  public void setFileInfo(FileInfo fileInfo) {
-    this.fileInfo = fileInfo;
-  }
-
   public BaseInfo getInfo() {
     return this.info;
+  }
+
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public Image info(BaseInfo baseInfo) {
@@ -246,12 +251,18 @@ public class Image implements Serializable {
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<Image> getProcesseds() {
     return this.processeds;
+  }
+
+  public void setProcesseds(Set<Image> images) {
+    if (this.processeds != null) {
+      this.processeds.forEach(i -> i.setOriginal(null));
+    }
+    if (images != null) {
+      images.forEach(i -> i.setOriginal(this));
+    }
+    this.processeds = images;
   }
 
   public Image processeds(Set<Image> images) {
@@ -271,18 +282,12 @@ public class Image implements Serializable {
     return this;
   }
 
-  public void setProcesseds(Set<Image> images) {
-    if (this.processeds != null) {
-      this.processeds.forEach(i -> i.setOriginal(null));
-    }
-    if (images != null) {
-      images.forEach(i -> i.setOriginal(this));
-    }
-    this.processeds = images;
-  }
-
   public Image getOriginal() {
     return this.original;
+  }
+
+  public void setOriginal(Image image) {
+    this.original = image;
   }
 
   public Image original(Image image) {
@@ -290,12 +295,18 @@ public class Image implements Serializable {
     return this;
   }
 
-  public void setOriginal(Image image) {
-    this.original = image;
-  }
-
   public Set<Album> getAlbums() {
     return this.albums;
+  }
+
+  public void setAlbums(Set<Album> albums) {
+    if (this.albums != null) {
+      this.albums.forEach(i -> i.removeImage(this));
+    }
+    if (albums != null) {
+      albums.forEach(i -> i.addImage(this));
+    }
+    this.albums = albums;
   }
 
   public Image albums(Set<Album> albums) {
@@ -313,16 +324,6 @@ public class Image implements Serializable {
     this.albums.remove(album);
     album.getImages().remove(this);
     return this;
-  }
-
-  public void setAlbums(Set<Album> albums) {
-    if (this.albums != null) {
-      this.albums.forEach(i -> i.removeImage(this));
-    }
-    if (albums != null) {
-      albums.forEach(i -> i.addImage(this));
-    }
-    this.albums = albums;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

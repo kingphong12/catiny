@@ -1,5 +1,6 @@
 pluginManagement {
   repositories {
+//    maven { url 'https://repo.spring.io/release' }
     maven { url 'https://repo.spring.io/milestone' }
     gradlePluginPortal()
   }
@@ -11,9 +12,13 @@ pluginManagement {
     id 'com.github.node-gradle.node' version "${gradleNodePluginVersion}"
     id 'org.liquibase.gradle' version "${liquibasePluginVersion}"
     id 'org.sonarqube' version "${sonarqubePluginVersion}"
-    id "io.spring.nohttp" version "${noHttpPluginVersion}"
+    id "io.spring.nohttp" version "${noHttpCheckstyleVersion}"
+    id 'com.github.andygoossens.gradle-modernizer-plugin' version "${modernizerPluginVersion}"
 //   add by yuvytung
     id "org.hidetake.ssh" version "${hidetakeVersion}"
+//    native-image (graalVM)
+    id 'org.springframework.experimental.aot' version '0.10.3'
+    id 'org.graalvm.buildtools.native' version '0.9.3'
   }
 }
 

@@ -37,6 +37,8 @@ public class PostLikeCriteria implements Serializable, Criteria {
 
   private LongFilter commentId;
 
+  private Boolean distinct;
+
   public PostLikeCriteria() {}
 
   public PostLikeCriteria(PostLikeCriteria other) {
@@ -45,6 +47,7 @@ public class PostLikeCriteria implements Serializable, Criteria {
     this.infoId = other.infoId == null ? null : other.infoId.copy();
     this.postId = other.postId == null ? null : other.postId.copy();
     this.commentId = other.commentId == null ? null : other.commentId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -127,6 +130,14 @@ public class PostLikeCriteria implements Serializable, Criteria {
     this.commentId = commentId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -141,13 +152,14 @@ public class PostLikeCriteria implements Serializable, Criteria {
       Objects.equals(uuid, that.uuid) &&
       Objects.equals(infoId, that.infoId) &&
       Objects.equals(postId, that.postId) &&
-      Objects.equals(commentId, that.commentId)
+      Objects.equals(commentId, that.commentId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, infoId, postId, commentId);
+    return Objects.hash(id, uuid, infoId, postId, commentId, distinct);
   }
 
   // prettier-ignore
@@ -159,6 +171,7 @@ public class PostLikeCriteria implements Serializable, Criteria {
             (infoId != null ? "infoId=" + infoId + ", " : "") +
             (postId != null ? "postId=" + postId + ", " : "") +
             (commentId != null ? "commentId=" + commentId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

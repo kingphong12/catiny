@@ -59,8 +59,8 @@ export const NotificationUpdate = (props: RouteComponentProps<{ id: string }>) =
     isNew
       ? {}
       : {
-          ...notificationEntity,
           notifyType: 'SYSTEM',
+          ...notificationEntity,
           infoId: notificationEntity?.info?.id,
         };
 

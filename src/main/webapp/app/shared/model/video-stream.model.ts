@@ -5,9 +5,12 @@ import { IVideoLiveStreamBuffer } from 'app/shared/model/video-live-stream-buffe
 export interface IVideoStream {
   id?: number;
   uuid?: string;
+  isLivestreaming?: boolean | null;
   video?: IVideo | null;
   info?: IBaseInfo | null;
   videoLiveStreamBuffers?: IVideoLiveStreamBuffer[] | null;
 }
 
-export const defaultValue: Readonly<IVideoStream> = {};
+export const defaultValue: Readonly<IVideoStream> = {
+  isLivestreaming: false,
+};

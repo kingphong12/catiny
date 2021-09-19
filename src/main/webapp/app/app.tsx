@@ -5,7 +5,6 @@ import 'app/config/dayjs.ts';
 import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import {toast, ToastContainer} from 'react-toastify';
-import {hot} from 'react-hot-loader';
 
 import {useAppDispatch, useAppSelector} from 'app/config/store';
 import {getSession} from 'app/shared/reducers/authentication';
@@ -18,9 +17,7 @@ import {AUTHORITIES} from 'app/config/constants';
 import AppRoutes from 'app/routes';
 
 import '../assets/scss/main.scss';
-import LeftNav from "app/shared/layout/left-nav/left-nav";
-import RightChat from "app-js/components/RightChat";
-import PopupChat from "app-js/components/PopupChat";
+import RightChat from "app/shared/layout/right-chat/right-chat";
 import ErrorBoundaryRoute from "app/shared/error/error-boundary-route";
 import Demo from "app-js/demo/Demo";
 
@@ -60,7 +57,7 @@ export const App = () =>
                     ribbonEnv={ribbonEnv}
                     isInProduction={isInProduction}
                     isOpenAPIEnabled={isOpenAPIEnabled} />
-            {isAuthenticated && !hideComponent ? <><LeftNav /><RightChat /><PopupChat /></> : <></>}
+            {isAuthenticated && !hideComponent ? <RightChat /> : <></>}
           </ErrorBoundary>
           <div id='app-view-container'>
             <div className='jh-card' style={{paddingTop}}>
@@ -76,4 +73,4 @@ export const App = () =>
   );
 };
 
-export default hot(module)(App);
+export default App;

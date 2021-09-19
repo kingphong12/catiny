@@ -3,7 +3,6 @@ import {
   AsyncThunk,
   ActionReducerMapBuilder,
   createSlice,
-  PayloadAction,
   SerializedError,
   SliceCaseReducers,
   ValidateSliceCaseReducers,
@@ -84,12 +83,12 @@ export interface EntityState<T> {
  * common reducers and matchers used by entities
  */
 export const createEntitySlice = <T, Reducers extends SliceCaseReducers<EntityState<T>>>({
-                                                                                           name = '',
-                                                                                           initialState,
-                                                                                           reducers,
-                                                                                           extraReducers,
-                                                                                           skipRejectionHandling,
-                                                                                         }: {
+  name = '',
+  initialState,
+  reducers,
+  extraReducers,
+  skipRejectionHandling,
+}: {
   name: string;
   initialState: EntityState<T>;
   reducers?: ValidateSliceCaseReducers<EntityState<T>, Reducers>;

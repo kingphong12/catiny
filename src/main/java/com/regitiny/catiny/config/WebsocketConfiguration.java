@@ -1,6 +1,9 @@
 package com.regitiny.catiny.config;
 
+import com.regitiny.catiny.common.utils.StringPool;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.security.AuthoritiesConstants;
+import com.regitiny.catiny.util.MasterUserUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -27,13 +30,13 @@ import tech.jhipster.config.JHipsterProperties;
 import javax.annotation.Nonnull;
 import java.security.Principal;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
   public static final String IP_ADDRESS = "IP_ADDRESS";
+  private static final String USER = "/user/";
 
   private final JHipsterProperties jHipsterProperties;
 
@@ -42,8 +45,12 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
   }
 
   @Override
-  public void configureMessageBroker(MessageBrokerRegistry config) {
-    config.enableSimpleBroker("/topic");
+  public void configureMessageBroker(MessageBrokerRegistry config)
+  {
+    config.enableSimpleBroker("/topic"
+      , "/user",
+      "/topic.consumer",
+      "/topic.producer");
   }
 
   @Override
@@ -59,19 +66,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
       .withSockJS()
       .setInterceptors(httpSessionHandshakeInterceptor());
     registry
-      .addEndpoint("/websocket/message")
-      .setHandshakeHandler(defaultHandshakeHandler())
-      .setAllowedOrigins(allowedOrigins)
-      .withSockJS()
-      .setInterceptors(httpSessionHandshakeInterceptor());
-    registry
-      .addEndpoint("/websocket/live-streaming")
-      .setHandshakeHandler(defaultHandshakeHandler())
-      .setAllowedOrigins(allowedOrigins)
-      .withSockJS()
-      .setInterceptors(httpSessionHandshakeInterceptor());
-    registry
-      .addEndpoint("/websocket/video-call")
+      .addEndpoint("/websocket/main")
       .setHandshakeHandler(defaultHandshakeHandler())
       .setAllowedOrigins(allowedOrigins)
       .withSockJS()
@@ -112,21 +107,36 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
          * @return
          */
         @Override
-        public Message<?> preSend(@Nonnull Message<?> message, @Nonnull MessageChannel channel) {
+        public Message<?> preSend(@Nonnull Message<?> message, @Nonnull MessageChannel channel)
+        {
           var accessor = StompHeaderAccessor.wrap(message);
-          var username = Objects.requireNonNull(accessor.getUser()).getName();
+          var command = accessor.getCommand();
 
+          if (StompCommand.SUBSCRIBE.equals(command) && Objects.nonNull(accessor.getDestination()))
+          {
 
-          var commandSubscribeCheck = StompCommand.SUBSCRIBE.equals(accessor.getCommand());
-          if (commandSubscribeCheck) {
-            var destination = Objects.requireNonNull(accessor.getDestination());
-            if (destination.contains("/" + username + "/")) return ChannelInterceptor.super.preSend(message, channel);
-            // don't subscribe /topic/**
-            var destinationRegex = "/topic/[[\\w-]+/]*[*]{1,2}";
-            var destinationRegexCheck = Pattern.matches(destinationRegex, accessor.getDestination());
-            if (destinationRegexCheck) return null;
+            var masterUserUuid = MasterUserUtil.getCurrentMasterUser().map(MasterUser::getUuid).map(UUID::toString).getOrElse("");
+            var matchesMap = io.vavr.collection.HashMap
+              .of(USER + masterUserUuid + "/[[\\w-.]+/]*[*]{1,2}", true)                   // -> /user/{uuid}/example/e/**
+              .put(USER + masterUserUuid + "/topic.producer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.producer/e/**
+              .put(USER + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.consumer/e/*
+              .put(USER + masterUserUuid + "/topic.producer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.producer/e/e2...
+              .put(USER + masterUserUuid + "/topic.consumer/[[\\w-.]+/]*", true)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .put(USER + StringPool.UUID_REGEX + "[/[\\w-.*]+]*", false)           // -> /user/{uuid}/topic.consumer/e/e2...
+              .put("/topic.producer/[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic.consumer/[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic.producer/[[\\w-]+/]*", true)
+              .put("/topic.consumer/[[\\w-]+/]*", true)
+              .put("[[\\w-]+/]*[*]{1,2}", false)
+              .put("/topic/tracker", true)
+              .put("/topic/users/" + masterUserUuid + "[/[\\w-]+]*", true);
+            for (var matches : matchesMap)
+              if (Objects.requireNonNull(accessor.getDestination()).matches(matches._1()))
+                if (Boolean.TRUE.equals(matches._2))
+                  return ChannelInterceptor.super.preSend(message, channel);
+                else
+                  return null;
           }
-
           return ChannelInterceptor.super.preSend(message, channel);
         }
       }

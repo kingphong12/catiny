@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.PostLike;
 import com.regitiny.catiny.service.dto.PostLikeDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface PostLikeAdvanceMapper extends EntityAdvanceMapper<PostLikeModel, PostLikeDTO, PostLike>
 {
-  PostLikeDTO request2d(PostLikeModel.Request request);
-
-
-  List<PostLikeDTO> request2d(List<PostLikeModel.Request> request);
-
-
-  PostLikeModel.Response d2Response(PostLikeDTO dto);
-
-
-  List<PostLikeModel.Response> d2Response(List<PostLikeDTO> dto);
 }

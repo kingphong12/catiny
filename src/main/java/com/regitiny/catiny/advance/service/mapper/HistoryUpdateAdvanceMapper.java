@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.HistoryUpdate;
 import com.regitiny.catiny.service.dto.HistoryUpdateDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface HistoryUpdateAdvanceMapper extends EntityAdvanceMapper<HistoryUpdateModel, HistoryUpdateDTO, HistoryUpdate>
 {
-  HistoryUpdateDTO request2d(HistoryUpdateModel.Request request);
-
-
-  List<HistoryUpdateDTO> request2d(List<HistoryUpdateModel.Request> request);
-
-
-  HistoryUpdateModel.Response d2Response(HistoryUpdateDTO dto);
-
-
-  List<HistoryUpdateModel.Response> d2Response(List<HistoryUpdateDTO> dto);
 }

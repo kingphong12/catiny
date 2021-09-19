@@ -117,6 +117,20 @@ export const VideoLiveStreamBufferUpdate = (props: RouteComponentProps<{ id: str
                 openActionLabel={translate('entity.action.open')}
               />
               <ValidatedField
+                label={translate('catinyApp.videoLiveStreamBuffer.bufferNumber')}
+                id="video-live-stream-buffer-bufferNumber"
+                name="bufferNumber"
+                data-cy="bufferNumber"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('catinyApp.videoLiveStreamBuffer.path')}
+                id="video-live-stream-buffer-path"
+                name="path"
+                data-cy="path"
+                type="text"
+              />
+              <ValidatedField
                 id="video-live-stream-buffer-info"
                 name="infoId"
                 data-cy="info"

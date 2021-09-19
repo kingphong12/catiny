@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -51,6 +50,9 @@ class VideoStreamResourceIT {
   private static final UUID DEFAULT_UUID = UUID.randomUUID();
   private static final UUID UPDATED_UUID = UUID.randomUUID();
 
+  private static final Boolean DEFAULT_IS_LIVESTREAMING = false;
+  private static final Boolean UPDATED_IS_LIVESTREAMING = true;
+
   private static final String ENTITY_API_URL = "/api/video-streams";
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/video-streams";
@@ -87,7 +89,7 @@ class VideoStreamResourceIT {
    * if they test an entity which requires the current entity.
    */
   public static VideoStream createEntity(EntityManager em) {
-    VideoStream videoStream = new VideoStream().uuid(DEFAULT_UUID);
+    VideoStream videoStream = new VideoStream().uuid(DEFAULT_UUID).isLivestreaming(DEFAULT_IS_LIVESTREAMING);
     return videoStream;
   }
 
@@ -98,7 +100,7 @@ class VideoStreamResourceIT {
    * if they test an entity which requires the current entity.
    */
   public static VideoStream createUpdatedEntity(EntityManager em) {
-    VideoStream videoStream = new VideoStream().uuid(UPDATED_UUID);
+    VideoStream videoStream = new VideoStream().uuid(UPDATED_UUID).isLivestreaming(UPDATED_IS_LIVESTREAMING);
     return videoStream;
   }
 
@@ -122,6 +124,7 @@ class VideoStreamResourceIT {
     assertThat(videoStreamList).hasSize(databaseSizeBeforeCreate + 1);
     VideoStream testVideoStream = videoStreamList.get(videoStreamList.size() - 1);
     assertThat(testVideoStream.getUuid()).isEqualTo(DEFAULT_UUID);
+    assertThat(testVideoStream.getIsLivestreaming()).isEqualTo(DEFAULT_IS_LIVESTREAMING);
 
     // Validate the VideoStream in Elasticsearch
     verify(mockVideoStreamSearchRepository, times(1)).save(testVideoStream);
@@ -179,7 +182,8 @@ class VideoStreamResourceIT {
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(jsonPath("$.[*].id").value(hasItem(videoStream.getId().intValue())))
-      .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())));
+      .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
+      .andExpect(jsonPath("$.[*].isLivestreaming").value(hasItem(DEFAULT_IS_LIVESTREAMING.booleanValue())));
   }
 
   @Test
@@ -194,7 +198,8 @@ class VideoStreamResourceIT {
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(jsonPath("$.id").value(videoStream.getId().intValue()))
-      .andExpect(jsonPath("$.uuid").value(DEFAULT_UUID.toString()));
+      .andExpect(jsonPath("$.uuid").value(DEFAULT_UUID.toString()))
+      .andExpect(jsonPath("$.isLivestreaming").value(DEFAULT_IS_LIVESTREAMING.booleanValue()));
   }
 
   @Test
@@ -269,10 +274,69 @@ class VideoStreamResourceIT {
 
   @Test
   @Transactional
+  void getAllVideoStreamsByIsLivestreamingIsEqualToSomething() throws Exception {
+    // Initialize the database
+    videoStreamRepository.saveAndFlush(videoStream);
+
+    // Get all the videoStreamList where isLivestreaming equals to DEFAULT_IS_LIVESTREAMING
+    defaultVideoStreamShouldBeFound("isLivestreaming.equals=" + DEFAULT_IS_LIVESTREAMING);
+
+    // Get all the videoStreamList where isLivestreaming equals to UPDATED_IS_LIVESTREAMING
+    defaultVideoStreamShouldNotBeFound("isLivestreaming.equals=" + UPDATED_IS_LIVESTREAMING);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoStreamsByIsLivestreamingIsNotEqualToSomething() throws Exception {
+    // Initialize the database
+    videoStreamRepository.saveAndFlush(videoStream);
+
+    // Get all the videoStreamList where isLivestreaming not equals to DEFAULT_IS_LIVESTREAMING
+    defaultVideoStreamShouldNotBeFound("isLivestreaming.notEquals=" + DEFAULT_IS_LIVESTREAMING);
+
+    // Get all the videoStreamList where isLivestreaming not equals to UPDATED_IS_LIVESTREAMING
+    defaultVideoStreamShouldBeFound("isLivestreaming.notEquals=" + UPDATED_IS_LIVESTREAMING);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoStreamsByIsLivestreamingIsInShouldWork() throws Exception {
+    // Initialize the database
+    videoStreamRepository.saveAndFlush(videoStream);
+
+    // Get all the videoStreamList where isLivestreaming in DEFAULT_IS_LIVESTREAMING or UPDATED_IS_LIVESTREAMING
+    defaultVideoStreamShouldBeFound("isLivestreaming.in=" + DEFAULT_IS_LIVESTREAMING + "," + UPDATED_IS_LIVESTREAMING);
+
+    // Get all the videoStreamList where isLivestreaming equals to UPDATED_IS_LIVESTREAMING
+    defaultVideoStreamShouldNotBeFound("isLivestreaming.in=" + UPDATED_IS_LIVESTREAMING);
+  }
+
+  @Test
+  @Transactional
+  void getAllVideoStreamsByIsLivestreamingIsNullOrNotNull() throws Exception {
+    // Initialize the database
+    videoStreamRepository.saveAndFlush(videoStream);
+
+    // Get all the videoStreamList where isLivestreaming is not null
+    defaultVideoStreamShouldBeFound("isLivestreaming.specified=true");
+
+    // Get all the videoStreamList where isLivestreaming is null
+    defaultVideoStreamShouldNotBeFound("isLivestreaming.specified=false");
+  }
+
+  @Test
+  @Transactional
   void getAllVideoStreamsByVideoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    Video video = VideoResourceIT.createEntity(em);
+    Video video;
+    if (TestUtil.findAll(em, Video.class).isEmpty()) {
+      video = VideoResourceIT.createEntity(em);
+      em.persist(video);
+      em.flush();
+    } else {
+      video = TestUtil.findAll(em, Video.class).get(0);
+    }
     em.persist(video);
     em.flush();
     videoStream.setVideo(video);
@@ -291,7 +355,14 @@ class VideoStreamResourceIT {
   void getAllVideoStreamsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     videoStream.setInfo(info);
@@ -310,7 +381,14 @@ class VideoStreamResourceIT {
   void getAllVideoStreamsByVideoLiveStreamBufferIsEqualToSomething() throws Exception {
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    VideoLiveStreamBuffer videoLiveStreamBuffer = VideoLiveStreamBufferResourceIT.createEntity(em);
+    VideoLiveStreamBuffer videoLiveStreamBuffer;
+    if (TestUtil.findAll(em, VideoLiveStreamBuffer.class).isEmpty()) {
+      videoLiveStreamBuffer = VideoLiveStreamBufferResourceIT.createEntity(em);
+      em.persist(videoLiveStreamBuffer);
+      em.flush();
+    } else {
+      videoLiveStreamBuffer = TestUtil.findAll(em, VideoLiveStreamBuffer.class).get(0);
+    }
     em.persist(videoLiveStreamBuffer);
     em.flush();
     videoStream.addVideoLiveStreamBuffer(videoLiveStreamBuffer);
@@ -333,7 +411,8 @@ class VideoStreamResourceIT {
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(jsonPath("$.[*].id").value(hasItem(videoStream.getId().intValue())))
-      .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())));
+      .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
+      .andExpect(jsonPath("$.[*].isLivestreaming").value(hasItem(DEFAULT_IS_LIVESTREAMING.booleanValue())));
 
     // Check, that the count call also returns 1
     restVideoStreamMockMvc
@@ -381,7 +460,7 @@ class VideoStreamResourceIT {
     VideoStream updatedVideoStream = videoStreamRepository.findById(videoStream.getId()).get();
     // Disconnect from session so that the updates on updatedVideoStream are not directly saved in db
     em.detach(updatedVideoStream);
-    updatedVideoStream.uuid(UPDATED_UUID);
+    updatedVideoStream.uuid(UPDATED_UUID).isLivestreaming(UPDATED_IS_LIVESTREAMING);
     VideoStreamDTO videoStreamDTO = videoStreamMapper.toDto(updatedVideoStream);
 
     restVideoStreamMockMvc
@@ -397,6 +476,7 @@ class VideoStreamResourceIT {
     assertThat(videoStreamList).hasSize(databaseSizeBeforeUpdate);
     VideoStream testVideoStream = videoStreamList.get(videoStreamList.size() - 1);
     assertThat(testVideoStream.getUuid()).isEqualTo(UPDATED_UUID);
+    assertThat(testVideoStream.getIsLivestreaming()).isEqualTo(UPDATED_IS_LIVESTREAMING);
 
     // Validate the VideoStream in Elasticsearch
     verify(mockVideoStreamSearchRepository).save(testVideoStream);
@@ -503,6 +583,7 @@ class VideoStreamResourceIT {
     assertThat(videoStreamList).hasSize(databaseSizeBeforeUpdate);
     VideoStream testVideoStream = videoStreamList.get(videoStreamList.size() - 1);
     assertThat(testVideoStream.getUuid()).isEqualTo(UPDATED_UUID);
+    assertThat(testVideoStream.getIsLivestreaming()).isEqualTo(DEFAULT_IS_LIVESTREAMING);
   }
 
   @Test
@@ -517,7 +598,7 @@ class VideoStreamResourceIT {
     VideoStream partialUpdatedVideoStream = new VideoStream();
     partialUpdatedVideoStream.setId(videoStream.getId());
 
-    partialUpdatedVideoStream.uuid(UPDATED_UUID);
+    partialUpdatedVideoStream.uuid(UPDATED_UUID).isLivestreaming(UPDATED_IS_LIVESTREAMING);
 
     restVideoStreamMockMvc
       .perform(
@@ -532,6 +613,7 @@ class VideoStreamResourceIT {
     assertThat(videoStreamList).hasSize(databaseSizeBeforeUpdate);
     VideoStream testVideoStream = videoStreamList.get(videoStreamList.size() - 1);
     assertThat(testVideoStream.getUuid()).isEqualTo(UPDATED_UUID);
+    assertThat(testVideoStream.getIsLivestreaming()).isEqualTo(UPDATED_IS_LIVESTREAMING);
   }
 
   @Test
@@ -635,7 +717,7 @@ class VideoStreamResourceIT {
     // Configure the mock search repository
     // Initialize the database
     videoStreamRepository.saveAndFlush(videoStream);
-    when(mockVideoStreamSearchRepository.search(queryStringQuery("id:" + videoStream.getId()), PageRequest.of(0, 20)))
+    when(mockVideoStreamSearchRepository.search("id:" + videoStream.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(videoStream), PageRequest.of(0, 1), 1));
 
     // Search the videoStream
@@ -644,6 +726,7 @@ class VideoStreamResourceIT {
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(jsonPath("$.[*].id").value(hasItem(videoStream.getId().intValue())))
-      .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())));
+      .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID.toString())))
+      .andExpect(jsonPath("$.[*].isLivestreaming").value(hasItem(DEFAULT_IS_LIVESTREAMING.booleanValue())));
   }
 }

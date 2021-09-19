@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Notification entity.\n@why?             ->\n@use-to           -> Chứa những thông báo đến người dùng\n@commonly-used-in -> Thường xuất hiện trong chức năng thông báo của người dùng\n\n@describe         ->
@@ -27,6 +26,7 @@ public class Notification implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -57,17 +57,18 @@ public class Notification implements Serializable {
   private BaseInfo info;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Notification id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Notification id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -75,7 +76,7 @@ public class Notification implements Serializable {
   }
 
   public Notification uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -88,7 +89,7 @@ public class Notification implements Serializable {
   }
 
   public Notification notifyType(NotifyType notifyType) {
-    this.notifyType = notifyType;
+    this.setNotifyType(notifyType);
     return this;
   }
 
@@ -101,7 +102,7 @@ public class Notification implements Serializable {
   }
 
   public Notification title(String title) {
-    this.title = title;
+    this.setTitle(title);
     return this;
   }
 
@@ -114,7 +115,7 @@ public class Notification implements Serializable {
   }
 
   public Notification content(String content) {
-    this.content = content;
+    this.setContent(content);
     return this;
   }
 
@@ -126,13 +127,13 @@ public class Notification implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public Notification info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

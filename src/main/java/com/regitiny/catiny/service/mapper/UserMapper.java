@@ -1,5 +1,6 @@
 package com.regitiny.catiny.service.mapper;
 
+import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.Authority;
 import com.regitiny.catiny.domain.User;
 import com.regitiny.catiny.service.dto.AdminUserDTO;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * support is still in beta, and requires a manual step with an IDE.
  */
 @Service
+@GeneratedByJHipster
 public class UserMapper {
 
   public List<UserDTO> usersToUserDTOs(List<User> users) {
@@ -66,8 +68,7 @@ public class UserMapper {
       authorities =
         authoritiesAsString
           .stream()
-          .map(
-            string -> {
+          .map(string -> {
               Authority auth = new Authority();
               auth.setName(string);
               return auth;

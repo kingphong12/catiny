@@ -32,7 +32,7 @@ services:
       - "127.0.0.1:8022:22"
     restart: always
   catiny-mariadb:
-    image: mariadb:10.6.1
+    image: mariadb:10.6.4
     volumes:
       - /data/volumes/jhipster/catiny-prod/mysql/:/var/lib/mysql/
     environment:
@@ -45,14 +45,14 @@ services:
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
     restart: always
   catiny-redis:
-    image: redis:6.2.4
+    image: redis:6.2.5
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
       - "127.0.0.1:6379:6379"
     restart: always
   catiny-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
     volumes:
       - /data/volumes/jhipster/catiny-prod/elasticsearch/:/usr/share/elasticsearch/data/
     # If you want to expose these ports outside your dev PC,
@@ -65,13 +65,13 @@ services:
       - 'discovery.type=single-node'
     restart: always
   #  catiny-kibana:
-  #    image: docker.elastic.co/kibana/kibana:7.9.3
+  #    image: docker.elastic.co/kibana/kibana:7.13.3
   #    ports:
   #      - 127.0.0.1:5601:5601
   #    environment:
   #      - "ELASTICSEARCH_HOSTS=http://catiny-elasticsearch:9200"
   kafka:
-    image: confluentinc/cp-kafka:5.5.4
+    image: confluentinc/cp-kafka:5.5.5
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
@@ -86,13 +86,13 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka
     restart: always
   zookeeper:
-    image: confluentinc/cp-zookeeper:5.5.4
+    image: confluentinc/cp-zookeeper:5.5.5
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     restart: always
   jhipster-registry:
-    image: jhipster/jhipster-registry:v6.8.0
+    image: jhipster/jhipster-registry:v7.0.0
     volumes:
       - ./central-server-config:/central-config
     # When run with the "dev" Spring profile, the JHipster Registry will

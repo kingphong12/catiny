@@ -1,6 +1,7 @@
 package com.regitiny.catiny.aop;
 
 
+import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -13,9 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 /**
@@ -80,15 +83,12 @@ public class AdvanceSearchAspectService
       var entity = args[0];
       var repoResult = joinPoint.proceed();
       var entityName = entity.getClass().getSimpleName();
-      var mapper = applicationContext.getBean(StringUtils.uncapitalize(entityName) + "MapperImpl");// entityNameMapperImpl
-      var entityDTO = mapper.getClass().getMethod("toDto", Class.forName("com.regitiny.catiny.domain." + entityName)).invoke(mapper, repoResult);
-      var entityResult = mapper.getClass().getMethod("toEntity", Class.forName("com.regitiny.catiny.service.dto." + entityName + "DTO")).invoke(mapper, entityDTO);
-
+      //noinspection unchecked
+      var mapper = (EntityAdvanceMapper<?, ?, Object>) applicationContext.getBean(StringUtils.uncapitalize(entityName) + "AdvanceMapperImpl");// entityNameMapperImpl
+      var entityResult = mapper.cleanEntity(repoResult);
       log.debug("original data : {} = ", entity);
       log.debug("processed data : {} = ", entityResult);
-      var advanceSearch = applicationContext.getBean(StringUtils.uncapitalize(entityName) + "AdvanceSearch");// entityNameMapperImpl
-      var resultSearch = advanceSearch.getClass().getMethod("save", Object.class).invoke(advanceSearch, entityResult);
-      log.debug("after save to elasticsearch : {}", resultSearch);
+      applicationContext.getBean(this.getClass()).saveToElasticsearch(entityName, entityResult, log);
       return repoResult;
     }
     catch (IllegalArgumentException e)
@@ -119,9 +119,7 @@ public class AdvanceSearchAspectService
       var entity = args[0];
       var entityName = entity.getClass().getSimpleName();
       var result = joinPoint.proceed();
-      var advanceSearch = applicationContext.getBean(StringUtils.uncapitalize(entityName) + "AdvanceSearch");// entityNameMapperImpl
-      var resultSearch = advanceSearch.getClass().getMethod("delete", Object.class).invoke(advanceSearch, result);
-      log.debug("after save to elasticsearch : {}", resultSearch);
+      applicationContext.getBean(this.getClass()).deleteInElasticsearch(entityName, result, log);
       return result;
     }
     catch (IllegalArgumentException e)
@@ -130,6 +128,23 @@ public class AdvanceSearchAspectService
       throw e;
     }
   }
+
+  @Async
+  public void saveToElasticsearch(String entityName, Object data, Logger log) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+  {
+    var advanceSearch = applicationContext.getBean(StringUtils.uncapitalize(entityName) + "AdvanceSearch");// entityNameMapperImpl
+    var resultSearch = advanceSearch.getClass().getMethod("save", Object.class).invoke(advanceSearch, data);
+    log.debug("after save to elasticsearch : {}", resultSearch);
+  }
+
+  @Async
+  public void deleteInElasticsearch(String entityName, Object data, Logger log) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+  {
+    var advanceSearch = applicationContext.getBean(StringUtils.uncapitalize(entityName) + "AdvanceSearch");// entityNameMapperImpl
+    var resultSearch = advanceSearch.getClass().getMethod("delete", Object.class).invoke(advanceSearch, data);
+    log.debug("after delete in elasticsearch : {}", resultSearch);
+  }
+
 
   /**
    * Retrieves the {@link Logger} associated to the given {@link JoinPoint}.

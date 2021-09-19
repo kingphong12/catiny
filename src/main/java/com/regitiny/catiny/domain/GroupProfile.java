@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The GroupProfile entity.\n@why?             ->\n@use-to           -> Những thông tin trong phần giới thiệu của nhóm được lưu tại đây\n@commonly-used-in -> Thường thấy trong phần giới thiệu của nhóm\n\n@describe         -> Đây là một bảng NoSQL dữ liệu một số field ở dưới dạng Json
@@ -26,6 +25,7 @@ public class GroupProfile implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -46,17 +46,18 @@ public class GroupProfile implements Serializable {
   private GroupPost group;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public GroupProfile id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public GroupProfile id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -64,7 +65,7 @@ public class GroupProfile implements Serializable {
   }
 
   public GroupProfile uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -76,22 +77,17 @@ public class GroupProfile implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public GroupProfile info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public GroupPost getGroup() {
     return this.group;
-  }
-
-  public GroupProfile group(GroupPost groupPost) {
-    this.setGroup(groupPost);
-    return this;
   }
 
   public void setGroup(GroupPost groupPost) {
@@ -102,6 +98,11 @@ public class GroupProfile implements Serializable {
       groupPost.setProfile(this);
     }
     this.group = groupPost;
+  }
+
+  public GroupProfile group(GroupPost groupPost) {
+    this.setGroup(groupPost);
+    return this;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

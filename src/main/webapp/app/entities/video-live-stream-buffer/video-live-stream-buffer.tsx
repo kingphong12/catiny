@@ -198,6 +198,13 @@ export const VideoLiveStreamBuffer = (props: RouteComponentProps<{ url: string }
                     <Translate contentKey="catinyApp.videoLiveStreamBuffer.bufferData">Buffer Data</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th className="hand" onClick={sort('bufferNumber')}>
+                    <Translate contentKey="catinyApp.videoLiveStreamBuffer.bufferNumber">Buffer Number</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th className="hand" onClick={sort('path')}>
+                    <Translate contentKey="catinyApp.videoLiveStreamBuffer.path">Path</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th>
                     <Translate contentKey="catinyApp.videoLiveStreamBuffer.info">Info</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
@@ -232,6 +239,8 @@ export const VideoLiveStreamBuffer = (props: RouteComponentProps<{ url: string }
                         </div>
                       ) : null}
                     </td>
+                    <td>{videoLiveStreamBuffer.bufferNumber}</td>
+                    <td>{videoLiveStreamBuffer.path}</td>
                     <td>
                       {videoLiveStreamBuffer.info ? (
                         <Link to={`base-info/${videoLiveStreamBuffer.info.id}`}>{videoLiveStreamBuffer.info.id}</Link>

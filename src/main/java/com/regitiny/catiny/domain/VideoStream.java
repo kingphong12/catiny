@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The VideoStream entity.\n@why?             ->\n@use-to           -> Lưu thông tin video ... khi đã kết thúc stream\n@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường\n\n@describe         ->
@@ -28,6 +27,7 @@ public class VideoStream implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -37,6 +37,9 @@ public class VideoStream implements Serializable {
   @Type(type = "uuid-char")
   @Column(name = "uuid", length = 36, nullable = false, unique = true)
   private UUID uuid;
+
+  @Column(name = "is_livestreaming")
+  private Boolean isLivestreaming;
 
   @JsonIgnoreProperties(value = { "fileInfo", "info", "processeds", "videoStream", "original" }, allowSetters = true)
   @OneToOne
@@ -54,17 +57,18 @@ public class VideoStream implements Serializable {
   private Set<VideoLiveStreamBuffer> videoLiveStreamBuffers = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public VideoStream id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public VideoStream id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -72,7 +76,7 @@ public class VideoStream implements Serializable {
   }
 
   public VideoStream uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -80,8 +84,25 @@ public class VideoStream implements Serializable {
     this.uuid = uuid;
   }
 
+  public Boolean getIsLivestreaming() {
+    return this.isLivestreaming;
+  }
+
+  public VideoStream isLivestreaming(Boolean isLivestreaming) {
+    this.setIsLivestreaming(isLivestreaming);
+    return this;
+  }
+
+  public void setIsLivestreaming(Boolean isLivestreaming) {
+    this.isLivestreaming = isLivestreaming;
+  }
+
   public Video getVideo() {
     return this.video;
+  }
+
+  public void setVideo(Video video) {
+    this.video = video;
   }
 
   public VideoStream video(Video video) {
@@ -89,12 +110,12 @@ public class VideoStream implements Serializable {
     return this;
   }
 
-  public void setVideo(Video video) {
-    this.video = video;
-  }
-
   public BaseInfo getInfo() {
     return this.info;
+  }
+
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public VideoStream info(BaseInfo baseInfo) {
@@ -102,12 +123,18 @@ public class VideoStream implements Serializable {
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<VideoLiveStreamBuffer> getVideoLiveStreamBuffers() {
     return this.videoLiveStreamBuffers;
+  }
+
+  public void setVideoLiveStreamBuffers(Set<VideoLiveStreamBuffer> videoLiveStreamBuffers) {
+    if (this.videoLiveStreamBuffers != null) {
+      this.videoLiveStreamBuffers.forEach(i -> i.setVideoStream(null));
+    }
+    if (videoLiveStreamBuffers != null) {
+      videoLiveStreamBuffers.forEach(i -> i.setVideoStream(this));
+    }
+    this.videoLiveStreamBuffers = videoLiveStreamBuffers;
   }
 
   public VideoStream videoLiveStreamBuffers(Set<VideoLiveStreamBuffer> videoLiveStreamBuffers) {
@@ -125,16 +152,6 @@ public class VideoStream implements Serializable {
     this.videoLiveStreamBuffers.remove(videoLiveStreamBuffer);
     videoLiveStreamBuffer.setVideoStream(null);
     return this;
-  }
-
-  public void setVideoLiveStreamBuffers(Set<VideoLiveStreamBuffer> videoLiveStreamBuffers) {
-    if (this.videoLiveStreamBuffers != null) {
-      this.videoLiveStreamBuffers.forEach(i -> i.setVideoStream(null));
-    }
-    if (videoLiveStreamBuffers != null) {
-      videoLiveStreamBuffers.forEach(i -> i.setVideoStream(this));
-    }
-    this.videoLiveStreamBuffers = videoLiveStreamBuffers;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -162,6 +179,7 @@ public class VideoStream implements Serializable {
         return "VideoStream{" +
             "id=" + getId() +
             ", uuid='" + getUuid() + "'" +
+            ", isLivestreaming='" + getIsLivestreaming() + "'" +
             "}";
     }
 }

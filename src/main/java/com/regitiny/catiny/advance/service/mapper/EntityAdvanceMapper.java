@@ -2,6 +2,7 @@ package com.regitiny.catiny.advance.service.mapper;
 
 import com.regitiny.catiny.service.mapper.EntityMapper;
 import com.regitiny.catiny.util.ApplicationContextUtil;
+import io.vavr.control.Option;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
@@ -14,12 +15,26 @@ import java.util.List;
  * @param <E> - Entity type parameter.
  */
 
-public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
+public interface EntityAdvanceMapper<M, D, E> extends VavrMapper<M, D, E> // ModelMapper<M, D, E>
 {
-  // dto <-> entity
+  // dto -> entity
   default E d2e(D dto)
   {
     return baseMapper().toEntity(dto);
+  }
+
+
+  @Override
+  default Option<E> d2e(Option<D> dto)
+  {
+    return dto.map(this::d2e);
+  }
+
+
+  @Override
+  default io.vavr.collection.List<E> d2e(io.vavr.collection.List<D> dto)
+  {
+    return io.vavr.collection.List.ofAll(d2e(dto.toJavaList()));
   }
 
 
@@ -29,9 +44,24 @@ public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
   }
 
 
+  // entity -> dto
   default D e2d(E entity)
   {
     return baseMapper().toDto(entity);
+  }
+
+
+  @Override
+  default Option<D> e2d(Option<E> entity)
+  {
+    return entity.map(this::e2d);
+  }
+
+
+  @Override
+  default io.vavr.collection.List<D> e2d(io.vavr.collection.List<E> entity)
+  {
+    return io.vavr.collection.List.ofAll(e2d(entity.toJavaList()));
   }
 
 
@@ -41,18 +71,24 @@ public interface EntityAdvanceMapper<M, D, E> extends ModelMapper<M, D, E>
   }
 
 
-  @Override
-  default M e2m(E entity)
+  default Option<D> e2o_d(E entity)
   {
-    return thisMapper().d2m(baseMapper().toDto(entity));
+    return Option.of(e2d(entity));
   }
 
 
-  @Override
-  default List<M> e2m(List<E> entityList)
-  {
-    return thisMapper().d2m(baseMapper().toDto(entityList));
-  }
+//  @Override
+//  default M e2m(E entity)
+//  {
+//    return thisMapper().d2m(baseMapper().toDto(entity));
+//  }
+//
+//
+//  @Override
+//  default List<M> e2m(List<E> entityList)
+//  {
+//    return thisMapper().d2m(baseMapper().toDto(entityList));
+//  }
 
 
   default void partialUpdate(E entity, D dto)

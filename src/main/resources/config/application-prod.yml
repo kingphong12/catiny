@@ -13,13 +13,16 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 catiny:
+  server-name: dev.catiny.com
+  permission:
+    need-check: true
   value:
     number-of-cities: 0 # mặc định là không import và tối đa 63 thành phố
   server:
     main:
       host: localhost
       prefix-port: "" # là "" hoặc từ 1-6 , ví dụ : localhost:3306 phiên bản chính, localhost:13306 phiên bản cho dev
-      connect-default:  ${catiny.server.main.host}:${catiny.server.main.prefix-port}
+      connect-default: ${catiny.server.main.host}:${catiny.server.main.prefix-port}
     ffmpeg:
       host: localhost
       port: 10022

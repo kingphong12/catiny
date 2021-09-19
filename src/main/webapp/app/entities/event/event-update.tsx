@@ -65,8 +65,8 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
           endTime: displayDefaultDateTime(),
         }
       : {
-          ...eventEntity,
           type: 'DAY',
+          ...eventEntity,
           startTime: convertDateTimeFromServer(eventEntity.startTime),
           endTime: convertDateTimeFromServer(eventEntity.endTime),
           infoId: eventEntity?.info?.id,

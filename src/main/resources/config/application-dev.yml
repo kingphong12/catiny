@@ -13,6 +13,7 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 catiny:
+  server-name: dev.catiny.com
   permission:
     need-check: true
   value:
@@ -90,7 +91,6 @@ spring:
       enabled: false
   jpa:
     database-platform: tech.jhipster.domain.util.FixedH2Dialect
-  data:
   elasticsearch:
     rest:
       uris: http://${catiny.server.main.connect-default}9200

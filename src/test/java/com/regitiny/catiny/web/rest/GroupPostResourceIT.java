@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -389,7 +388,14 @@ class GroupPostResourceIT {
   void getAllGroupPostsByProfileIsEqualToSomething() throws Exception {
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    GroupProfile profile = GroupProfileResourceIT.createEntity(em);
+    GroupProfile profile;
+    if (TestUtil.findAll(em, GroupProfile.class).isEmpty()) {
+      profile = GroupProfileResourceIT.createEntity(em);
+      em.persist(profile);
+      em.flush();
+    } else {
+      profile = TestUtil.findAll(em, GroupProfile.class).get(0);
+    }
     em.persist(profile);
     em.flush();
     groupPost.setProfile(profile);
@@ -408,7 +414,14 @@ class GroupPostResourceIT {
   void getAllGroupPostsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     groupPost.setInfo(info);
@@ -427,7 +440,14 @@ class GroupPostResourceIT {
   void getAllGroupPostsByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    Post post = PostResourceIT.createEntity(em);
+    Post post;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      post = PostResourceIT.createEntity(em);
+      em.persist(post);
+      em.flush();
+    } else {
+      post = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(post);
     em.flush();
     groupPost.addPost(post);
@@ -446,7 +466,14 @@ class GroupPostResourceIT {
   void getAllGroupPostsByFollowedIsEqualToSomething() throws Exception {
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    FollowGroup followed = FollowGroupResourceIT.createEntity(em);
+    FollowGroup followed;
+    if (TestUtil.findAll(em, FollowGroup.class).isEmpty()) {
+      followed = FollowGroupResourceIT.createEntity(em);
+      em.persist(followed);
+      em.flush();
+    } else {
+      followed = TestUtil.findAll(em, FollowGroup.class).get(0);
+    }
     em.persist(followed);
     em.flush();
     groupPost.addFollowed(followed);
@@ -465,7 +492,14 @@ class GroupPostResourceIT {
   void getAllGroupPostsByTopicInterestIsEqualToSomething() throws Exception {
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    TopicInterest topicInterest = TopicInterestResourceIT.createEntity(em);
+    TopicInterest topicInterest;
+    if (TestUtil.findAll(em, TopicInterest.class).isEmpty()) {
+      topicInterest = TopicInterestResourceIT.createEntity(em);
+      em.persist(topicInterest);
+      em.flush();
+    } else {
+      topicInterest = TestUtil.findAll(em, TopicInterest.class).get(0);
+    }
     em.persist(topicInterest);
     em.flush();
     groupPost.addTopicInterest(topicInterest);
@@ -802,7 +836,7 @@ class GroupPostResourceIT {
     // Configure the mock search repository
     // Initialize the database
     groupPostRepository.saveAndFlush(groupPost);
-    when(mockGroupPostSearchRepository.search(queryStringQuery("id:" + groupPost.getId()), PageRequest.of(0, 20)))
+    when(mockGroupPostSearchRepository.search("id:" + groupPost.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(groupPost), PageRequest.of(0, 1), 1));
 
     // Search the groupPost

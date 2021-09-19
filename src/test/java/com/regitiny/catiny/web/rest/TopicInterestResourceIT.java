@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -391,7 +390,14 @@ class TopicInterestResourceIT {
   void getAllTopicInterestsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     topicInterestRepository.saveAndFlush(topicInterest);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     topicInterest.setInfo(info);
@@ -410,7 +416,14 @@ class TopicInterestResourceIT {
   void getAllTopicInterestsByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     topicInterestRepository.saveAndFlush(topicInterest);
-    Post post = PostResourceIT.createEntity(em);
+    Post post;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      post = PostResourceIT.createEntity(em);
+      em.persist(post);
+      em.flush();
+    } else {
+      post = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(post);
     em.flush();
     topicInterest.addPost(post);
@@ -429,7 +442,14 @@ class TopicInterestResourceIT {
   void getAllTopicInterestsByPagePostIsEqualToSomething() throws Exception {
     // Initialize the database
     topicInterestRepository.saveAndFlush(topicInterest);
-    PagePost pagePost = PagePostResourceIT.createEntity(em);
+    PagePost pagePost;
+    if (TestUtil.findAll(em, PagePost.class).isEmpty()) {
+      pagePost = PagePostResourceIT.createEntity(em);
+      em.persist(pagePost);
+      em.flush();
+    } else {
+      pagePost = TestUtil.findAll(em, PagePost.class).get(0);
+    }
     em.persist(pagePost);
     em.flush();
     topicInterest.addPagePost(pagePost);
@@ -448,7 +468,14 @@ class TopicInterestResourceIT {
   void getAllTopicInterestsByGroupPostIsEqualToSomething() throws Exception {
     // Initialize the database
     topicInterestRepository.saveAndFlush(topicInterest);
-    GroupPost groupPost = GroupPostResourceIT.createEntity(em);
+    GroupPost groupPost;
+    if (TestUtil.findAll(em, GroupPost.class).isEmpty()) {
+      groupPost = GroupPostResourceIT.createEntity(em);
+      em.persist(groupPost);
+      em.flush();
+    } else {
+      groupPost = TestUtil.findAll(em, GroupPost.class).get(0);
+    }
     em.persist(groupPost);
     em.flush();
     topicInterest.addGroupPost(groupPost);
@@ -467,7 +494,14 @@ class TopicInterestResourceIT {
   void getAllTopicInterestsByMasterUserIsEqualToSomething() throws Exception {
     // Initialize the database
     topicInterestRepository.saveAndFlush(topicInterest);
-    MasterUser masterUser = MasterUserResourceIT.createEntity(em);
+    MasterUser masterUser;
+    if (TestUtil.findAll(em, MasterUser.class).isEmpty()) {
+      masterUser = MasterUserResourceIT.createEntity(em);
+      em.persist(masterUser);
+      em.flush();
+    } else {
+      masterUser = TestUtil.findAll(em, MasterUser.class).get(0);
+    }
     em.persist(masterUser);
     em.flush();
     topicInterest.addMasterUser(masterUser);
@@ -802,7 +836,7 @@ class TopicInterestResourceIT {
     // Configure the mock search repository
     // Initialize the database
     topicInterestRepository.saveAndFlush(topicInterest);
-    when(mockTopicInterestSearchRepository.search(queryStringQuery("id:" + topicInterest.getId()), PageRequest.of(0, 20)))
+    when(mockTopicInterestSearchRepository.search("id:" + topicInterest.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(topicInterest), PageRequest.of(0, 1), 1));
 
     // Search the topicInterest

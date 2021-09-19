@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.FollowGroup;
 import com.regitiny.catiny.service.dto.FollowGroupDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface FollowGroupAdvanceMapper extends EntityAdvanceMapper<FollowGroupModel, FollowGroupDTO, FollowGroup>
 {
-  FollowGroupDTO request2d(FollowGroupModel.Request request);
-
-
-  List<FollowGroupDTO> request2d(List<FollowGroupModel.Request> request);
-
-
-  FollowGroupModel.Response d2Response(FollowGroupDTO dto);
-
-
-  List<FollowGroupModel.Response> d2Response(List<FollowGroupDTO> dto);
 }

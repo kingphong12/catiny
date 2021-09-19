@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The Post entity\n@why?             ->\n@use-to           -> lưu các bài viết của người dùng\n@commonly-used-in -> đăng và xem các bài viết\n\n@describe         ->
@@ -30,6 +29,7 @@ public class Post implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -114,17 +114,18 @@ public class Post implements Serializable {
   private Set<TopicInterest> topicInterests = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public Post id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Post id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -132,7 +133,7 @@ public class Post implements Serializable {
   }
 
   public Post uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -145,7 +146,7 @@ public class Post implements Serializable {
   }
 
   public Post postInType(PostInType postInType) {
-    this.postInType = postInType;
+    this.setPostInType(postInType);
     return this;
   }
 
@@ -158,7 +159,7 @@ public class Post implements Serializable {
   }
 
   public Post postType(PostType postType) {
-    this.postType = postType;
+    this.setPostType(postType);
     return this;
   }
 
@@ -171,7 +172,7 @@ public class Post implements Serializable {
   }
 
   public Post content(String content) {
-    this.content = content;
+    this.setContent(content);
     return this;
   }
 
@@ -184,7 +185,7 @@ public class Post implements Serializable {
   }
 
   public Post searchField(String searchField) {
-    this.searchField = searchField;
+    this.setSearchField(searchField);
     return this;
   }
 
@@ -196,17 +197,27 @@ public class Post implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public Post info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<PostComment> getComments() {
     return this.comments;
+  }
+
+  public void setComments(Set<PostComment> postComments) {
+    if (this.comments != null) {
+      this.comments.forEach(i -> i.setPost(null));
+    }
+    if (postComments != null) {
+      postComments.forEach(i -> i.setPost(this));
+    }
+    this.comments = postComments;
   }
 
   public Post comments(Set<PostComment> postComments) {
@@ -226,18 +237,18 @@ public class Post implements Serializable {
     return this;
   }
 
-  public void setComments(Set<PostComment> postComments) {
-    if (this.comments != null) {
-      this.comments.forEach(i -> i.setPost(null));
-    }
-    if (postComments != null) {
-      postComments.forEach(i -> i.setPost(this));
-    }
-    this.comments = postComments;
-  }
-
   public Set<PostLike> getLikes() {
     return this.likes;
+  }
+
+  public void setLikes(Set<PostLike> postLikes) {
+    if (this.likes != null) {
+      this.likes.forEach(i -> i.setPost(null));
+    }
+    if (postLikes != null) {
+      postLikes.forEach(i -> i.setPost(this));
+    }
+    this.likes = postLikes;
   }
 
   public Post likes(Set<PostLike> postLikes) {
@@ -257,18 +268,18 @@ public class Post implements Serializable {
     return this;
   }
 
-  public void setLikes(Set<PostLike> postLikes) {
-    if (this.likes != null) {
-      this.likes.forEach(i -> i.setPost(null));
-    }
-    if (postLikes != null) {
-      postLikes.forEach(i -> i.setPost(this));
-    }
-    this.likes = postLikes;
-  }
-
   public Set<Post> getChildren() {
     return this.children;
+  }
+
+  public void setChildren(Set<Post> posts) {
+    if (this.children != null) {
+      this.children.forEach(i -> i.setParent(null));
+    }
+    if (posts != null) {
+      posts.forEach(i -> i.setParent(this));
+    }
+    this.children = posts;
   }
 
   public Post children(Set<Post> posts) {
@@ -288,18 +299,12 @@ public class Post implements Serializable {
     return this;
   }
 
-  public void setChildren(Set<Post> posts) {
-    if (this.children != null) {
-      this.children.forEach(i -> i.setParent(null));
-    }
-    if (posts != null) {
-      posts.forEach(i -> i.setParent(this));
-    }
-    this.children = posts;
-  }
-
   public GroupPost getGroup() {
     return this.group;
+  }
+
+  public void setGroup(GroupPost groupPost) {
+    this.group = groupPost;
   }
 
   public Post group(GroupPost groupPost) {
@@ -307,12 +312,12 @@ public class Post implements Serializable {
     return this;
   }
 
-  public void setGroup(GroupPost groupPost) {
-    this.group = groupPost;
-  }
-
   public PagePost getPage() {
     return this.page;
+  }
+
+  public void setPage(PagePost pagePost) {
+    this.page = pagePost;
   }
 
   public Post page(PagePost pagePost) {
@@ -320,12 +325,12 @@ public class Post implements Serializable {
     return this;
   }
 
-  public void setPage(PagePost pagePost) {
-    this.page = pagePost;
-  }
-
   public Post getParent() {
     return this.parent;
+  }
+
+  public void setParent(Post post) {
+    this.parent = post;
   }
 
   public Post parent(Post post) {
@@ -333,12 +338,18 @@ public class Post implements Serializable {
     return this;
   }
 
-  public void setParent(Post post) {
-    this.parent = post;
-  }
-
   public Set<NewsFeed> getNewsFeeds() {
     return this.newsFeeds;
+  }
+
+  public void setNewsFeeds(Set<NewsFeed> newsFeeds) {
+    if (this.newsFeeds != null) {
+      this.newsFeeds.forEach(i -> i.setPost(null));
+    }
+    if (newsFeeds != null) {
+      newsFeeds.forEach(i -> i.setPost(this));
+    }
+    this.newsFeeds = newsFeeds;
   }
 
   public Post newsFeeds(Set<NewsFeed> newsFeeds) {
@@ -358,18 +369,18 @@ public class Post implements Serializable {
     return this;
   }
 
-  public void setNewsFeeds(Set<NewsFeed> newsFeeds) {
-    if (this.newsFeeds != null) {
-      this.newsFeeds.forEach(i -> i.setPost(null));
-    }
-    if (newsFeeds != null) {
-      newsFeeds.forEach(i -> i.setPost(this));
-    }
-    this.newsFeeds = newsFeeds;
-  }
-
   public Set<TopicInterest> getTopicInterests() {
     return this.topicInterests;
+  }
+
+  public void setTopicInterests(Set<TopicInterest> topicInterests) {
+    if (this.topicInterests != null) {
+      this.topicInterests.forEach(i -> i.removePost(this));
+    }
+    if (topicInterests != null) {
+      topicInterests.forEach(i -> i.addPost(this));
+    }
+    this.topicInterests = topicInterests;
   }
 
   public Post topicInterests(Set<TopicInterest> topicInterests) {
@@ -387,16 +398,6 @@ public class Post implements Serializable {
     this.topicInterests.remove(topicInterest);
     topicInterest.getPosts().remove(this);
     return this;
-  }
-
-  public void setTopicInterests(Set<TopicInterest> topicInterests) {
-    if (this.topicInterests != null) {
-      this.topicInterests.forEach(i -> i.removePost(this));
-    }
-    if (topicInterests != null) {
-      topicInterests.forEach(i -> i.addPost(this));
-    }
-    this.topicInterests = topicInterests;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

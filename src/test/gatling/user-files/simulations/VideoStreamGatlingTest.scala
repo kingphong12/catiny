@@ -72,6 +72,7 @@ class VideoStreamGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "uuid":null
+                , "isLivestreaming":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_videoStream_url"))).exitHereIfFailed

@@ -59,21 +59,17 @@ public class HistoryUpdateServiceImpl implements HistoryUpdateService {
 
     return historyUpdateRepository
       .findById(historyUpdateDTO.getId())
-      .map(
-        existingHistoryUpdate -> {
-          historyUpdateMapper.partialUpdate(existingHistoryUpdate, historyUpdateDTO);
+      .map(existingHistoryUpdate -> {
+        historyUpdateMapper.partialUpdate(existingHistoryUpdate, historyUpdateDTO);
 
-          return existingHistoryUpdate;
-        }
-      )
+        return existingHistoryUpdate;
+      })
       .map(historyUpdateRepository::save)
-      .map(
-        savedHistoryUpdate -> {
-          historyUpdateSearchRepository.save(savedHistoryUpdate);
+      .map(savedHistoryUpdate -> {
+        historyUpdateSearchRepository.save(savedHistoryUpdate);
 
-          return savedHistoryUpdate;
-        }
-      )
+        return savedHistoryUpdate;
+      })
       .map(historyUpdateMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class HistoryUpdateServiceImpl implements HistoryUpdateService {
   @Transactional(readOnly = true)
   public Page<HistoryUpdateDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of HistoryUpdates for query {}", query);
-    return historyUpdateSearchRepository.search(queryStringQuery(query), pageable).map(historyUpdateMapper::toDto);
+    return historyUpdateSearchRepository.search(query, pageable).map(historyUpdateMapper::toDto);
   }
 }

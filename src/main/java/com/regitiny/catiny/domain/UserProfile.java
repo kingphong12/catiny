@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?         	  -> The UserProfile entity .\n@why?          	  ->\n@use-to:       	  -> Lưu thông tin mở rộng của người dùng (trường học cơ quan làm việc ...)\n@commonly-used-in -> Trang cá nhân (trang giới thiệu)\n\n@describe      	  -> Đây là bảng NoSQL một số trường ở dưới dạng JSON ,NoSQL vì dữ liệu mỗi trường học , cơ quan ,nới sống ... đôi khikhông giống nhau
@@ -26,6 +25,7 @@ public class UserProfile implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -126,17 +126,18 @@ public class UserProfile implements Serializable {
   private BaseInfo info;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public UserProfile id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public UserProfile id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -144,7 +145,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -157,7 +158,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile work(String work) {
-    this.work = work;
+    this.setWork(work);
     return this;
   }
 
@@ -170,7 +171,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile education(String education) {
-    this.education = education;
+    this.setEducation(education);
     return this;
   }
 
@@ -183,7 +184,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile placesLived(String placesLived) {
-    this.placesLived = placesLived;
+    this.setPlacesLived(placesLived);
     return this;
   }
 
@@ -196,7 +197,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile contactInfo(String contactInfo) {
-    this.contactInfo = contactInfo;
+    this.setContactInfo(contactInfo);
     return this;
   }
 
@@ -209,7 +210,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile webSocialLinks(String webSocialLinks) {
-    this.webSocialLinks = webSocialLinks;
+    this.setWebSocialLinks(webSocialLinks);
     return this;
   }
 
@@ -222,7 +223,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile basicInfo(String basicInfo) {
-    this.basicInfo = basicInfo;
+    this.setBasicInfo(basicInfo);
     return this;
   }
 
@@ -235,7 +236,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile relationshipInfo(String relationshipInfo) {
-    this.relationshipInfo = relationshipInfo;
+    this.setRelationshipInfo(relationshipInfo);
     return this;
   }
 
@@ -248,7 +249,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile family(String family) {
-    this.family = family;
+    this.setFamily(family);
     return this;
   }
 
@@ -261,7 +262,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile detailAbout(String detailAbout) {
-    this.detailAbout = detailAbout;
+    this.setDetailAbout(detailAbout);
     return this;
   }
 
@@ -274,7 +275,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile lifeEvents(String lifeEvents) {
-    this.lifeEvents = lifeEvents;
+    this.setLifeEvents(lifeEvents);
     return this;
   }
 
@@ -287,7 +288,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile hobbies(String hobbies) {
-    this.hobbies = hobbies;
+    this.setHobbies(hobbies);
     return this;
   }
 
@@ -300,7 +301,7 @@ public class UserProfile implements Serializable {
   }
 
   public UserProfile featured(String featured) {
-    this.featured = featured;
+    this.setFeatured(featured);
     return this;
   }
 
@@ -312,13 +313,13 @@ public class UserProfile implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public UserProfile info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -1265,7 +1264,14 @@ class VideoResourceIT {
   void getAllVideosByFileInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    FileInfo fileInfo = FileInfoResourceIT.createEntity(em);
+    FileInfo fileInfo;
+    if (TestUtil.findAll(em, FileInfo.class).isEmpty()) {
+      fileInfo = FileInfoResourceIT.createEntity(em);
+      em.persist(fileInfo);
+      em.flush();
+    } else {
+      fileInfo = TestUtil.findAll(em, FileInfo.class).get(0);
+    }
     em.persist(fileInfo);
     em.flush();
     video.setFileInfo(fileInfo);
@@ -1284,7 +1290,14 @@ class VideoResourceIT {
   void getAllVideosByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     video.setInfo(info);
@@ -1303,7 +1316,14 @@ class VideoResourceIT {
   void getAllVideosByProcessedIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    Video processed = VideoResourceIT.createEntity(em);
+    Video processed;
+    if (TestUtil.findAll(em, Video.class).isEmpty()) {
+      processed = VideoResourceIT.createEntity(em);
+      em.persist(processed);
+      em.flush();
+    } else {
+      processed = TestUtil.findAll(em, Video.class).get(0);
+    }
     em.persist(processed);
     em.flush();
     video.addProcessed(processed);
@@ -1322,7 +1342,14 @@ class VideoResourceIT {
   void getAllVideosByVideoStreamIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    VideoStream videoStream = VideoStreamResourceIT.createEntity(em);
+    VideoStream videoStream;
+    if (TestUtil.findAll(em, VideoStream.class).isEmpty()) {
+      videoStream = VideoStreamResourceIT.createEntity(em);
+      em.persist(videoStream);
+      em.flush();
+    } else {
+      videoStream = TestUtil.findAll(em, VideoStream.class).get(0);
+    }
     em.persist(videoStream);
     em.flush();
     video.setVideoStream(videoStream);
@@ -1342,7 +1369,14 @@ class VideoResourceIT {
   void getAllVideosByOriginalIsEqualToSomething() throws Exception {
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    Video original = VideoResourceIT.createEntity(em);
+    Video original;
+    if (TestUtil.findAll(em, Video.class).isEmpty()) {
+      original = VideoResourceIT.createEntity(em);
+      em.persist(original);
+      em.flush();
+    } else {
+      original = TestUtil.findAll(em, Video.class).get(0);
+    }
     em.persist(original);
     em.flush();
     video.setOriginal(original);
@@ -1721,7 +1755,7 @@ class VideoResourceIT {
     // Configure the mock search repository
     // Initialize the database
     videoRepository.saveAndFlush(video);
-    when(mockVideoSearchRepository.search(queryStringQuery("id:" + video.getId()), PageRequest.of(0, 20)))
+    when(mockVideoSearchRepository.search("id:" + video.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(video), PageRequest.of(0, 1), 1));
 
     // Search the video

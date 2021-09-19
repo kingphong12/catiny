@@ -3,7 +3,7 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
@@ -21,6 +21,12 @@
                 <constraints nullable="true" />
             </column>
             <column name="buffer_data_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="buffer_number" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="path" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="info_id" type="bigint">
@@ -47,11 +53,14 @@
         <loadData
                   file="config/liquibase/fake-data/video_live_stream_buffer.csv"
                   separator=";"
-                  tableName="video_live_stream_buffer">
+                  tableName="video_live_stream_buffer"
+                  usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="uuid" type="string"/>
             <column name="buffer_data" type="blob"/>
             <column name="buffer_data_content_type" type="string"/>
+            <column name="buffer_number" type="numeric"/>
+            <column name="path" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

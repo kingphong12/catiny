@@ -55,21 +55,17 @@ public class AlbumServiceImpl implements AlbumService {
 
     return albumRepository
       .findById(albumDTO.getId())
-      .map(
-        existingAlbum -> {
-          albumMapper.partialUpdate(existingAlbum, albumDTO);
+      .map(existingAlbum -> {
+        albumMapper.partialUpdate(existingAlbum, albumDTO);
 
-          return existingAlbum;
-        }
-      )
+        return existingAlbum;
+      })
       .map(albumRepository::save)
-      .map(
-        savedAlbum -> {
-          albumSearchRepository.save(savedAlbum);
+      .map(savedAlbum -> {
+        albumSearchRepository.save(savedAlbum);
 
-          return savedAlbum;
-        }
-      )
+        return savedAlbum;
+      })
       .map(albumMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class AlbumServiceImpl implements AlbumService {
   @Transactional(readOnly = true)
   public Page<AlbumDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of Albums for query {}", query);
-    return albumSearchRepository.search(queryStringQuery(query), pageable).map(albumMapper::toDto);
+    return albumSearchRepository.search(query, pageable).map(albumMapper::toDto);
   }
 }

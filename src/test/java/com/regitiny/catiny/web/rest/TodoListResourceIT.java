@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -361,7 +360,14 @@ class TodoListResourceIT {
   void getAllTodoListsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     todoListRepository.saveAndFlush(todoList);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     todoList.setInfo(info);
@@ -694,7 +700,7 @@ class TodoListResourceIT {
     // Configure the mock search repository
     // Initialize the database
     todoListRepository.saveAndFlush(todoList);
-    when(mockTodoListSearchRepository.search(queryStringQuery("id:" + todoList.getId()), PageRequest.of(0, 20)))
+    when(mockTodoListSearchRepository.search("id:" + todoList.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(todoList), PageRequest.of(0, 1), 1));
 
     // Search the todoList

@@ -673,6 +673,7 @@ entity VideoStream
 {
     /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
     uuid UUID required unique
+    isLivestreaming Boolean
 }
 /**
 * @what?            -> The VideoLiveStreamBuffer entity.
@@ -687,6 +688,8 @@ entity VideoLiveStreamBuffer
     /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
     uuid UUID required unique
     bufferData AnyBlob
+    bufferNumber Integer
+    path String
 }
 /**
 * @what?            -> The TopicInterest entity.

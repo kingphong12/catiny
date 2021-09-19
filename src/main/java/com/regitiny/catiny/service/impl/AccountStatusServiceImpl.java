@@ -59,21 +59,17 @@ public class AccountStatusServiceImpl implements AccountStatusService {
 
     return accountStatusRepository
       .findById(accountStatusDTO.getId())
-      .map(
-        existingAccountStatus -> {
-          accountStatusMapper.partialUpdate(existingAccountStatus, accountStatusDTO);
+      .map(existingAccountStatus -> {
+        accountStatusMapper.partialUpdate(existingAccountStatus, accountStatusDTO);
 
-          return existingAccountStatus;
-        }
-      )
+        return existingAccountStatus;
+      })
       .map(accountStatusRepository::save)
-      .map(
-        savedAccountStatus -> {
-          accountStatusSearchRepository.save(savedAccountStatus);
+      .map(savedAccountStatus -> {
+        accountStatusSearchRepository.save(savedAccountStatus);
 
-          return savedAccountStatus;
-        }
-      )
+        return savedAccountStatus;
+      })
       .map(accountStatusMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class AccountStatusServiceImpl implements AccountStatusService {
   @Transactional(readOnly = true)
   public Page<AccountStatusDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of AccountStatuses for query {}", query);
-    return accountStatusSearchRepository.search(queryStringQuery(query), pageable).map(accountStatusMapper::toDto);
+    return accountStatusSearchRepository.search(query, pageable).map(accountStatusMapper::toDto);
   }
 }

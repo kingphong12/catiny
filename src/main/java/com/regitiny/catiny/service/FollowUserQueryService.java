@@ -93,6 +93,10 @@ public class FollowUserQueryService extends QueryService<FollowUser> {
   protected Specification<FollowUser> createSpecification(FollowUserCriteria criteria) {
     Specification<FollowUser> specification = Specification.where(null);
     if (criteria != null) {
+      // This has to be called first, because the distinct method returns null
+      if (criteria.getDistinct() != null) {
+        specification = specification.and(distinct(criteria.getDistinct()));
+      }
       if (criteria.getId() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getId(), FollowUser_.id));
       }

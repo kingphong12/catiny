@@ -63,21 +63,17 @@ public class GroupProfileServiceImpl implements GroupProfileService {
 
     return groupProfileRepository
       .findById(groupProfileDTO.getId())
-      .map(
-        existingGroupProfile -> {
-          groupProfileMapper.partialUpdate(existingGroupProfile, groupProfileDTO);
+      .map(existingGroupProfile -> {
+        groupProfileMapper.partialUpdate(existingGroupProfile, groupProfileDTO);
 
-          return existingGroupProfile;
-        }
-      )
+        return existingGroupProfile;
+      })
       .map(groupProfileRepository::save)
-      .map(
-        savedGroupProfile -> {
-          groupProfileSearchRepository.save(savedGroupProfile);
+      .map(savedGroupProfile -> {
+        groupProfileSearchRepository.save(savedGroupProfile);
 
-          return savedGroupProfile;
-        }
-      )
+        return savedGroupProfile;
+      })
       .map(groupProfileMapper::toDto);
   }
 
@@ -120,6 +116,6 @@ public class GroupProfileServiceImpl implements GroupProfileService {
   @Transactional(readOnly = true)
   public Page<GroupProfileDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of GroupProfiles for query {}", query);
-    return groupProfileSearchRepository.search(queryStringQuery(query), pageable).map(groupProfileMapper::toDto);
+    return groupProfileSearchRepository.search(query, pageable).map(groupProfileMapper::toDto);
   }
 }

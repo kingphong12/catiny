@@ -93,11 +93,21 @@ public class VideoLiveStreamBufferQueryService extends QueryService<VideoLiveStr
   protected Specification<VideoLiveStreamBuffer> createSpecification(VideoLiveStreamBufferCriteria criteria) {
     Specification<VideoLiveStreamBuffer> specification = Specification.where(null);
     if (criteria != null) {
+      // This has to be called first, because the distinct method returns null
+      if (criteria.getDistinct() != null) {
+        specification = specification.and(distinct(criteria.getDistinct()));
+      }
       if (criteria.getId() != null) {
         specification = specification.and(buildRangeSpecification(criteria.getId(), VideoLiveStreamBuffer_.id));
       }
       if (criteria.getUuid() != null) {
         specification = specification.and(buildSpecification(criteria.getUuid(), VideoLiveStreamBuffer_.uuid));
+      }
+      if (criteria.getBufferNumber() != null) {
+        specification = specification.and(buildRangeSpecification(criteria.getBufferNumber(), VideoLiveStreamBuffer_.bufferNumber));
+      }
+      if (criteria.getPath() != null) {
+        specification = specification.and(buildStringSpecification(criteria.getPath(), VideoLiveStreamBuffer_.path));
       }
       if (criteria.getInfoId() != null) {
         specification =

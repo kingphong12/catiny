@@ -59,21 +59,17 @@ public class FileInfoServiceImpl implements FileInfoService {
 
     return fileInfoRepository
       .findById(fileInfoDTO.getId())
-      .map(
-        existingFileInfo -> {
-          fileInfoMapper.partialUpdate(existingFileInfo, fileInfoDTO);
+      .map(existingFileInfo -> {
+        fileInfoMapper.partialUpdate(existingFileInfo, fileInfoDTO);
 
-          return existingFileInfo;
-        }
-      )
+        return existingFileInfo;
+      })
       .map(fileInfoRepository::save)
-      .map(
-        savedFileInfo -> {
-          fileInfoSearchRepository.save(savedFileInfo);
+      .map(savedFileInfo -> {
+        fileInfoSearchRepository.save(savedFileInfo);
 
-          return savedFileInfo;
-        }
-      )
+        return savedFileInfo;
+      })
       .map(fileInfoMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class FileInfoServiceImpl implements FileInfoService {
   @Transactional(readOnly = true)
   public Page<FileInfoDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of FileInfos for query {}", query);
-    return fileInfoSearchRepository.search(queryStringQuery(query), pageable).map(fileInfoMapper::toDto);
+    return fileInfoSearchRepository.search(query, pageable).map(fileInfoMapper::toDto);
   }
 }

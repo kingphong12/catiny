@@ -185,6 +185,8 @@ public class CacheConfiguration {
       createCache(cm, com.regitiny.catiny.domain.Video.class.getName() + ".processeds", jcacheConfiguration);
       createCache(cm, com.regitiny.catiny.domain.Image.class.getName() + ".processeds", jcacheConfiguration);
       // jhipster-needle-redis-add-entry
+      createCache(cm, CacheNameConstants.MASTER_USER_BY_LOGIN, jcacheConfiguration);
+      createCache(cm, CacheNameConstants.MASTER_USER_BY_ID, jcacheConfiguration);
     };
   }
 
@@ -214,5 +216,10 @@ public class CacheConfiguration {
   @Bean
   public KeyGenerator keyGenerator() {
     return new PrefixedKeyGenerator(this.gitProperties, this.buildProperties);
+  }
+
+  public interface CacheNameConstants {
+    String MASTER_USER_BY_LOGIN = "MASTER_USER_BY_LOGIN";
+    String MASTER_USER_BY_ID = "MASTER_USER_BY_ID";
   }
 }

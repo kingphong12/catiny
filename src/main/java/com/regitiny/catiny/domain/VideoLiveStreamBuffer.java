@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The VideoLiveStreamBuffer entity.\n@why?             ->\n@use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video\n@commonly-used-in -> thường sử dụng khi đang live stream\n\n@describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)
@@ -26,6 +25,7 @@ public class VideoLiveStreamBuffer implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -43,6 +43,12 @@ public class VideoLiveStreamBuffer implements Serializable {
   @Column(name = "buffer_data_content_type")
   private String bufferDataContentType;
 
+  @Column(name = "buffer_number")
+  private Integer bufferNumber;
+
+  @Column(name = "path")
+  private String path;
+
   @JsonIgnoreProperties(value = { "histories", "createdBy", "modifiedBy", "owner", "classInfo", "permissions" }, allowSetters = true)
   @OneToOne
   @JoinColumn(unique = true)
@@ -53,17 +59,18 @@ public class VideoLiveStreamBuffer implements Serializable {
   private VideoStream videoStream;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public VideoLiveStreamBuffer id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public VideoLiveStreamBuffer id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -71,7 +78,7 @@ public class VideoLiveStreamBuffer implements Serializable {
   }
 
   public VideoLiveStreamBuffer uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -84,7 +91,7 @@ public class VideoLiveStreamBuffer implements Serializable {
   }
 
   public VideoLiveStreamBuffer bufferData(byte[] bufferData) {
-    this.bufferData = bufferData;
+    this.setBufferData(bufferData);
     return this;
   }
 
@@ -105,8 +112,38 @@ public class VideoLiveStreamBuffer implements Serializable {
     this.bufferDataContentType = bufferDataContentType;
   }
 
+  public Integer getBufferNumber() {
+    return this.bufferNumber;
+  }
+
+  public VideoLiveStreamBuffer bufferNumber(Integer bufferNumber) {
+    this.setBufferNumber(bufferNumber);
+    return this;
+  }
+
+  public void setBufferNumber(Integer bufferNumber) {
+    this.bufferNumber = bufferNumber;
+  }
+
+  public String getPath() {
+    return this.path;
+  }
+
+  public VideoLiveStreamBuffer path(String path) {
+    this.setPath(path);
+    return this;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
+
   public BaseInfo getInfo() {
     return this.info;
+  }
+
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public VideoLiveStreamBuffer info(BaseInfo baseInfo) {
@@ -114,21 +151,17 @@ public class VideoLiveStreamBuffer implements Serializable {
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public VideoStream getVideoStream() {
     return this.videoStream;
+  }
+
+  public void setVideoStream(VideoStream videoStream) {
+    this.videoStream = videoStream;
   }
 
   public VideoLiveStreamBuffer videoStream(VideoStream videoStream) {
     this.setVideoStream(videoStream);
     return this;
-  }
-
-  public void setVideoStream(VideoStream videoStream) {
-    this.videoStream = videoStream;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -158,6 +191,8 @@ public class VideoLiveStreamBuffer implements Serializable {
             ", uuid='" + getUuid() + "'" +
             ", bufferData='" + getBufferData() + "'" +
             ", bufferDataContentType='" + getBufferDataContentType() + "'" +
+            ", bufferNumber=" + getBufferNumber() +
+            ", path='" + getPath() + "'" +
             "}";
     }
 }

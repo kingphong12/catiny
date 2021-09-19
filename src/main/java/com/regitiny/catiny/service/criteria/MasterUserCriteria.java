@@ -47,6 +47,8 @@ public class MasterUserCriteria implements Serializable, Criteria {
 
   private LongFilter ownedId;
 
+  private Boolean distinct;
+
   public MasterUserCriteria() {}
 
   public MasterUserCriteria(MasterUserCriteria other) {
@@ -60,6 +62,7 @@ public class MasterUserCriteria implements Serializable, Criteria {
     this.permissionId = other.permissionId == null ? null : other.permissionId.copy();
     this.topicInterestId = other.topicInterestId == null ? null : other.topicInterestId.copy();
     this.ownedId = other.ownedId == null ? null : other.ownedId.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -217,6 +220,14 @@ public class MasterUserCriteria implements Serializable, Criteria {
     this.ownedId = ownedId;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -236,13 +247,14 @@ public class MasterUserCriteria implements Serializable, Criteria {
       Objects.equals(infoId, that.infoId) &&
       Objects.equals(permissionId, that.permissionId) &&
       Objects.equals(topicInterestId, that.topicInterestId) &&
-      Objects.equals(ownedId, that.ownedId)
+      Objects.equals(ownedId, that.ownedId) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, fullName, nickname, userId, myRankId, infoId, permissionId, topicInterestId, ownedId);
+    return Objects.hash(id, uuid, fullName, nickname, userId, myRankId, infoId, permissionId, topicInterestId, ownedId, distinct);
   }
 
   // prettier-ignore
@@ -259,6 +271,7 @@ public class MasterUserCriteria implements Serializable, Criteria {
             (permissionId != null ? "permissionId=" + permissionId + ", " : "") +
             (topicInterestId != null ? "topicInterestId=" + topicInterestId + ", " : "") +
             (ownedId != null ? "ownedId=" + ownedId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

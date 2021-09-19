@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The PageProfile entity\n@why?             ->\n@use-to           -> Lưu phần giới thiệu của các trang\n@commonly-used-in -> hiển thị giới thiệu của các trang\n\n@describe         ->
@@ -26,6 +25,7 @@ public class PageProfile implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -46,17 +46,18 @@ public class PageProfile implements Serializable {
   private PagePost page;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public PageProfile id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public PageProfile id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -64,7 +65,7 @@ public class PageProfile implements Serializable {
   }
 
   public PageProfile uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -76,22 +77,17 @@ public class PageProfile implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public PageProfile info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public PagePost getPage() {
     return this.page;
-  }
-
-  public PageProfile page(PagePost pagePost) {
-    this.setPage(pagePost);
-    return this;
   }
 
   public void setPage(PagePost pagePost) {
@@ -102,6 +98,11 @@ public class PageProfile implements Serializable {
       pagePost.setProfile(this);
     }
     this.page = pagePost;
+  }
+
+  public PageProfile page(PagePost pagePost) {
+    this.setPage(pagePost);
+    return this;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

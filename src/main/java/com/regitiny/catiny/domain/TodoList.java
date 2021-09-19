@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The TodoList entity.\n@why?             ->\n@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện\n@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện\n\n@describe         ->
@@ -26,6 +25,7 @@ public class TodoList implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -49,17 +49,18 @@ public class TodoList implements Serializable {
   private BaseInfo info;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public TodoList id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public TodoList id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -67,7 +68,7 @@ public class TodoList implements Serializable {
   }
 
   public TodoList uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -80,7 +81,7 @@ public class TodoList implements Serializable {
   }
 
   public TodoList title(String title) {
-    this.title = title;
+    this.setTitle(title);
     return this;
   }
 
@@ -93,7 +94,7 @@ public class TodoList implements Serializable {
   }
 
   public TodoList content(String content) {
-    this.content = content;
+    this.setContent(content);
     return this;
   }
 
@@ -105,13 +106,13 @@ public class TodoList implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public TodoList info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

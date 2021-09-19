@@ -127,7 +127,7 @@ public class RankUserResource {
    * or with status {@code 500 (Internal Server Error)} if the rankUserDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/rank-users/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/rank-users/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<RankUserDTO> partialUpdateRankUser(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody RankUserDTO rankUserDTO

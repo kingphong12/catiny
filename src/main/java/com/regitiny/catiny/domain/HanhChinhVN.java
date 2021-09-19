@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A HanhChinhVN.
@@ -23,6 +22,7 @@ public class HanhChinhVN implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -80,17 +80,18 @@ public class HanhChinhVN implements Serializable {
   private String pathWithType;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public HanhChinhVN id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public HanhChinhVN id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public String getName() {
@@ -98,7 +99,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN name(String name) {
-    this.name = name;
+    this.setName(name);
     return this;
   }
 
@@ -111,7 +112,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN slug(String slug) {
-    this.slug = slug;
+    this.setSlug(slug);
     return this;
   }
 
@@ -124,7 +125,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN type(String type) {
-    this.type = type;
+    this.setType(type);
     return this;
   }
 
@@ -137,7 +138,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN nameWithType(String nameWithType) {
-    this.nameWithType = nameWithType;
+    this.setNameWithType(nameWithType);
     return this;
   }
 
@@ -150,7 +151,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN code(String code) {
-    this.code = code;
+    this.setCode(code);
     return this;
   }
 
@@ -163,7 +164,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN parentCode(String parentCode) {
-    this.parentCode = parentCode;
+    this.setParentCode(parentCode);
     return this;
   }
 
@@ -176,7 +177,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN path(String path) {
-    this.path = path;
+    this.setPath(path);
     return this;
   }
 
@@ -189,7 +190,7 @@ public class HanhChinhVN implements Serializable {
   }
 
   public HanhChinhVN pathWithType(String pathWithType) {
-    this.pathWithType = pathWithType;
+    this.setPathWithType(pathWithType);
     return this;
   }
 

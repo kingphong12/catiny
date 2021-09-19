@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A ClassInfo.
@@ -28,6 +27,7 @@ public class ClassInfo implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -63,17 +63,18 @@ public class ClassInfo implements Serializable {
   private Set<BaseInfo> baseInfos = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public ClassInfo id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public ClassInfo id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -81,7 +82,7 @@ public class ClassInfo implements Serializable {
   }
 
   public ClassInfo uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -94,7 +95,7 @@ public class ClassInfo implements Serializable {
   }
 
   public ClassInfo namePackage(String namePackage) {
-    this.namePackage = namePackage;
+    this.setNamePackage(namePackage);
     return this;
   }
 
@@ -107,7 +108,7 @@ public class ClassInfo implements Serializable {
   }
 
   public ClassInfo fullName(String fullName) {
-    this.fullName = fullName;
+    this.setFullName(fullName);
     return this;
   }
 
@@ -120,7 +121,7 @@ public class ClassInfo implements Serializable {
   }
 
   public ClassInfo className(String className) {
-    this.className = className;
+    this.setClassName(className);
     return this;
   }
 
@@ -130,6 +131,16 @@ public class ClassInfo implements Serializable {
 
   public Set<BaseInfo> getBaseInfos() {
     return this.baseInfos;
+  }
+
+  public void setBaseInfos(Set<BaseInfo> baseInfos) {
+    if (this.baseInfos != null) {
+      this.baseInfos.forEach(i -> i.setClassInfo(null));
+    }
+    if (baseInfos != null) {
+      baseInfos.forEach(i -> i.setClassInfo(this));
+    }
+    this.baseInfos = baseInfos;
   }
 
   public ClassInfo baseInfos(Set<BaseInfo> baseInfos) {
@@ -147,16 +158,6 @@ public class ClassInfo implements Serializable {
     this.baseInfos.remove(baseInfo);
     baseInfo.setClassInfo(null);
     return this;
-  }
-
-  public void setBaseInfos(Set<BaseInfo> baseInfos) {
-    if (this.baseInfos != null) {
-      this.baseInfos.forEach(i -> i.setClassInfo(null));
-    }
-    if (baseInfos != null) {
-      baseInfos.forEach(i -> i.setClassInfo(this));
-    }
-    this.baseInfos = baseInfos;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

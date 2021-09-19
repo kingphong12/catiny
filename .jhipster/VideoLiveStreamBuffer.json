@@ -11,6 +11,14 @@
       "fieldName": "bufferData",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "bufferNumber",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "path",
+      "fieldType": "String"
     }
   ],
   "relationships": [

@@ -5,6 +5,7 @@ import com.regitiny.catiny.domain.HanhChinhVN;
 import io.vavr.control.Option;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,5 +20,23 @@ public interface HanhChinhVNBaseSearch extends BaseSearch<HanhChinhVN>, CommonRe
   default Option<HanhChinhVN> findOneByUuid(UUID uuid)
   {
     return Option.none();
+  }
+
+
+  @Override
+  default void deleteOneByUuid(UUID uuid)
+  {
+  }
+
+
+  @Override
+  default void deleteAllByUuidIn(UUID... uuid)
+  {
+  }
+
+
+  @Override
+  default void deleteAllByUuidIn(List<UUID> uuid)
+  {
   }
 }

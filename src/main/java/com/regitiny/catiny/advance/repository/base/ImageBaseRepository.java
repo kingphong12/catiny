@@ -3,6 +3,7 @@ package com.regitiny.catiny.advance.repository.base;
 import com.regitiny.catiny.advance.repository.CommonRepository;
 import com.regitiny.catiny.domain.Image;
 import com.regitiny.catiny.repository.ImageRepository;
+import io.vavr.control.Option;
 
 /**
  * Spring Data SQL repository for the {@link Image} entity.
@@ -13,4 +14,5 @@ import com.regitiny.catiny.repository.ImageRepository;
  */
 public interface ImageBaseRepository extends BaseRepository<Image>, CommonRepository<Image>, ImageRepository
 {
+  Option<Image> findOneByNameAndOriginalIsNull(String name);
 }

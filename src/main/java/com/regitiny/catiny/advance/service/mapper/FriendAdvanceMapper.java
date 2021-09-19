@@ -5,8 +5,6 @@ import com.regitiny.catiny.domain.Friend;
 import com.regitiny.catiny.service.dto.FriendDTO;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * this is a custom mapper for each entity .
  * this mapper extend from Jhipster mapper
@@ -18,14 +16,4 @@ import java.util.List;
 )
 public interface FriendAdvanceMapper extends EntityAdvanceMapper<FriendModel, FriendDTO, Friend>
 {
-  FriendDTO request2d(FriendModel.Request request);
-
-
-  List<FriendDTO> request2d(List<FriendModel.Request> request);
-
-
-  FriendModel.Response d2Response(FriendDTO dto);
-
-
-  List<FriendModel.Response> d2Response(List<FriendDTO> dto);
 }

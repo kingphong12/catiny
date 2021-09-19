@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -271,7 +270,14 @@ class FollowGroupResourceIT {
   void getAllFollowGroupsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     followGroupRepository.saveAndFlush(followGroup);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     followGroup.setInfo(info);
@@ -290,7 +296,14 @@ class FollowGroupResourceIT {
   void getAllFollowGroupsByGroupDetailsIsEqualToSomething() throws Exception {
     // Initialize the database
     followGroupRepository.saveAndFlush(followGroup);
-    GroupPost groupDetails = GroupPostResourceIT.createEntity(em);
+    GroupPost groupDetails;
+    if (TestUtil.findAll(em, GroupPost.class).isEmpty()) {
+      groupDetails = GroupPostResourceIT.createEntity(em);
+      em.persist(groupDetails);
+      em.flush();
+    } else {
+      groupDetails = TestUtil.findAll(em, GroupPost.class).get(0);
+    }
     em.persist(groupDetails);
     em.flush();
     followGroup.setGroupDetails(groupDetails);
@@ -615,7 +628,7 @@ class FollowGroupResourceIT {
     // Configure the mock search repository
     // Initialize the database
     followGroupRepository.saveAndFlush(followGroup);
-    when(mockFollowGroupSearchRepository.search(queryStringQuery("id:" + followGroup.getId()), PageRequest.of(0, 20)))
+    when(mockFollowGroupSearchRepository.search("id:" + followGroup.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(followGroup), PageRequest.of(0, 1), 1));
 
     // Search the followGroup

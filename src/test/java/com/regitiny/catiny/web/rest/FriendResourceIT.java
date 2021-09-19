@@ -1,33 +1,17 @@
 package com.regitiny.catiny.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.IntegrationTest;
 import com.regitiny.catiny.domain.BaseInfo;
 import com.regitiny.catiny.domain.Friend;
-import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.enumeration.FriendType;
 import com.regitiny.catiny.repository.FriendRepository;
 import com.regitiny.catiny.repository.search.FriendSearchRepository;
-import com.regitiny.catiny.service.criteria.FriendCriteria;
 import com.regitiny.catiny.service.dto.FriendDTO;
 import com.regitiny.catiny.service.mapper.FriendMapper;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +21,19 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link FriendResource} REST controller.
@@ -58,8 +55,8 @@ class FriendResourceIT {
   private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
   private static final String ENTITY_SEARCH_API_URL = "/api/_search/friends";
 
-  private static Random random = new Random();
-  private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+  private static final Random random = new Random();
+  private static final AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
   @Autowired
   private FriendRepository friendRepository;
@@ -330,7 +327,14 @@ class FriendResourceIT {
   void getAllFriendsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     friendRepository.saveAndFlush(friend);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     friend.setInfo(info);
@@ -347,10 +351,16 @@ class FriendResourceIT {
   @Test
   @Transactional
   void getAllFriendsByFriendIsEqualToSomething() throws Exception {
-//    todo:
-//    // Initialize the database
+    // Initialize the database
 //    friendRepository.saveAndFlush(friend);
-//    MasterUser friend = MasterUserResourceIT.createEntity(em);
+//    MasterUser friend;
+//    if (TestUtil.findAll(em, MasterUser.class).isEmpty()) {
+//      friend = MasterUserResourceIT.createEntity(em);
+//      em.persist(friend);
+//      em.flush();
+//    } else {
+//      friend = TestUtil.findAll(em, MasterUser.class).get(0);
+//    }
 //    em.persist(friend);
 //    em.flush();
 //    friend.setFriend(friend);
@@ -679,7 +689,7 @@ class FriendResourceIT {
     // Configure the mock search repository
     // Initialize the database
     friendRepository.saveAndFlush(friend);
-    when(mockFriendSearchRepository.search(queryStringQuery("id:" + friend.getId()), PageRequest.of(0, 20)))
+    when(mockFriendSearchRepository.search("id:" + friend.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(friend), PageRequest.of(0, 1), 1));
 
     // Search the friend

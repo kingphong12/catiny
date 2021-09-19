@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   catiny-sonar:
-    image: sonarqube:8.9.1-community
+    image: sonarqube:8.9.2-community
     volumes:
       - /data/volumes/sonarqube/data:/opt/sonarqube/data
       - /data/volumes/sonarqube/logs:/opt/sonarqube/logs

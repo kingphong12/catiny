@@ -16,7 +16,6 @@ import PageNotFound from 'app/shared/error/page-not-found';
 import {AUTHORITIES} from 'app/config/constants';
 import {sendActivity} from 'app/config/websocket-middleware';
 
-import Chat from 'app/component/chat';
 
 //Sociala
 import Demo from "app-js/demo/Demo";
@@ -44,7 +43,6 @@ import ShopThree from "app-js/pages/ShopThree";
 import SingleProduct from "app-js/pages/SingleProduct";
 import Cart from "app-js/pages/Cart";
 import Checkout from "app-js/pages/Checkout";
-import Live from "app-js/pages/Live";
 import Job from "app-js/pages/Job";
 import Event from "app-js/pages/Event";
 import Hotel from "app-js/pages/Hotel";
@@ -54,6 +52,9 @@ import AuthorPage from "app-js/pages/AuthorPage";
 import ComingSoon from "app-js/pages/ComingSoon";
 import HotelSingle from "app-js/pages/HotelSingle";
 import Account2 from "app-js/pages/Account";
+import Chat from 'app/modules/message/chat/chat';
+import Livestream from "app/modules/livestream/livestream";
+import LivestreamNew from "app/modules/livestream";
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -73,9 +74,6 @@ const Routes = () =>
     sendActivity(location.pathname);
   }, [location]);
 
-  //yuvytung
-
-
   return (
     <div className='view-routes'>
       <Switch>
@@ -87,8 +85,7 @@ const Routes = () =>
         <ErrorBoundaryRoute path='/account/reset/finish/:key?' component={PasswordResetFinish} />
         <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
         <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
-        <ErrorBoundaryRoute path="/" exact component={Home}/>
-        <PrivateRoute path="/chat" component={Chat} hasAnyAuthorities={[AUTHORITIES.USER]}/>
+        <ErrorBoundaryRoute path='/' exact component={Home} />
 
         <ErrorBoundaryRoute exact path={`/demo`} component={Demo}/>
         <ErrorBoundaryRoute exact path={`/home`} component={HomeSociala}/>
@@ -118,9 +115,10 @@ const Routes = () =>
         <ErrorBoundaryRoute exact path={`/singleproduct`} component={SingleProduct}/>
         <ErrorBoundaryRoute exact path={`/cart`} component={Cart}/>
         <ErrorBoundaryRoute exact path={`/checkout`} component={Checkout}/>
-        <ErrorBoundaryRoute exact path={`/defaultmessage`} component={Chat}/>
-        <ErrorBoundaryRoute exact path={`/defaultlive`} component={Live}/>
-        <ErrorBoundaryRoute exact path={`/defaultjob`} component={Job}/>
+        <ErrorBoundaryRoute exact path={`/defaultmessage`} component={Chat} />
+        <ErrorBoundaryRoute exact path={`/defaultlive`} component={Livestream} />
+        <ErrorBoundaryRoute path={`/livestream`} component={LivestreamNew} />
+        <ErrorBoundaryRoute exact path={`/defaultjob`} component={Job} />
         <ErrorBoundaryRoute exact path={`/defaultevent`} component={Event}/>
         <ErrorBoundaryRoute exact path={`/defaulthotel`} component={Hotel}/>
         <ErrorBoundaryRoute exact path={`/grouppage`} component={GroupPage}/>
@@ -128,6 +126,7 @@ const Routes = () =>
         <ErrorBoundaryRoute exact path={`/groupauthorpage`} component={AuthorPage}/>
         <ErrorBoundaryRoute exact path={`/comingsoon`} component={ComingSoon}/>
         <ErrorBoundaryRoute exact path={`/defaulthoteldetails`} component={HotelSingle}/>
+        {/*<PrivateRoute path="/" component={Modules}/>*/}
 
         <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>{/* tiện ích jhipster chỉ để admin dùng */}
         <ErrorBoundaryRoute component={PageNotFound}/>

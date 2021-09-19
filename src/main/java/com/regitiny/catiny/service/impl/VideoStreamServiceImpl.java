@@ -59,21 +59,17 @@ public class VideoStreamServiceImpl implements VideoStreamService {
 
     return videoStreamRepository
       .findById(videoStreamDTO.getId())
-      .map(
-        existingVideoStream -> {
-          videoStreamMapper.partialUpdate(existingVideoStream, videoStreamDTO);
+      .map(existingVideoStream -> {
+        videoStreamMapper.partialUpdate(existingVideoStream, videoStreamDTO);
 
-          return existingVideoStream;
-        }
-      )
+        return existingVideoStream;
+      })
       .map(videoStreamRepository::save)
-      .map(
-        savedVideoStream -> {
-          videoStreamSearchRepository.save(savedVideoStream);
+      .map(savedVideoStream -> {
+        videoStreamSearchRepository.save(savedVideoStream);
 
-          return savedVideoStream;
-        }
-      )
+        return savedVideoStream;
+      })
       .map(videoStreamMapper::toDto);
   }
 
@@ -102,6 +98,6 @@ public class VideoStreamServiceImpl implements VideoStreamService {
   @Transactional(readOnly = true)
   public Page<VideoStreamDTO> search(String query, Pageable pageable) {
     log.debug("Request to search for a page of VideoStreams for query {}", query);
-    return videoStreamSearchRepository.search(queryStringQuery(query), pageable).map(videoStreamMapper::toDto);
+    return videoStreamSearchRepository.search(query, pageable).map(videoStreamMapper::toDto);
   }
 }

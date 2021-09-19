@@ -18,9 +18,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
+
+import static java.time.Instant.now;
 
 @Log4j2
 @Service
@@ -61,23 +61,21 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
 
   public Option<BaseInfo> findOne(BaseInfo baseInfo)
   {
-    return Option
-      .when(Objects.nonNull(baseInfo),
-        findById(baseInfo.getId())
-          .orElse(findByUuid(baseInfo.getUuid()))
-          .onEmpty(() -> log.warn("not found this BaseInfo : {}", baseInfo)))
-      .onEmpty(() -> log.warn("BaseInfo input is empty")).get();
+    return Option.of(baseInfo).map(bi -> findById(bi.getId())
+        .orElse(findByUuid(baseInfo.getUuid()))
+        .onEmpty(() -> log.warn("not found this BaseInfo : {}", baseInfo)))
+      .onEmpty(() -> log.warn("BaseInfo input is empty"))
+      .get();
   }
 
   public BaseInfo createForOwner()
   {
-    var now = Instant.now();
-
     var baseInfo = baseInfoAdvanceRepository.save(new BaseInfo().uuid(UUID.randomUUID())
       .processStatus(ProcessStatus.NOT_PROCESSED)
 //      .modifiedClass(null)
-      .createdDate(now)
-      .modifiedDate(now)
+      .deleted(false)
+      .createdDate(now())
+      .modifiedDate(now())
       .priorityIndex(0L)
       .countUse(0L));
 
@@ -86,7 +84,7 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
         .addPermission(permissionAdvanceService.createForOwner())
         .createdBy(masterUser)
         .modifiedBy(masterUser));
-    MasterUserUtil.anonymousMasterUser()
+    MasterUserUtil.getAnonymousMasterUser()
       .map(masterUser -> permissionAdvanceService.createForAnonymous())
       .forEach(baseInfo::addPermission);
 
@@ -96,14 +94,14 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
 
   public BaseInfo createWhenCreateMasterUser(MasterUser masterUser)
   {
-    var now = Instant.now();
     var ownerPermission = permissionAdvanceService.createForOwner().owner(masterUser);
 
     var baseInfo = new BaseInfo()
       .processStatus(ProcessStatus.NOT_PROCESSED)
 //      .modifiedClass(null)
-      .createdDate(now)
-      .modifiedDate(now)
+      .deleted(false)
+      .createdDate(now())
+      .modifiedDate(now())
       .owner(masterUser)
       .addPermission(ownerPermission)
       .createdBy(masterUser)
@@ -112,7 +110,7 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
       .countUse(0L);
     baseInfo = baseInfoAdvanceRepository.save(baseInfo);
 
-    var historyUpdate = historyUpdateAdvanceService.createFirstVersion(baseInfo);
+    historyUpdateAdvanceService.createFirstVersion(baseInfo);
     return baseInfo;
   }
 

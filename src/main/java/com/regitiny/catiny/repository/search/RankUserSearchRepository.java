@@ -1,11 +1,50 @@
 package com.regitiny.catiny.repository.search;
 
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.RankUser;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
  * Spring Data Elasticsearch repository for the {@link RankUser} entity.
  */
 @GeneratedByJHipster
-public interface RankUserSearchRepository extends ElasticsearchRepository<RankUser, Long> {}
+public interface RankUserSearchRepository extends ElasticsearchRepository<RankUser, Long>, RankUserSearchRepositoryInternal {}
+
+@GeneratedByJHipster
+interface RankUserSearchRepositoryInternal {
+  Page<RankUser> search(String query, Pageable pageable);
+}
+
+@GeneratedByJHipster
+class RankUserSearchRepositoryInternalImpl implements RankUserSearchRepositoryInternal {
+
+  private final ElasticsearchRestTemplate elasticsearchTemplate;
+
+  RankUserSearchRepositoryInternalImpl(ElasticsearchRestTemplate elasticsearchTemplate) {
+    this.elasticsearchTemplate = elasticsearchTemplate;
+  }
+
+  @Override
+  public Page<RankUser> search(String query, Pageable pageable) {
+    NativeSearchQuery nativeSearchQuery = new NativeSearchQuery(queryStringQuery(query));
+    nativeSearchQuery.setPageable(pageable);
+    List<RankUser> hits = elasticsearchTemplate
+      .search(nativeSearchQuery, RankUser.class)
+      .map(SearchHit::getContent)
+      .stream()
+      .collect(Collectors.toList());
+
+    return new PageImpl<>(hits, pageable, hits.size());
+  }
+}

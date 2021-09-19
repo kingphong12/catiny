@@ -127,7 +127,7 @@ public class FollowUserResource {
    * or with status {@code 500 (Internal Server Error)} if the followUserDTO couldn't be updated.
    * @throws URISyntaxException if the Location URI syntax is incorrect.
    */
-  @PatchMapping(value = "/follow-users/{id}", consumes = "application/merge-patch+json")
+  @PatchMapping(value = "/follow-users/{id}", consumes = { "application/json", "application/merge-patch+json" })
   public ResponseEntity<FollowUserDTO> partialUpdateFollowUser(
     @PathVariable(value = "id", required = false) final Long id,
     @NotNull @RequestBody FollowUserDTO followUserDTO

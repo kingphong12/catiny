@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -389,7 +388,14 @@ class PagePostResourceIT {
   void getAllPagePostsByProfileIsEqualToSomething() throws Exception {
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    PageProfile profile = PageProfileResourceIT.createEntity(em);
+    PageProfile profile;
+    if (TestUtil.findAll(em, PageProfile.class).isEmpty()) {
+      profile = PageProfileResourceIT.createEntity(em);
+      em.persist(profile);
+      em.flush();
+    } else {
+      profile = TestUtil.findAll(em, PageProfile.class).get(0);
+    }
     em.persist(profile);
     em.flush();
     pagePost.setProfile(profile);
@@ -408,7 +414,14 @@ class PagePostResourceIT {
   void getAllPagePostsByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     pagePost.setInfo(info);
@@ -427,7 +440,14 @@ class PagePostResourceIT {
   void getAllPagePostsByPostIsEqualToSomething() throws Exception {
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    Post post = PostResourceIT.createEntity(em);
+    Post post;
+    if (TestUtil.findAll(em, Post.class).isEmpty()) {
+      post = PostResourceIT.createEntity(em);
+      em.persist(post);
+      em.flush();
+    } else {
+      post = TestUtil.findAll(em, Post.class).get(0);
+    }
     em.persist(post);
     em.flush();
     pagePost.addPost(post);
@@ -446,7 +466,14 @@ class PagePostResourceIT {
   void getAllPagePostsByFollowedIsEqualToSomething() throws Exception {
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    FollowPage followed = FollowPageResourceIT.createEntity(em);
+    FollowPage followed;
+    if (TestUtil.findAll(em, FollowPage.class).isEmpty()) {
+      followed = FollowPageResourceIT.createEntity(em);
+      em.persist(followed);
+      em.flush();
+    } else {
+      followed = TestUtil.findAll(em, FollowPage.class).get(0);
+    }
     em.persist(followed);
     em.flush();
     pagePost.addFollowed(followed);
@@ -465,7 +492,14 @@ class PagePostResourceIT {
   void getAllPagePostsByTopicInterestIsEqualToSomething() throws Exception {
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    TopicInterest topicInterest = TopicInterestResourceIT.createEntity(em);
+    TopicInterest topicInterest;
+    if (TestUtil.findAll(em, TopicInterest.class).isEmpty()) {
+      topicInterest = TopicInterestResourceIT.createEntity(em);
+      em.persist(topicInterest);
+      em.flush();
+    } else {
+      topicInterest = TestUtil.findAll(em, TopicInterest.class).get(0);
+    }
     em.persist(topicInterest);
     em.flush();
     pagePost.addTopicInterest(topicInterest);
@@ -802,7 +836,7 @@ class PagePostResourceIT {
     // Configure the mock search repository
     // Initialize the database
     pagePostRepository.saveAndFlush(pagePost);
-    when(mockPagePostSearchRepository.search(queryStringQuery("id:" + pagePost.getId()), PageRequest.of(0, 20)))
+    when(mockPagePostSearchRepository.search("id:" + pagePost.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(pagePost), PageRequest.of(0, 1), 1));
 
     // Search the pagePost

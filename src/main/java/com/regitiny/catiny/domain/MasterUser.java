@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The MasterUser entity.\n@why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)\n@use-to:          -> Lưu thông tin cơ bản của một người dùng\n@commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server\n\n@describe      	  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây
@@ -26,6 +25,7 @@ public class MasterUser implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -84,12 +84,12 @@ public class MasterUser implements Serializable {
   private Set<Permission> permissions = new HashSet<>();
 
   @ManyToMany
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JoinTable(
     name = "rel_master_user__topic_interest",
     joinColumns = @JoinColumn(name = "master_user_id"),
     inverseJoinColumns = @JoinColumn(name = "topic_interest_id")
   )
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @JsonIgnoreProperties(value = { "info", "posts", "pagePosts", "groupPosts", "masterUsers" }, allowSetters = true)
   private Set<TopicInterest> topicInterests = new HashSet<>();
 
@@ -99,17 +99,18 @@ public class MasterUser implements Serializable {
   private Set<BaseInfo> owneds = new HashSet<>();
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public MasterUser id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public MasterUser id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -117,7 +118,7 @@ public class MasterUser implements Serializable {
   }
 
   public MasterUser uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -130,7 +131,7 @@ public class MasterUser implements Serializable {
   }
 
   public MasterUser fullName(String fullName) {
-    this.fullName = fullName;
+    this.setFullName(fullName);
     return this;
   }
 
@@ -143,7 +144,7 @@ public class MasterUser implements Serializable {
   }
 
   public MasterUser nickname(String nickname) {
-    this.nickname = nickname;
+    this.setNickname(nickname);
     return this;
   }
 
@@ -156,7 +157,7 @@ public class MasterUser implements Serializable {
   }
 
   public MasterUser avatar(String avatar) {
-    this.avatar = avatar;
+    this.setAvatar(avatar);
     return this;
   }
 
@@ -169,7 +170,7 @@ public class MasterUser implements Serializable {
   }
 
   public MasterUser quickInfo(String quickInfo) {
-    this.quickInfo = quickInfo;
+    this.setQuickInfo(quickInfo);
     return this;
   }
 
@@ -181,17 +182,21 @@ public class MasterUser implements Serializable {
     return this.user;
   }
 
+  public void setUser(User user) {
+    this.user = user;
+  }
+
   public MasterUser user(User user) {
     this.setUser(user);
     return this;
   }
 
-  public void setUser(User user) {
-    this.user = user;
-  }
-
   public RankUser getMyRank() {
     return this.myRank;
+  }
+
+  public void setMyRank(RankUser rankUser) {
+    this.myRank = rankUser;
   }
 
   public MasterUser myRank(RankUser rankUser) {
@@ -199,12 +204,12 @@ public class MasterUser implements Serializable {
     return this;
   }
 
-  public void setMyRank(RankUser rankUser) {
-    this.myRank = rankUser;
-  }
-
   public BaseInfo getInfo() {
     return this.info;
+  }
+
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
   }
 
   public MasterUser info(BaseInfo baseInfo) {
@@ -212,12 +217,18 @@ public class MasterUser implements Serializable {
     return this;
   }
 
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
-  }
-
   public Set<Permission> getPermissions() {
     return this.permissions;
+  }
+
+  public void setPermissions(Set<Permission> permissions) {
+    if (this.permissions != null) {
+      this.permissions.forEach(i -> i.setOwner(null));
+    }
+    if (permissions != null) {
+      permissions.forEach(i -> i.setOwner(this));
+    }
+    this.permissions = permissions;
   }
 
   public MasterUser permissions(Set<Permission> permissions) {
@@ -237,18 +248,12 @@ public class MasterUser implements Serializable {
     return this;
   }
 
-  public void setPermissions(Set<Permission> permissions) {
-    if (this.permissions != null) {
-      this.permissions.forEach(i -> i.setOwner(null));
-    }
-    if (permissions != null) {
-      permissions.forEach(i -> i.setOwner(this));
-    }
-    this.permissions = permissions;
-  }
-
   public Set<TopicInterest> getTopicInterests() {
     return this.topicInterests;
+  }
+
+  public void setTopicInterests(Set<TopicInterest> topicInterests) {
+    this.topicInterests = topicInterests;
   }
 
   public MasterUser topicInterests(Set<TopicInterest> topicInterests) {
@@ -268,12 +273,18 @@ public class MasterUser implements Serializable {
     return this;
   }
 
-  public void setTopicInterests(Set<TopicInterest> topicInterests) {
-    this.topicInterests = topicInterests;
-  }
-
   public Set<BaseInfo> getOwneds() {
     return this.owneds;
+  }
+
+  public void setOwneds(Set<BaseInfo> baseInfos) {
+    if (this.owneds != null) {
+      this.owneds.forEach(i -> i.setOwner(null));
+    }
+    if (baseInfos != null) {
+      baseInfos.forEach(i -> i.setOwner(this));
+    }
+    this.owneds = baseInfos;
   }
 
   public MasterUser owneds(Set<BaseInfo> baseInfos) {
@@ -291,16 +302,6 @@ public class MasterUser implements Serializable {
     this.owneds.remove(baseInfo);
     baseInfo.setOwner(null);
     return this;
-  }
-
-  public void setOwneds(Set<BaseInfo> baseInfos) {
-    if (this.owneds != null) {
-      this.owneds.forEach(i -> i.setOwner(null));
-    }
-    if (baseInfos != null) {
-      baseInfos.forEach(i -> i.setOwner(this));
-    }
-    this.owneds = baseInfos;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

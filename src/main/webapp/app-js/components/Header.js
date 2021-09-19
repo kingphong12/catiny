@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
 
 import Darkbutton from './DarkMode';
-//x
+
 const Header = () =>
 {
   const [isOpen, setIsOpen] = useState(false);

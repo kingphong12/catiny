@@ -1,7 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -629,7 +628,14 @@ class DeviceStatusResourceIT {
   void getAllDeviceStatusesByInfoIsEqualToSomething() throws Exception {
     // Initialize the database
     deviceStatusRepository.saveAndFlush(deviceStatus);
-    BaseInfo info = BaseInfoResourceIT.createEntity(em);
+    BaseInfo info;
+    if (TestUtil.findAll(em, BaseInfo.class).isEmpty()) {
+      info = BaseInfoResourceIT.createEntity(em);
+      em.persist(info);
+      em.flush();
+    } else {
+      info = TestUtil.findAll(em, BaseInfo.class).get(0);
+    }
     em.persist(info);
     em.flush();
     deviceStatus.setInfo(info);
@@ -648,7 +654,14 @@ class DeviceStatusResourceIT {
   void getAllDeviceStatusesByAccountStatusIsEqualToSomething() throws Exception {
     // Initialize the database
     deviceStatusRepository.saveAndFlush(deviceStatus);
-    AccountStatus accountStatus = AccountStatusResourceIT.createEntity(em);
+    AccountStatus accountStatus;
+    if (TestUtil.findAll(em, AccountStatus.class).isEmpty()) {
+      accountStatus = AccountStatusResourceIT.createEntity(em);
+      em.persist(accountStatus);
+      em.flush();
+    } else {
+      accountStatus = TestUtil.findAll(em, AccountStatus.class).get(0);
+    }
     em.persist(accountStatus);
     em.flush();
     deviceStatus.setAccountStatus(accountStatus);
@@ -1007,7 +1020,7 @@ class DeviceStatusResourceIT {
     // Configure the mock search repository
     // Initialize the database
     deviceStatusRepository.saveAndFlush(deviceStatus);
-    when(mockDeviceStatusSearchRepository.search(queryStringQuery("id:" + deviceStatus.getId()), PageRequest.of(0, 20)))
+    when(mockDeviceStatusSearchRepository.search("id:" + deviceStatus.getId(), PageRequest.of(0, 20)))
       .thenReturn(new PageImpl<>(Collections.singletonList(deviceStatus), PageRequest.of(0, 1), 1));
 
     // Search the deviceStatus

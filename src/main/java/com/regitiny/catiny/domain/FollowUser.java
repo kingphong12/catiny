@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @what?            -> The FollowUser entity.\n@why?             ->\n@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\n@commonly-used-in -> Chủ đề mà người dùng theo dõi\n\n@describe         ->
@@ -26,6 +25,7 @@ public class FollowUser implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
+  @Column(name = "id")
   private Long id;
 
   /**
@@ -46,17 +46,18 @@ public class FollowUser implements Serializable {
   private MasterUser follow;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here
+
   public Long getId() {
-    return id;
+    return this.id;
+  }
+
+  public FollowUser id(Long id) {
+    this.setId(id);
+    return this;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public FollowUser id(Long id) {
-    this.id = id;
-    return this;
   }
 
   public UUID getUuid() {
@@ -64,7 +65,7 @@ public class FollowUser implements Serializable {
   }
 
   public FollowUser uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.setUuid(uuid);
     return this;
   }
 
@@ -76,26 +77,26 @@ public class FollowUser implements Serializable {
     return this.info;
   }
 
+  public void setInfo(BaseInfo baseInfo) {
+    this.info = baseInfo;
+  }
+
   public FollowUser info(BaseInfo baseInfo) {
     this.setInfo(baseInfo);
     return this;
-  }
-
-  public void setInfo(BaseInfo baseInfo) {
-    this.info = baseInfo;
   }
 
   public MasterUser getFollow() {
     return this.follow;
   }
 
+  public void setFollow(MasterUser masterUser) {
+    this.follow = masterUser;
+  }
+
   public FollowUser follow(MasterUser masterUser) {
     this.setFollow(masterUser);
     return this;
-  }
-
-  public void setFollow(MasterUser masterUser) {
-    this.follow = masterUser;
   }
 
   // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

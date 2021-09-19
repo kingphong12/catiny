@@ -1,6 +1,11 @@
-import React, {Component, Fragment} from "react";
+import React, { Component , Fragment } from "react";
 import Chart from "react-apexcharts";
 
+import Header from '../components/Header';
+import Leftnav from '../components/Leftnav';
+import Rightchat from '../components/Rightchat';
+import Appfooter from '../components/Appfooter';
+import Popupchat from '../components/Popupchat';
 
 class Analytics extends Component {
     constructor(props) {

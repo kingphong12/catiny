@@ -22,9 +22,16 @@ plugins {
   id "org.liquibase.gradle"
   id "org.sonarqube"
   id "io.spring.nohttp"
+  id "com.github.andygoossens.gradle-modernizer-plugin"
   //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
   id "org.hidetake.ssh"
+//  id 'org.graalvm.buildtools.native'
 }
+//repositories {
+//    maven { url 'https://repo.spring.io/release' }
+////  maven { url 'https://repo.spring.io/milestone' }
+////  gradlePluginPortal()
+//}
 
 group = "com.regitiny.catiny"
 version = "0.0.1-SNAPSHOT"
@@ -112,6 +119,11 @@ test {
   // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
   // ignoreFailures true
   reports.html.enabled = false
+}
+
+modernizer {
+    failOnViolations = true
+    includeTestClasses = true
 }
 
 task integrationTest(type: Test) {
@@ -268,7 +280,7 @@ dependencies {
   implementation "org.springframework.boot:spring-boot-starter-mail"
   implementation "org.springframework.boot:spring-boot-starter-logging"
   implementation "org.springframework.boot:spring-boot-starter-actuator"
-  implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+  implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
   implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch"
   testImplementation "org.testcontainers:mariadb"
   implementation "org.apache.kafka:kafka-clients"
@@ -284,7 +296,6 @@ dependencies {
   implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
   implementation "org.springframework.cloud:spring-cloud-starter-config"
   implementation "org.springframework.security:spring-security-config"
-
   implementation "org.springframework.security:spring-security-data"
   implementation "org.springframework.security:spring-security-web"
   implementation "org.springframework.security:spring-security-messaging"
@@ -338,6 +349,10 @@ dependencies {
   implementation "com.jcraft:jsch:${jschVersion}"
   runtimeClasspath "org.webjars:bootstrap:${bootstrapVersion}" // chỉ add vào để cho intelliJ gợi ý class khi code thôi
   implementation "com.squareup:javapoet:${javapoestVersion}"
+  implementation "io.github.classgraph:classgraph:${classGraphVersion}"
+  implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+  implementation "com.github.javadev:underscore:1.69"
+//  implementation "org.springframework.experimental:spring-native:0.10.2"
 
 //  implementation "com.speedment.jpastreamer:jpastreamer-core:1.0.2"
 //  annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:1.0.2"
@@ -371,8 +386,8 @@ if (project.hasProperty("nodeInstall")) {
   Architecture arch = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentArchitecture()
   Boolean downloadNode = !os.isMacOsX() || arch.isAmd64()
   node {
-    version = "14.17.1"
-    npmVersion = "7.18.1"
+    version = "14.17.6"
+    npmVersion = "7.23.0"
     download = downloadNode
   }
 }
@@ -391,3 +406,66 @@ task generateAdvaneService(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = "com.regitiny.tools.generator.GeneratorMain"
 }
+
+// graalVM
+bootBuildImage {
+  builder = "paketobuildpacks/builder:tiny"
+  environment = [
+    "BP_NATIVE_IMAGE" : "true",
+    "BP_NATIVE_IMAGE_BUILD_ARGUMENTS":"-H:+ReportExceptionStackTraces " +
+      " --no-fallback " +
+      " --allow-incomplete-classpath " +
+      " " +
+      " --no-fallback " +
+      " --allow-incomplete-classpath " +
+      " --initialize-at-build-time=org.springframework.util.unit.DataSize," +
+      "ch.qos.logback.core.spi.AppenderAttachableImpl," +
+      "ch.qos.logback.classic.Logger," +
+      "org.slf4j.impl.StaticLoggerBinder," +
+      "ch.qos.logback.core.util.Loader," +
+      "ch.qos.logback.core.CoreConstants," +
+      "org.slf4j.LoggerFactory," +
+      "org.slf4j.MDC," +
+      "ch.qos.logback.core.util.StatusPrinter," +
+      "ch.qos.logback.core.status.InfoStatus," +
+      "ch.qos.logback.classic.Level," +
+      "org.springframework.beans.BeanUtils," +
+      "org.springframework.util.ConcurrentReferenceHashMap," +
+      "org.springframework.core.LocalVariableTableParameterNameDiscoverer," +
+
+      "org.apache.commons.logging.LogAdapter\$Slf4jLocationAwareLog," +
+      "org.springframework.core.KotlinDetector," +
+      "org.springframework.util.ClassUtils," +
+      "org.apache.commons.logging.LogAdapter\$1," +
+      "org.apache.commons.logging.LogAdapter," +
+
+      "ch.qos.logback.core.status.StatusBase" +
+      " " +
+      " --initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger," +
+      "org.springframework.beans.BeanUtils\$KotlinDelegate" +
+      " " +
+
+      "   " +
+//      " --allow-incomplete-classpath "+
+//
+//      " _JAVA_OPTIONS=-Xmx512m -Xms256m " +
+//      " spring.profiles.active=prod,api-docs " +
+//      "      - management.metrics.export.prometheus.enabled=true " +
+//      "      - eureka.client.service.url.defaultzone=http://admin:\${jhipster.registry.password}@catiny-dev-jhipster-registry:8761/eureka " +
+//      "      - spring.cloud.config.uri=http://admin:\${jhipster.registry.password}@catiny-dev-jhipster-registry:8761/config " +
+//      "      - spring.datasource.url=jdbc:mariadb://catiny-dev-mariadb:3306/catiny?useLegacyDatetimeCode=false&serverTimezone=UTC " +
+//      "      - spring.liquibase.url=jdbc:mariadb://catiny-dev-mariadb:3306/catiny?useLegacyDatetimeCode=false&serverTimezone=UTC " +
+//      "      - jhipster.cache.redis.server=redis://catiny-dev-redis:6379 " +
+//      "      - jhipster.cache.redis.cluster=false " +
+//      "      # - JHIPSTER.CACHE.REDIS.SERVER=redis://catiny-redis:6379 " +
+//      "      # - JHIPSTER.CACHE.REDIS.CLUSTER=true " +
+//      "      - jhipster.sleep=20 # gives time for mariadb server to start " +
+//      "      - spring.elasticsearch.rest.uris=http://catiny-dev-elasticsearch:9200 " +
+//      "      - kafka.bootstrapservers=catiny-dev-kafka:19092"
+      ""
+  ]
+}
+
+//nativeBuild {
+//  classpath "$buildDir/resources", "$buildDir/classes/java/main"
+//}

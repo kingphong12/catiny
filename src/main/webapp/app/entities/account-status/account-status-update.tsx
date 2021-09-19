@@ -63,8 +63,8 @@ export const AccountStatusUpdate = (props: RouteComponentProps<{ id: string }>) 
           lastVisited: displayDefaultDateTime(),
         }
       : {
-          ...accountStatusEntity,
           accountStatus: 'ONLINE',
+          ...accountStatusEntity,
           lastVisited: convertDateTimeFromServer(accountStatusEntity.lastVisited),
           infoId: accountStatusEntity?.info?.id,
         };

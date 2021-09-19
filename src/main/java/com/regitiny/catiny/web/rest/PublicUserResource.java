@@ -80,7 +80,7 @@ public class PublicUserResource {
   @GetMapping("/_search/users/{query}")
   public List<UserDTO> search(@PathVariable String query) {
     return StreamSupport
-      .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+      .stream(userSearchRepository.search(query).spliterator(), false)
       .map(UserDTO::new)
       .collect(Collectors.toList());
   }

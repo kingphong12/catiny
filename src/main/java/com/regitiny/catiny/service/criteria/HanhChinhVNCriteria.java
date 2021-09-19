@@ -44,6 +44,8 @@ public class HanhChinhVNCriteria implements Serializable, Criteria {
 
   private StringFilter pathWithType;
 
+  private Boolean distinct;
+
   public HanhChinhVNCriteria() {}
 
   public HanhChinhVNCriteria(HanhChinhVNCriteria other) {
@@ -56,6 +58,7 @@ public class HanhChinhVNCriteria implements Serializable, Criteria {
     this.parentCode = other.parentCode == null ? null : other.parentCode.copy();
     this.path = other.path == null ? null : other.path.copy();
     this.pathWithType = other.pathWithType == null ? null : other.pathWithType.copy();
+    this.distinct = other.distinct;
   }
 
   @Override
@@ -198,6 +201,14 @@ public class HanhChinhVNCriteria implements Serializable, Criteria {
     this.pathWithType = pathWithType;
   }
 
+  public Boolean getDistinct() {
+    return distinct;
+  }
+
+  public void setDistinct(Boolean distinct) {
+    this.distinct = distinct;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -216,13 +227,14 @@ public class HanhChinhVNCriteria implements Serializable, Criteria {
       Objects.equals(code, that.code) &&
       Objects.equals(parentCode, that.parentCode) &&
       Objects.equals(path, that.path) &&
-      Objects.equals(pathWithType, that.pathWithType)
+      Objects.equals(pathWithType, that.pathWithType) &&
+      Objects.equals(distinct, that.distinct)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, slug, type, nameWithType, code, parentCode, path, pathWithType);
+    return Objects.hash(id, name, slug, type, nameWithType, code, parentCode, path, pathWithType, distinct);
   }
 
   // prettier-ignore
@@ -238,6 +250,7 @@ public class HanhChinhVNCriteria implements Serializable, Criteria {
             (parentCode != null ? "parentCode=" + parentCode + ", " : "") +
             (path != null ? "path=" + path + ", " : "") +
             (pathWithType != null ? "pathWithType=" + pathWithType + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

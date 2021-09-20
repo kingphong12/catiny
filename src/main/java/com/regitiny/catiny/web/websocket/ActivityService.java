@@ -1,34 +1,39 @@
 package com.regitiny.catiny.web.websocket;
 
-import static com.regitiny.catiny.config.WebsocketConfiguration.IP_ADDRESS;
-
+import com.regitiny.catiny.advance.service.AccountStatusAdvanceService;
 import com.regitiny.catiny.web.websocket.dto.ActivityDTO;
-import java.security.Principal;
-import java.time.Instant;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.handler.annotation.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import org.springframework.web.socket.messaging.SessionSubscribeEvent;
+
+import java.security.Principal;
+import java.time.Instant;
+
+import static com.regitiny.catiny.config.WebsocketConfiguration.IP_ADDRESS;
 
 @Controller
+@RequiredArgsConstructor
 public class ActivityService implements ApplicationListener<SessionDisconnectEvent> {
 
   private static final Logger log = LoggerFactory.getLogger(ActivityService.class);
 
   private final SimpMessageSendingOperations messagingTemplate;
-
-  public ActivityService(SimpMessageSendingOperations messagingTemplate) {
-    this.messagingTemplate = messagingTemplate;
-  }
+  private final AccountStatusAdvanceService accountStatusAdvanceService;
 
   @MessageMapping("/topic/activity")
   @SendTo("/topic/tracker")
   public ActivityDTO sendActivity(@Payload ActivityDTO activityDTO, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+    accountStatusAdvanceService.onlineStatus(null);
     activityDTO.setUserLogin(principal.getName());
     activityDTO.setSessionId(stompHeaderAccessor.getSessionId());
     activityDTO.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
@@ -38,7 +43,11 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
   }
 
   @Override
-  public void onApplicationEvent(SessionDisconnectEvent event) {
+  public void onApplicationEvent(SessionDisconnectEvent event)
+  {
+    var upat = (UsernamePasswordAuthenticationToken) event.getUser();
+    SecurityContextHolder.getContext().setAuthentication(upat);
+    accountStatusAdvanceService.offlineStatus();
     ActivityDTO activityDTO = new ActivityDTO();
     activityDTO.setSessionId(event.getSessionId());
     activityDTO.setPage("logout");

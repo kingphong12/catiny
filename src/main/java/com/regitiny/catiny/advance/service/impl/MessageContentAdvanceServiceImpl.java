@@ -12,7 +12,7 @@ import com.regitiny.catiny.service.MessageContentQueryService;
 import com.regitiny.catiny.service.MessageContentService;
 import com.regitiny.catiny.service.dto.MasterUserDTO;
 import com.regitiny.catiny.service.dto.MessageContentDTO;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -46,14 +46,21 @@ public class MessageContentAdvanceServiceImpl extends AdvanceService<MessageCont
   @Override
   public Page<MessageContentDTO> getContentInGroup(UUID uuid, Pageable pageable)
   {
-    return MasterUserUtil.getCurrentMasterUser()
+    return MasterUserUtils.getCurrentMasterUser()
       .map(masterUser -> messageContentAdvanceRepository.findAllByGroupUuidOrderByIdDesc(uuid, pageable)
         .map(messageContent ->
         {
           var dto = messageContentAdvanceMapper.e2d(messageContent);
           var ownerDTO = new MasterUserDTO();
-          ownerDTO.setUuid(messageContent.getInfo().getOwner().getUuid());
+          var owner = messageContent.getInfo().getOwner();
+          ownerDTO.setUuid(owner.getUuid());
+          ownerDTO.setFullName(owner.getFullName());
+          ownerDTO.setAvatar(owner.getAvatar());
+          ownerDTO.setQuickInfo(owner.getQuickInfo());
+          ownerDTO.setNickname(owner.getNickname());
+
           dto.getInfo().setOwner(ownerDTO);
+          dto.getInfo().setCreatedDate(messageContent.getInfo().getCreatedDate());
           return dto;
         }))
       .getOrElse(Page.empty());
@@ -72,7 +79,7 @@ public class MessageContentAdvanceServiceImpl extends AdvanceService<MessageCont
         messageGroup.getInfo().getPermissions().stream()
           .filter(Permission::getRead)
           .map(Permission::getOwner)
-          .filter(masterUser -> masterUser != MasterUserUtil.getCurrentMasterUser().get())
+          .filter(masterUser -> masterUser != MasterUserUtils.getCurrentMasterUser().get())
           .forEach(masterUser ->
             permissionAdvanceService.addUserReadOnly(messageContent.getInfo(), masterUser));
         return messageContent;

@@ -5,7 +5,7 @@ import {createMessageGroup, getAllMessageGroupsJoined,} from 'app/shared/layout/
 import {IMessageGroup} from 'app/shared/model/message-group.model';
 import {simpleCollage3} from 'app/component/simple-component';
 import {imageUrl} from 'app/shared/util/image-tools-util';
-import {searchMasterUser} from 'app/component/reducer/master-user.reducer';
+import {cleanSearchMasterUser, searchMasterUser} from 'app/component/reducer/master-user.reducer';
 import {useSelector} from 'react-redux';
 import ChatBox from './chat-box';
 
@@ -21,7 +21,7 @@ const RightChat = () =>
   const [groupNameToCreateMessageGroup, setGroupNameToCreateMessageGroup] = useState('');
   const [groupNameIsCustom, setGroupNameIsCustom] = useState(false);
 
-  const [openGroupIds, setOpenGruopIds] = useState([]);
+  const [openGroupIds, setOpenGroupIds] = useState([]);
 
 
   const allMessageGroupsJoined = useAppSelector(state => state.rightChat.messageGroups);
@@ -31,20 +31,22 @@ const RightChat = () =>
   }, []);
 
 
-  const toggleOpen = (messageGroup: IMessageGroup) =>
+  const openChatBox = (messageGroup: IMessageGroup) =>
   {
-    setOpenGruopIds(prev =>
+    setOpenGroupIds(prev =>
     {
       const result = [...new Set(prev.concat(messageGroup))];
       result.length > 3 && result.shift();
       return result;
     });
   };
+  const [keywordSearchUser, setKeywordSearchUser] = useState("");
 
 
   const typingSearchUsers = async event =>
   {
     const a = event.target.value;
+    setKeywordSearchUser(a);
     await new Promise(executor => setTimeout(executor, 500));
     if (a === event.target.value) dispatch(searchMasterUser({query: a}));
   };
@@ -74,7 +76,7 @@ const RightChat = () =>
         <h3 className='fw-700 mb-0 mt-0'>
           <span
             className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer'
-            onClick={() => toggleOpen(messageGroup)}>
+            onClick={() => openChatBox(messageGroup)}>
             {messageGroup && messageGroup.groupName ?
               (messageGroup.groupName.length > 20 ?
                 (messageGroup.groupName.substring(0, 18) + ' ...') :
@@ -126,12 +128,18 @@ const RightChat = () =>
           <h4 className='font-xsssss text-grey-500 text-uppercase '>
             <div className='form-group mb-0 icon-input'>
               <i className='feather-search font-sm text-grey-400' />
-              <i className='feather-x-square font-sm text-grey-400' />
+              {resultSearchUsers.length > 0 && <i className='feather-x-square font-sm text-grey-600'
+                                                  onClick={() =>
+                                                  {
+                                                    setKeywordSearchUser("");
+                                                    dispatch(cleanSearchMasterUser());
+                                                  }} />}
               <input
                 type='text'
                 className='bg-grey border-0 lh-28 ps-5 pe-3 font-xssss fw-500 rounded-xl theme-dark-bg'
                 placeholder='Search user ...'
                 onChange={typingSearchUsers}
+                value={keywordSearchUser}
               />
             </div>
           </h4>
@@ -152,7 +160,6 @@ const RightChat = () =>
                 }
               </div>
               <div className={`ms-auto ${resultSearchUsers.length < 1 && 'd-none'}`}>
-
                 {userToCreateMessageGroup.length > 0 &&
                 (<><i className={`feather-x font-xl text-grey-600 d-block`} />
                     <i className={`feather-check font-xl text-grey-600 d-block`}
@@ -185,7 +192,7 @@ const RightChat = () =>
             <li className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
               <span className='btn-round-sm bg-primary-gradiant me-3 ls-3 text-white font-xssss fw-700'>UD</span>
               <h3 className='fw-700 mb-0 mt-0'>
-                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => toggleOpen}>
+                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => openChatBox}>
                   Studio Express
                 </span>
               </h3>
@@ -194,7 +201,7 @@ const RightChat = () =>
             <li className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
               <span className='btn-round-sm bg-gold-gradiant me-3 ls-3 text-white font-xssss fw-700'>AR</span>
               <h3 className='fw-700 mb-0 mt-0'>
-                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => toggleOpen}>
+                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => openChatBox}>
                   Armany Design
                 </span>
               </h3>
@@ -203,7 +210,7 @@ const RightChat = () =>
             <li className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
               <span className='btn-round-sm bg-mini-gradiant me-3 ls-3 text-white font-xssss fw-700'>UD</span>
               <h3 className='fw-700 mb-0 mt-0'>
-                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => toggleOpen}>
+                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => openChatBox}>
                   De fabous
                 </span>
               </h3>
@@ -218,7 +225,7 @@ const RightChat = () =>
             <li className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
               <span className='btn-round-sm bg-primary-gradiant me-3 ls-3 text-white font-xssss fw-700'>AB</span>
               <h3 className='fw-700 mb-0 mt-0'>
-                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => toggleOpen}>
+                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => openChatBox}>
                   Armany Seary
                 </span>
               </h3>
@@ -227,7 +234,7 @@ const RightChat = () =>
             <li className='bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'>
               <span className='btn-round-sm bg-gold-gradiant me-3 ls-3 text-white font-xssss fw-700'>SD</span>
               <h3 className='fw-700 mb-0 mt-0'>
-                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => toggleOpen}>
+                <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer' onClick={() => openChatBox}>
                   Entropio Inc
                 </span>
               </h3>
@@ -239,7 +246,7 @@ const RightChat = () =>
       <div>
         <div className='right-0 bottom-0 position-fixed d-flex'>
           {openGroupIds && openGroupIds.map((item, index) =>
-            <ChatBox close={() => setOpenGruopIds(prev => prev.filter((prevV, prevI) => prevI !== index))} key={index} item={item} />)}
+            <ChatBox close={() => setOpenGroupIds(prev => prev.filter((prevV, prevI) => prevI !== index))} key={index} item={item} />)}
         </div>
       </div>
     </div>

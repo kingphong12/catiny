@@ -1,7 +1,11 @@
 package com.regitiny.catiny.security;
 
 import com.regitiny.catiny.GeneratedByJHipster;
+import com.regitiny.catiny.security.jwt.TokenProvider;
+import com.regitiny.catiny.util.ApplicationContextUtils;
 import com.regitiny.catiny.web.rest.errors.NhechException;
+import io.jsonwebtoken.Claims;
+import io.vavr.control.Option;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -101,13 +105,31 @@ public final class SecurityUtils
     return hasCurrentUserAnyOfAuthorities(authority);
   }
 
-  private static Stream<String> getAuthorities(Authentication authentication) {
+  private static Stream<String> getAuthorities(Authentication authentication)
+  {
     return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority);
   }
 
-  public static void checkAuthenticationAndAuthority(String authority) {
+  public static void checkAuthenticationAndAuthority(String authority)
+  {
     if (!isAuthenticated() || !hasCurrentUserThisAuthority(authority) || getCurrentUserLogin().isEmpty()) throw new NhechException(
       "kiểm tra lại xem đã đăng nhập hoặc đc cấp quyền chưa bạn êy"
     );
   }
+
+  public static Option<String> getCurrentSessionKey()
+  {
+    return Option.of(ApplicationContextUtils.getApplicationContext().getBean(TokenProvider.class)
+      .getClaims(getCurrentUserJWT().orElseGet(null))
+      .get("sessionKey", String.class));
+  }
+
+  public static Option<Claims> getCurrentClaims()
+  {
+    return Option.of(ApplicationContextUtils.getApplicationContext().getBean(TokenProvider.class)
+      .getClaims(getCurrentUserJWT()
+        .orElseGet(null)));
+  }
+
+
 }

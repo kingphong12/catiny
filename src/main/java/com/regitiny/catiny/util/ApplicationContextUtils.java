@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * bean khỏi tạo cùng hệ thống , bean auto load ban đầu.
  * nói chung chỉ sử dụng trong các method runtime
  */
-public class ApplicationContextUtil
+public class ApplicationContextUtils
 {
   private static ApplicationContext applicationContext;
 
@@ -22,6 +22,6 @@ public class ApplicationContextUtil
   @Autowired
   private void setApplicationContext(ApplicationContext applicationContext)
   {
-    ApplicationContextUtil.applicationContext = applicationContext;
+    ApplicationContextUtils.applicationContext = applicationContext;
   }
 }

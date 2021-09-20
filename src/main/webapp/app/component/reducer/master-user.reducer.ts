@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {createAsyncThunk, isFulfilled, isPending} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, isFulfilled, isPending} from '@reduxjs/toolkit';
 import {loadMoreDataWhenScrolled, parseHeaderForLinks} from 'react-jhipster';
 
 import {cleanEntity} from 'app/shared/util/entity-utils';
-import {createEntitySlice, IQueryParams, serializeAxiosError} from 'app/shared/reducers/reducer.utils';
+import {IQueryParams, serializeAxiosError} from 'app/shared/reducers/reducer.utils';
 import {defaultValue, IMasterUser} from 'app/shared/model/master-user.model';
 
 const initialState = {
@@ -97,9 +97,15 @@ export const deleteEntity = createAsyncThunk(
 
 // slice
 
-export const MasterUserSlice = createEntitySlice({
+export const MasterUserSlice = createSlice({
   name: 'masterUser',
   initialState,
+  reducers: {
+    cleanSearchMasterUser(state)
+    {
+      return {...state, resultSearchUsers: []}
+    }
+  },
   extraReducers(builder)
   {
     builder
@@ -153,7 +159,7 @@ export const MasterUserSlice = createEntitySlice({
   },
 });
 
-export const {reset} = MasterUserSlice.actions;
+export const {cleanSearchMasterUser} = MasterUserSlice.actions;
 
 // Reducer
 export default MasterUserSlice.reducer;

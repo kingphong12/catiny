@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  nginx:
+    hostname: nginx
+    image: nginx:1.21.3
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"

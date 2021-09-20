@@ -1,5 +1,6 @@
 package com.regitiny.catiny.web.rest;
 
+import com.regitiny.catiny.advance.service.AccountStatusAdvanceService;
 import com.regitiny.catiny.advance.service.MasterUserAdvanceService;
 import com.regitiny.catiny.domain.User;
 import com.regitiny.catiny.repository.UserRepository;
@@ -13,10 +14,12 @@ import com.regitiny.catiny.web.rest.errors.InvalidPasswordException;
 import com.regitiny.catiny.web.rest.errors.LoginAlreadyUsedException;
 import com.regitiny.catiny.web.rest.vm.KeyAndPasswordVM;
 import com.regitiny.catiny.web.rest.vm.ManagedUserVM;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.mobile.device.Device;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,33 +31,24 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class AccountResource
 {
 
-  private static class AccountResourceException extends RuntimeException
-  {
-
-    private AccountResourceException(String message) {
-      super(message);
-    }
-  }
-
   private final Logger log = LoggerFactory.getLogger(AccountResource.class);
-
   private final UserRepository userRepository;
-
   private final UserService userService;
-
   private final MailService mailService;
-
   private final MasterUserAdvanceService masterUserAdvanceService;
+  private final AccountStatusAdvanceService accountStatusAdvanceService;
 
-  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, MasterUserAdvanceService masterUserAdvanceService)
+  private static boolean isPasswordLengthInvalid(String password)
   {
-    this.userRepository = userRepository;
-    this.userService = userService;
-    this.mailService = mailService;
-    this.masterUserAdvanceService = masterUserAdvanceService;
+    return (
+      StringUtils.isEmpty(password) ||
+        password.length() < ManagedUserVM.PASSWORD_MIN_LENGTH ||
+        password.length() > ManagedUserVM.PASSWORD_MAX_LENGTH
+    );
   }
 
   /**
@@ -109,7 +103,9 @@ public class AccountResource
    * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be returned.
    */
   @GetMapping("/account")
-  public AdminUserDTO getAccount() {
+  public AdminUserDTO getAccount(Device device)
+  {
+    accountStatusAdvanceService.onlineStatus(device);
     return userService
       .getUserWithAuthorities()
       .map(AdminUserDTO::new)
@@ -177,21 +173,23 @@ public class AccountResource
    */
   @PostMapping(path = "/account/reset-password/finish")
   public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
-    if (isPasswordLengthInvalid(keyAndPassword.getNewPassword())) {
+    if (isPasswordLengthInvalid(keyAndPassword.getNewPassword()))
+    {
       throw new InvalidPasswordException();
     }
     Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
-    if (!user.isPresent()) {
+    if (!user.isPresent())
+    {
       throw new AccountResourceException("No user was found for this reset key");
     }
   }
 
-  private static boolean isPasswordLengthInvalid(String password) {
-    return (
-      StringUtils.isEmpty(password) ||
-      password.length() < ManagedUserVM.PASSWORD_MIN_LENGTH ||
-      password.length() > ManagedUserVM.PASSWORD_MAX_LENGTH
-    );
+  private static class AccountResourceException extends RuntimeException
+  {
+    private AccountResourceException(String message)
+    {
+      super(message);
+    }
   }
 }

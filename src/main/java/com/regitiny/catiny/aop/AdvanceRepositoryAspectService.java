@@ -6,11 +6,11 @@ import com.regitiny.catiny.advance.service.impl.HistoryUpdateAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.MasterUserAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.impl.PermissionAdvanceServiceImpl;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
-import com.regitiny.catiny.common.utils.ReflectUtil;
+import com.regitiny.catiny.common.utils.ReflectUtils;
 import com.regitiny.catiny.domain.BaseInfo;
 import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import io.vavr.Function1;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
@@ -37,7 +37,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.regitiny.catiny.common.utils.ReflectUtil.methodInvoke;
+import static com.regitiny.catiny.common.utils.ReflectUtils.methodInvoke;
 
 
 /**
@@ -109,7 +109,7 @@ public class AdvanceRepositoryAspectService
       var advanceRepositoryBean = joinPoint.getTarget();
       @SuppressWarnings("unchecked")
       var advanceMapperBean = (EntityAdvanceMapper<?, ?, Object>) applicationContext.getBean(advanceRepositoryName.get(0).replace("AdvanceRepository", "AdvanceMapperImpl"));
-      var advanceRepositoryBeanInvoker = new ReflectUtil(advanceRepositoryBean);
+      var advanceRepositoryBeanInvoker = new ReflectUtils(advanceRepositoryBean);
 
       var entityOld = methodInvoke(entity, "getId")
         .map(id -> advanceRepositoryBeanInvoker.methodInvoke("findById", new Class[]{Object.class}, id).getOrNull())
@@ -130,9 +130,9 @@ public class AdvanceRepositoryAspectService
         var canUpdate = baseInfoOption
           .map(baseInfo -> Option.of(baseInfo.getOwner())
             .map(MasterUser::getId)
-            .map(id -> id.equals(MasterUserUtil.getCurrentMasterUser().map(MasterUser::getId).get()))
+            .map(id -> id.equals(MasterUserUtils.getCurrentMasterUser().map(MasterUser::getId).get()))
             .orElse(permissionAdvanceService.publicLocal().advanceRepository
-              .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtil.getCurrentMasterUser().getOrElse(MasterUserUtil.getAnonymousMasterUser().get()))
+              .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtils.getCurrentMasterUser().getOrElse(MasterUserUtils.getAnonymousMasterUser().get()))
               .map(Permission::getWrite))
             .get())
           .getOrElse(false);
@@ -146,7 +146,7 @@ public class AdvanceRepositoryAspectService
           baseInfo = baseInfoAdvanceService.publicLocal().advanceRepository.save(baseInfo
             .modifiedDate(Instant.now())
 //            .processStatus(ProcessStatus.PROCESSING)
-            .modifiedBy(MasterUserUtil.getCurrentMasterUser().get()));
+            .modifiedBy(MasterUserUtils.getCurrentMasterUser().get()));
           if (methodInvoke(entity, "getInfo").isEmpty())
             methodInvoke(entity, "setInfo", baseInfo).get();
         }
@@ -171,7 +171,7 @@ public class AdvanceRepositoryAspectService
   /**
    * Pointcut that matches all repositories, services and Web REST endpoints.
    */
-  @Pointcut(" within(com.regitiny.catiny.advance.repository.base..*+) ")
+  @Pointcut(" within(com.regitiny.catiny.advance.repository.base..*) ")
   public void baseRepositoryPointcut()
   {
     // Method is empty as this is just a Pointcut, the implementations are in the advices.
@@ -221,8 +221,8 @@ public class AdvanceRepositoryAspectService
         .map(BaseInfo.class::cast)
         .filter(baseInfo -> !baseInfo.getDeleted())
         .flatMap(baseInfo -> permissionAdvanceService.publicLocal().advanceRepository
-          .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtil.getCurrentMasterUser()
-            .getOrElse(MasterUserUtil.getAnonymousMasterUser().get())))
+          .findOneByBaseInfoAndOwner(baseInfo, MasterUserUtils.getCurrentMasterUser()
+            .getOrElse(MasterUserUtils.getAnonymousMasterUser().get())))
         .map(Permission::getRead)
         .getOrElse(false))
       .collect(Collectors.toList());

@@ -2,7 +2,7 @@ package com.regitiny.catiny.security.jwt;
 
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.service.dto.MasterUserDTO;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -23,6 +23,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -65,10 +66,15 @@ public class TokenProvider
       1000 * jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSecondsForRememberMe();
   }
 
+  public Claims getClaims(String jwt)
+  {
+    return jwtParser.parseClaimsJws(jwt).getBody();
+  }
+
   public String createToken(Authentication authentication, boolean rememberMe)
   {
     String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
-    var masterUser = Try.of( ()->MasterUserUtil.getMasterUserDTOByLogin(authentication.getName()).get()).getOrElse(new MasterUserDTO());
+    var masterUser = Try.of(() -> MasterUserUtils.getMasterUserDTOByLogin(authentication.getName()).get()).getOrElse(new MasterUserDTO());
 
     long now = (new Date()).getTime();
     Date validity;
@@ -86,6 +92,7 @@ public class TokenProvider
       .setSubject(authentication.getName())
       .claim("masterUserId", masterUser.getUuid())
       .claim("fullName", masterUser.getFullName())
+      .claim("sessionKey", UUID.randomUUID().toString())
       .claim(AUTHORITIES_KEY, authorities)
       .signWith(key, SignatureAlgorithm.HS512)
       .setExpiration(validity)

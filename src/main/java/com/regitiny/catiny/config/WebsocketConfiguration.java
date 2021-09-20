@@ -3,7 +3,7 @@ package com.regitiny.catiny.config;
 import com.regitiny.catiny.common.utils.StringPool;
 import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.security.AuthoritiesConstants;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -115,7 +115,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
           if (StompCommand.SUBSCRIBE.equals(command) && Objects.nonNull(accessor.getDestination()))
           {
 
-            var masterUserUuid = MasterUserUtil.getCurrentMasterUser().map(MasterUser::getUuid).map(UUID::toString).getOrElse("");
+            var masterUserUuid = MasterUserUtils.getCurrentMasterUser().map(MasterUser::getUuid).map(UUID::toString).getOrElse("");
             var matchesMap = io.vavr.collection.HashMap
               .of(USER + masterUserUuid + "/[[\\w-.]+/]*[*]{1,2}", true)                   // -> /user/{uuid}/example/e/**
               .put(USER + masterUserUuid + "/topic.producer/[[\\w-.]+/]*[*]{1,2}", true)   // -> /user/{uuid}/topic.producer/e/**

@@ -55,6 +55,7 @@ import Account2 from "app-js/pages/Account";
 import Chat from 'app/modules/message/chat/chat';
 import Livestream from "app/modules/livestream/livestream";
 import LivestreamNew from "app/modules/livestream";
+import VideoCall from "app/modules/video-call/video-call";
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -117,6 +118,7 @@ const Routes = () =>
         <ErrorBoundaryRoute exact path={`/checkout`} component={Checkout}/>
         <ErrorBoundaryRoute exact path={`/defaultmessage`} component={Chat} />
         <ErrorBoundaryRoute exact path={`/defaultlive`} component={Livestream} />
+        <ErrorBoundaryRoute exact path={`/video-call`} component={VideoCall} />
         <ErrorBoundaryRoute path={`/livestream`} component={LivestreamNew} />
         <ErrorBoundaryRoute exact path={`/defaultjob`} component={Job} />
         <ErrorBoundaryRoute exact path={`/defaultevent`} component={Event}/>

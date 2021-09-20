@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
-public class ReflectUtil
+public class ReflectUtils
 {
   private final Object classInvoke;
 

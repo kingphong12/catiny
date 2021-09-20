@@ -111,7 +111,7 @@
     "react-animate-on-scroll": "^2.1.5",
     "react-apexcharts": "^1.3.9",
     "react-app-polyfill": "^2.0.0",
-    "react-bootstrap": "^1.6.3",
+    "react-bootstrap": "^2.0.0-rc.0",
     "react-countup": "^5.2.0",
     "react-dev-utils": "^11.0.4",
     "react-froala-wysiwyg": "^4.0.4",
@@ -152,14 +152,15 @@
     "react-router-dom": "5.3.0",
     "react-toastify": "8.0.2",
     "react-transition-group": "4.4.2",
-    "reactstrap": "8.10.0",
+    "reactstrap": "9.0.0-build-test.4",
     "redux": "4.1.1",
     "redux-thunk": "2.3.0",
     "rxjs": "6.6.3",
     "sockjs-client": "1.5.0",
     "tslib": "2.3.1",
     "uuid": "8.3.2",
-    "webstomp-client": "1.2.6"
+    "webstomp-client": "1.2.6",
+    "peerjs": "^1.3.2"
   },
   "devDependencies": {
     "@testing-library/react": "12.1.0",

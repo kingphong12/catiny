@@ -3,7 +3,7 @@ package com.regitiny.catiny.advance.service.impl;
 import com.regitiny.catiny.advance.service.AdminService;
 import com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper;
 import com.regitiny.catiny.common.utils.StringPool;
-import com.regitiny.catiny.util.ApplicationContextUtil;
+import com.regitiny.catiny.util.ApplicationContextUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.repository.CrudRepository;
@@ -29,9 +29,9 @@ public class AdminServiceImpl implements AdminService
     var advanceMapperName = "com.regitiny.catiny.advance.service.mapper." + entityName + "AdvanceMapper";
     try
     {
-      var advanceMapper = (EntityAdvanceMapper<?, ?, Object>) ApplicationContextUtil.getApplicationContext().getBean(Class.forName(advanceMapperName));
-      var advanceRepository = (CrudRepository<?, ?>) ApplicationContextUtil.getApplicationContext().getBean(Class.forName(advanceRepositoryName));
-      var advanceSearch = (CrudRepository<Object, ?>) ApplicationContextUtil.getApplicationContext().getBean(Class.forName(advanceSearchName));
+      var advanceMapper = (EntityAdvanceMapper<?, ?, Object>) ApplicationContextUtils.getApplicationContext().getBean(Class.forName(advanceMapperName));
+      var advanceRepository = (CrudRepository<?, ?>) ApplicationContextUtils.getApplicationContext().getBean(Class.forName(advanceRepositoryName));
+      var advanceSearch = (CrudRepository<Object, ?>) ApplicationContextUtils.getApplicationContext().getBean(Class.forName(advanceSearchName));
       advanceSearch.deleteAll();
       advanceSearch.saveAll(advanceMapper.cleanEntity((List<Object>) advanceRepository.findAll()));
 

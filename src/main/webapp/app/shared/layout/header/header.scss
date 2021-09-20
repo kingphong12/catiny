@@ -73,8 +73,19 @@ Navbar styles
   top: 0px;
   z-index: 1031;
 }
+
 @media (max-width: 991.98px) {
   .nav-header .nav-top a img {
     max-height: 28px;
+  }
+}
+
+.nav-header {
+  .header-search {
+    .form-group.icon-input {
+      input {
+        transition-duration: 0.5s, 0.5s, 0s;
+      }
+    }
   }
 }

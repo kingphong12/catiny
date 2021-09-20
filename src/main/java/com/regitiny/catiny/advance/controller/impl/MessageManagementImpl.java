@@ -5,8 +5,7 @@ import com.regitiny.catiny.advance.service.MessageContentAdvanceService;
 import com.regitiny.catiny.advance.service.MessageGroupAdvanceService;
 import com.regitiny.catiny.service.dto.MessageContentDTO;
 import com.regitiny.catiny.service.dto.MessageGroupDTO;
-import com.regitiny.catiny.util.MasterUserUtil;
-import com.regitiny.catiny.util.WebSocketUtils;
+import com.regitiny.catiny.util.MasterUserUtils;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.regitiny.catiny.util.WebSocketUtils.topicConsumer;
 
 @Log4j2
 @RestController
@@ -79,7 +80,7 @@ public class MessageManagementImpl implements MessageManagement
     return messageContentAdvanceService.sendContentToGroup(messageGroupId, content, images, videos, files)
       .peek(messageContentDTO ->
         messageGroupAdvanceService.getMasterUserDetailsPublicByMessageGroupId(messageContentDTO.getGroup().getUuid()).forEach(masterUserDTO ->
-          messagingTemplate.convertAndSendToUser(masterUserDTO.getUuid().toString(), WebSocketUtils.topicConsumer("/messages"), messageContentDTO)))
+          messagingTemplate.convertAndSendToUser(masterUserDTO.getUuid().toString(), topicConsumer("/messages/groups/" + messageGroupId), messageContentDTO)))
       .map(messageContentDTO -> ResponseEntity.status(HttpStatus.CREATED).body(messageContentDTO))
       .getOrElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
   }
@@ -89,12 +90,12 @@ public class MessageManagementImpl implements MessageManagement
   {
     var result = new JSONObject();
     var masterUsers = userIds.stream()
-      .map(MasterUserUtil::getMasterUserByUuid)
+      .map(MasterUserUtils::getMasterUserByUuid)
       .map(Option::get)
       .collect(Collectors.toList());
     result.put("videoGroupId", UUID.randomUUID())
       .put("masterUsers", new JSONArray(masterUsers));
-    MasterUserUtil.getCurrentMasterUserDTO().forEach(masterUserDTO -> result.put("fromUser", new JSONObject(masterUserDTO)));
+    MasterUserUtils.getCurrentMasterUserDTO().forEach(masterUserDTO -> result.put("fromUser", new JSONObject(masterUserDTO)));
 
     simpMessagingTemplate.convertAndSendToUser("00000000-0000-0000-0000-000000000001", message, "hihi");
     simpMessagingTemplate.convertAndSend(message, "hihi");

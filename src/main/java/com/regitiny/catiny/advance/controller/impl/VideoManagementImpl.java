@@ -2,9 +2,10 @@ package com.regitiny.catiny.advance.controller.impl;
 
 import com.regitiny.catiny.advance.controller.rest.VideoManagement;
 import com.regitiny.catiny.advance.controller.ws.VideoWsManagement;
+import com.regitiny.catiny.advance.service.AccountStatusAdvanceService;
 import com.regitiny.catiny.advance.service.VideoAdvanceService;
 import com.regitiny.catiny.common.utils.StringPool;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +40,7 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
 {
   private final VideoAdvanceService videoAdvanceService;
   private final SimpMessageSendingOperations messagingTemplate;
+  private final AccountStatusAdvanceService accountStatusAdvanceService;
 
   @Override
   public ResponseEntity<Object> uploadVideos(HttpServletRequest httpServletRequest, List<MultipartFile> videoData, String desiredName)
@@ -85,9 +88,31 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
   public ResponseEntity<Object> initVideoLivestream()
   {
     var result = new JSONObject();
-    MasterUserUtil.getCurrentMasterUserDTO().forEach(masterUserDTO -> result.put("from", new JSONObject(masterUserDTO)));
-    videoAdvanceService.createVideoLivestream().forEach(videoDTO -> result.put("info",new JSONObject(videoDTO)));
+    MasterUserUtils.getCurrentMasterUserDTO().forEach(masterUserDTO -> result.put("from", new JSONObject(masterUserDTO)));
+    videoAdvanceService.createVideoLivestream().forEach(videoDTO -> result.put("info", new JSONObject(videoDTO)));
     return ResponseEntity.status(HttpStatus.CREATED).body(result.toString());
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public void initCall(List<UUID> userIds, String keyConnect)
+  {
+    var currentUser = MasterUserUtils.getCurrentMasterUser().get();
+    var info = new JSONObject();
+    info.put("userId", currentUser.getUuid())
+      .put("fullName", currentUser.getFullName())
+      .put("keyConnect", keyConnect);
+    userIds.stream().map(MasterUserUtils::getMasterUserByUuid)
+      .map(Option::get)
+      .filter(accountStatusAdvanceService::checkIsOnline)
+      .forEach(masterUser ->
+        messagingTemplate.convertAndSendToUser(masterUser.getUuid().toString(), topicConsumer("/notifications/video-call.incoming"), info.toString()));
+  }
+
+  @Override
+  public ResponseEntity<Object> answerIncomingCall(Boolean isAccepted, String key)
+  {
+    return null;
   }
 
   @Override
@@ -107,7 +132,7 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
 //        outputStream.write(bytes);
 //        outputStream.flush();
 //        outputStream.close();
-            MasterUserUtil.getMasterUserDTOByLogin(null).forEach(masterUser ->
+            MasterUserUtils.getMasterUserDTOByLogin(null).forEach(masterUser ->
               messagingTemplate.convertAndSendToUser(masterUser.getUuid().toString(), topicConsumer("/videos.data"), new JSONObject()
                 .put("data", base64Data)
                 .put("fromUser", new JSONObject(masterUser))
@@ -122,7 +147,7 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
   @Override
   public void producerVideoCallIncoming(@Payload String body)
   {
-    MasterUserUtil.getMasterUserDTOByLogin(null)
+    MasterUserUtils.getMasterUserDTOByLogin(null)
       .forEach(masterUser -> Option.of(new JSONObject(body))
         .forEach(jsonObject ->
         {
@@ -162,7 +187,7 @@ public class VideoManagementImpl implements VideoManagement, VideoWsManagement
 //            outputStream.flush();
 //            outputStream.close();
             return null;
-          }).forEach(o -> MasterUserUtil.getMasterUserDTOByLogin(null).forEach(masterUser ->
+          }).forEach(o -> MasterUserUtils.getMasterUserDTOByLogin(null).forEach(masterUser ->
             messagingTemplate.convertAndSendToUser(masterUser.getUuid().toString(), topicConsumer("/livestream.data/" + id.toString()), new JSONObject()
               .put("data", base64Data)
               .put("fromUser", new JSONObject(masterUser))

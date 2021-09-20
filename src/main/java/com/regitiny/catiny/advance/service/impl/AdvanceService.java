@@ -1,8 +1,8 @@
 package com.regitiny.catiny.advance.service.impl;
 
-import com.regitiny.catiny.common.utils.ReflectUtil;
+import com.regitiny.catiny.common.utils.ReflectUtils;
 import com.regitiny.catiny.common.utils.StringPool;
-import com.regitiny.catiny.util.ApplicationContextUtil;
+import com.regitiny.catiny.util.ApplicationContextUtils;
 import io.vavr.control.Option;
 import lombok.extern.log4j.Log4j2;
 
@@ -78,7 +78,7 @@ public abstract class AdvanceService<E, S, Q, AM, AR, AS>
   @SuppressWarnings("unchecked")
   private void setup()
   {
-    final var applicationContext = ApplicationContextUtil.getApplicationContext();
+    final var applicationContext = ApplicationContextUtils.getApplicationContext();
     var entityNameFL = entityNameFL();
     localService = (S) Option.when(Objects.isNull(localService), entityNameFL + "ServiceImpl")
       .map(applicationContext::getBean).getOrElse(() ->
@@ -120,7 +120,7 @@ public abstract class AdvanceService<E, S, Q, AM, AR, AS>
   public E create(E entity)
   {
     //noinspection unchecked
-    return (E) ReflectUtil.methodInvoke(local().advanceRepository, "save", entity).getOrNull();
+    return (E) ReflectUtils.methodInvoke(local().advanceRepository, "save", entity).getOrNull();
   }
 
 

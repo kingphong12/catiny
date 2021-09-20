@@ -9,7 +9,7 @@ import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.enumeration.ProcessStatus;
 import com.regitiny.catiny.service.BaseInfoQueryService;
 import com.regitiny.catiny.service.BaseInfoService;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -79,12 +79,12 @@ public class BaseInfoAdvanceServiceImpl extends AdvanceService<BaseInfo, BaseInf
       .priorityIndex(0L)
       .countUse(0L));
 
-    MasterUserUtil.getCurrentMasterUser()
+    MasterUserUtils.getCurrentMasterUser()
       .forEach(masterUser -> baseInfo.owner(masterUser)
         .addPermission(permissionAdvanceService.createForOwner())
         .createdBy(masterUser)
         .modifiedBy(masterUser));
-    MasterUserUtil.getAnonymousMasterUser()
+    MasterUserUtils.getAnonymousMasterUser()
       .map(masterUser -> permissionAdvanceService.createForAnonymous())
       .forEach(baseInfo::addPermission);
 

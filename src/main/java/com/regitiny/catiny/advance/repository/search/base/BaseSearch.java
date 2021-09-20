@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.regitiny.catiny.util.ApplicationContextUtil.getApplicationContext;
+import static com.regitiny.catiny.util.ApplicationContextUtils.getApplicationContext;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 public interface BaseSearch<T>

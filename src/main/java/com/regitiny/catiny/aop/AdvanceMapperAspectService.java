@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static com.regitiny.catiny.common.utils.ReflectUtil.methodInvoke;
+import static com.regitiny.catiny.common.utils.ReflectUtils.methodInvoke;
 
 
 /**
@@ -52,7 +52,7 @@ public class AdvanceMapperAspectService
    * @return result of joinPoint.proceed()
    * @throws Throwable err
    */
-  @Around(" execution(* com.regitiny.catiny.advance.service.mapper.*AdvanceMapper.e2d(..)) ")
+  @Around(" execution(* com.regitiny.catiny.advance.service.mapper.EntityAdvanceMapper.e2d(..)) ")
   public Object aroundCleanIdAddUuid(ProceedingJoinPoint joinPoint) throws Throwable
   {
     var logJP = logger(joinPoint);

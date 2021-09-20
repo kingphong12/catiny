@@ -13,7 +13,7 @@ import com.regitiny.catiny.service.MessageGroupQueryService;
 import com.regitiny.catiny.service.MessageGroupService;
 import com.regitiny.catiny.service.dto.MasterUserDTO;
 import com.regitiny.catiny.service.dto.MessageGroupDTO;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +48,7 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
   @Override
   public Page<MessageGroupDTO> getAllMessageGroupsJoined(Pageable pageable)
   {
-    return MasterUserUtil.getCurrentMasterUser()
+    return MasterUserUtils.getCurrentMasterUser()
       .map(masterUser -> messageGroupAdvanceRepository.findAllByInfoPermissionsOwner(masterUser, pageable)
         .map(messageGroup ->
         {
@@ -69,7 +69,7 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
       desiredName,
       userIds.size()
     );
-    var currentUser = MasterUserUtil.getCurrentMasterUser().get();
+    var currentUser = MasterUserUtils.getCurrentMasterUser().get();
     log.debug(currentUser);
     userIds = userIds.filter(userId -> !userId.equals(currentUser.getUuid())).toList();
 
@@ -77,7 +77,7 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
     String avatar;
     if (userIds.size() == 1 && !currentUser.getUuid().equals(userIds.get(0)))
     {
-      var thatUser = MasterUserUtil.getMasterUserByUuid(userIds.get(0));
+      var thatUser = MasterUserUtils.getMasterUserByUuid(userIds.get(0));
       groupId = thatUser.map(masterUser ->
         {
           var sumLoginSorted = (masterUser.getUuid().compareTo(currentUser.getUuid()) < 0)
@@ -103,7 +103,7 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
       {
         var sb = new StringBuilder("Group: ");
         List.of(currentUser.getUuid(), userIds.get(0), userIds.get(1))
-          .flatMap(MasterUserUtil::getMasterUserByUuid)
+          .flatMap(MasterUserUtils::getMasterUserByUuid)
           .map(masterUser ->
           {
             var avatarUserJson = new JSONObject(masterUser.getAvatar());
@@ -141,7 +141,7 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
         .uuid(groupId)
         .groupName(desiredName)
         .avatar(avatar));
-    userIds.map(MasterUserUtil::getMasterUserByUuid)
+    userIds.map(MasterUserUtils::getMasterUserByUuid)
       .filter(masterUsers -> !masterUsers.isEmpty())
       .filter(masterUsers -> messageGroupAdvanceRepository.findByUuidAndInfoPermissionsOwner(groupId, masterUsers.get()).isEmpty())
       .forEach(masterUser -> permissionAdvanceService.addUserReadOnly(messageGroup.getInfo(), masterUser.get()));
@@ -155,7 +155,7 @@ public class MessageGroupAdvanceServiceImpl extends AdvanceService<MessageGroup,
     var queryResult = masterUserLocalService.advanceRepository.findAllByMessageGroupUuid(messageGroupId)
       .map(masterUserLocalService.advanceMapper::e2d);
     if (queryResult.size() == 2)
-      return queryResult.filter(masterUserDTO -> MasterUserUtil.getCurrentMasterUser()
+      return queryResult.filter(masterUserDTO -> MasterUserUtils.getCurrentMasterUser()
           .map(currentUser -> masterUserDTO.getUuid().equals(currentUser.getUuid())).getOrElse(false))
         .toList();
     return queryResult;

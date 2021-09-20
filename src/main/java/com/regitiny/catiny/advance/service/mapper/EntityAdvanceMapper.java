@@ -1,7 +1,7 @@
 package com.regitiny.catiny.advance.service.mapper;
 
 import com.regitiny.catiny.service.mapper.EntityMapper;
-import com.regitiny.catiny.util.ApplicationContextUtil;
+import com.regitiny.catiny.util.ApplicationContextUtils;
 import io.vavr.control.Option;
 import org.slf4j.LoggerFactory;
 
@@ -119,7 +119,7 @@ public interface EntityAdvanceMapper<M, D, E> extends VavrMapper<M, D, E> // Mod
       try
       {
         //noinspection unchecked
-        return (EntityMapper<D, E>) ApplicationContextUtil.getApplicationContext().getBean(Class.forName(baseMapperName));
+        return (EntityMapper<D, E>) ApplicationContextUtils.getApplicationContext().getBean(Class.forName(baseMapperName));
       }
       catch (ClassNotFoundException e)
       {
@@ -133,7 +133,7 @@ public interface EntityAdvanceMapper<M, D, E> extends VavrMapper<M, D, E> // Mod
   default EntityAdvanceMapper<M, D, E> thisMapper()
   {
     //noinspection unchecked
-    return ApplicationContextUtil.getApplicationContext().getBean(this.getClass());
+    return ApplicationContextUtils.getApplicationContext().getBean(this.getClass());
   }
 
 }

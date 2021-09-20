@@ -1,32 +1,27 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from 'app/config/store';
 import {getMessageContentByMessageGroupId, sendContentToGroup,} from 'app/shared/layout/right-chat/right-chat.reducer';
 import {simpleCollage3} from 'app/component/simple-component';
 import {imageUrl} from 'app/shared/util/image-tools-util';
 import Websocket from 'app/config/Websocket';
+import dayjs from "dayjs";
 
 
-const ChatBox = props =>
+const ChatBox = ({close, item}) =>
 {
-  const {item} = props;
-  const [websocket] = useState(new Websocket());
+  const size = 5;
+
   const dispatch = useAppDispatch();
-
-  const load = useRef(null);
-  const scroll = useRef(null);
-
   const masterUser = useAppSelector(state => state.authentication.masterUser);
-  const [currentMessageContents, setCurrentMessageContents] = useState([]);
+  const scrollRef = useRef(null);
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [websocket] = useState(new Websocket());
+  const [currentMessageContents, setCurrentMessageContents] = useState([]);
   const [width, setWidth] = useState(800);
   const [height, setHeight] = useState(182);
   const [messageContentTyping, setMessageContentTyping] = useState('');
-
-
   const [page, setPage] = useState(0);
-  const [size] = useState(5);
-  const [loadding, setLoadding] = useState(false);
+
 
   /**
    * Calculate & Update state of new dimensions
@@ -60,21 +55,23 @@ const ChatBox = props =>
   {
     websocket.connect('/websocket/main');
     if (!masterUser.uuid) return;
-    websocket.subscribeUserConsumer(`/messages`, data =>
+    websocket.subscribeUserConsumer(`/messages/groups/${item.uuid}`, data =>
     {
       const body = JSON.parse(data.body);
       if (body && body.group && body.group.uuid && body.group.uuid === item.uuid)
       {
         setCurrentMessageContents(prev => prev.concat(body));
-        if (scroll.current.scrollHeight - scroll.current.scrollTop - 300 < 200)
-          scroll.current.scrollTo(0, scroll.current.scrollHeight);
+        if (scrollRef.current.scrollHeight - scrollRef.current.scrollTop - 300 < 200)
+          scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
       }
     });
     return () =>
     {
       websocket.unsubscribe();
+      setCurrentMessageContents([]);
+      setPage(0);
     };
-  }, [masterUser.uuid]);
+  }, [masterUser.uuid, item]);
 
   useEffect(() =>
   {
@@ -82,62 +79,36 @@ const ChatBox = props =>
       .unwrap()
       .then(action =>
       {
-        const scrollHeightOld = scroll.current.scrollHeight;
+        const scrollHeightOld = scrollRef.current.scrollHeight;
         setCurrentMessageContents(m => action.data.concat(m));
-        setLoadding(true);
-        scroll.current.scrollTop = scroll.current.scrollHeight - scrollHeightOld
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollHeightOld
       });
   }, [page]);
 
-  const messagesEndRef = useRef(null);
-
   useEffect(() =>
   {
-    if (page === 0)
-      scroll.current.scrollTo(0, scroll.current.scrollHeight);
-  }, [currentMessageContents]);
-
-  useEffect(() =>
-  {
-    if (loadding)
-    {
-      const observer = new IntersectionObserver(entries =>
-        {
-          if (entries[0].isIntersecting)
-            loadMore();
-        },
-        {
-          threshold: 0,
-        }
-      );
-      observer.observe(load.current);
-    }
-  }, [loadding]);
-
-  const loadMore = () =>
-  {
-    setPage(p => p + 1);
-  };
+    if (page < 1 || currentMessageContents.length < 1)
+      scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
+  }, [currentMessageContents, page]);
 
   const handleClose = () =>
   {
-    setIsOpen(false);
     websocket.unsubscribe();
     websocket.disconnect();
-    props.close();
+    close();
   };
 
   const sendMessageContent = () =>
   {
     if (!messageContentTyping && (messageContentTyping.replace(' ', '').length <= 0)) return;
     dispatch(sendContentToGroup({groupId: item.uuid, content: messageContentTyping}));
-    scroll.current.scrollTo(0, scroll.current.scrollHeight);
+    scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
     setMessageContentTyping('');
   };
 
   const avatarLoader = (messageGroupAvatar, css) =>
   {
-    if (!css || css.includes('square')) css = 'square35';
+    if (!css) css = 'square35';
     if (messageGroupAvatar)
     {
       const avatarJsonParsed = JSON.parse(messageGroupAvatar);
@@ -150,34 +121,21 @@ const ChatBox = props =>
 
   const message = messageContent =>
   {
-    if (messageContent && messageContent.info && messageContent.info.owner)
-    {
-      const owner = messageContent.info.owner;
-      if (owner.uuid === masterUser.uuid)
-        return (
-          <>
-            <div className='message self text-right mt-2'>
-              <div className='message-content font-xssss lh-24 fw-500 text-break'>{messageContent.content}</div>
-            </div>
-          </>
-        );
-      else
-        return (
-          <>
-            <div className='message'>
-              <div className='message-content font-xssss lh-24 fw-500'>{messageContent.content}</div>
-            </div>
-            <div className='date-break font-xsssss lh-24 fw-500 text-grey-500 mt-2 mb-2'>Mon 10:20am</div>
-          </>
-        );
-    }
-    else return <></>;
+    let showTime = currentMessageContents[currentMessageContents.length - 1] === messageContent;
+    const beMy = (messageContent.info.owner.uuid === masterUser.uuid);
+    return (messageContent && messageContent.info && messageContent.info.owner) && (
+      <div className={`message ${beMy && "self text-right mt-2"} `} onClick={() => showTime = true}>
+        {!beMy && avatarLoader("", "square25")}
+        <div className='message-content font-xssss lh-24 fw-500 text-break'>{messageContent.content}</div>
+        <div className={`date-break font-xsssss lh-24 fw-500 text-grey-500 mt-2 mb-2 ${showTime ? "d-block" : "d-none"} `}>
+          {dayjs(messageContent.info.createdDate).fromNow()}
+        </div>
+      </div>
+    );
   };
 
-  const menuClass = `${isOpen ? ' d-block ' : ''}`;
-
   return (
-    <div className={`modal-popup-chat position-relative ${menuClass}`}>
+    <div className={`modal-popup-chat position-relative d-block `}>
       <div className={`modal-popup-wrap bg-white p-0 shadow-lg rounded-3 ${width < 1000 ? 'w250' : ''} `}>
         <div className='modal-popup-header border-bottom'>
           <div className='card p-3 d-block border-0 d-block'>
@@ -191,8 +149,9 @@ const ChatBox = props =>
             </div>
           </div>
         </div>
-        <div ref={scroll} className='modal-popup-body w-100 right-scroll-bar h300 p-3' id='chat'>
-          <div ref={load}>đang tải...</div>
+        <div ref={scrollRef}
+             onScroll={() => scrollRef.current.scrollTop === 0 && setPage(p => p + 1)}
+             className='modal-popup-body w-100 right-scroll-bar h300 p-3' id='chat'>
           {currentMessageContents.map(message)}
           <div className='snippet pt-3 ps-4 pb-2 pe-3 mt-2 bg-grey rounded-xl float-right' data-title='.dot-typing'>
             <div className='stage'>
@@ -200,7 +159,6 @@ const ChatBox = props =>
             </div>
           </div>
           <div className='clearfix' />
-          <div ref={messagesEndRef} />
         </div>
         <div className='modal-popup-footer w-100 border-top'>
           <div className='card p-3 d-block border-0 d-block'>

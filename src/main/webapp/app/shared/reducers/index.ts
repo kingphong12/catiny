@@ -1,4 +1,4 @@
-import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
+import {loadingBarReducer as loadingBar} from 'react-redux-loading-bar';
 
 import locale from './locale';
 import authentication from './authentication';
@@ -86,6 +86,8 @@ import setting from 'app/modules/setting/setting.reducer';
 import rightChat from 'app/shared/layout/right-chat/right-chat.reducer';
 import masterUserComponent from 'app/component/reducer/master-user.reducer';
 import livestream from 'app/modules/livestream/livestream.reducer';
+import notificationModal from '../layout/notification/notification-modal.reducer';
+import header from '../layout/header/header.reducer';
 
 const rootReducer = {
   authentication,
@@ -139,6 +141,8 @@ const rootReducer = {
   rightChat,
   masterUserComponent,
   livestream,
+  notificationModal,
+  header,
 };
 
 export default rootReducer;

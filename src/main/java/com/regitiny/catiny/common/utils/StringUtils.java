@@ -2,11 +2,16 @@ package com.regitiny.catiny.common.utils;
 
 import org.jsoup.Jsoup;
 
+import java.util.Random;
+
+import static com.regitiny.catiny.common.utils.StringPool.CHARS_ID;
+
 /**
  *
  */
 public class StringUtils
 {
+  private static final Random random = new Random();
 
   public static String cleanHTML(String input)
   {
@@ -31,5 +36,13 @@ public class StringUtils
   public static String cleanCharVI(String input)
   {
     return org.apache.commons.lang3.StringUtils.stripAccents(input).replace("đ", "d");
+  }
+
+  public static String randomId(Integer length)
+  {
+    var sb = new StringBuilder();
+    for (var i = 0; i < length; i++)
+      sb.append(CHARS_ID.charAt(random.nextInt(CHARS_ID.length())));
+    return sb.toString();
   }
 }

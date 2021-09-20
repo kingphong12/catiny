@@ -1,6 +1,6 @@
 import './header.scss';
 
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
 import {Translate} from 'react-jhipster';
 
 import {Brand} from './header-components';
@@ -10,6 +10,8 @@ import {hideComponent} from "app/modules/setting/setting.reducer";
 import {useDispatch} from 'react-redux';
 import {imageUrl} from "app/shared/util/image-tools-util";
 import {useAppSelector} from "app/config/store";
+import {cleanResultSearchMasterUser, searchMasterUser} from "app/shared/layout/header/header.reducer";
+
 
 export interface IHeaderProps
 {
@@ -23,18 +25,8 @@ export interface IHeaderProps
 
 const Header = (props: IHeaderProps) =>
 {
-  const masterUser = useAppSelector(state => state.authentication.masterUser);
-
-  const renderDevRibbon = () =>
-    props.isInProduction === false ? (
-      <div className='ribbon dev'>
-        <a href=''>
-          <Translate contentKey={`global.ribbon.${props.ribbonEnv}`} />
-        </a>
-      </div>
-    ) : null;
-
   const dispatch = useDispatch();
+  const masterUser = useAppSelector(state => state.authentication.masterUser);
 
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
@@ -51,6 +43,15 @@ const Header = (props: IHeaderProps) =>
   const buttonClass = `${isOpen ? " active" : ""}`;
   const searchClass = `${isActive ? " show" : ""}`;
   const notiClass = `${isNoti ? " show" : ""}`;
+
+  const renderDevRibbon = () =>
+    !props.isInProduction && (
+      <div className='ribbon dev'>
+        <a href=''>
+          <Translate contentKey={`global.ribbon.${props.ribbonEnv}`} />
+        </a>
+      </div>
+    );
 
 
   const leftNav = () =>
@@ -120,6 +121,56 @@ const Header = (props: IHeaderProps) =>
 
   const header = () =>
   {
+    const resultSearchMasterUser = useAppSelector(state => state.header.resultSearchMasterUser);
+
+    const [isOnSearch, setIsOnSearch] = useState(false);
+    const [keywordSearch, setKeywordSearch] = useState("");
+
+    const refSearchField = useRef(null);
+
+    useEffect(() =>
+    {
+      function handleClickOutside(event)
+      {
+        if (refSearchField.current && !refSearchField.current.contains(event.target))
+        {
+          handleCloseSearch();
+          setIsOnSearch(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+      {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [refSearchField]);
+
+    const handleChangeSearch = async (event) =>
+    {
+      const value = event.target.value;
+      setKeywordSearch(value);
+      await new Promise(executor => setTimeout(executor, 500));
+      if (value === event.target.value) dispatch(searchMasterUser({query: value}));
+    }
+
+    const handleCloseSearch = () =>
+    {
+      setKeywordSearch("");
+      dispatch(cleanResultSearchMasterUser());
+    }
+
+    const handleElementSearch = (mu) =>
+    {
+      console.log("làm cái gì đó với thằng handleElementSearch này đi");
+      console.log(mu);
+    }
+
+    const handleAdvanceSearch = () =>
+    {
+      console.log("làm cái gì đó với thằng handleAdvanceSearch này đi");
+    }
+
     return <>
       {renderDevRibbon()}
       <div className='nav-top'>
@@ -138,13 +189,41 @@ const Header = (props: IHeaderProps) =>
         <button onClick={toggleOpen} className={`nav-menu me-0 ms-2 ${buttonClass}`} />
       </div>
 
-      <form action='#' className='float-left header-search ms-3'>
+      <div className='float-left header-search ms-3' ref={refSearchField}>
         <div className='form-group mb-0 icon-input'>
-          <i className='feather-search font-sm text-grey-400' />
-          <input type='text' placeholder='Start typing to search..'
-                 className='bg-grey border-0 lh-32 pt-2 pb-2 ps-5 pe-3 font-xssss fw-500 rounded-xl w350 theme-dark-bg' />
+          {!isOnSearch && <i className='feather-search font-sm text-grey-400' />}
+          <input type='text'
+                 placeholder={!isOnSearch && 'Start typing to search..'}
+                 className={`bg-grey border-0 lh-32 pt-2 pb-2 pe-3 font-xssss fw-500 rounded-xl w350 theme-dark-bg ${isOnSearch ? "ps-3" : "ps-5"}`}
+                 value={keywordSearch}
+                 onChange={handleChangeSearch}
+                 onClick={() => setIsOnSearch(true)} />
         </div>
-      </form>
+        <div className='position-absolute z-index-1 bg-grey rounded-3 w350'>
+          {resultSearchMasterUser.length > 0 &&
+          <ul className='list-group list-group-flush theme-dark-bg p-2'>
+            {resultSearchMasterUser.map(mu =>
+              <a>
+                <li key={mu.uuid}
+                    className='btn-outline-light rounded-xxl  list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'
+                    onClick={() => handleElementSearch(mu)}>
+                  <span className='btn-round-sm bg-primary-gradiant ms-1 me-3 ls-3 text-white font-xssss fw-700'>UD</span>
+                  <h3 className='fw-700 mb-0 mt-0'>
+                  <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer'>
+                    {mu.fullName}
+                  </span>
+                  </h3>
+                  {/*<button className='badge mt-0 text-grey-500 badge-pill pe-0 font-xsssss'>thêm bạn</button>*/}
+                </li>
+              </a>
+            )}
+            {resultSearchMasterUser.length > 0 &&
+            <a><span className='btn-outline-light rounded-xxl p-2 font-xs text-grey-800 d-block text-dark' onClick={handleAdvanceSearch}>
+              Tìm kiếm với: <b className='front-sm'>{keywordSearch}</b>
+            </span></a>}
+          </ul>}
+        </div>
+      </div>
       <NavLink activeClassName='active' to='/home' className='p-2 text-center ms-3 menu-icon center-menu-icon'>
         <i className='feather-home font-lg bg-greylight btn-round-lg theme-dark-bg text-grey-500 ' /></NavLink>
       <NavLink activeClassName='active' to='/defaultstorie' className='p-2 text-center ms-0 menu-icon center-menu-icon'>
@@ -160,7 +239,7 @@ const Header = (props: IHeaderProps) =>
       <span className={`p-2 pointer text-center ms-auto menu-icon ${notiClass}`} id='dropdownMenu3' data-bs-toggle='dropdown' aria-expanded='false'
             onClick={toggleisNoti}><span className='dot-count bg-warning' />
         <i className='feather-bell font-xl text-current' /></span>
-      <div className={`dropdown-menu p-4 right-0 rounded-xxl border-0 shadow-lg ${notiClass}`} aria-labelledby='dropdownMenu3'>
+      <div className={`dropdown-menu p-4 right-0 rounded-xxl border-0 shadow-lg top-100 ${notiClass}`} aria-labelledby='dropdownMenu3'>
         <h4 className='fw-700 font-xss mb-4'>Notification</h4>
         <div className='card bg-transparent-card w-100 border-0 ps-5 mb-3'>
           <img src={imageUrl(masterUser && masterUser.avatar ? masterUser.avatar : null)} alt='user' className='w40 position-absolute left-0' />

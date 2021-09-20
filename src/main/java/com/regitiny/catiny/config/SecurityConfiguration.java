@@ -76,6 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .headers()
 //      .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy())
       .contentSecurityPolicy("default-src 'self'; " +
+        "connect-src 'self'  wss://0.peerjs.com https://0.peerjs.com; " +
         "frame-src 'self' https://www.google.com/maps/embed https://www.youtube.com data:; " +
         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; " +
         "style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; " +

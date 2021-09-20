@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Component
 @Log4j2
-public class MasterUserUtil
+public class MasterUserUtils
 {
   private static MasterUserAdvanceServiceImpl masterUserAdvanceService;
   private static UserRepository userRepository = null;
@@ -84,9 +84,9 @@ public class MasterUserUtil
   @Autowired
   private void setMasterUserRepository(MasterUserAdvanceServiceImpl masterUserAdvanceService, UserRepository userRepository, MasterUserAdvanceRepository masterUserAdvanceRepository)
   {
-    MasterUserUtil.masterUserAdvanceService = masterUserAdvanceService;
-    MasterUserUtil.userRepository = userRepository;
-    MasterUserUtil.masterUserAdvanceRepository = masterUserAdvanceRepository;
+    MasterUserUtils.masterUserAdvanceService = masterUserAdvanceService;
+    MasterUserUtils.userRepository = userRepository;
+    MasterUserUtils.masterUserAdvanceRepository = masterUserAdvanceRepository;
   }
 
 

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * BASE_PATH: {@value BASE_PATH}
@@ -58,4 +59,14 @@ public interface VideoManagement
 
   @PostMapping("/livestream")
   ResponseEntity<Object> initVideoLivestream();
+
+
+  @PostMapping("/call/_init")
+  void initCall(@RequestParam List<UUID> userIds, @RequestParam String keyConnect);
+
+
+  @PostMapping("/call/{key}/_answer")
+  ResponseEntity<Object> answerIncomingCall(@RequestParam Boolean isAccepted, @PathVariable String key);
+
+
 }

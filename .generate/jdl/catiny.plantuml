@@ -1,57 +1,57 @@
 @startuml
 	!pragma syntax class
 	enum StatusName {
-		ONLINE, 
-		OFFLINE, 
-		BUSY, 
-		TEMPORARILY_ABSENT 
+		ONLINE,
+		OFFLINE,
+		BUSY,
+		TEMPORARILY_ABSENT
 	}
 	enum DeviceType {
-		MOBILE, 
-		TABLE, 
-		DESKTOP, 
-		LAPTOP, 
-		OTHER_DEVICE 
+		MOBILE,
+		TABLE,
+		DESKTOP,
+		LAPTOP,
+		OTHER_DEVICE
 	}
 	enum NotifyType {
-		SYSTEM, 
-		MANAGER, 
-		ADMIN, 
-		USER, 
-		ANONYMOUS 
+		SYSTEM,
+		MANAGER,
+		ADMIN,
+		USER,
+		ANONYMOUS
 	}
 	enum PostInType {
-		GROUP, 
-		USER, 
-		PAGE 
+		GROUP,
+		USER,
+		PAGE
 	}
 	enum PostType {
-		SIMPLE, 
-		ADVANCE, 
-		FROALA 
+		SIMPLE,
+		ADVANCE,
+		FROALA
 	}
 	enum FriendType {
-		FRIEND, 
-		BEST_FRIEND, 
-		FAMILY, 
-		BLOCK 
+		FRIEND,
+		BEST_FRIEND,
+		FAMILY,
+		BLOCK
 	}
 	enum ProcessStatus {
-		NOT_PROCESSED, 
-		PROCESSING, 
-		PROCESSED, 
-		NEED_PROCESS, 
-		NEED_PROCESS_NOW, 
-		NEED_HANDLE, 
-		NEED_HANDLE_NOW, 
-		ERROR, 
-		DONE 
+		NOT_PROCESSED,
+		PROCESSING,
+		PROCESSED,
+		NEED_PROCESS,
+		NEED_PROCESS_NOW,
+		NEED_HANDLE,
+		NEED_HANDLE_NOW,
+		ERROR,
+		DONE
 	}
 	enum EventType {
-		DAY, 
-		MONTH, 
-		YEAR, 
-		ONLY_ONE 
+		DAY,
+		MONTH,
+		YEAR,
+		ONLY_ONE
 	}
 	class HanhChinhVN <<Option {Filter,Service,Dto,Paginate,Search}>> {
 		String name
@@ -166,13 +166,13 @@
 		UUID uuid
 		Long priorityIndex
 	}
-	class Notification <<Option {Filter,Service,Dto,Paginate,Search}>> {
+	class NotificationModal <<Option {Filter,Service,Dto,Paginate,Search}>> {
 		UUID uuid
 		NotifyType notifyType
 		String title
 		TextBlob content
 	}
-	Notification ..> NotifyType
+	NotificationModal ..> NotifyType
 	class MessageGroup <<Option {Filter,Service,Dto,Paginate,Search}>> {
 		UUID uuid
 		String groupName
@@ -335,7 +335,7 @@
 	MessageContent  "info 0..1 " -- "0..1 "  BaseInfo
 	RankUser  "info 0..1 " -- "0..1 "  BaseInfo
 	RankGroup  "info 0..1 " -- "0..1 "  BaseInfo
-	Notification  "info 0..1 " -- "0..1 "  BaseInfo
+	NotificationModal  "info 0..1 " -- "0..1 "  BaseInfo
 	Album  "info 0..1 " -- "0..1 "  BaseInfo
 	Video  "info 0..1 " -- "0..1 "  BaseInfo
 	Image  "info 0..1 " -- "0..1 "  BaseInfo

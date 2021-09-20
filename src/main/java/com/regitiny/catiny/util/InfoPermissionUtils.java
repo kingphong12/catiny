@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 
 @Log4j2
 @Component
-public class InfoPermissionUtil
+public class InfoPermissionUtils
 {
   private static BaseInfoAdvanceServiceImpl baseInfoAdvanceService;
   private static PermissionAdvanceServiceImpl permissionAdvanceService;
 
   @Autowired
-  public InfoPermissionUtil(BaseInfoAdvanceServiceImpl baseInfoAdvanceService, PermissionAdvanceServiceImpl permissionAdvanceService)
+  public InfoPermissionUtils(BaseInfoAdvanceServiceImpl baseInfoAdvanceService, PermissionAdvanceServiceImpl permissionAdvanceService)
   {
-    InfoPermissionUtil.baseInfoAdvanceService = baseInfoAdvanceService;
-    InfoPermissionUtil.permissionAdvanceService = permissionAdvanceService;
+    InfoPermissionUtils.baseInfoAdvanceService = baseInfoAdvanceService;
+    InfoPermissionUtils.permissionAdvanceService = permissionAdvanceService;
   }
 
   public static void updatePermission(Permission permission)

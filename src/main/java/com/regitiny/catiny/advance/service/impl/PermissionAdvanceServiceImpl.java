@@ -9,7 +9,7 @@ import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.domain.Permission;
 import com.regitiny.catiny.service.PermissionQueryService;
 import com.regitiny.catiny.service.PermissionService;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
       .add(true)
       .delete(true)
       .level(0);
-    MasterUserUtil.getCurrentMasterUser().forEach(permission::owner);
+    MasterUserUtils.getCurrentMasterUser().forEach(permission::owner);
     return permissionAdvanceRepository.save(permission);
   }
 
@@ -70,7 +70,7 @@ public class PermissionAdvanceServiceImpl extends AdvanceService<Permission, Per
       .add(false)
       .delete(false)
       .level(Integer.MAX_VALUE);
-    MasterUserUtil.getAnonymousMasterUser().forEach(permission::owner);
+    MasterUserUtils.getAnonymousMasterUser().forEach(permission::owner);
     return permissionAdvanceRepository.save(permission);
   }
 

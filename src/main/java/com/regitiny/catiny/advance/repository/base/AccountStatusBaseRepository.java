@@ -2,7 +2,9 @@ package com.regitiny.catiny.advance.repository.base;
 
 import com.regitiny.catiny.advance.repository.CommonRepository;
 import com.regitiny.catiny.domain.AccountStatus;
+import com.regitiny.catiny.domain.MasterUser;
 import com.regitiny.catiny.repository.AccountStatusRepository;
+import io.vavr.control.Option;
 
 /**
  * Spring Data SQL repository for the {@link AccountStatus} entity.
@@ -13,4 +15,7 @@ import com.regitiny.catiny.repository.AccountStatusRepository;
  */
 public interface AccountStatusBaseRepository extends BaseRepository<AccountStatus>, CommonRepository<AccountStatus>, AccountStatusRepository
 {
+  Option<AccountStatus> findOneByInfoOwner(MasterUser owner);
+
+
 }

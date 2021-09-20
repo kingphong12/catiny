@@ -2,7 +2,8 @@ package com.regitiny.catiny.common.utils;
 
 import java.nio.charset.Charset;
 
-public class StringPool {
+public class StringPool
+{
 
   public static final String AMPERSAND = "&";
 
@@ -192,11 +193,23 @@ public class StringPool {
 
   public static final String UUID_REGEX = "[a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8}";
 
+  public static final String CHARS_ID = charToGenId(); //a-zA-Z0-9\-\_
+
+  private static String charToGenId()
+  {
+    var alphabetBuilder = new StringBuilder();                        // ""
+    for (var i = 97; i < 123; i++)                                    //a-z
+      alphabetBuilder.append(ASCII_TABLE[i]);
+    alphabetBuilder.append(alphabetBuilder.toString().toUpperCase()); //a-zA-Z
+    for (var i = 0; i < 10; i++)                                      //a-zA-Z0-9
+      alphabetBuilder.append(i);
+    alphabetBuilder.append("-_");                                     //a-zA-Z0-9\-\_
+    return alphabetBuilder.toString();
+  }
+
   static
   {
     for (int i = 0; i < 128; i++)
-    {
       ASCII_TABLE[i] = String.valueOf((char) i);
-    }
   }
 }

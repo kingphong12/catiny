@@ -35,8 +35,15 @@
 }
 
 .right-chat {
-  .form-group.icon-input i {
-    top: 4px;
-    left: 15px;
+  .form-group.icon-input {
+    .feather-search {
+      top: 4px;
+      left: 15px;
+    }
+
+    .feather-x-square {
+      top: 4px;
+      left: 200px;
+    }
   }
 }

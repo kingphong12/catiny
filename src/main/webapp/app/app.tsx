@@ -20,6 +20,7 @@ import '../assets/scss/main.scss';
 import RightChat from "app/shared/layout/right-chat/right-chat";
 import ErrorBoundaryRoute from "app/shared/error/error-boundary-route";
 import Demo from "app-js/demo/Demo";
+import NotificationModal from "app/shared/layout/notification/notification-modal";
 
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
@@ -50,6 +51,7 @@ export const App = () =>
         <ErrorBoundaryRoute path='/demo' exact component={Demo} />
         <div className='app-container' style={{paddingTop}}>
           <ToastContainer position={toast.POSITION.TOP_LEFT} className='toastify-container' toastClassName='toastify-toast' />
+          <NotificationModal />
           <ErrorBoundary>
             <Header isAuthenticated={isAuthenticated}
                     isAdmin={isAdmin}

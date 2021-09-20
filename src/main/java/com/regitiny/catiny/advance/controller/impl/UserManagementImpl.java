@@ -3,7 +3,7 @@ package com.regitiny.catiny.advance.controller.impl;
 import com.regitiny.catiny.advance.controller.rest.UserManagement;
 import com.regitiny.catiny.advance.service.MasterUserAdvanceService;
 import com.regitiny.catiny.service.dto.MasterUserDTO;
-import com.regitiny.catiny.util.MasterUserUtil;
+import com.regitiny.catiny.util.MasterUserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +24,7 @@ public class UserManagementImpl implements UserManagement
   @Override
   public ResponseEntity<MasterUserDTO> fetchCurrentMasterUser()
   {
-    return MasterUserUtil.getCurrentMasterUserDTO()
+    return MasterUserUtils.getCurrentMasterUserDTO()
       .map(ResponseEntity::ok)
       .getOrElse(ResponseEntity.notFound()::build);
   }

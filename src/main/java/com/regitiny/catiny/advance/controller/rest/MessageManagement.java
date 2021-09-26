@@ -26,7 +26,7 @@ public interface MessageManagement
    * GET /api/o/messages/message-groups/joined
    */
   @GetMapping("/groups/joined")
-  default ResponseEntity<List<MessageGroupDTO>> getAllMessageGroupsJoined(Pageable pageable)
+  default ResponseEntity<List<String>> getAllMessageGroupsJoined(Pageable pageable)
   {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
   }

@@ -1,5 +1,8 @@
 package com.regitiny.catiny.aop;
 
+import com.regitiny.catiny.domain.BaseInfo;
+import com.regitiny.catiny.service.dto.BaseInfoDTO;
+import com.regitiny.catiny.service.dto.MasterUserDTO;
 import com.regitiny.catiny.service.dto.UserDTO;
 import io.vavr.Function2;
 import io.vavr.collection.List;
@@ -64,9 +67,7 @@ public class AdvanceMapperAspectService
     var entityOriginal = joinPoint.getArgs()[0];
     //Todo : là list
 
-
     logJP.debug("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getName(), joinPoint.getArgs());
-
     var resultDTO = joinPoint.proceed();
 
     Function2<Object, Object, ?> cleanIdAddUuid = (dto, ent) -> methodInvoke(dto, "getId")
@@ -93,6 +94,27 @@ public class AdvanceMapperAspectService
       {
         var objectInEntity = methodInvoke(entityOriginal, method.getName()).getOrNull();
         var objectInDTO = methodInvoke(resultDTO, method.getName()).getOrNull();
+        if ("getInfo".equals(method.getName()))
+        {
+          var infoDTO = new BaseInfoDTO();
+          var infoEntity = (BaseInfo) objectInEntity;
+
+          var ownerDTO = new MasterUserDTO();
+          var ownerEntity = infoEntity.getOwner();
+          ownerDTO.setNickname(ownerEntity.getNickname());
+          ownerDTO.setUuid(ownerEntity.getUuid());
+          ownerDTO.setQuickInfo(ownerEntity.getQuickInfo());
+          ownerDTO.setFullName(ownerEntity.getFullName());
+          ownerDTO.setAvatar(ownerEntity.getAvatar());
+
+          infoDTO.setOwner(ownerDTO);
+          infoDTO.setCreatedDate(infoEntity.getCreatedDate());
+          infoDTO.setModifiedDate(infoEntity.getModifiedDate());
+          infoDTO.setProcessStatus(infoEntity.getProcessStatus());
+          infoDTO.setNotes(infoEntity.getNotes());
+
+          methodInvoke(resultDTO, "setInfo", infoDTO).getOrNull();
+        }
         if (Objects.nonNull(objectInDTO) && Objects.nonNull(objectInEntity))
           cleanIdAddUuid.apply(objectInDTO, objectInEntity);
       });

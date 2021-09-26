@@ -40,7 +40,7 @@ export const searchEntities = createAsyncThunk('messageGroup/search_entity', asy
 export const getAllMessageGroupsJoined = createAsyncThunk('rightChat/get_all_message_groups_joined', async ({page, size, sort}: IQueryParams) =>
 {
   const requestUrl = `${apiUrlMessageGroups}/joined${sort ? `?page=${page}&size=${size}&sort=${sort}&` : '?'}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IMessageGroup[]>(requestUrl);
+  return axios.get<any>(requestUrl);
 });
 
 /**
@@ -134,6 +134,14 @@ export const RightChatSlice = createSlice({
     {
       return initialState;
     },
+    updateStatusUserInGroup(state, {payload})
+    {
+      let messageGroups = state.messageGroups;
+      const mgv = messageGroups.filter(value => value.uuid === payload.messageGroupId);
+      const mgx = messageGroups.filter(value => value.uuid !== payload.messageGroupId);
+      messageGroups = [...mgx, {...mgv[0], idUserOnline: payload.idUserOnline}];
+      return {...state, messageGroups};
+    },
   },
   extraReducers(builder)
   {
@@ -143,7 +151,7 @@ export const RightChatSlice = createSlice({
       return {
         ...state,
         loading: false,
-        messageGroups: loadMoreDataWhenScrolled(state.entities, action.payload.data, links),
+        messageGroups: loadMoreDataWhenScrolled(state.entities, action.payload.data.map(JSON.parse), links),
       };
     });
     // .addCase(deleteEntity.fulfilled, state =>
@@ -186,7 +194,7 @@ export const RightChatSlice = createSlice({
   },
 });
 
-export const {reset} = RightChatSlice.actions;
+export const {reset, updateStatusUserInGroup} = RightChatSlice.actions;
 
 // Reducer
 export default RightChatSlice.reducer;

@@ -27,7 +27,7 @@ public interface PostManagement
 
 
   @PostMapping
-  ResponseEntity<PostDTO> uploadPost(PostDTO postDTO);
+  ResponseEntity<PostDTO> uploadPost(@RequestBody PostDTO postDTO);
 
 
   @DeleteMapping("/{id}")
@@ -43,7 +43,7 @@ public interface PostManagement
 
 
   @GetMapping("/_search")
-  ResponseEntity<List<PostDTO>> searchPost(String query, Pageable pageable);
+  ResponseEntity<List<PostDTO>> searchPost(@RequestParam String query, Pageable pageable);
 
 
 }

@@ -1,6 +1,7 @@
 package com.regitiny.catiny.web.websocket;
 
 import com.regitiny.catiny.advance.service.AccountStatusAdvanceService;
+import com.regitiny.catiny.advance.service.MessageGroupAdvanceService;
 import com.regitiny.catiny.web.websocket.dto.ActivityDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -29,11 +30,13 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
 
   private final SimpMessageSendingOperations messagingTemplate;
   private final AccountStatusAdvanceService accountStatusAdvanceService;
+  private final MessageGroupAdvanceService messageGroupAdvanceService;
 
   @MessageMapping("/topic/activity")
   @SendTo("/topic/tracker")
   public ActivityDTO sendActivity(@Payload ActivityDTO activityDTO, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
     accountStatusAdvanceService.onlineStatus(null);
+    messageGroupAdvanceService.refreshMessageGroupStatus();
     activityDTO.setUserLogin(principal.getName());
     activityDTO.setSessionId(stompHeaderAccessor.getSessionId());
     activityDTO.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
@@ -48,6 +51,7 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
     var upat = (UsernamePasswordAuthenticationToken) event.getUser();
     SecurityContextHolder.getContext().setAuthentication(upat);
     accountStatusAdvanceService.offlineStatus();
+    messageGroupAdvanceService.refreshMessageGroupStatus();
     ActivityDTO activityDTO = new ActivityDTO();
     activityDTO.setSessionId(event.getSessionId());
     activityDTO.setPage("logout");

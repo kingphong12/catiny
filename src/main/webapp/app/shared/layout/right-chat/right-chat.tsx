@@ -1,13 +1,14 @@
 import "./right-chat.scss";
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from 'app/config/store';
-import {createMessageGroup, getAllMessageGroupsJoined,} from 'app/shared/layout/right-chat/right-chat.reducer';
+import {createMessageGroup, getAllMessageGroupsJoined, updateStatusUserInGroup,} from 'app/shared/layout/right-chat/right-chat.reducer';
 import {IMessageGroup} from 'app/shared/model/message-group.model';
 import {simpleCollage3} from 'app/component/simple-component';
 import {imageUrl} from 'app/shared/util/image-tools-util';
 import {cleanSearchMasterUser, searchMasterUser} from 'app/component/reducer/master-user.reducer';
 import {useSelector} from 'react-redux';
 import ChatBox from './chat-box';
+import Websocket from "app/config/Websocket";
 
 const RightChat = () =>
 {
@@ -17,6 +18,7 @@ const RightChat = () =>
     state.masterUserComponent.resultSearchUsers.filter(v => v.uuid !== masterUser.uuid)
   );
 
+  const websocket = new Websocket();
   const [userToCreateMessageGroup, setUserToCreateMessageGroup] = useState([]);
   const [groupNameToCreateMessageGroup, setGroupNameToCreateMessageGroup] = useState('');
   const [groupNameIsCustom, setGroupNameIsCustom] = useState(false);
@@ -29,6 +31,17 @@ const RightChat = () =>
   {
     dispatch(getAllMessageGroupsJoined({}));
   }, []);
+
+  useEffect(() =>
+  {
+    websocket.connect('/websocket/main');
+    if (!masterUser.uuid) return;
+    websocket.subscribeUserConsumer(`/notifications/message-group.status`, ({body}) =>
+    {
+      dispatch(updateStatusUserInGroup(JSON.parse(body)));
+    });
+
+  }, [masterUser.uuid]);
 
 
   const openChatBox = (messageGroup: IMessageGroup) =>
@@ -64,6 +77,11 @@ const RightChat = () =>
     return <img src={imageUrl(messageGroupAvatar)} alt='avater' className={`${css} border border-secondary rounded-circle  me-1`} />;
   };
 
+  function handleGroupOnline(idUserOnline)
+  {
+    return idUserOnline.filter(value => masterUser.uuid !== value).length > 0;
+  }
+
   const rightChatActive = useAppSelector(state => state.setting.rightChatActive);
   const groupJoinedComponent = () =>
     allMessageGroupsJoined.map(messageGroup => (
@@ -84,7 +102,7 @@ const RightChat = () =>
               (<del>No Name</del>)}
           </span>
         </h3>
-        <span className={`${/*value.status*/ 'bg-success'} ms-auto btn-round-xss`} />
+        <span className={`${handleGroupOnline(messageGroup.idUserOnline) ? 'bg-success' : "bg-grey"}  ms-auto btn-round-xss`} />
       </li>
       // End Single Demo
     ))

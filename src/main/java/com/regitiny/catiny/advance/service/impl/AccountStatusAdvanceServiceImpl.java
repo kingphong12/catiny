@@ -35,12 +35,11 @@ import java.util.Objects;
 public class AccountStatusAdvanceServiceImpl extends AdvanceService<AccountStatus, AccountStatusService, AccountStatusQueryService, AccountStatusAdvanceMapper, AccountStatusAdvanceRepository, AccountStatusAdvanceSearch> implements AccountStatusAdvanceService
 {
   private final AccountStatusAdvanceRepository accountStatusAdvanceRepository;
+  private final DeviceStatusAdvanceRepository deviceStatusAdvanceRepository;
 
   private final AccountStatusAdvanceSearch accountStatusAdvanceSearch;
-
   private final AccountStatusAdvanceMapper accountStatusAdvanceMapper;
 
-  private final DeviceStatusAdvanceRepository deviceStatusAdvanceRepository;
   @Autowired
   private DeviceStatusAdvanceServiceImpl deviceStatusAdvanceService;
 
@@ -123,4 +122,6 @@ public class AccountStatusAdvanceServiceImpl extends AdvanceService<AccountStatu
         });
     });
   }
+
+
 }

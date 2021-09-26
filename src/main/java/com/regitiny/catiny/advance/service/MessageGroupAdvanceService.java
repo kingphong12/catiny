@@ -24,11 +24,14 @@ public interface MessageGroupAdvanceService extends BaseSrvice<MessageGroup, Mes
 {
 
 
-  Page<MessageGroupDTO> getAllMessageGroupsJoined(Pageable pageable);
+  Page<String> getAllMessageGroupsJoined(Pageable pageable);
 
 
   Option<MessageGroupDTO> createMessageGroupAndAddUser(List<UUID> userIds, String desiredName);
 
 
   List<MasterUserDTO> getMasterUserDetailsPublicByMessageGroupId(UUID messageGroupId);
+
+
+  void refreshMessageGroupStatus();
 }

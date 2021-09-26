@@ -39,7 +39,7 @@ public class MessageManagementImpl implements MessageManagement
   private final SimpMessagingTemplate simpMessagingTemplate;
 
   @Override
-  public ResponseEntity<List<MessageGroupDTO>> getAllMessageGroupsJoined(Pageable pageable)
+  public ResponseEntity<List<String>> getAllMessageGroupsJoined(Pageable pageable)
   {
     log.debug("request get all messages group user joined , pageable = {}", pageable);
     var page = messageGroupAdvanceService.getAllMessageGroupsJoined(pageable);

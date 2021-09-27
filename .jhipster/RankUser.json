@@ -34,7 +34,7 @@
       "ownerSide": false
     }
   ],
-  "javadoc": "@what?            -> The RankUser entity.\\n@why?             ->\\n@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\\n@commonly-used-in -> thường thấy trong phần\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The RankUser entity.\\n<p>@why?             ->\\n<p>@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\\n<p>@commonly-used-in -> thường thấy trong phần\\n\\n<p>@describe         ->",
   "entityTableName": "rank_user",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -45,5 +45,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143923"
+  "changelogDate": "20210710143923",
+  "incrementalChangelog": false
 }

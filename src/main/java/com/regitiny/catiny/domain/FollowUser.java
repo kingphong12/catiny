@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The FollowUser entity.\n@why?             ->\n@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\n@commonly-used-in -> Chủ đề mà người dùng theo dõi\n\n@describe         ->
+ * <p>@what?            -> The FollowUser entity.\n<p>@why?             ->\n<p>@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\n<p>@commonly-used-in -> Chủ đề mà người dùng theo dõi\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "follow_user")

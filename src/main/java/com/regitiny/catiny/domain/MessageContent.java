@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The MessageContent entity.\n@why?             ->\n@use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể\n@commonly-used-in ->\n\n@describe         ->
+ * <p>@what?            -> The MessageContent entity.\n<p>@why?             ->\n<p>@use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể\n<p>@commonly-used-in ->\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "message_content")

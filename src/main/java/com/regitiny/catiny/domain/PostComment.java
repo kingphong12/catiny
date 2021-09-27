@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The PostComment entity.\n@why?             ->\n@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\n@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\n\n@describe         ->
+ * <p>@what?            -> The PostComment entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\n<p>@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "post_comment")

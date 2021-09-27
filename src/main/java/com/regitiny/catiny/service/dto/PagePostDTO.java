@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.PagePost} entity.
  */
 @ApiModel(
-  description = "@what?            -> The PagePost entity.\n@why?             ->\n@use-to           -> Lưu các Trang người dùng tạo ra\n@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\n\n@describe         ->"
+  description = "<p>@what?            -> The PagePost entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu các Trang người dùng tạo ra\n<p>@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class PagePostDTO implements Serializable {

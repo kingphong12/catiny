@@ -46,7 +46,7 @@
       "relationshipName": "parent"
     }
   ],
-  "javadoc": "@what?            -> The PostComment entity.\\n@why?             ->\\n@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\\n@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The PostComment entity.\\n<p>@why?             ->\\n<p>@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\\n<p>@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\\n\\n<p>@describe         ->",
   "entityTableName": "post_comment",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -57,5 +57,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143919"
+  "changelogDate": "20210710143919",
+  "incrementalChangelog": false
 }

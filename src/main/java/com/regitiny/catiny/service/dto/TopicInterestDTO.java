@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.TopicInterest} entity.
  */
 @ApiModel(
-  description = "@what?            -> The TopicInterest entity.\n@why?             ->\n@use-to           -> Lưu những chủ đề mà người dùng quan tâm\n@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\n\n@describe         ->"
+  description = "<p>@what?            -> The TopicInterest entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu những chủ đề mà người dùng quan tâm\n<p>@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class TopicInterestDTO implements Serializable {

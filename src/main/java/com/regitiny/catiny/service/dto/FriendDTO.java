@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.Friend} entity.
  */
 @ApiModel(
-  description = "@what?            -> The Friend entity.\n@why?             ->\n@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\n@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\n\n@describe         ->"
+  description = "<p>@what?            -> The Friend entity.\n<p>@why?             ->\n<p>@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\n<p>@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class FriendDTO implements Serializable {

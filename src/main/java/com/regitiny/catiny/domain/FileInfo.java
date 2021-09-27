@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The FileInfo entity.\n@why?             ->\n@use-to           -> Quản lý thông tin về file, vị trí file ...\n@commonly-used-in -> Những file mà người dùng upload (ảnh video ...)\n\n@describe         ->
+ * <p>@what?            -> The FileInfo entity.\n<p>@why?             ->\n<p>@use-to           -> Quản lý thông tin về file, vị trí file ...\n<p>@commonly-used-in -> Những file mà người dùng upload (ảnh video ...)\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "file_info")

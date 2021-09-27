@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The Event entity.\n@why?             ->\n@use-to           -> Lưu những sự kiện\n@commonly-used-in -> Tạo Sự kiện\n\n@describe         ->
+ * <p>@what?            -> The Event entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu những sự kiện\n<p>@commonly-used-in -> Tạo Sự kiện\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "event")

@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The TopicInterest entity.\n@why?             ->\n@use-to           -> Lưu những chủ đề mà người dùng quan tâm\n@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\n\n@describe         ->
+ * <p>@what?            -> The TopicInterest entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu những chủ đề mà người dùng quan tâm\n<p>@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "topic_interest")

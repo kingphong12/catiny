@@ -89,7 +89,7 @@
       "ownerSide": false
     }
   ],
-  "javadoc": "@what?            -> The Post entity\\n@why?             ->\\n@use-to           -> lưu các bài viết của người dùng\\n@commonly-used-in -> đăng và xem các bài viết\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The Post entity\\n<p>@why?             ->\\n<p>@use-to           -> lưu các bài viết của người dùng\\n<p>@commonly-used-in -> đăng và xem các bài viết\\n\\n<p>@describe         ->",
   "entityTableName": "post",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -100,5 +100,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143918"
+  "changelogDate": "20210710143918",
+  "incrementalChangelog": false
 }

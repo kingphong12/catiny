@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The VideoStream entity.\n@why?             ->\n@use-to           -> Lưu thông tin video ... khi đã kết thúc stream\n@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường\n\n@describe         ->
+ * <p>@what?            -> The VideoStream entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu thông tin video ... khi đã kết thúc stream\n<p>@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "video_stream")

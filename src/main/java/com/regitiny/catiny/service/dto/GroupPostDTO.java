@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.GroupPost} entity.
  */
 @ApiModel(
-  description = "@what?            -> The GroupPost entity\n@why?             -> mọi người cần tạo ra một nhóm riêng hoặc chung để có thể trao đổi\n@use-to           -> quản lý nhóm\n@commonly-used-in -> các nhóm\n\n@describe         ->"
+  description = "<p>@what?            -> The GroupPost entity\n<p>@why?             -> mọi người cần tạo ra một nhóm riêng hoặc chung để có thể trao đổi\n<p>@use-to           -> quản lý nhóm\n<p>@commonly-used-in -> các nhóm\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class GroupPostDTO implements Serializable {

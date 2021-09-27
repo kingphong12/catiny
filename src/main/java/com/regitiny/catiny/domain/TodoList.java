@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The TodoList entity.\n@why?             ->\n@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện\n@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện\n\n@describe         ->
+ * <p>@what?            -> The TodoList entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện\n<p>@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "todo_list")

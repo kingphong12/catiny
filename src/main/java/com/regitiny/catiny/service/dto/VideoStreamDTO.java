@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.VideoStream} entity.
  */
 @ApiModel(
-  description = "@what?            -> The VideoStream entity.\n@why?             ->\n@use-to           -> Lưu thông tin video ... khi đã kết thúc stream\n@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường\n\n@describe         ->"
+  description = "<p>@what?            -> The VideoStream entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu thông tin video ... khi đã kết thúc stream\n<p>@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class VideoStreamDTO implements Serializable {

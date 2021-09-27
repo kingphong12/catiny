@@ -23,7 +23,7 @@
       "relationshipName": "rankUser"
     }
   ],
-  "javadoc": "@what?            -> The RankGroup entity.\\n@why?             ->\\n@use-to           -> Xếp hạng theo nhóm : toàn mạng ,khu vực , nhóm người (khoảng 30-100 người)\\n@commonly-used-in ->\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The RankGroup entity.\\n<p>@why?             ->\\n<p>@use-to           -> Xếp hạng theo nhóm : toàn mạng ,khu vực , nhóm người (khoảng 30-100 người)\\n<p>@commonly-used-in ->\\n\\n<p>@describe         ->",
   "entityTableName": "rank_group",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -34,5 +34,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143924"
+  "changelogDate": "20210710143924",
+  "incrementalChangelog": false
 }

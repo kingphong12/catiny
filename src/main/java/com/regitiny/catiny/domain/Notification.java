@@ -12,7 +12,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The Notification entity.\n@why?             ->\n@use-to           -> Chứa những thông báo đến người dùng\n@commonly-used-in -> Thường xuất hiện trong chức năng thông báo của người dùng\n\n@describe         ->
+ * <p>@what?            -> The Notification entity.\n<p>@why?             ->\n<p>@use-to           -> Chứa những thông báo đến người dùng\n<p>@commonly-used-in -> Thường xuất hiện trong chức năng thông báo của người dùng\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "notification")

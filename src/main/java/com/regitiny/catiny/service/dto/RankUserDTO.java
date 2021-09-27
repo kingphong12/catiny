@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.RankUser} entity.
  */
 @ApiModel(
-  description = "@what?            -> The RankUser entity.\n@why?             ->\n@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\n@commonly-used-in -> thường thấy trong phần\n\n@describe         ->"
+  description = "<p>@what?            -> The RankUser entity.\n<p>@why?             ->\n<p>@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\n<p>@commonly-used-in -> thường thấy trong phần\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class RankUserDTO implements Serializable {

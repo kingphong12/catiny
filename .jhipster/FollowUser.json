@@ -23,7 +23,7 @@
       "relationshipName": "follow"
     }
   ],
-  "javadoc": "@what?            -> The FollowUser entity.\\n@why?             ->\\n@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\\n@commonly-used-in -> Chủ đề mà người dùng theo dõi\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The FollowUser entity.\\n<p>@why?             ->\\n<p>@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\\n<p>@commonly-used-in -> Chủ đề mà người dùng theo dõi\\n\\n<p>@describe         ->",
   "entityTableName": "follow_user",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -34,5 +34,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143911"
+  "changelogDate": "20210710143911",
+  "incrementalChangelog": false
 }

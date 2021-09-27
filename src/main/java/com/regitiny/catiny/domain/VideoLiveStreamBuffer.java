@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The VideoLiveStreamBuffer entity.\n@why?             ->\n@use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video\n@commonly-used-in -> thường sử dụng khi đang live stream\n\n@describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)
+ * <p>@what?            -> The VideoLiveStreamBuffer entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video\n<p>@commonly-used-in -> thường sử dụng khi đang live stream\n\n<p>@describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)
  */
 @Entity
 @Table(name = "video_live_stream_buffer")

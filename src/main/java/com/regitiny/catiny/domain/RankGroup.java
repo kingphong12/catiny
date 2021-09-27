@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The RankGroup entity.\n@why?             ->\n@use-to           -> Xếp hạng theo nhóm : toàn mạng ,khu vực , nhóm người (khoảng 30-100 người)\n@commonly-used-in ->\n\n@describe         ->
+ * <p>@what?            -> The RankGroup entity.\n<p>@why?             ->\n<p>@use-to           -> Xếp hạng theo nhóm : toàn mạng ,khu vực , nhóm người (khoảng 30-100 người)\n<p>@commonly-used-in ->\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "rank_group")

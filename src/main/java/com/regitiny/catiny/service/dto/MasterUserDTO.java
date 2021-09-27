@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.MasterUser} entity.
  */
 @ApiModel(
-  description = "@what?            -> The MasterUser entity.\n@why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)\n@use-to:          -> Lưu thông tin cơ bản của một người dùng\n@commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server\n\n@describe      	  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây"
+  description = "<p>@what?            -> The MasterUser entity.\n<p>@why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)\n<p>@use-to:          -> Lưu thông tin cơ bản của một người dùng\n<p>@commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server\n\n<p>@describe      	  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây"
 )
 @GeneratedByJHipster
 public class MasterUserDTO implements Serializable {

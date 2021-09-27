@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.MessageContent} entity.
  */
 @ApiModel(
-  description = "@what?            -> The MessageContent entity.\n@why?             ->\n@use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể\n@commonly-used-in ->\n\n@describe         ->"
+  description = "<p>@what?            -> The MessageContent entity.\n<p>@why?             ->\n<p>@use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể\n<p>@commonly-used-in ->\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class MessageContentDTO implements Serializable {

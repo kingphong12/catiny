@@ -162,13 +162,13 @@ const Header = (props: IHeaderProps) =>
 
     const handleElementSearch = (mu) =>
     {
-      console.log("làm cái gì đó với thằng handleElementSearch này đi");
-      console.log(mu);
+      //  console.log("làm cái gì đó với thằng handleElementSearch này đi");
+      //  console.log(mu);
     }
 
     const handleAdvanceSearch = () =>
     {
-      console.log("làm cái gì đó với thằng handleAdvanceSearch này đi");
+      // console.log("làm cái gì đó với thằng handleAdvanceSearch này đi");
     }
 
     return <>
@@ -203,10 +203,10 @@ const Header = (props: IHeaderProps) =>
           {resultSearchMasterUser.length > 0 &&
           <ul className='list-group list-group-flush theme-dark-bg p-2'>
             {resultSearchMasterUser.map(mu =>
-              <a>
-                <li key={mu.uuid}
-                    className='btn-outline-light rounded-xxl  list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'
-                    onClick={() => handleElementSearch(mu)}>
+              <a key={mu.uuid}>
+                <li
+                  className='btn-outline-light rounded-xxl  list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center'
+                  onClick={() => handleElementSearch(mu)}>
                   <span className='btn-round-sm bg-primary-gradiant ms-1 me-3 ls-3 text-white font-xssss fw-700'>UD</span>
                   <h3 className='fw-700 mb-0 mt-0'>
                   <span className='font-xssss text-grey-600 d-block text-dark model-popup-chat pointer'>

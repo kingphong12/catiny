@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The RankUser entity.\n@why?             ->\n@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\n@commonly-used-in -> thường thấy trong phần\n\n@describe         ->
+ * <p>@what?            -> The RankUser entity.\n<p>@why?             ->\n<p>@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người\n<p>@commonly-used-in -> thường thấy trong phần\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "rank_user")

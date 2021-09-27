@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The PageProfile entity\n@why?             ->\n@use-to           -> Lưu phần giới thiệu của các trang\n@commonly-used-in -> hiển thị giới thiệu của các trang\n\n@describe         ->
+ * <p>@what?            -> The PageProfile entity\n<p>@why?             ->\n<p>@use-to           -> Lưu phần giới thiệu của các trang\n<p>@commonly-used-in -> hiển thị giới thiệu của các trang\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "page_profile")

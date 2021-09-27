@@ -9,7 +9,7 @@ filter *
 
 
 enum StatusName
-{  
+{
   ONLINE
   OFFLINE
   BUSY
@@ -85,24 +85,24 @@ enum EventType
 //
 //// phần cấu hình Server
 ///**
-//* @what?            -> The ServerConfig entity.
-//* @why?             ->
-//* @use-to           -> Chứa thông tin của một cụm máy chủ database , app ...
-//* @commonly-used-in ->
+//* <p>@what?            -> The ServerConfig entity.
+//* <p>@why?             ->
+//* <p>@use-to           -> Chứa thông tin của một cụm máy chủ database , app ...
+//* <p>@commonly-used-in ->
 //*
-//* @describe         ->
+//* <p>@describe         ->
 //*/
 //entity ServerConfig
 //{
 //    serverType ServerType
 //}
 ///**
-//* @what?            -> The ServerDetails entity.
-//* @why?             ->
-//* @use-to           -> Thông tin chi tiết của từng máy chủ
-//* @commonly-used-in ->
+//* <p>@what?            -> The ServerDetails entity.
+//* <p>@why?             ->
+//* <p>@use-to           -> Thông tin chi tiết của từng máy chủ
+//* <p>@commonly-used-in ->
 //*
-//* @describe         -> ví dụ có một cụm app docker swarm front end sẽ được chia đều các kết nối đến máy chủ này giảm tải lưu lượng mạng
+//* <p>@describe         -> ví dụ có một cụm app docker swarm front end sẽ được chia đều các kết nối đến máy chủ này giảm tải lưu lượng mạng
 //*/
 //entity ServerDetails
 //relationship OneToOne
@@ -131,12 +131,12 @@ entity HanhChinhVN
 }
 
 /**
-* @what?            -> The MasterUser entity.
-* @why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)
-* @use-to:          -> Lưu thông tin cơ bản của một người dùng
-* @commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server
+* <p>@what?            -> The MasterUser entity.
+* <p>@why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)
+* <p>@use-to:          -> Lưu thông tin cơ bản của một người dùng
+* <p>@commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server
 *
-* @describe      	  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây
+* <p>@describe      	  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây
 */
 entity MasterUser
 {
@@ -239,12 +239,12 @@ entity AccountStatus
     statusComment String
 }
 /**
-* @what?            -> The Album entity
-* @why?             ->
-* @use-to           -> Lưu thông tin về một bộ album của người dùng
-* @commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album
+* <p>@what?            -> The Album entity
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin về một bộ album của người dùng
+* <p>@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity Album
 {
@@ -253,17 +253,17 @@ entity Album
     /** name           : tên của album */
     name String required
     /** note           : trú thích của album (ví dụ album đại học) */
-    note String 
+    note String
     /** avatar         : @type Json -> ảnh đại diện của Album */
     avatar TextBlob
 }
 /**
-* @what?            -> The DeviceStatus entity.
-* @why?             ->
-* @use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...
-* @commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị
+* <p>@what?            -> The DeviceStatus entity.
+* <p>@why?             ->
+* <p>@use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...
+* <p>@commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity DeviceStatus
 {
@@ -281,12 +281,12 @@ entity DeviceStatus
     statusComment String
 }
 /**
-* @what?            -> The Event entity.
-* @why?             ->
-* @use-to           -> Lưu những sự kiện
-* @commonly-used-in -> Tạo Sự kiện
+* <p>@what?            -> The Event entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu những sự kiện
+* <p>@commonly-used-in -> Tạo Sự kiện
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity Event
 {
@@ -314,12 +314,12 @@ entity Event
     videoCollection TextBlob
 }
 /**
-* @what?            -> The Friend entity.
-* @why?             ->
-* @use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...
-* @commonly-used-in -> Bạn bè và các liên kết bạn bè ...
+* <p>@what?            -> The Friend entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...
+* <p>@commonly-used-in -> Bạn bè và các liên kết bạn bè ...
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity Friend
 {
@@ -328,12 +328,12 @@ entity Friend
     friendType FriendType
 }
 /**
-* @what?            -> The FollowUser entity.
-* @why?             ->
-* @use-to           -> Quản lý những người mà người dùng đăng ký theo dõi
-* @commonly-used-in -> Chủ đề mà người dùng theo dõi
+* <p>@what?            -> The FollowUser entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi
+* <p>@commonly-used-in -> Chủ đề mà người dùng theo dõi
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity FollowUser
 {
@@ -341,12 +341,12 @@ entity FollowUser
     uuid UUID required unique
 }
 /**
-* @what?            -> The FollowGroup entity.
-* @why?             ->
-* @use-to           -> Quản lý các nhóm mà người dùng đăng ký theo dõi
-* @commonly-used-in -> Chủ đề mà người dùng theo dõi
+* <p>@what?            -> The FollowGroup entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý các nhóm mà người dùng đăng ký theo dõi
+* <p>@commonly-used-in -> Chủ đề mà người dùng theo dõi
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity FollowGroup
 {
@@ -354,12 +354,12 @@ entity FollowGroup
     uuid UUID required unique
 }
 /**
-* @what?            -> The FollowPage entity.
-* @why?             ->
-* @use-to           -> Quản lý các trang mà người dùng đăng ký theo dõi
-* @commonly-used-in -> Chủ đề mà người dùng theo dõi
+* <p>@what?            -> The FollowPage entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý các trang mà người dùng đăng ký theo dõi
+* <p>@commonly-used-in -> Chủ đề mà người dùng theo dõi
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity FollowPage
 {
@@ -367,12 +367,12 @@ entity FollowPage
     uuid UUID required unique
 }
 /**
-* @what?            -> The FileInfo entity.
-* @why?             ->
-* @use-to           -> Quản lý thông tin về file, vị trí file ...
-* @commonly-used-in -> Những file mà người dùng upload (ảnh video ...)
+* <p>@what?            -> The FileInfo entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý thông tin về file, vị trí file ...
+* <p>@commonly-used-in -> Những file mà người dùng upload (ảnh video ...)
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity FileInfo
 {
@@ -388,12 +388,12 @@ entity FileInfo
     dataSize Long
 }
 /**
-* @what?            -> The GroupPost entity
-* @why?             -> mọi người cần tạo ra một nhóm riêng hoặc chung để có thể trao đổi
-* @use-to           -> quản lý nhóm
-* @commonly-used-in -> các nhóm
+* <p>@what?            -> The GroupPost entity
+* <p>@why?             -> mọi người cần tạo ra một nhóm riêng hoặc chung để có thể trao đổi
+* <p>@use-to           -> quản lý nhóm
+* <p>@commonly-used-in -> các nhóm
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity GroupPost
 {
@@ -407,12 +407,12 @@ entity GroupPost
     quickInfo TextBlob
 }
 /**
-* @what?            -> The GroupProfile entity.
-* @why?             ->
-* @use-to           -> Những thông tin trong phần giới thiệu của nhóm được lưu tại đây
-* @commonly-used-in -> Thường thấy trong phần giới thiệu của nhóm
+* <p>@what?            -> The GroupProfile entity.
+* <p>@why?             ->
+* <p>@use-to           -> Những thông tin trong phần giới thiệu của nhóm được lưu tại đây
+* <p>@commonly-used-in -> Thường thấy trong phần giới thiệu của nhóm
 *
-* @describe         -> Đây là một bảng NoSQL dữ liệu một số field ở dưới dạng Json
+* <p>@describe         -> Đây là một bảng NoSQL dữ liệu một số field ở dưới dạng Json
 */
 entity GroupProfile
 {
@@ -420,12 +420,12 @@ entity GroupProfile
     uuid UUID required unique
 }
 /**
-* @what?            -> The Image entity.
-* @why?             ->
-* @use-to           -> Lưu thông tin Ảnh mà người dùng upload lên
-* @commonly-used-in ->
+* <p>@what?            -> The Image entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin Ảnh mà người dùng upload lên
+* <p>@commonly-used-in ->
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity Image
 {
@@ -447,12 +447,12 @@ entity Image
     dataSize Long
 }
 /**
-* @what?            -> The NewsFeed entity.
-* @why?             -> người dùng mà xem trực tiếp các Post thì một số bài đăng sẽ không phù hợp dễ gây chán khi xem
-* @use-to           -> Ở đây chứa thông tin của những Post hiển thị cho người dùng xem
-* @commonly-used-in -> Được sử dụng trong phần hiển thị các bài đăng trên news feed
+* <p>@what?            -> The NewsFeed entity.
+* <p>@why?             -> người dùng mà xem trực tiếp các Post thì một số bài đăng sẽ không phù hợp dễ gây chán khi xem
+* <p>@use-to           -> Ở đây chứa thông tin của những Post hiển thị cho người dùng xem
+* <p>@commonly-used-in -> Được sử dụng trong phần hiển thị các bài đăng trên news feed
 *
-* @describe         -> trong phần bản tin thay vì hiển thị trực tiếp các Post cho người dùng xem
+* <p>@describe         -> trong phần bản tin thay vì hiển thị trực tiếp các Post cho người dùng xem
 *  ta sẽ tính toán độ phù hợp và add vào bảng này sau đó cho người dùng xem
 */
 entity NewsFeed
@@ -463,12 +463,12 @@ entity NewsFeed
     priorityIndex Long
 }
 /**
-* @what?            -> The Notification entity.
-* @why?             ->
-* @use-to           -> Chứa những thông báo đến người dùng
-* @commonly-used-in -> Thường xuất hiện trong chức năng thông báo của người dùng
+* <p>@what?            -> The Notification entity.
+* <p>@why?             ->
+* <p>@use-to           -> Chứa những thông báo đến người dùng
+* <p>@commonly-used-in -> Thường xuất hiện trong chức năng thông báo của người dùng
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity Notification
 {
@@ -480,12 +480,12 @@ entity Notification
     content TextBlob
 }
 /**
-* @what?            -> The MessageGroup entity.
-* @why?             ->
-* @use-to           -> Chứa thông tin các nhóm mà hiện tại người dùng đang ở trong đó (phần nhắn tin)
-* @commonly-used-in -> Hiển thị các tin nhắn
+* <p>@what?            -> The MessageGroup entity.
+* <p>@why?             ->
+* <p>@use-to           -> Chứa thông tin các nhóm mà hiện tại người dùng đang ở trong đó (phần nhắn tin)
+* <p>@commonly-used-in -> Hiển thị các tin nhắn
 *
-* @describe         -> một nhóm tạo ra sẽ là một uuid . nếu nhắn tin cặp thì sẽ sắp xếp login sau đó hash md5 rồi chuyển thành định dạng uuid
+* <p>@describe         -> một nhóm tạo ra sẽ là một uuid . nếu nhắn tin cặp thì sẽ sắp xếp login sau đó hash md5 rồi chuyển thành định dạng uuid
 */
 entity MessageGroup
 {
@@ -499,12 +499,12 @@ entity MessageGroup
     addBy String
 }
 /**
-* @what?            -> The MessageContent entity.
-* @why?             ->
-* @use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể
-* @commonly-used-in ->
+* <p>@what?            -> The MessageContent entity.
+* <p>@why?             ->
+* <p>@use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể
+* <p>@commonly-used-in ->
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity MessageContent
 {
@@ -523,12 +523,12 @@ entity MessageContent
     searchField TextBlob
 }
 /**
-* @what?            -> The PagePost entity.
-* @why?             ->
-* @use-to           -> Lưu các Trang người dùng tạo ra
-* @commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề
+* <p>@what?            -> The PagePost entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu các Trang người dùng tạo ra
+* <p>@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity PagePost
 {
@@ -542,12 +542,12 @@ entity PagePost
     quickInfo TextBlob
 }
 /**
-* @what?            -> The PageProfile entity
-* @why?             ->
-* @use-to           -> Lưu phần giới thiệu của các trang
-* @commonly-used-in -> hiển thị giới thiệu của các trang
+* <p>@what?            -> The PageProfile entity
+* <p>@why?             ->
+* <p>@use-to           -> Lưu phần giới thiệu của các trang
+* <p>@commonly-used-in -> hiển thị giới thiệu của các trang
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity PageProfile
 {
@@ -556,12 +556,12 @@ entity PageProfile
 }
 
 /**
-* @what?            -> The Post entity
-* @why?             ->
-* @use-to           -> lưu các bài viết của người dùng
-* @commonly-used-in -> đăng và xem các bài viết
+* <p>@what?            -> The Post entity
+* <p>@why?             ->
+* <p>@use-to           -> lưu các bài viết của người dùng
+* <p>@commonly-used-in -> đăng và xem các bài viết
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity Post
 {
@@ -576,12 +576,12 @@ entity Post
     searchField TextBlob
 }
 /**
-* @what?            -> The PostComment entity.
-* @why?             ->
-* @use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể
-* @commonly-used-in -> được biết dưới dạng bình luận của các bài đăng
+* <p>@what?            -> The PostComment entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể
+* <p>@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity PostComment
 {
@@ -590,12 +590,12 @@ entity PostComment
     content TextBlob
 }
 /**
-* @what?            -> The PostLike entity.
-* @why?             ->
-* @use-to           -> Lưu thông tin về những lượt like của bài đăng
-* @commonly-used-in ->
+* <p>@what?            -> The PostLike entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin về những lượt like của bài đăng
+* <p>@commonly-used-in ->
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity PostLike
 {
@@ -604,12 +604,12 @@ entity PostLike
 }
 
 /**
-* @what?            -> The RankUser entity.
-* @why?             ->
-* @use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người
-* @commonly-used-in -> thường thấy trong phần
+* <p>@what?            -> The RankUser entity.
+* <p>@why?             ->
+* <p>@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người
+* <p>@commonly-used-in -> thường thấy trong phần
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity RankUser
 {
@@ -618,12 +618,12 @@ entity RankUser
     ratingPoints Float
 }
 /**
-* @what?            -> The RankGroup entity.
-* @why?             ->
-* @use-to           -> Xếp hạng theo nhóm : toàn mạng ,khu vực , nhóm người (khoảng 30-100 người)
-* @commonly-used-in ->
+* <p>@what?            -> The RankGroup entity.
+* <p>@why?             ->
+* <p>@use-to           -> Xếp hạng theo nhóm : toàn mạng ,khu vực , nhóm người (khoảng 30-100 người)
+* <p>@commonly-used-in ->
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity RankGroup
 {
@@ -631,12 +631,12 @@ entity RankGroup
     uuid UUID required unique
 }
 /**
-* @what?            -> The Video entity.
-* @why?             ->
-* @use-to           -> Lưu thông tin video mà người dùng upload lên
-* @commonly-used-in ->
+* <p>@what?            -> The Video entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin video mà người dùng upload lên
+* <p>@commonly-used-in ->
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity Video
 {
@@ -662,12 +662,12 @@ entity Video
 }
 
 /**
-* @what?            -> The VideoStream entity.
-* @why?             ->
-* @use-to           -> Lưu thông tin video ... khi đã kết thúc stream
-* @commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường
+* <p>@what?            -> The VideoStream entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin video ... khi đã kết thúc stream
+* <p>@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity VideoStream
 {
@@ -676,12 +676,12 @@ entity VideoStream
     isLivestreaming Boolean
 }
 /**
-* @what?            -> The VideoLiveStreamBuffer entity.
-* @why?             ->
-* @use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video
-* @commonly-used-in -> thường sử dụng khi đang live stream
+* <p>@what?            -> The VideoLiveStreamBuffer entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video
+* <p>@commonly-used-in -> thường sử dụng khi đang live stream
 *
-* @describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)
+* <p>@describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)
 */
 entity VideoLiveStreamBuffer
 {
@@ -692,12 +692,12 @@ entity VideoLiveStreamBuffer
     path String
 }
 /**
-* @what?            -> The TopicInterest entity.
-* @why?             ->
-* @use-to           -> Lưu những chủ đề mà người dùng quan tâm
-* @commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem
+* <p>@what?            -> The TopicInterest entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu những chủ đề mà người dùng quan tâm
+* <p>@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity TopicInterest
 {
@@ -707,12 +707,12 @@ entity TopicInterest
     content TextBlob
 }
 /**
-* @what?            -> The TodoList entity.
-* @why?             ->
-* @use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện
-* @commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện
+* <p>@what?            -> The TodoList entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện
+* <p>@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện
 *
-* @describe         ->
+* <p>@describe         ->
 */
 entity TodoList
 {

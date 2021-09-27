@@ -39,7 +39,7 @@
       "ownerSide": true
     }
   ],
-  "javadoc": "@what?            -> The FileInfo entity.\\n@why?             ->\\n@use-to           -> Quản lý thông tin về file, vị trí file ...\\n@commonly-used-in -> Những file mà người dùng upload (ảnh video ...)\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The FileInfo entity.\\n<p>@why?             ->\\n<p>@use-to           -> Quản lý thông tin về file, vị trí file ...\\n<p>@commonly-used-in -> Những file mà người dùng upload (ảnh video ...)\\n\\n<p>@describe         ->",
   "entityTableName": "file_info",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -50,5 +50,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143914"
+  "changelogDate": "20210710143914",
+  "incrementalChangelog": false
 }

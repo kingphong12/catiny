@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.VideoLiveStreamBuffer} entity.
  */
 @ApiModel(
-  description = "@what?            -> The VideoLiveStreamBuffer entity.\n@why?             ->\n@use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video\n@commonly-used-in -> thường sử dụng khi đang live stream\n\n@describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)"
+  description = "<p>@what?            -> The VideoLiveStreamBuffer entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video\n<p>@commonly-used-in -> thường sử dụng khi đang live stream\n\n<p>@describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)"
 )
 @GeneratedByJHipster
 public class VideoLiveStreamBufferDTO implements Serializable {

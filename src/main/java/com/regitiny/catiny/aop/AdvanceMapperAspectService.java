@@ -101,11 +101,14 @@ public class AdvanceMapperAspectService
 
           var ownerDTO = new MasterUserDTO();
           var ownerEntity = infoEntity.getOwner();
-          ownerDTO.setNickname(ownerEntity.getNickname());
-          ownerDTO.setUuid(ownerEntity.getUuid());
-          ownerDTO.setQuickInfo(ownerEntity.getQuickInfo());
-          ownerDTO.setFullName(ownerEntity.getFullName());
-          ownerDTO.setAvatar(ownerEntity.getAvatar());
+          if (Objects.nonNull(ownerEntity))
+          {
+            ownerDTO.setNickname(ownerEntity.getNickname());
+            ownerDTO.setUuid(ownerEntity.getUuid());
+            ownerDTO.setQuickInfo(ownerEntity.getQuickInfo());
+            ownerDTO.setFullName(ownerEntity.getFullName());
+            ownerDTO.setAvatar(ownerEntity.getAvatar());
+          }
 
           infoDTO.setOwner(ownerDTO);
           infoDTO.setCreatedDate(infoEntity.getCreatedDate());

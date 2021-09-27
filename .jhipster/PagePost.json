@@ -61,7 +61,7 @@
       "ownerSide": false
     }
   ],
-  "javadoc": "@what?            -> The PagePost entity.\\n@why?             ->\\n@use-to           -> Lưu các Trang người dùng tạo ra\\n@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The PagePost entity.\\n<p>@why?             ->\\n<p>@use-to           -> Lưu các Trang người dùng tạo ra\\n<p>@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\\n\\n<p>@describe         ->",
   "entityTableName": "page_post",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -72,5 +72,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143915"
+  "changelogDate": "20210710143915",
+  "incrementalChangelog": false
 }

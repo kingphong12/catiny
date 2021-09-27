@@ -50,7 +50,7 @@
       "relationshipName": "accountStatus"
     }
   ],
-  "javadoc": "@what?            -> The DeviceStatus entity.\\n@why?             ->\\n@use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...\\n@commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The DeviceStatus entity.\\n<p>@why?             ->\\n<p>@use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...\\n<p>@commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị\\n\\n<p>@describe         ->",
   "entityTableName": "device_status",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -61,5 +61,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143909"
+  "changelogDate": "20210710143909",
+  "incrementalChangelog": false
 }

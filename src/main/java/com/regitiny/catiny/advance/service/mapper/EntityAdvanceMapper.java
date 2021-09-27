@@ -1,5 +1,6 @@
 package com.regitiny.catiny.advance.service.mapper;
 
+import com.regitiny.catiny.common.quick.ReflectMapper;
 import com.regitiny.catiny.service.mapper.EntityMapper;
 import com.regitiny.catiny.util.ApplicationContextUtils;
 import io.vavr.control.Option;
@@ -17,6 +18,30 @@ import java.util.List;
 
 public interface EntityAdvanceMapper<M, D, E> extends VavrMapper<M, D, E> // ModelMapper<M, D, E>
 {
+  /**
+   * entity -> dto and add custom by regex.
+   * read to use {@link ReflectMapper}.addByRegex()
+   */
+  default D e2dPlus(E entity, String customMappingRegex)
+  {
+    var dto = e2d(entity);
+    ReflectMapper.of(entity, dto)
+      .addByRegex(customMappingRegex);
+    return dto;
+  }
+
+
+  /**
+   * entity -> dto -> ReflectMapper.
+   * read to use {@link ReflectMapper}
+   */
+  default ReflectMapper<E, D> e2Plus(E entity)
+  {
+    var dto = e2d(entity);
+    return new ReflectMapper<>(entity, dto);
+  }
+
+
   // dto -> entity
   default E d2e(D dto)
   {

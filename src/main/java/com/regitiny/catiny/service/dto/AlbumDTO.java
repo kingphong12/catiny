@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.Album} entity.
  */
 @ApiModel(
-  description = "@what?            -> The Album entity\n@why?             ->\n@use-to           -> Lưu thông tin về một bộ album của người dùng\n@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album\n\n@describe         ->"
+  description = "<p>@what?            -> The Album entity\n<p>@why?             ->\n<p>@use-to           -> Lưu thông tin về một bộ album của người dùng\n<p>@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class AlbumDTO implements Serializable {

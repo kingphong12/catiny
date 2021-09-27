@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The Album entity\n@why?             ->\n@use-to           -> Lưu thông tin về một bộ album của người dùng\n@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album\n\n@describe         ->
+ * <p>@what?            -> The Album entity\n<p>@why?             ->\n<p>@use-to           -> Lưu thông tin về một bộ album của người dùng\n<p>@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "album")

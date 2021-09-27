@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.Event} entity.
  */
 @ApiModel(
-  description = "@what?            -> The Event entity.\n@why?             ->\n@use-to           -> Lưu những sự kiện\n@commonly-used-in -> Tạo Sự kiện\n\n@describe         ->"
+  description = "<p>@what?            -> The Event entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu những sự kiện\n<p>@commonly-used-in -> Tạo Sự kiện\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class EventDTO implements Serializable {

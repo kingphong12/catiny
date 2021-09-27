@@ -1,5 +1,7 @@
 package com.regitiny.catiny.service.impl;
 
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import com.regitiny.catiny.GeneratedByJHipster;
 import com.regitiny.catiny.domain.Notification;
 import com.regitiny.catiny.repository.NotificationRepository;
@@ -7,6 +9,7 @@ import com.regitiny.catiny.repository.search.NotificationSearchRepository;
 import com.regitiny.catiny.service.NotificationService;
 import com.regitiny.catiny.service.dto.NotificationDTO;
 import com.regitiny.catiny.service.mapper.NotificationMapper;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -14,16 +17,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 /**
  * Service Implementation for managing {@link Notification}.
  */
 @Service
 @Transactional
 @GeneratedByJHipster
-public class NotificationServiceImpl implements NotificationService
-{
+public class NotificationServiceImpl implements NotificationService {
 
   private final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
@@ -45,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService
 
   @Override
   public NotificationDTO save(NotificationDTO notificationDTO) {
-    log.debug("Request to save NotificationModal : {}", notificationDTO);
+    log.debug("Request to save Notification : {}", notificationDTO);
     Notification notification = notificationMapper.toEntity(notificationDTO);
     notification = notificationRepository.save(notification);
     NotificationDTO result = notificationMapper.toDto(notification);
@@ -55,7 +55,7 @@ public class NotificationServiceImpl implements NotificationService
 
   @Override
   public Optional<NotificationDTO> partialUpdate(NotificationDTO notificationDTO) {
-    log.debug("Request to partially update NotificationModal : {}", notificationDTO);
+    log.debug("Request to partially update Notification : {}", notificationDTO);
 
     return notificationRepository
       .findById(notificationDTO.getId())
@@ -83,13 +83,13 @@ public class NotificationServiceImpl implements NotificationService
   @Override
   @Transactional(readOnly = true)
   public Optional<NotificationDTO> findOne(Long id) {
-    log.debug("Request to get NotificationModal : {}", id);
+    log.debug("Request to get Notification : {}", id);
     return notificationRepository.findById(id).map(notificationMapper::toDto);
   }
 
   @Override
   public void delete(Long id) {
-    log.debug("Request to delete NotificationModal : {}", id);
+    log.debug("Request to delete Notification : {}", id);
     notificationRepository.deleteById(id);
     notificationSearchRepository.deleteById(id);
   }

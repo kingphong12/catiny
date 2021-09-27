@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.TodoList} entity.
  */
 @ApiModel(
-  description = "@what?            -> The TodoList entity.\n@why?             ->\n@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện\n@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện\n\n@describe         ->"
+  description = "<p>@what?            -> The TodoList entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện\n<p>@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class TodoListDTO implements Serializable {

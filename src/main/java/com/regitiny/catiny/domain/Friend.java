@@ -12,7 +12,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The Friend entity.\n@why?             ->\n@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\n@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\n\n@describe         ->
+ * <p>@what?            -> The Friend entity.\n<p>@why?             ->\n<p>@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\n<p>@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "friend")

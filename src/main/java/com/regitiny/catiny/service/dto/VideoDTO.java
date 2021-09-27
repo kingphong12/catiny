@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.Video} entity.
  */
 @ApiModel(
-  description = "@what?            -> The Video entity.\n@why?             ->\n@use-to           -> Lưu thông tin video mà người dùng upload lên\n@commonly-used-in ->\n\n@describe         ->"
+  description = "<p>@what?            -> The Video entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu thông tin video mà người dùng upload lên\n<p>@commonly-used-in ->\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class VideoDTO implements Serializable {

@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.FollowUser} entity.
  */
 @ApiModel(
-  description = "@what?            -> The FollowUser entity.\n@why?             ->\n@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\n@commonly-used-in -> Chủ đề mà người dùng theo dõi\n\n@describe         ->"
+  description = "<p>@what?            -> The FollowUser entity.\n<p>@why?             ->\n<p>@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi\n<p>@commonly-used-in -> Chủ đề mà người dùng theo dõi\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class FollowUserDTO implements Serializable {

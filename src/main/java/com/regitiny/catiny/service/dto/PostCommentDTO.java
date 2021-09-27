@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.PostComment} entity.
  */
 @ApiModel(
-  description = "@what?            -> The PostComment entity.\n@why?             ->\n@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\n@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\n\n@describe         ->"
+  description = "<p>@what?            -> The PostComment entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể\n<p>@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class PostCommentDTO implements Serializable {

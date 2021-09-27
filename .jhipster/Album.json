@@ -41,7 +41,7 @@
       "ownerSide": true
     }
   ],
-  "javadoc": "@what?            -> The Album entity\\n@why?             ->\\n@use-to           -> Lưu thông tin về một bộ album của người dùng\\n@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The Album entity\\n<p>@why?             ->\\n<p>@use-to           -> Lưu thông tin về một bộ album của người dùng\\n<p>@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album\\n\\n<p>@describe         ->",
   "entityTableName": "album",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -52,5 +52,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143926"
+  "changelogDate": "20210710143926",
+  "incrementalChangelog": false
 }

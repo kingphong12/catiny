@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.Post} entity.
  */
 @ApiModel(
-  description = "@what?            -> The Post entity\n@why?             ->\n@use-to           -> lưu các bài viết của người dùng\n@commonly-used-in -> đăng và xem các bài viết\n\n@describe         ->"
+  description = "<p>@what?            -> The Post entity\n<p>@why?             ->\n<p>@use-to           -> lưu các bài viết của người dùng\n<p>@commonly-used-in -> đăng và xem các bài viết\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class PostDTO implements Serializable {

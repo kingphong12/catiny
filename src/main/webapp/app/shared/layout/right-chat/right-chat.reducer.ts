@@ -28,12 +28,6 @@ export const searchEntities = createAsyncThunk('messageGroup/search_entity', asy
   return axios.get<IMessageGroup[]>(requestUrl);
 });
 
-// export const getEntities = createAsyncThunk('messageGroup/fetch_entity_list', async ({page, size, sort}: IQueryParams) =>
-// {
-//   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}&` : '?'}cacheBuster=${new Date().getTime()}`;
-//   return axios.get<IMessageGroup[]>(requestUrl);
-// });
-
 /**
  * get all message-groups joined
  */
@@ -76,53 +70,6 @@ export const createMessageGroup = createAsyncThunk('rightChat/create_message_gro
     formData.append('desiredName', desiredName);
     return axios.post<IMessageContent[]>(requestUrl, formData);
   });
-//
-// export const getEntity = createAsyncThunk(
-//   'messageGroup/fetch_entity',
-//   async (id: string | number) =>
-//   {
-//     const requestUrl = `${apiUrl}/${id}`;
-//     return axios.get<IMessageGroup>(requestUrl);
-//   },
-//   {serializeError: serializeAxiosError}
-// );
-//
-// export const createEntity = createAsyncThunk(
-//   'messageGroup/create_entity',
-//   async (entity: IMessageGroup, thunkAPI) =>
-//   {
-//     return axios.post<IMessageGroup>(apiUrl, cleanEntity(entity));
-//   },
-//   {serializeError: serializeAxiosError}
-// );
-//
-// export const updateEntity = createAsyncThunk(
-//   'messageGroup/update_entity',
-//   async (entity: IMessageGroup, thunkAPI) =>
-//   {
-//     return axios.put<IMessageGroup>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
-//   },
-//   {serializeError: serializeAxiosError}
-// );
-//
-// export const partialUpdateEntity = createAsyncThunk(
-//   'messageGroup/partial_update_entity',
-//   async (entity: IMessageGroup, thunkAPI) =>
-//   {
-//     return axios.patch<IMessageGroup>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
-//   },
-//   {serializeError: serializeAxiosError}
-// );
-//
-// export const deleteEntity = createAsyncThunk(
-//   'messageGroup/delete_entity',
-//   async (id: string | number, thunkAPI) =>
-//   {
-//     const requestUrl = `${apiUrl}/${id}`;
-//     return await axios.delete<IMessageGroup>(requestUrl);
-//   },
-//   {serializeError: serializeAxiosError}
-// );
 
 // slice
 
@@ -139,7 +86,7 @@ export const RightChatSlice = createSlice({
       let messageGroups = state.messageGroups;
       const mgv = messageGroups.filter(value => value.uuid === payload.messageGroupId);
       const mgx = messageGroups.filter(value => value.uuid !== payload.messageGroupId);
-      messageGroups = [...mgx, {...mgv[0], idUserOnline: payload.idUserOnline}];
+      messageGroups = mgv.length === 1 && [...mgx, {...mgv[0], idUserOnline: payload.idUserOnline}];
       return {...state, messageGroups};
     },
   },
@@ -171,25 +118,6 @@ export const RightChatSlice = createSlice({
     //     entities: loadMoreDataWhenScrolled(state.entities, action.payload.data, links),
     //     totalItems: parseInt(action.payload.headers['x-total-count'], 10),
     //   };
-    // })
-    // .addMatcher(isFulfilled(createEntity, updateEntity, partialUpdateEntity), (state, action) =>
-    // {
-    //   state.updating = false;
-    //   state.loading = false;
-    //   state.updateSuccess = true;
-    //   state.entity = action.payload.data;
-    // })
-    // .addMatcher(isPending(getEntities, getEntity, searchEntities), state =>
-    // {
-    //   state.errorMessage = null;
-    //   state.updateSuccess = false;
-    //   state.loading = true;
-    // })
-    // .addMatcher(isPending(createEntity, updateEntity, partialUpdateEntity, deleteEntity), state =>
-    // {
-    //   state.errorMessage = null;
-    //   state.updateSuccess = false;
-    //   state.updating = true;
     // })
   },
 });

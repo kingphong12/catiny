@@ -28,7 +28,7 @@
       "relationshipName": "friend"
     }
   ],
-  "javadoc": "@what?            -> The Friend entity.\\n@why?             ->\\n@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\\n@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The Friend entity.\\n<p>@why?             ->\\n<p>@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...\\n<p>@commonly-used-in -> Bạn bè và các liên kết bạn bè ...\\n\\n<p>@describe         ->",
   "entityTableName": "friend",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -39,5 +39,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143910"
+  "changelogDate": "20210710143910",
+  "incrementalChangelog": false
 }

@@ -15,7 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The Post entity\n@why?             ->\n@use-to           -> lưu các bài viết của người dùng\n@commonly-used-in -> đăng và xem các bài viết\n\n@describe         ->
+ * <p>@what?            -> The Post entity\n<p>@why?             ->\n<p>@use-to           -> lưu các bài viết của người dùng\n<p>@commonly-used-in -> đăng và xem các bài viết\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "post")

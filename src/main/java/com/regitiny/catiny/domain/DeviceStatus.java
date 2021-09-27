@@ -14,7 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The DeviceStatus entity.\n@why?             ->\n@use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...\n@commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị\n\n@describe         ->
+ * <p>@what?            -> The DeviceStatus entity.\n<p>@why?             ->\n<p>@use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...\n<p>@commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "device_status")

@@ -59,5 +59,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143905"
+  "changelogDate": "20210710143905",
+  "incrementalChangelog": false
 }

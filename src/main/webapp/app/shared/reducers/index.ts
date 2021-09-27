@@ -1,4 +1,4 @@
-import {loadingBarReducer as loadingBar} from 'react-redux-loading-bar';
+import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
 
 import locale from './locale';
 import authentication from './authentication';

@@ -26,7 +26,7 @@
       "ownerSide": true
     }
   ],
-  "javadoc": "@what?            -> The TodoList entity.\\n@why?             ->\\n@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện\\n@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The TodoList entity.\\n<p>@why?             ->\\n<p>@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện\\n<p>@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện\\n\\n<p>@describe         ->",
   "entityTableName": "todo_list",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -37,5 +37,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143932"
+  "changelogDate": "20210710143932",
+  "incrementalChangelog": false
 }

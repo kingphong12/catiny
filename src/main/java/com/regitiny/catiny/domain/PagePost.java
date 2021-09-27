@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The PagePost entity.\n@why?             ->\n@use-to           -> Lưu các Trang người dùng tạo ra\n@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\n\n@describe         ->
+ * <p>@what?            -> The PagePost entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu các Trang người dùng tạo ra\n<p>@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "page_post")

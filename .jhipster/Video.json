@@ -96,7 +96,7 @@
       "relationshipName": "original"
     }
   ],
-  "javadoc": "@what?            -> The Video entity.\\n@why?             ->\\n@use-to           -> Lưu thông tin video mà người dùng upload lên\\n@commonly-used-in ->\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The Video entity.\\n<p>@why?             ->\\n<p>@use-to           -> Lưu thông tin video mà người dùng upload lên\\n<p>@commonly-used-in ->\\n\\n<p>@describe         ->",
   "entityTableName": "video",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -107,5 +107,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143927"
+  "changelogDate": "20210710143927",
+  "incrementalChangelog": false
 }

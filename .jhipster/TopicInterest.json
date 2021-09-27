@@ -54,7 +54,7 @@
       "ownerSide": false
     }
   ],
-  "javadoc": "@what?            -> The TopicInterest entity.\\n@why?             ->\\n@use-to           -> Lưu những chủ đề mà người dùng quan tâm\\n@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The TopicInterest entity.\\n<p>@why?             ->\\n<p>@use-to           -> Lưu những chủ đề mà người dùng quan tâm\\n<p>@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem\\n\\n<p>@describe         ->",
   "entityTableName": "topic_interest",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -65,5 +65,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143931"
+  "changelogDate": "20210710143931",
+  "incrementalChangelog": false
 }

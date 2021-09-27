@@ -73,7 +73,7 @@
       "ownerSide": true
     }
   ],
-  "javadoc": "@what?            -> The Event entity.\\n@why?             ->\\n@use-to           -> Lưu những sự kiện\\n@commonly-used-in -> Tạo Sự kiện\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The Event entity.\\n<p>@why?             ->\\n<p>@use-to           -> Lưu những sự kiện\\n<p>@commonly-used-in -> Tạo Sự kiện\\n\\n<p>@describe         ->",
   "entityTableName": "event",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -84,5 +84,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143933"
+  "changelogDate": "20210710143933",
+  "incrementalChangelog": false
 }

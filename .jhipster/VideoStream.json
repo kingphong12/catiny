@@ -34,7 +34,7 @@
       "relationshipName": "videoLiveStreamBuffer"
     }
   ],
-  "javadoc": "@what?            -> The VideoStream entity.\\n@why?             ->\\n@use-to           -> Lưu thông tin video ... khi đã kết thúc stream\\n@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường\\n\\n@describe         ->",
+  "javadoc": "<p>@what?            -> The VideoStream entity.\\n<p>@why?             ->\\n<p>@use-to           -> Lưu thông tin video ... khi đã kết thúc stream\\n<p>@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường\\n\\n<p>@describe         ->",
   "entityTableName": "video_stream",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
@@ -45,5 +45,6 @@
   "embedded": false,
   "applications": "*",
   "searchEngine": "elasticsearch",
-  "changelogDate": "20210710143929"
+  "changelogDate": "20210710143929",
+  "incrementalChangelog": false
 }

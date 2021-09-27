@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.PostLike} entity.
  */
 @ApiModel(
-  description = "@what?            -> The PostLike entity.\n@why?             ->\n@use-to           -> Lưu thông tin về những lượt like của bài đăng\n@commonly-used-in ->\n\n@describe         ->"
+  description = "<p>@what?            -> The PostLike entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu thông tin về những lượt like của bài đăng\n<p>@commonly-used-in ->\n\n<p>@describe         ->"
 )
 @GeneratedByJHipster
 public class PostLikeDTO implements Serializable {

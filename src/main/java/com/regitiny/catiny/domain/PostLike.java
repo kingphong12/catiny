@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
- * @what?            -> The PostLike entity.\n@why?             ->\n@use-to           -> Lưu thông tin về những lượt like của bài đăng\n@commonly-used-in ->\n\n@describe         ->
+ * <p>@what?            -> The PostLike entity.\n<p>@why?             ->\n<p>@use-to           -> Lưu thông tin về những lượt like của bài đăng\n<p>@commonly-used-in ->\n\n<p>@describe         ->
  */
 @Entity
 @Table(name = "post_like")

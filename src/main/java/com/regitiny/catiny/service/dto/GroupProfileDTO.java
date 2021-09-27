@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.regitiny.catiny.domain.GroupProfile} entity.
  */
 @ApiModel(
-  description = "@what?            -> The GroupProfile entity.\n@why?             ->\n@use-to           -> Những thông tin trong phần giới thiệu của nhóm được lưu tại đây\n@commonly-used-in -> Thường thấy trong phần giới thiệu của nhóm\n\n@describe         -> Đây là một bảng NoSQL dữ liệu một số field ở dưới dạng Json"
+  description = "<p>@what?            -> The GroupProfile entity.\n<p>@why?             ->\n<p>@use-to           -> Những thông tin trong phần giới thiệu của nhóm được lưu tại đây\n<p>@commonly-used-in -> Thường thấy trong phần giới thiệu của nhóm\n\n<p>@describe         -> Đây là một bảng NoSQL dữ liệu một số field ở dưới dạng Json"
 )
 @GeneratedByJHipster
 public class GroupProfileDTO implements Serializable {

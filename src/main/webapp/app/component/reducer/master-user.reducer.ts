@@ -20,8 +20,15 @@ const initialState = {
 
 const apiUrl = 'api/o/users';
 const apiSearchUrl = 'api/o/users/_search';
+const apiUploadUrl = 'api/o/posts'
 
 // Actions
+
+export const uploadFile = createAsyncThunk(
+  "masterUser/posts", 
+  async (content: string) => {
+  return  axios.post<any>(apiUploadUrl, content);
+})
 
 export const getMasterUsersDetailsPublic = createAsyncThunk("masterUser/get_master_users_details_public", async (uuid: string) =>
 {

@@ -14,7 +14,7 @@ const ModalPosts = (props) => {
   const [videoUpload, setVideoUpload] = useState("")
 
   const [contents, setContent] = useState({
-    textContent: "",
+    content: "",
     photoContent: "",
     videoContent: ""
   })
@@ -85,7 +85,7 @@ const ModalPosts = (props) => {
       // createTextContent(e.target.value)
       setContent({
         ...contents,
-        textContent: e.target.value
+        content: e.target.value
       })
   }
 
@@ -146,8 +146,12 @@ const ModalPosts = (props) => {
                     </div>
                     </div>
                   )
-                  : <img src={imageUpload} alt="upload" className="add__img" />}
+                  : (<div>
+                    <img src={imageUpload} alt="upload" className="add__img" />
+                    <img src={imageUpload} alt="upload" className="add__img" />
+                  </div>)}
                   <input type="file" name="video" className="form-contol uploader-input" onChange={handleUploadFile}  />
+                  
                 </div>
               </div>
             </div>

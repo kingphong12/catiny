@@ -30,8 +30,7 @@ const ModalPosts = (props) => {
     formData.append('imageData', e.target.files[0])
     formData.append('desiredName', "meo-meo")
    await axios.post('/api/o/images/upload',
-    formData
-    ,
+    formData,
     {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -40,7 +39,6 @@ const ModalPosts = (props) => {
   ).then((res) => {
     console.log('SUCCESS!!', res.data.imagesSaved[0].url);
     setImageUpload(res.data.imagesSaved[0].url)
-    // createUploadFile(res.data.imagesSaved[0].url)
     setContent({
       ...contents,
       photoContent: res.data.imagesSaved[0].url
@@ -52,11 +50,9 @@ const ModalPosts = (props) => {
   }
 
   const handleUploadFileVideo = async (e) => {
-    // console.log(e.target.files[0])
     const formData = new FormData();
 
     formData.append('videoData', e.target.files[0])
-    // formData.append('desiredName', "meo-meo")
    await axios.post('/api/o/videos/upload',
     formData
     ,
@@ -68,7 +64,6 @@ const ModalPosts = (props) => {
   ).then((res) => {
     console.log('SUCCESS!!', res);
     setVideoUpload(res.data.videoSaved[0].url)
-    // createVideoUpload(res.data.videoSaved[0].url)
     setContent({
       ...contents,
       videoContent: res.data.videoSaved[0].url
@@ -104,7 +99,15 @@ const ModalPosts = (props) => {
   // }, [contents])
 
   return (
-    <Modal isOpen={isModal} toggle={handleOpenModal}>
+    <Modal 
+      isOpen={isModal} 
+      toggle={handleOpenModal}
+      wrapClassName= "wrapClassName"
+      modalClassName= "modalClassName"
+      className= "modalDialog"
+      contentClassName= "contentClassName"
+      backdropClassName= "backdropClassName"
+    >
       <form className="form__post" onSubmit={handleSubmit}>
         <div className="form__post-wrap">
           <div className="modal__header">
@@ -137,19 +140,19 @@ const ModalPosts = (props) => {
               <div className="wrap__photo">
                 <div className="wrap__photo-inner" >
                   {imageUpload === "" ? (
-                    <div>
+                    <div className="wrap__photo-inner-link">
                       <div className="add__icon">
-                    +
-                    </div>
-                    <div className="add__text">
-                    Thêm ảnh/Video
-                    </div>
+                        +
+                      </div>
+                      <div className="add__text">
+                        Thêm ảnh/Video
+                      </div>
                     </div>
                   )
                   : (<div>
                     <img src={imageUpload} alt="upload" className="add__img" />
                     <img src={imageUpload} alt="upload" className="add__img" />
-                  </div>)}
+                    </div>)}
                   <input type="file" name="video" className="form-contol uploader-input" onChange={handleUploadFile}  />
                   
                 </div>
